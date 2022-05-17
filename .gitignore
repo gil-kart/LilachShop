@@ -1,0 +1,8 @@
+# Project exclude paths
+.idea
+/customerClient/target/
+/employeeClient/target/
+/entities/target/
+/server/target/
+/server/src/main/resources/hibernate.properties
+/server/src/test/resources/hibernate.properties
