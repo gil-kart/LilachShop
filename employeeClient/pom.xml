@@ -47,9 +47,10 @@
         </dependency>
         <dependency>
             <groupId>org.LilachShop</groupId>
-            <artifactId>PanelOperations</artifactId>
+            <artifactId>utilities</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

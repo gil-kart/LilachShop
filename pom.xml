@@ -13,7 +13,7 @@
         <module>EmployeeClient</module>
         <module>server</module>
         <module>entities</module>
-        <module>PanelOperations</module>
+        <module>utilities</module>
     </modules>
 
     <name>LilachShop</name>

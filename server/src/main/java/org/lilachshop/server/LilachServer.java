@@ -2,9 +2,9 @@ package org.lilachshop.server;
 
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
-import org.lilachshop.requests.DebugRequest;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
+import org.lilachshop.requests.*;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;

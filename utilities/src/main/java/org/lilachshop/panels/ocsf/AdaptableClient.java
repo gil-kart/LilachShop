@@ -2,11 +2,7 @@
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com
 
-package org.lilachshop.customerclient.ocsf;
-
-import java.io.*;
-import java.net.*;
-import java.util.*;
+package org.lilachshop.panels.ocsf;
 
 /**
 * The <code> AdaptableClient </code> is a class
