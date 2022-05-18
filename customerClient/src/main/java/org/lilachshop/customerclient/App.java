@@ -1,14 +1,11 @@
 package org.lilachshop.customerclient;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -20,10 +17,15 @@ public class App extends Application {
     private static Scene scene;
 
     @Override
+    public void init() throws Exception {
+        System.out.println("Starting customer application...");
+    }
+
+    @Override
     public void start(Stage stage) throws IOException {
-        EventBus.getDefault().register(this);
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
+        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         stage.show();
     }
 
@@ -40,13 +42,8 @@ public class App extends Application {
         launch(args);
     }
 
-    @Subscribe
-    public void onWarningEvent(String event) {
-        int i = 0;
-        i++;
-        Platform.runLater(() -> {
-            Alert alert = new Alert(Alert.AlertType.WARNING, event);
-            alert.show();
-        });
+    private void onCloseWindowEvent(WindowEvent event) {
+        System.out.println("Graceful termination, goodbye ;)");
+        System.exit(0);
     }
 }

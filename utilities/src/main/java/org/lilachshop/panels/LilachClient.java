@@ -11,7 +11,6 @@ public class LilachClient extends AbstractClient {
         this.bus = bus; // this posts stuff
     }
 
-
     @Override
     protected void connectionClosed() {
         System.out.println("Client connection closed.");
@@ -24,7 +23,6 @@ public class LilachClient extends AbstractClient {
 
     @Override
     protected void handleMessageFromServer(Object msg) {
-//        bus.post(msg);  // todo: maybe do other stuff?
-        EventBus.getDefault().post(msg);
+        bus.post(msg);
     }
 }

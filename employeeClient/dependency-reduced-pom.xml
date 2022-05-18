@@ -25,7 +25,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>org.lilachshop.employeeclient.App</mainClass>
+              <mainClass>org.lilachshop.employeeclient.EmployeeMain</mainClass>
             </configuration>
           </execution>
         </executions>

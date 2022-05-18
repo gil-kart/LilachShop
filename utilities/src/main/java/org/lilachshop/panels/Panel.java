@@ -9,7 +9,7 @@ import org.lilachshop.requests.Request;
 import java.io.IOException;
 
 public abstract class Panel {
-    private LilachClient lilachClient;
+    private final LilachClient lilachClient;
 
     public Panel(String host, int port, Controller controller) {
         EventBus bus = EventBus.builder().build();
@@ -23,10 +23,10 @@ public abstract class Panel {
         }
     }
 
-    protected void sendToServer(Request request){
-        try{
+    protected void sendToServer(Request request) {
+        try {
             lilachClient.sendToServer(request);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Unable to send request to server.");
             e.printStackTrace();
         }

@@ -6,6 +6,6 @@ import org.lilachshop.panels.Panel;
 public abstract class Controller {
     protected Panel panel;
 
-//    @Subscribe
+    @Subscribe
     public abstract void handleMessageReceivedFromClient(String msg);
 }

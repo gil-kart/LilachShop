@@ -7,6 +7,7 @@ import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
 import org.lilachshop.server.ocsf_client_test.AbstractClient;
 import org.lilachshop.requests.DebugRequest;
+import org.lilachshop.commonUtils.Utilities;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

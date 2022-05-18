@@ -1,9 +1,5 @@
-package org.lilachshop.server;
+package org.lilachshop.commonUtils;
 
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
-
-import java.util.LinkedList;
 import java.util.List;
 
 public class Utilities {

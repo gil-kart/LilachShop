@@ -8,7 +8,6 @@
 <VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.PrimaryController">
    <children>
       <Label text="Primary View" />
-      <Button fx:id="primaryButton" onAction="#switchToSecondary" text="Switch to Secondary View" />
       <Button fx:id="msgButton" mnemonicParsing="false" onAction="#onSendMessageClick" text="Send Message To server" />
       <Label fx:id="message_label" />
    </children>
