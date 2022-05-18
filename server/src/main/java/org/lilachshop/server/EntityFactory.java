@@ -99,7 +99,7 @@ public class EntityFactory {
         return result;
     }
 
-    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) {
+    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) { // todo: test this
         Session session = sf.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -142,11 +142,11 @@ public class EntityFactory {
      * @param keyColumn          Key column name to match where to update
      */
     private <T, S, K> void updateRecordField(Class<T> entityClass, String mutateAttribColumn, S valueToSet, K key, String keyColumn) {
-        Session session = sf.openSession();
+        Session session = sf.openSession(); // todo: add exception handling
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaUpdate<T> cu = cb.createCriteriaUpdate(entityClass);
         Root<T> root = cu.from(entityClass);
-        cu.set(root.get(mutateAttribColumn), valueToSet);   // fixme: this shit doesn't work...
+        cu.set(root.get(mutateAttribColumn), valueToSet);
         cu.where(cb.equal(root.get(keyColumn), key));
 
         Transaction transaction = session.beginTransaction();
@@ -164,7 +164,7 @@ public class EntityFactory {
      * @param <T>         Entity class
      * @param <S>         Value type of object to be checked
      */
-    private <T, S> void deleteRecord(Class<T> entityClass, String keyColumn, S key) {
+    private <T, S> void deleteRecord(Class<T> entityClass, String keyColumn, S key) {   //todo: test this
         Session session = sf.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaDelete<T> cd = cb.createCriteriaDelete(entityClass);

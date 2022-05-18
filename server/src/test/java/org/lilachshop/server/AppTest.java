@@ -33,7 +33,7 @@ public class AppTest {
         @Override
         protected void handleMessageFromServer(Object msg) {
             if (Objects.equals(Utilities.getClassType(msg), "List<ExampleEntity>"))
-                result_entities = (List<ExampleEntity>) msg;
+                result_entities = (List<ExampleEntity>) msg;    // todo: should be sent through eventbus to PANEL. not like this!
             result = "ok";
         }
 
