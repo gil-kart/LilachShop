@@ -1,5 +1,5 @@
 package org.lilachshop.employeeclient;
-
+import org.lilachshop.entities.Item;
 import java.io.IOException;
 import javafx.fxml.FXML;
 
