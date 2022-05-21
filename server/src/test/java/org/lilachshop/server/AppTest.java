@@ -1,33 +1,28 @@
 package org.lilachshop.server;
 
-import org.junit.FixMethodOrder;
-
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.*;
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
 import org.lilachshop.server.ocsf_client_test.AbstractClient;
 import org.lilachshop.requests.DebugRequest;
 import org.lilachshop.commonUtils.Utilities;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AppTest {
-    static int port_addition = 1;
 
     static private class TempClient extends AbstractClient {
         private String result = null;
         private List<ExampleEntity> result_entities;
 
-        public TempClient(int port_addition) {
-            super("localhost", 3000 + port_addition);
+        public TempClient() {
+            super("localhost", 3000);
             System.out.println("Client: Client setup complete.");
         }
 
@@ -46,17 +41,15 @@ public class AppTest {
     }
 
     static private class ServerBooter implements Runnable {
-        private final int port_addition;
 
-        public ServerBooter(int port_addition) {
+        public ServerBooter() {
             super();
-            this.port_addition = port_addition;
         }
 
         @Override
         public void run() {
             System.out.println("Server: Setting up server...");
-            LilachServer lilachServer = new LilachServer(3000 + port_addition);
+            LilachServer lilachServer = new LilachServer(3000);
             System.out.println("Server: Done.");
             try {
                 System.out.println("Server: Listening!");
@@ -67,24 +60,29 @@ public class AppTest {
         }
     }
 
+    @BeforeAll
+    static void runServer() {
+        Assertions.assertDoesNotThrow(() -> {
+            Thread thread = new Thread(new ServerBooter(), "Server");
+            thread.start(); // run server
+            Thread.sleep(5000); // Hibernate setup is long...
+        });
+    }
+
     /**
      * Rigorous Test :-)
      */
     @Test
-    public void test1_shouldAnswerWithTrue() {
+    @Order(1)
+    public void shouldAnswerWithTrue() {
         assertTrue(true);
     }
 
 
     @Test
-    public void test2_shouldSendRequestAndBeAnswered() throws IOException, InterruptedException {
-        Thread thread = new Thread(new ServerBooter(port_addition), "Server");
-        thread.start(); // run server
-
-        Thread.sleep(5000); // Hibernate setup is long...
-
-
-        TempClient tempClient = new TempClient(port_addition++);
+    @Order(2)
+    public void shouldSendRequestAndBeAnswered() throws IOException, InterruptedException {
+        TempClient tempClient = new TempClient();
         System.out.println("Client: Connecting to server...");
         tempClient.openConnection();
         System.out.println("Client: Connected to server.");
@@ -99,14 +97,9 @@ public class AppTest {
     }
 
     @Test
-    public void test3_shouldCreateExampleEntity() throws IOException, InterruptedException {
-        Thread thread = new Thread(new ServerBooter(port_addition), "Server" + port_addition);
-        thread.start(); // run server
-
-        Thread.sleep(5000); // Hibernate setup is long...
-
-
-        TempClient tempClient = new TempClient(port_addition++);
+    @Order(3)
+    public void shouldCreateExampleEntity() throws IOException, InterruptedException {
+        TempClient tempClient = new TempClient();
         System.out.println("Client: Connecting to server...");
         tempClient.openConnection();
         System.out.println("Client: Connected to server.");
@@ -123,14 +116,9 @@ public class AppTest {
 
 
     @Test
-    public void test4_shouldGetAllEntities() throws IOException, InterruptedException {
-        Thread thread = new Thread(new ServerBooter(port_addition), "Server" + port_addition);
-        thread.start(); // run server
-
-        Thread.sleep(5000); // Hibernate setup is long...
-
-
-        TempClient tempClient = new TempClient(port_addition++);
+    @Order(4)
+    public void shouldGetAllEntities() throws IOException, InterruptedException {
+        TempClient tempClient = new TempClient();
         System.out.println("Client: Connecting to server...");
         tempClient.openConnection();
         System.out.println("Client: Connected to server.");
@@ -149,14 +137,9 @@ public class AppTest {
     }
 
     @Test
-    public void test5_shouldUpdateEntityWithID1ToEnumType3() throws IOException, InterruptedException {
-        Thread thread = new Thread(new ServerBooter(port_addition), "Server" + port_addition);
-        thread.start(); // run server
-
-        Thread.sleep(5000); // Hibernate setup is long...
-
-
-        TempClient tempClient = new TempClient(port_addition++);
+    @Order(5)
+    public void shouldUpdateEntityWithID1ToEnumType3() throws IOException, InterruptedException {
+        TempClient tempClient = new TempClient();
         System.out.println("Client: Connecting to server...");
         tempClient.openConnection();
         System.out.println("Client: Connected to server.");
@@ -174,7 +157,8 @@ public class AppTest {
     }
 
     @Test
+    @Order(6)
     public void test6_shouldShowTYPE3() throws IOException, InterruptedException {
-        test4_shouldGetAllEntities();
+        shouldGetAllEntities();
     }
 }

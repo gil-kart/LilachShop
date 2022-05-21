@@ -1,15 +1,14 @@
 package org.lilachshop.employeeclient;
 
-import org.junit.Assert;
-import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class AppTest {
 
     @Test
     public void shouldAnswerWithTrue() {
-        Assert.assertTrue(true);
+        Assertions.assertTrue(true);
     }
 
 }
