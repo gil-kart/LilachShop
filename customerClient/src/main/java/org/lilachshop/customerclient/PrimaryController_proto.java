@@ -24,11 +24,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-//todo inherit from abstract client to handle massages to server
-public class
+import org.lilachshop.panels.OperationsPanelFactory;
+import org.lilachshop.panels.VisitorPanel;
+import org.lilachshop.panels.Panel;
+import org.greenrobot.eventbus.Subscribe;
 
-PrimaryController_proto implements Initializable {
-
+public class PrimaryController_proto implements Initializable {
+    private static Panel panel;
     final String base_path = "/images/";
     private Flower flowerShown;
     @FXML
@@ -175,19 +177,18 @@ PrimaryController_proto implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        panel = OperationsPanelFactory.createPanel(2, this); // this should be the default panel according to customer/employee
+        if (panel == null) {
+            throw new RuntimeException("Panel creation failed!");
+        }
         try {
             textFieldPriceChange.setVisible(false);
             priceUpdateWarningLabel.setVisible(false);
             priceUpdate.setVisible(false);
-           // client = SimpleClient.getClient();
-          //  client.openConnection();
-          //  client.sendToServer("getCatalog");
-         //   while (!client.isDataReady()) {
-        //        Thread.sleep(300);
-         //   }
-        //    items = client.getItems();
-            addItemsToFlowerList(items);
+            ((VisitorPanel) panel).sendCatalogRequestToServer("get catalog");
+            // sleep until catalog arrives
+            Thread.sleep(600); //todo: find better way to asure catalog has arrived from server
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -280,5 +281,12 @@ PrimaryController_proto implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @Subscribe
+    public void handleCatalogReceivedFromClient(Object msg) {
+        System.out.println("primary controller prototype recieved message from server");
+            addItemsToFlowerList((List<Item>) msg);
+    }
+
 }
 

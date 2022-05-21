@@ -2,9 +2,13 @@ package org.lilachshop.server;
 
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
+import org.lilachshop.entities.Item;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
@@ -38,8 +42,8 @@ public class LilachServer extends AbstractServer {
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
-
-                        client.sendToClient("you tried to get catalog");
+                        List<Item> items =  entityFactory.getAllItems();
+                        client.sendToClient(new LinkedList<Item>(items));
                     }
                     default -> {
                         client.sendToClient("request does not exist");
