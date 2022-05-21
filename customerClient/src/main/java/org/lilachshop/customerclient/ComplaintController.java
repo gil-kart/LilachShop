@@ -13,10 +13,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.lilachshop.entities.Complaint;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.panels.RegisteredCustomerPanel;
+import org.lilachshop.requests.ComplaintRequest;
 
 public class ComplaintController implements Initializable {
 
@@ -44,15 +47,18 @@ public class ComplaintController implements Initializable {
 //        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
 
         Complaint complaint = new Complaint("creationDate", "open", "1234", complaintText.getText());
+        ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
         System.out.println(complaint.getContent());
-        try {
-            App.setRoot("main");
-        } catch (Exception e) {
-            System.out.println("cant go to main screen");
-            e.printStackTrace();
-            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-            stage.close();
-        }
+        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+        stage.close();
+//        try {
+//            App.setRoot("main");
+//        } catch (Exception e) {
+//            System.out.println("cant go to main screen");
+//            e.printStackTrace();
+//            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+//            stage.close();
+//        }
     }
 
     @Subscribe
@@ -69,7 +75,7 @@ public class ComplaintController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(2, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(3, this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }

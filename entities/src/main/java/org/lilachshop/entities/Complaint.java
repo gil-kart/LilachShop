@@ -1,4 +1,4 @@
-package org.lilachshop.customerclient;
+package org.lilachshop.entities;
 
 public class Complaint {
     String endOfHandleDate;

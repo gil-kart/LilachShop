@@ -1,5 +1,6 @@
 package org.lilachshop.server;
 
+import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
 import org.lilachshop.entities.Item;
@@ -35,6 +36,22 @@ public class LilachServer extends AbstractServer {
                 e.printStackTrace();
             }
             return;
+        }
+        if(msg.getClass().equals(ComplaintRequest.class)){
+            ComplaintRequest request = (ComplaintRequest) msg;
+            String message_from_client = request.getRequest();
+            try{
+                switch (message_from_client){
+                    case "post new complaint" ->{
+                        System.out.println("posting new complaint:");
+                        Complaint complaint = request.getComplaint();
+                        System.out.println(complaint.getContent());
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
         }
         if(msg.getClass().equals(CatalogRequest.class)){
             CatalogRequest request = (CatalogRequest) msg;
