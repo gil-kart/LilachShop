@@ -35,6 +35,16 @@ public class EntityFactory {
         return ef;
     }
 
+    public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Item.class);
+    }
+
+    public void createCatalog(){
+        Catalog catalog = App.generateCatalog();
+        createOrUpdateSingleRecord(catalog);
+    }
+
+
     /*
      *****************************************   Entity Methods   ******************************************************
      */
@@ -43,6 +53,7 @@ public class EntityFactory {
     public List<ExampleEntity> getAllExampleEntities() {
         return getAllRecords(ExampleEntity.class);
     }
+
 
     // Usage of query API
     public ExampleEntity getSingleExampleEntityRecord(int entityID) {

@@ -32,7 +32,24 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+        if(msg.getClass().equals(Request.class)){
+            Request request = (Request) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client) {
+                    case "get catalog" -> {
 
+                        client.sendToClient("you tried to get catalog");
+                    }
+                    default -> {
+                        client.sendToClient("request does not exist");
+                    }
+                }
+            }catch (Exception e) {
+                System.out.println("Failed sending reply to client.");
+                e.printStackTrace();
+            }
+        }
         // debug request
         if (msg.getClass().equals(DebugRequest.class)) {
             DebugRequest request = (DebugRequest) msg;
@@ -58,6 +75,15 @@ public class LilachServer extends AbstractServer {
                         ExampleEnum exampleEnumToUpdate = request.getUpdateToEnum();
                         entityFactory.updateExampleEntityEnumByID(id_key, exampleEnumToUpdate);
                         client.sendToClient("This is a reply from LilachServer!");
+                    }
+
+                    case "write catalog" ->{
+                        entityFactory.createCatalog();
+                        client.sendToClient("Catalog is created!");
+                    }
+
+                    case "get all items" ->{
+                        entityFactory.getAllItems();
                     }
                 }
             } catch (Exception e) {

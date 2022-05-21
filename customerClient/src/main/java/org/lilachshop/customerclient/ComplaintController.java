@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.ExamplePanel;
+import org.lilachshop.panels.VisitorPanel;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -40,11 +40,11 @@ public class ComplaintController implements Initializable {
         a.setContentText("");
         a.show();
 
-        ((ExamplePanel) panel).sendMessageToServer("example message");
+//        ((ExamplePanel) panel).sendMessageToServer("write catalog");
+        ((VisitorPanel) panel).sendCatalogRequestToServer("get catalog");
 
         Complaint complaint = new Complaint("creationDate", "open", "1234", complaintText.getText());
         System.out.println(complaint.getContent());
-        // this is the part where we send the data to the server
         try {
             App.setRoot("main");
         } catch (Exception e) {
@@ -53,12 +53,11 @@ public class ComplaintController implements Initializable {
             Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
             stage.close();
         }
-
     }
 
     @Subscribe
     public void handleMessageReceivedFromClient(String msg) {
-        System.out.println("hi");
+        System.out.println("complaintController recieved message from server");
     }
 
     @FXML
@@ -70,7 +69,7 @@ public class ComplaintController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(1, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(2, this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
