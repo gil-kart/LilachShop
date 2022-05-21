@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="737.0" prefWidth="1108.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CustomerServiceViewController">
+   <children>
+      <Label layoutX="452.0" layoutY="36.0" text="טיפול בתלונות">
+         <font>
+            <Font size="33.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tableView" layoutX="74.0" layoutY="109.0" prefHeight="581.0" prefWidth="961.0">
+        <columns>
+          <TableColumn fx:id="content" prefWidth="500.0" text="תוכן" />
+          <TableColumn fx:id="status" prefWidth="138.0" text="סטטוס" />
+            <TableColumn fx:id="creationDate" prefWidth="141.0" text="תאריך מענה סופי" />
+            <TableColumn fx:id="complaintNumber" prefWidth="181.0" text="מספר תלונה" />
+        </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </TableView>
+   </children>
+</AnchorPane>

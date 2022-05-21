@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="398.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.ComplaintWorkerResponseController">
+   <children>
+      <Button fx:id="closeButton" onAction="#closeButtonAction" />
+
+      <Label layoutX="201.0" layoutY="24.0" text="פרטי תלונה">
+         <font>
+            <Font size="39.0" />
+         </font>
+      </Label>
+      <Label layoutX="444.0" layoutY="93.0" text="תאריך אחרון למענה:" />
+      <Label layoutX="137.0" layoutY="93.0" text="סטטוס:" />
+      <Label layoutX="272.0" layoutY="93.0" text="מספר תלונה:" />
+      <Label layoutX="484.0" layoutY="125.0" text="תוכן:" />
+      <TextArea fx:id="content" editable="false" layoutX="137.0" layoutY="134.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="80.0" prefWidth="325.0" />
+      <Label layoutX="481.0" layoutY="238.0" text="מענה:" />
+      <TextArea fx:id="response" layoutX="136.0" layoutY="247.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="109.0" prefWidth="325.0" promptText="הכנס תגובה לתלונה כאן ..." />
+      <Button fx:id="SendBtn" layoutX="286.0" layoutY="364.0" mnemonicParsing="false" onAction="#onSendBtn" text="שלח" />
+      <Label fx:id="lastDateToHandle" layoutX="398.0" layoutY="93.0" text="Label" />
+      <Label fx:id="complaintNumber" layoutX="232.0" layoutY="93.0" text="Label" />
+      <Label fx:id="complaintStatus" layoutX="93.0" layoutY="93.0" text="Label" />
+   </children>
+</AnchorPane>
