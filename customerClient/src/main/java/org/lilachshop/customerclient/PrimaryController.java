@@ -9,12 +9,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.controller.Controller;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.ExamplePanel;
+import org.lilachshop.panels.Panel;
 
-public class PrimaryController extends Controller implements Initializable {
+public class PrimaryController implements Initializable {
+
+    private static Panel panel;
 
     @FXML
     private Label message_label;
@@ -32,7 +35,6 @@ public class PrimaryController extends Controller implements Initializable {
         }
     }
 
-    @Override
     @Subscribe  // Do not forget this annotation or else eventbus won't know what method should be triggered.
     public void handleMessageReceivedFromClient(String msg) {
         Platform.runLater(() -> {
