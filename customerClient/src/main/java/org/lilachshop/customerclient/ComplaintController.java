@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.VisitorPanel;
+import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -41,7 +41,7 @@ public class ComplaintController implements Initializable {
         a.show();
 
 //        ((ExamplePanel) panel).sendMessageToServer("write catalog");
-        ((VisitorPanel) panel).sendCatalogRequestToServer("get catalog");
+//        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
 
         Complaint complaint = new Complaint("creationDate", "open", "1234", complaintText.getText());
         System.out.println(complaint.getContent());

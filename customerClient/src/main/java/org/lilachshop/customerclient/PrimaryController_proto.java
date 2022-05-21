@@ -1,5 +1,6 @@
 package org.lilachshop.customerclient;
 
+import javafx.application.Platform;
 import org.lilachshop.entities.Item;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,7 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.VisitorPanel;
+import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -185,64 +186,15 @@ public class PrimaryController_proto implements Initializable {
             textFieldPriceChange.setVisible(false);
             priceUpdateWarningLabel.setVisible(false);
             priceUpdate.setVisible(false);
-            ((VisitorPanel) panel).sendCatalogRequestToServer("get catalog");
-            // sleep until catalog arrives
-            Thread.sleep(600); //todo: find better way to asure catalog has arrived from server
-
+            ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-
-        // flowerList.addAll(getFlowerList());
-
-        if (flowerList.size() > 0) {
-            setChosenItem(flowerList.get(0));
-            myListener = new MyListener() {
-                @Override
-                public void onClickListener(Flower flower) {
-                    textFieldPriceChange.setVisible(false);
-                    priceUpdateWarningLabel.setVisible(false);
-                    priceUpdate.setVisible(false);
-                    textFieldPriceChange.clear();
-                    setChosenItem(flower);
-                }
-            };
-        }
-        int column = 0;
-        int row = 1;
-        try {
-            for (Flower flower : flowerList) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
-
-                ItemController itemController = fxmlLoader.getController();
-                itemControllers.add(itemController);
-                itemController.setData(flower, myListener);
-                if (column == 3) {
-                    column = 0;
-                    row++;
-                }
-                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
-                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
-                grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
-
-                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
-                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
-                grid.setMaxWidth(Region.USE_COMPUTED_SIZE);
-
-
-                grid.add(anchorPane, column++, row);
-                GridPane.setMargin(anchorPane, new Insets(5));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
     private void addItemsToFlowerList(List<Item> items) {
         List<Flower> retFlowerList = new ArrayList<>();
-        ;
+
         for (int i = 0; i < items.size(); i++) {
             Item curItem = items.get(i);
             retFlowerList.add(new Flower(curItem.getName(), String.valueOf(curItem.getPrice()), curItem.getImage(), curItem.getId()));
@@ -276,7 +228,6 @@ public class PrimaryController_proto implements Initializable {
                 textFieldPriceChange.clear();
                 priceUpdateWarningLabel.setVisible(true);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,8 +236,52 @@ public class PrimaryController_proto implements Initializable {
     @Subscribe
     public void handleCatalogReceivedFromClient(Object msg) {
         System.out.println("primary controller prototype recieved message from server");
-            addItemsToFlowerList((List<Item>) msg);
+        addItemsToFlowerList((List<Item>) msg);
+        Platform.runLater(()->{
+            renderCatalogOnScreen();
+        });
     }
 
+    private void renderCatalogOnScreen() {
+        if (flowerList.size() > 0) {
+            setChosenItem(flowerList.get(0));
+            myListener = new MyListener() {
+                @Override
+                public void onClickListener(Flower flower) {
+                    textFieldPriceChange.setVisible(false);
+                    priceUpdateWarningLabel.setVisible(false);
+                    priceUpdate.setVisible(false);
+                    textFieldPriceChange.clear();
+                    setChosenItem(flower);
+                }
+            };
+        }
+        int column = 0;
+        int row = 1;
+        try {
+            for (Flower flower : flowerList) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+                ItemController itemController = fxmlLoader.getController();
+                itemControllers.add(itemController);
+                itemController.setData(flower, myListener);
+                if (column == 3) {
+                    column = 0;
+                    row++;
+                }
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMaxHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                grid.setMaxWidth(Region.USE_COMPUTED_SIZE);
+                grid.add(anchorPane, column++, row);
+                GridPane.setMargin(anchorPane, new Insets(5));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

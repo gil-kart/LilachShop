@@ -36,14 +36,18 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if(msg.getClass().equals(Request.class)){
-            Request request = (Request) msg;
+        if(msg.getClass().equals(CatalogRequest.class)){
+            CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
                         List<Item> items =  entityFactory.getAllItems();
                         client.sendToClient(new LinkedList<Item>(items));
+                        System.out.println("catalog was sent!");
+                        for(Item item: items){
+                            System.out.println(item);
+                        }
                     }
                     default -> {
                         client.sendToClient("request does not exist");

@@ -22,6 +22,11 @@ public class Item implements Serializable {
     public Item() {
     }
 
+    @Override
+    public String toString() {
+        return "item name: " + name;
+    }
+
 
     public int getId() {
         return id;

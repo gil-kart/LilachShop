@@ -10,7 +10,7 @@ public class OperationsPanelFactory {
                 return new ExamplePanel("localhost", 3000, controller);
             }
             case 2 ->{
-                return new VisitorPanel("localhost", 3000, controller);
+                return new CustomerAnonymousPanel("localhost", 3000, controller);
             }
             default -> {
                 System.out.println("No panel found.");
