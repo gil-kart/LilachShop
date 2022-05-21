@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="652.0" prefWidth="893.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.PrimaryController_proto">
+    <children>
+        <BorderPane layoutY="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <left>
+                <VBox prefHeight="459.0" prefWidth="247.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0">
+                            <children>
+                                <Label alignment="CENTER" prefHeight="17.0" prefWidth="80.0" text="קטלוג">
+                                    <font>
+                                        <Font size="27.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="59.0" prefWidth="187.0">
+                            <VBox.margin>
+                                <Insets left="30.0" right="30.0" />
+                            </VBox.margin>
+                            <children>
+                                <Button minWidth="53.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="53.0" text="חיפוש">
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                    <HBox.margin>
+                                        <Insets bottom="20.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <TextField nodeOrientation="RIGHT_TO_LEFT" prefHeight="43.0" prefWidth="115.0">
+                                    <HBox.margin>
+                                        <Insets left="20.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                        </HBox>
+                        <VBox fx:id="chosenFlower" alignment="BOTTOM_CENTER" prefHeight="252.0" prefWidth="247.0">
+                            <children>
+                                <HBox prefHeight="71.0" prefWidth="264.0">
+                                    <children>
+                              <Label fx:id="FlowerPrice1" alignment="CENTER" prefHeight="81.0" prefWidth="87.0" text="ש&quot;ח">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                                        <Label fx:id="FlowerPrice" prefHeight="75.0" prefWidth="113.0" text="130">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                        <Label fx:id="FlowerNameLabel" contentDisplay="CENTER" prefHeight="72.0" prefWidth="162.0" text="סחלב סגול">
+                                            <font>
+                                                <Font size="18.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                                <ImageView fx:id="FlowerImg" fitHeight="185.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/purple.jpg" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="40.0" prefWidth="273.0">
+                            <children>
+                                <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="107.0" text="הוספה לעגלה" />
+                        <AnchorPane prefHeight="40.0" prefWidth="115.0">
+                           <children>
+                              <Button fx:id="showPriceField" layoutX="35.0" layoutY="4.0" mnemonicParsing="false" onAction="#onChangePrice" prefHeight="31.0" prefWidth="86.0" text="עדכון מחיר" />
+                           </children>
+                        </AnchorPane>
+                            </children>
+                        </HBox>
+                  <VBox prefHeight="200.0" prefWidth="183.0">
+                     <children>
+                        <TextField fx:id="textFieldPriceChange" prefHeight="33.0" prefWidth="247.0" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label fx:id="priceUpdateWarningLabel" alignment="CENTER" layoutX="62.0" layoutY="5.0" text="יש להכניס מספרים בלבד" textAlignment="CENTER" textFill="#c90000" />
+                              <Button fx:id="priceUpdate" layoutX="80.0" layoutY="37.0" mnemonicParsing="false" onAction="#onPriceUpdate" prefHeight="31.0" prefWidth="86.0" text="אישור" />
+                           </children></AnchorPane>
+                     </children>
+                  </VBox>
+                    </children>
+                </VBox>
+            </left>
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="354.0">
+                            <VBox.margin>
+                                <Insets left="20.0" right="20.0" />
+                            </VBox.margin>
+                            <children>
+                                <Label alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="88.0" text="החשבון שלי">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets right="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <ImageView fitHeight="18.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/cart.png" />
+                                    </image></ImageView>
+                            </children>
+                        </HBox>
+                        <HBox prefHeight="78.0" prefWidth="646.0">
+                            <children>
+                                <VBox alignment="CENTER" prefHeight="57.0" prefWidth="247.0">
+                                    <children>
+                                        <HBox alignment="TOP_CENTER" prefHeight="57.0" prefWidth="208.0">
+                                            <children>
+                                                <ImageView fitHeight="51.0" fitWidth="72.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../../../images/pngwing.com.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <VBox prefHeight="57.0" prefWidth="120.0">
+                                                    <children>
+                                                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="135.0" text="סחלבים ב-30%">
+                                                            <font>
+                                                                <Font size="15.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <VBox prefHeight="36.0" prefWidth="161.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" prefHeight="21.0" prefWidth="135.0" text="הנחה">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                                <VBox alignment="CENTER" prefHeight="57.0" prefWidth="275.0">
+                                    <children>
+                                        <HBox alignment="CENTER" prefHeight="57.0" prefWidth="131.0">
+                                            <children>
+                                                <Pane prefHeight="57.0" prefWidth="19.0" />
+                                                <ImageView fitHeight="51.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../../../../images/pngwing.com.png" />
+                                                    </image>
+                                                </ImageView>
+                                                <VBox alignment="CENTER" prefHeight="57.0" prefWidth="120.0">
+                                                    <children>
+                                                        <Label alignment="CENTER" prefHeight="25.0" prefWidth="135.0" text="נרקיסים ב-30%">
+                                                            <font>
+                                                                <Font size="15.0" />
+                                                            </font>
+                                                        </Label>
+                                                        <VBox prefHeight="36.0" prefWidth="161.0">
+                                                            <children>
+                                                                <Label alignment="CENTER" prefHeight="21.0" prefWidth="135.0" text="הנחה">
+                                                                    <font>
+                                                                        <Font size="15.0" />
+                                                                    </font>
+                                                                </Label>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+                        <VBox alignment="CENTER" prefHeight="57.0" prefWidth="224.0">
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="57.0" prefWidth="131.0">
+                                 <children>
+                                    <Pane prefHeight="57.0" prefWidth="19.0" />
+                                    <ImageView fitHeight="51.0" fitWidth="126.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../images/pngwing.com.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER" prefHeight="57.0" prefWidth="120.0">
+                                       <children>
+                                          <Label alignment="CENTER" prefHeight="25.0" prefWidth="135.0" text="רקפות ב-30%">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <opaqueInsets>
+                                                <Insets right="15.0" />
+                                             </opaqueInsets>
+                                          </Label>
+                                          <VBox prefHeight="36.0" prefWidth="161.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="21.0" prefWidth="135.0" text="הנחה">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <ScrollPane fx:id="scroll" prefHeight="496.0" prefWidth="632.0">
+                                    <content>
+                                        <GridPane fx:id="grid" prefHeight="64.0" prefWidth="381.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                                        </GridPane>
+                                    </content>
+                                </ScrollPane>
+                            </children></HBox>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

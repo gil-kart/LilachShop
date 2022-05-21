@@ -8,8 +8,10 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+import org.lilachshop.entities.Catalog;
 import org.lilachshop.entities.ExampleEntity;
 import org.lilachshop.entities.ExampleEnum;
+import org.lilachshop.entities.Item;
 
 import javax.persistence.criteria.*;
 import java.util.LinkedList;
@@ -180,7 +182,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class);//.addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class);//.addAnnotatedClass(Item.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())

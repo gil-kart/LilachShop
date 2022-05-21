@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 //todo inherit from abstract client to handle massages to server
 public class
 
-primaryController_proto implements Initializable {
+PrimaryController_proto implements Initializable {
 
     final String base_path = "/images/";
     private Flower flowerShown;

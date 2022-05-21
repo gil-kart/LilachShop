@@ -3,11 +3,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import java.io.Serializable;
-
-
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable {
