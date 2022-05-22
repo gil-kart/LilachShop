@@ -45,6 +45,7 @@ public class LilachServer extends AbstractServer {
                     case "post new complaint" ->{
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
+                        entityFactory.createOrUpdateSingleRecord(complaint);
                         System.out.println(complaint.getContent());
                     }
                 }

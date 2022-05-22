@@ -2,11 +2,11 @@ package org.lilachshop.requests;
 
 import org.lilachshop.entities.Complaint;
 
-public class ComplaintRequest extends Request{
-    Complaint complaint;
-    public ComplaintRequest(String request) {
-        super(request);
-    }
+import java.io.Serializable;
+import java.util.List;
+
+public class ComplaintRequest extends Request {
+    Complaint  complaint;
 
     public Complaint getComplaint() {
         return complaint;
@@ -16,4 +16,5 @@ public class ComplaintRequest extends Request{
         super(request);
         this.complaint = complaint;
     }
+
 }

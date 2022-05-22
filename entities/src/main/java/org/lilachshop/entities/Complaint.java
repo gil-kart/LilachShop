@@ -1,10 +1,22 @@
 package org.lilachshop.entities;
 
-public class Complaint {
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Entity
+@Table(name = "Complaint")
+public class Complaint implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
     String endOfHandleDate;
     String status;
     String complaintNumber;
     String content;
+
+    public Complaint() {}
 
     public String getComplaintNumber() {
         return complaintNumber;

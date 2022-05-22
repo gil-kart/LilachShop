@@ -21,6 +21,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.panels.RegisteredCustomerPanel;
 import org.lilachshop.requests.ComplaintRequest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class ComplaintController implements Initializable {
 
     private static Panel panel;
@@ -43,22 +46,22 @@ public class ComplaintController implements Initializable {
         a.setContentText("");
         a.show();
 
-//        ((ExamplePanel) panel).sendMessageToServer("write catalog");
-//        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
 
-        Complaint complaint = new Complaint("creationDate", "open", "1234", complaintText.getText());
+        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "124", complaintText.getText());
+
         ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
+
         System.out.println(complaint.getContent());
-        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-        stage.close();
-//        try {
-//            App.setRoot("main");
-//        } catch (Exception e) {
-//            System.out.println("cant go to main screen");
-//            e.printStackTrace();
-//            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-//            stage.close();
-//        }
+//        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+//        stage.close();
+        try {
+            App.setRoot("main");
+        } catch (Exception e) {
+            System.out.println("cant go to main screen");
+            e.printStackTrace();
+            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+            stage.close();
+        }
     }
 
     @Subscribe

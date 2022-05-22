@@ -8,10 +8,8 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
-import org.lilachshop.entities.Catalog;
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
-import org.lilachshop.entities.Item;
+import org.lilachshop.entities.*;
+import org.lilachshop.requests.ComplaintRequest;
 
 import javax.persistence.criteria.*;
 import java.util.LinkedList;
@@ -132,7 +130,7 @@ public class EntityFactory {
      * @param entityToCreate Entity record to add
      * @param <T>            Entity type
      */
-    private <T> void createOrUpdateSingleRecord(T entityToCreate) {
+    <T> void createOrUpdateSingleRecord(T entityToCreate) {
         Session session = sf.openSession();
         Transaction transaction = session.beginTransaction();
 
@@ -193,7 +191,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class);//.addAnnotatedClass(Item.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class);//.addAnnotatedClass(Item.class);
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
                 .applySettings(configuration.getProperties())
