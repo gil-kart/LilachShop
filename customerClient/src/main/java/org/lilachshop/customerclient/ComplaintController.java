@@ -15,14 +15,9 @@ import java.util.ResourceBundle;
 
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.panels.RegisteredCustomerPanel;
-import org.lilachshop.requests.ComplaintRequest;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class ComplaintController implements Initializable {
 
@@ -47,7 +42,7 @@ public class ComplaintController implements Initializable {
         a.show();
 
 
-        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "128", complaintText.getText());
+        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "129", complaintText.getText());
 
         ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
 

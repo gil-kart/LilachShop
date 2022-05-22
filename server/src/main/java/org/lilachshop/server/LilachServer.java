@@ -73,27 +73,27 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-        if(msg.getClass().equals(ComplaintRequest.class)){
-            ComplaintRequest request = (ComplaintRequest) msg;
-            String message_from_client = request.getRequest();
-            try{
-                switch (message_from_client){
-                    case "post new complaint" ->{
-                        System.out.println("posting new complaint:");
-                        Complaint complaint = request.getComplaint();
-                        entityFactory.createOrUpdateSingleRecord(complaint);
-                        System.out.println(complaint.getContent());
-                    }
-                    case "get all complaints" ->{
-                        List<Complaint> complaints = entityFactory.getAllComplaints();
-                        client.sendToClient(complaints);
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-        }
+//        if(msg.getClass().equals(ComplaintRequest.class)){
+//            ComplaintRequest request = (ComplaintRequest) msg;
+//            String message_from_client = request.getRequest();
+//            try{
+//                switch (message_from_client){
+//                    case "post new complaint" ->{
+//                        System.out.println("posting new complaint:");
+//                        Complaint complaint = request.getComplaint();
+//                        entityFactory.createOrUpdateSingleRecord(complaint);
+//                        System.out.println(complaint.getContent());
+//                    }
+//                    case "get all complaints" ->{
+//                        List<Complaint> complaints = entityFactory.getAllComplaints();
+//                        client.sendToClient(complaints);
+//                    }
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//
+//        }
         if(msg.getClass().equals(CatalogRequest.class)){
             CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();

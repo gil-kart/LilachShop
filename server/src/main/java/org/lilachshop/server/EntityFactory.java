@@ -9,7 +9,6 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import org.lilachshop.entities.*;
-import org.lilachshop.requests.ComplaintRequest;
 
 import javax.persistence.criteria.*;
 import java.util.LinkedList;
