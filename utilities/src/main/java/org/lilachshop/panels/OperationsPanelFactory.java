@@ -15,6 +15,9 @@ public class OperationsPanelFactory {
             case 3 ->{
                 return new RegisteredCustomerPanel("localhost", 3000, controller);
             }
+            case 4 ->{
+                return new CustomerServicePanel("localhost", 3000, controller);
+            }
             default -> {
                 System.out.println("No panel found.");
                 return null;

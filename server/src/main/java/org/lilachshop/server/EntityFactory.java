@@ -37,6 +37,10 @@ public class EntityFactory {
         return getAllRecords(Item.class);
     }
 
+    public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Complaint.class);
+    }
+
     public void createCatalog(){
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);

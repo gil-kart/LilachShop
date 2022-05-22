@@ -1,5 +1,6 @@
 package org.lilachshop.employeeclient;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,13 +14,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.Complaint;
+import org.lilachshop.entities.Item;
+import org.lilachshop.panels.CustomerServicePanel;
+import org.lilachshop.panels.OperationsPanelFactory;
+import org.lilachshop.panels.Panel;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class CustomerServiceViewController implements Initializable {
+    private static Panel panel;
     @FXML
     private TableView<Complaint> tableView;
 
@@ -43,10 +52,24 @@ public class CustomerServiceViewController implements Initializable {
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
         status.setCellValueFactory(new PropertyValueFactory<Complaint, String>("status"));
+        panel = OperationsPanelFactory.createPanel(4, this); // this should be the default panel according to customer/employee
+        if (panel == null) {
+            throw new RuntimeException("Panel creation failed!");
+        }
+        // send request to server to get all existing complaints
+        ((CustomerServicePanel) panel).GetAllClientsComplaintsRequestToServer();
 
-        // complaints will be sent from the server!
-        setListOfComplaints();
+    }
 
+    private void setListOfComplaints(List<Complaint> complaintsFromServer) {
+        listOfComplaints = FXCollections.observableArrayList();
+        listOfComplaints.addAll(complaintsFromServer);
+//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "321", "איזה שירות גרוע"));
+//        listOfComplaints.add(new Complaint("15.1.22", "פתוח", "322", "איזה שירות חרבנה"));
+//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "323", "איזה פרחים מכוערים"));
+//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "444", "איזה שירות נורא"));
+//        listOfComplaints.add(new Complaint("17.1.22", "פתוח", "456", "איזה שירות מזוויע"));
+//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "668", "איזה פרחים מגעילים"));
         tableView.setEditable(true);
         tableView.setItems(listOfComplaints);
         tableView.setOnMouseClicked(e ->{
@@ -58,21 +81,13 @@ public class CustomerServiceViewController implements Initializable {
         });
     }
 
-    private void setListOfComplaints() {
-        listOfComplaints = FXCollections.observableArrayList();
-        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "321", "איזה שירות גרוע"));
-        listOfComplaints.add(new Complaint("15.1.22", "פתוח", "322", "איזה שירות חרבנה"));
-        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "323", "איזה פרחים מכוערים"));
-        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "444", "איזה שירות נורא"));
-        listOfComplaints.add(new Complaint("17.1.22", "פתוח", "456", "איזה שירות מזוויע"));
-        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "668", "איזה פרחים מגעילים"));
-    }
-
-    public void closeComplaint(String updatedComplaintNumber){
+    public void closeComplaint(String updatedComplaintNumber, String reply){
         //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
             if(complaint.getComplaintNumber().equals(updatedComplaintNumber)){
                 complaint.setStatus("סגור");
+                // close complaint on server
+                ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply);
                 break;
             }
         }
@@ -85,11 +100,17 @@ public class CustomerServiceViewController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintWorkerResponse.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
-        controller.setComplaintData(
-                listOfComplaints.get(0).complaintNumber,
-                listOfComplaints.get(0).status,
-                listOfComplaints.get(0).endOfHandleDate,
-                listOfComplaints.get(0).content, this);
+
+        try{
+            controller.setComplaintData(
+                    listOfComplaints.get(0).getComplaintNumber(),
+                    listOfComplaints.get(0).getStatus(),
+                    listOfComplaints.get(0).getCreationDate(),
+                    listOfComplaints.get(0).getContent(), this);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.UNDECORATED);
@@ -97,6 +118,15 @@ public class CustomerServiceViewController implements Initializable {
         stage.setScene(new Scene(root1));
         stage.show();
     }
+
+    @Subscribe
+    public void handleComplaintsReceivedFromClient(Object msg) {
+        System.out.println("Complaints recieved from server");
+        Platform.runLater(()->{
+            setListOfComplaints((List<Complaint>)msg);
+        });
+    }
+
 }
 
 

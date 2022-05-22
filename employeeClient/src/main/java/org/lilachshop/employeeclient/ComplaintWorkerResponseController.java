@@ -55,7 +55,7 @@ public class ComplaintWorkerResponseController {
         a.setContentText("");
         a.show();
 
-        controllerInstance.closeComplaint(complaintNumber.getText());
+        controllerInstance.closeComplaint(complaintNumber.getText(), response.getText());
         Stage stage = (Stage) SendBtn.getScene().getWindow();
         stage.close();
     }

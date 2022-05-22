@@ -37,6 +37,42 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+        if(msg.getClass().equals(UserComplaintRequest.class)){
+            UserComplaintRequest request = (UserComplaintRequest) msg;
+            String message_from_client = request.getRequest();
+            try{
+                switch (message_from_client) {
+                    case "post new complaint" -> {
+                        System.out.println("posting new complaint:");
+                        Complaint complaint = request.getComplaint();
+                        entityFactory.createOrUpdateSingleRecord(complaint);
+//                        System.out.println(complaint.getContent());
+                    }
+                }
+            }catch (Exception e){
+
+            }
+        }
+        if(msg.getClass().equals(SupportComplaintRequest.class)){
+            SupportComplaintRequest request = (SupportComplaintRequest) msg;
+            String message_from_client = request.getRequest();
+            try{
+                switch (message_from_client){
+                    case "get all complaints" ->{
+                        List<Complaint> complaints = entityFactory.getAllComplaints();
+                        client.sendToClient(complaints);
+                    }
+                    case "reply to customer complaint"->{
+                        Complaint complaint = request.getComplaint();
+                        complaint.setStatus("סגור");
+                        entityFactory.createOrUpdateSingleRecord(complaint);
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         if(msg.getClass().equals(ComplaintRequest.class)){
             ComplaintRequest request = (ComplaintRequest) msg;
             String message_from_client = request.getRequest();
@@ -47,6 +83,10 @@ public class LilachServer extends AbstractServer {
                         Complaint complaint = request.getComplaint();
                         entityFactory.createOrUpdateSingleRecord(complaint);
                         System.out.println(complaint.getContent());
+                    }
+                    case "get all complaints" ->{
+                        List<Complaint> complaints = entityFactory.getAllComplaints();
+                        client.sendToClient(complaints);
                     }
                 }
             }catch (Exception e){

@@ -47,7 +47,7 @@ public class ComplaintController implements Initializable {
         a.show();
 
 
-        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "124", complaintText.getText());
+        Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", "128", complaintText.getText());
 
         ((RegisteredCustomerPanel) panel).sendComplaintToServer(complaint);
 

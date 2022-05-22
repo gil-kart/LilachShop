@@ -12,9 +12,12 @@ public class ComplaintRequest extends Request {
         return complaint;
     }
 
+    public ComplaintRequest(String request) {
+        super(request);
+    }
+
     public ComplaintRequest(String request, Complaint complaint) {
         super(request);
         this.complaint = complaint;
     }
-
 }
