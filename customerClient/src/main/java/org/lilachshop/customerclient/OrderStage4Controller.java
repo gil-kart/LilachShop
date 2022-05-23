@@ -6,16 +6,16 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class OrderStage4Controller {
@@ -50,13 +50,43 @@ public class OrderStage4Controller {
     Order myOrder;
 
     @FXML
-    void gotoNext(ActionEvent event) {
+    void endOrder(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.NONE);
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setHeaderText("אישור הזמנה");
+        a.setTitle("אישור הזמנה");
+        a.setContentText("ההזמנתך אושרה בהצלחה");
+        a.initModality(Modality.APPLICATION_MODAL);
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            Stage stage = App.getStage();
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
+                Parent root = fxmlLoader.load();
+                CatalogController catalogController = fxmlLoader.getController();
+                catalogController.showInfo(myOrder.getMyOrder());
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
     @FXML
     void gotoPrev(ActionEvent event) {
-
+        Stage stage = App.getStage();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
+            Parent root = fxmlLoader.load();
+            OrderStage3Controller orderStage3Controller = fxmlLoader.getController();
+            orderStage3Controller.showInfo(myOrder);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

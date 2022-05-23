@@ -283,7 +283,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </DatePicker>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="איסוף בתאריך:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח בתאריך:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -300,7 +300,7 @@
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                     </ComboBox>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="איסוף בשעה:">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח בשעה:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>

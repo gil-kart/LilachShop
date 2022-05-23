@@ -95,8 +95,7 @@ public class CatalogController {
      */
     @FXML
     void gotoCart(MouseEvent event) {
-        if (myFlowers.size() > 0)
-        {
+        if (myFlowers.size() > 0) {
             Stage stage = App.getStage();
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("cart.fxml"));
@@ -105,11 +104,29 @@ public class CatalogController {
                 cartController.showInfo(myFlowers);
                 stage.setScene(new Scene(root));
                 stage.show();
-            }
-            catch(IOException e)
-            {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else
+        {
+            Alert a = new Alert(Alert.AlertType.NONE);
+            if (!switchFlag)
+            {
+                ButtonType button = new ButtonType("הרשם/התחבר");
+                a.getButtonTypes().setAll(button);
+                a.setAlertType(Alert.AlertType.INFORMATION);
+                a.setHeaderText("נא התחבר או הרשם למערכת");
+                a.setTitle("הוספה לסל");
+            }
+            else
+            {
+                ButtonType button = new ButtonType("אישור");
+                a.getButtonTypes().setAll(button);
+                a.setHeaderText("הסל ריק נא הוסף מוצרים לסל");
+                a.setTitle("הוספה לסל");
+            }
+            a.setContentText("");
+            a.show();
         }
     }
 
@@ -160,6 +177,14 @@ public class CatalogController {
         }
         else
         {
+            Alert a = new Alert(Alert.AlertType.NONE);
+            ButtonType button = new ButtonType("הרשם/התחבר");
+            a.getButtonTypes().setAll(button);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setHeaderText("נא התחבר או הרשם למערכת");
+            a.setTitle("הוספה לסל");
+            a.setContentText("");
+            a.show();
 
         }
     }

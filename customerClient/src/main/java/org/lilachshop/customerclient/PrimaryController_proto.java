@@ -1,3 +1,4 @@
+/*
 package org.lilachshop.customerclient;
 
 import javafx.application.Platform;
@@ -134,7 +135,7 @@ public class PrimaryController_proto implements Initializable {
 
     public void setChosenItem(Flower flower) {
         FlowerNameLabel.setText(flower.getName());
-        FlowerPrice.setText(flower.getPrice());
+        FlowerPrice.setText(Integer.toString(flower.getPrice()));
         try {
             FlowerImg.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(flower.getImgSrc()))));
         } catch (Exception e) {
@@ -149,9 +150,9 @@ public class PrimaryController_proto implements Initializable {
         try {
             //Item item = convertFlowerToItem(flower);
             Item item = getItemById(flower, items);
-         //   client = SimpleClient.getClient();
-          //  client.openConnection();
-          //  client.sendToServer(item);
+            //   client = SimpleClient.getClient();
+            //  client.openConnection();
+            //  client.sendToServer(item);
             // todo: get server ok response that price was updated in DB, else do rollback/nothing?
 //            while (!client.isDataReady()) {
 //                Thread.sleep(300);
@@ -164,7 +165,7 @@ public class PrimaryController_proto implements Initializable {
     private Item getItemById(Flower flower, List<Item> items) {
         for (Item item : items) {
             if (item.getId() == flower.getId()) {
-                item.setPrice(Integer.parseInt(flower.getPrice()));
+                item.setPrice(flower.getPrice());
                 return item;
             }
         }
@@ -173,7 +174,7 @@ public class PrimaryController_proto implements Initializable {
     }
 
     private Item convertFlowerToItem(Flower flower) {
-        return new Item(flower.getName(), Integer.parseInt(flower.getPrice()), flower.getImgSrc());
+        return new Item(flower.getName(), flower.getPrice(), flower.getImgSrc());
     }
 
     @Override
@@ -197,7 +198,7 @@ public class PrimaryController_proto implements Initializable {
 
         for (int i = 0; i < items.size(); i++) {
             Item curItem = items.get(i);
-            retFlowerList.add(new Flower(curItem.getName(), String.valueOf(curItem.getPrice()), curItem.getImage(), curItem.getId()));
+            retFlowerList.add(new Flower(curItem.getName(), curItem.getPrice(), curItem.getImage(), curItem.getId()));
         }
         flowerList.addAll(retFlowerList);
     }
@@ -215,7 +216,7 @@ public class PrimaryController_proto implements Initializable {
             newPrice = textFieldPriceChange.getText();
             try {
                 int new_converted_price = Integer.parseInt(newPrice, 10); // convert to base 10
-                flowerShown.setPrice(newPrice);
+                flowerShown.setPrice(Integer.parseInt(newPrice));
                 FlowerPrice.setText(newPrice);
                 ItemController itemController = itemControllers.get(flowerShown.getId() - 1);
                 itemController.setPriceInCatalog(flowerShown);
@@ -237,7 +238,7 @@ public class PrimaryController_proto implements Initializable {
     public void handleCatalogReceivedFromClient(Object msg) {
         System.out.println("primary controller prototype recieved message from server");
         addItemsToFlowerList((List<Item>) msg);
-        Platform.runLater(()->{
+        Platform.runLater(() -> {
             renderCatalogOnScreen();
         });
     }
@@ -285,3 +286,4 @@ public class PrimaryController_proto implements Initializable {
     }
 }
 
+*/

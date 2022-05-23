@@ -233,7 +233,7 @@
                   <Insets bottom="20.0" left="20.0" />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="next" mnemonicParsing="false" onAction="#gotoNext" prefHeight="60.0" prefWidth="99.0" text="לשלב הבא" />
+                  <Button fx:id="next" mnemonicParsing="false" onAction="#endOrder" prefHeight="60.0" prefWidth="128.0" text="תשלום וסיום הזמנה" />
                   <Button fx:id="prev" mnemonicParsing="false" onAction="#gotoPrev" prefHeight="58.0" prefWidth="104.0" text="לשלב הקודם">
                      <HBox.margin>
                         <Insets left="20.0" />
