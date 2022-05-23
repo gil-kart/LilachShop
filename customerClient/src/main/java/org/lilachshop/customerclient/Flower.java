@@ -3,17 +3,27 @@ package org.lilachshop.customerclient;
 public class Flower {
     public Flower(){}
 
-    public Flower(String name, String price, String imgSrc, int id) {
+    public Flower(String name, int price, String imgSrc,int percent) {
         this.name = name;
         this.price = price;
         this.imgSrc = imgSrc;
-        this.id = id;
+        this.percent = percent;
     }
     private String name;
-    private String price;
+    private int price;
     private String imgSrc;
     private String color;
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
     private int id;
+    private int percent;
 
     public int getId() {
         return id;
@@ -27,11 +37,11 @@ public class Flower {
         this.name = name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -16,6 +16,12 @@ public class App extends Application {
 
     private static Scene scene;
 
+    public static Stage getStage() {
+        return stage;
+    }
+
+    private static Stage stage;
+
     @Override
     public void init() throws Exception {
         System.out.println("Starting customer application...");
@@ -23,7 +29,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("complaintForm"));
+        scene = new Scene(loadFXML("main"), 1280, 800);
         stage.setScene(scene);
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         stage.show();

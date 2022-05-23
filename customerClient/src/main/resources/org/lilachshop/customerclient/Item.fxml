@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -8,30 +9,60 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="190.0" prefWidth="210.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ItemController">
+<AnchorPane prefHeight="190.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ItemController">
     <children>
-        <VBox alignment="CENTER" layoutY="22.0" prefHeight="141.0" prefWidth="142.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" layoutY="22.0" prefHeight="190.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <HBox alignment="TOP_CENTER" prefHeight="41.0" prefWidth="142.0">
-                    <children>
-                  <Label fx:id="Price1" text="ש&quot;ח" />
-                        <Label fx:id="Price" text="70">
-                            <HBox.margin>
-                                <Insets left="3.0" />
-                            </HBox.margin>
-                        </Label>
-                        <Pane prefHeight="41.0" prefWidth="13.0" />
-                        <Label fx:id="Name" text="נרקיס">
-                            <HBox.margin>
-                                <Insets right="3.0" />
-                            </HBox.margin>
-                        </Label>
-                    </children>
-                </HBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="12.0" prefWidth="213.0">
+                     <children>
+                        <Pane prefHeight="27.0" prefWidth="10.0" />
+                        <Label fx:id="Price1" text=" ש&quot;ח">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                        <Text fx:id="Price" strokeType="OUTSIDE" strokeWidth="0.0" text="70" wrappingWidth="33.80621528625488">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                        <Label fx:id="Name" prefHeight="27.0" prefWidth="56.0" text="נרקיס">
+                           <font>
+                              <Font size="14.0" />
+                           </font></Label>
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Text fx:id="oldPrice1" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text=" ש&quot;ח" visible="false">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Text>
+                        <Text fx:id="oldPrice" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="70" visible="false" wrappingWidth="23.18334157200374">
+                           <font>
+                              <Font size="10.0" />
+                           </font>
+                        </Text>
+                        <ImageView fx:id="saleImage" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../../../images/coupon.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </HBox>
+               </children>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </VBox>
                 <ImageView fx:id="Img" fitHeight="141.0" fitWidth="108.0" onMousePressed="#click" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../../../../../../target/classes/images/nark.png" />
+                        <Image url="@../../../images/narkis_hatsostra.jpg" />
                     </image>
                     <VBox.margin>
                         <Insets bottom="4.0" />
@@ -40,4 +71,7 @@
             </children>
         </VBox>
     </children>
+   <cursor>
+      <Cursor fx:constant="HAND" />
+   </cursor>
 </AnchorPane>
