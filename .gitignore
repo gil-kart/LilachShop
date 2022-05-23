@@ -9,3 +9,4 @@
 *.lst
 *.properties
 *.iml
+*dependency-reduced-pom.xml

@@ -27,4 +27,19 @@ public class Utilities {
         }
         return type;
     }
+
+
+//    public static class Socket {
+//
+//        private String ip;
+//        private int port;
+//
+//        public Socket(String ip, int port) {
+//            String[]
+//        }
+//
+//        public Socket(String hostname, int port) {
+//
+//        }
+//    }
 }
