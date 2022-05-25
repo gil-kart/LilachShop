@@ -1,8 +1,10 @@
 package org.lilachshop.entities;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 
-
+@Transactional
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable {
@@ -15,8 +17,8 @@ public class Item implements Serializable {
     private int price;
     private String image;
 
-    @ManyToOne
-    private Catalog catalog;
+//    @ManyToMany
+//    private List<Catalog> catalog;
 
 
     public Item() {

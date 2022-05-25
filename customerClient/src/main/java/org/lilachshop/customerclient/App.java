@@ -29,9 +29,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("main"), 1280, 800);
-        App.stage = stage;
+        scene = new Scene(loadFXML("complaintForm"));
         stage.setScene(scene);
+        App.stage = stage;
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         stage.show();
     }

@@ -1,6 +1,8 @@
 package org.lilachshop.panels;
 
 import org.lilachshop.requests.CatalogRequest;
+import org.lilachshop.requests.DebugRequest;
+
 
 public class CustomerAnonymousPanel extends Panel{
 
@@ -8,6 +10,7 @@ public class CustomerAnonymousPanel extends Panel{
         super(host, port, controller);
     }
     public void sendCatalogRequestToServer() {
-        sendToServer(new CatalogRequest("get catalog"));
+//        sendToServer(new CatalogRequest("get catalog"));
+        sendToServer(new DebugRequest("write catalog"));
     }
 }

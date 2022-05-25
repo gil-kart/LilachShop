@@ -29,6 +29,8 @@ public class App {
             server = new LilachServer(port);
             System.out.println("SERVER: LISTENING");
             server.listen();
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +44,7 @@ public class App {
 
     }
 
-    private static List<Item> createItemList() {
+    public static List<Item> createItemList() {
         Item item;
         List<Item> itemList = new ArrayList<>();
         //    for (int i = 0; i < 5; i++) {

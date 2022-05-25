@@ -1,16 +1,19 @@
 package org.lilachshop.customerclient;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import javafx.scene.text.Text;
 import org.w3c.dom.events.MouseEvent;
 
 import java.util.Objects;
 
 public class ItemController {
+
     @FXML // fx:id="Img"
     private ImageView Img; // Value injected by FXMLLoader
 
@@ -40,6 +43,7 @@ public class ItemController {
     private MyListener myListener;
     private Flower flower;
 
+
     /**
      * upload the data of the item in the catalog
      */
@@ -47,6 +51,7 @@ public class ItemController {
         this.flower = flower;
         this.myListener = myListener;
         Name.setText(flower.getName());
+
         Price.setText(String.valueOf(flower.getPrice()));
         try{
             Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getImgSrc()))));
@@ -55,6 +60,7 @@ public class ItemController {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
+
         //if the item is on sale
         if (flower.getPercent()>0)
         {
@@ -69,6 +75,16 @@ public class ItemController {
     //set the flower in the left side
     public void click(javafx.scene.input.MouseEvent mouseEvent) {
         myListener.onClickListener(flower);
+    }
+
+    void setPriceInCatalog(Flower flower){
+        this.flower.setPrice(flower.getPrice());
+        Price.setText(flower.getPrice() );
+
+
+
+
+
     }
 
 }
