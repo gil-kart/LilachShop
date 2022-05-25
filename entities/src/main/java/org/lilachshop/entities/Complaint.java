@@ -1,6 +1,5 @@
 package org.lilachshop.entities;
 
-import lombok.ToString;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;

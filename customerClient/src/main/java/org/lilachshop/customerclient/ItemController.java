@@ -79,7 +79,7 @@ public class ItemController {
 
     void setPriceInCatalog(Flower flower){
         this.flower.setPrice(flower.getPrice());
-        Price.setText(flower.getPrice() );
+        Price.setText(String.valueOf(flower.getPrice()) );
 
 
 

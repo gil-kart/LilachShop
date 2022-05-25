@@ -1,6 +1,6 @@
 package org.lilachshop.entities;
 
-import lombok.ToString;
+
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
@@ -8,7 +8,6 @@ import java.io.Serializable;
 import java.util.List;
 @Transactional
 @Entity
-@ToString
 @Table(name = "Stores")
 public class Store implements Serializable {
     @Id
@@ -58,11 +57,11 @@ public class Store implements Serializable {
     Catalog catalog;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @ToString.Exclude
+
     List<Complaint> complaints;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @ToString.Exclude
+
     List<Order> orders;
 
     public void setOrders(List<Order> orders) {

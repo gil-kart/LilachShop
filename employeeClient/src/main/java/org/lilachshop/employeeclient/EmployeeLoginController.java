@@ -10,14 +10,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.controller.Controller;
 import org.lilachshop.panels.OperationsPanelFactory;
 import javafx.scene.text.Text;
 import org.lilachshop.panels.Panel;
 
 
-public class EmployeeLoginController extends Controller implements Initializable {
+public class EmployeeLoginController implements Initializable {
 
+    static  private Panel panel;
 
     @FXML
     private ResourceBundle resources;
@@ -37,7 +37,6 @@ public class EmployeeLoginController extends Controller implements Initializable
     @FXML
     private TextField userNameTF;
 
-    @Override
     @Subscribe
     public void handleMessageReceivedFromClient(String msg) {
         System.out.println("Got message!");
