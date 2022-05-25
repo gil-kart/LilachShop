@@ -145,7 +145,7 @@ public class LilachServer extends AbstractServer {
 
                     case "write catalog" ->{
                         entityFactory.createCatalog();
-                        client.sendToClient("Catalog is created!");
+                        client.sendToClient("Catalog is created!!");
                     }
 
                     case "get all items" ->{
