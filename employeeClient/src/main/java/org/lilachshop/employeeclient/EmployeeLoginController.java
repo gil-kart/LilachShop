@@ -10,13 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.controller.Controller;
 import org.lilachshop.panels.OperationsPanelFactory;
 import javafx.scene.text.Text;
 import org.lilachshop.panels.Panel;
 
 
-public class EmployeeLoginController extends Controller implements Initializable {
+public class EmployeeLoginController implements Initializable {
+    private static Panel panel;
 
 
     @FXML
@@ -37,7 +37,6 @@ public class EmployeeLoginController extends Controller implements Initializable
     @FXML
     private TextField userNameTF;
 
-    @Override
     @Subscribe
     public void handleMessageReceivedFromClient(String msg) {
         System.out.println("Got message!");
@@ -60,22 +59,14 @@ public class EmployeeLoginController extends Controller implements Initializable
 
     @FXML
     void tryLogEmployee(ActionEvent event) {
-        String userName= userNameTF.getText();
-        String password= passwordTF.getText();
+        String userName = userNameTF.getText();
+        String password = passwordTF.getText();
         // will be test if there is username && password that matches employee's details at DB
-        if(!userName.equals("yossi") || !password.equals("12345")) // In case invalid data
-            errorLogin.setVisible(true
-
-            );
-        else{                                                      // will open employeeCatalog window
+        if (!userName.equals("yossi") || !password.equals("12345")) // In case invalid data
+            errorLogin.setVisible(true);
+        else {                                                      // will open employeeCatalog window
             errorLogin.setVisible(false);
         }
-
-
-
-
-
-
 
 
     }
