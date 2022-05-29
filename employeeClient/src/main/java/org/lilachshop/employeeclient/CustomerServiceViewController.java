@@ -65,12 +65,6 @@ public class CustomerServiceViewController implements Initializable {
     private void setListOfComplaints(List<Complaint> complaintsFromServer) {
         listOfComplaints = FXCollections.observableArrayList();
         listOfComplaints.addAll(complaintsFromServer);
-//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "321", "איזה שירות גרוע"));
-//        listOfComplaints.add(new Complaint("15.1.22", "פתוח", "322", "איזה שירות חרבנה"));
-//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "323", "איזה פרחים מכוערים"));
-//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "444", "איזה שירות נורא"));
-//        listOfComplaints.add(new Complaint("17.1.22", "פתוח", "456", "איזה שירות מזוויע"));
-//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "668", "איזה פרחים מגעילים"));
         tableView.setEditable(true);
         tableView.setItems(listOfComplaints);
         tableView.setOnMouseClicked(e ->{

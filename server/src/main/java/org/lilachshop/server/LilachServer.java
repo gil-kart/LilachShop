@@ -34,6 +34,38 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+
+        if(msg.getClass().equals(CustomerLoginRequest.class)){
+            CustomerLoginRequest request = (CustomerLoginRequest) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client){
+                    case "customer login request" -> {
+                        String requestPassword = request.getUserPassword();
+                        String requestUserName = request.getUserName();
+                        List<Customer> customers = entityFactory.getCustomers();
+                        for(Customer customer: customers){
+                            if((customer.getUserPassword().equals(requestPassword)) &&
+                                customer.getUserName().equals(requestUserName)){
+                                try {
+                                    client.sendToClient(customer);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        try {
+                            client.sendToClient("client not exist");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         if(msg.getClass().equals(UserComplaintRequest.class)){
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
@@ -142,7 +174,7 @@ public class LilachServer extends AbstractServer {
                     case "write catalog" ->{
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
-                        entityFactory.fillDataBase();
+//                        entityFactory.fillDataBase();
                         List<Store> stores = entityFactory.getStores();
                         List<Customer> customers = entityFactory.getCustomers();
                         List<Employee> employees = entityFactory.getEmployees();
