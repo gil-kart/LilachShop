@@ -47,7 +47,8 @@ public class CustomerServiceViewController implements Initializable {
     ObservableList<Complaint> listOfComplaints;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb){
+
         complaintNumber.setCellValueFactory(new PropertyValueFactory<Complaint, String>("complaintNumber"));
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
@@ -64,15 +65,9 @@ public class CustomerServiceViewController implements Initializable {
     private void setListOfComplaints(List<Complaint> complaintsFromServer) {
         listOfComplaints = FXCollections.observableArrayList();
         listOfComplaints.addAll(complaintsFromServer);
-//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "321", "איזה שירות גרוע"));
-//        listOfComplaints.add(new Complaint("15.1.22", "פתוח", "322", "איזה שירות חרבנה"));
-//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "323", "איזה פרחים מכוערים"));
-//        listOfComplaints.add(new Complaint("13.1.22", "פתוח", "444", "איזה שירות נורא"));
-//        listOfComplaints.add(new Complaint("17.1.22", "פתוח", "456", "איזה שירות מזוויע"));
-//        listOfComplaints.add(new Complaint("14.1.22", "פתוח", "668", "איזה פרחים מגעילים"));
         tableView.setEditable(true);
         tableView.setItems(listOfComplaints);
-        tableView.setOnMouseClicked(e -> {
+        tableView.setOnMouseClicked(e ->{
             try {
                 presentRowSelected();
             } catch (IOException ex) {
@@ -81,10 +76,10 @@ public class CustomerServiceViewController implements Initializable {
         });
     }
 
-    public void closeComplaint(String updatedComplaintNumber, String reply) {
+    public void closeComplaint(String updatedComplaintNumber, String reply){
         //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
-            if (complaint.getComplaintNumber().equals(updatedComplaintNumber)) {
+            if(String.valueOf(complaint.getId()).equals(updatedComplaintNumber)){
                 complaint.setStatus("סגור");
                 // close complaint on server
                 ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply);
@@ -103,13 +98,13 @@ public class CustomerServiceViewController implements Initializable {
         Parent root1 = (Parent) fxmlLoader.load();
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
 
-        try {
+        try{
             controller.setComplaintData(
-                    listOfComplaints.get(0).getComplaintNumber(),
+                    String.valueOf(listOfComplaints.get(0).getId()),
                     listOfComplaints.get(0).getStatus(),
                     listOfComplaints.get(0).getCreationDate(),
                     listOfComplaints.get(0).getContent(), this);
-        } catch (Exception e) {
+        }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -124,8 +119,8 @@ public class CustomerServiceViewController implements Initializable {
     @Subscribe
     public void handleComplaintsReceivedFromClient(Object msg) {
         System.out.println("Complaints recieved from server");
-        Platform.runLater(() -> {
-            setListOfComplaints((List<Complaint>) msg);
+        Platform.runLater(()->{
+            setListOfComplaints((List<Complaint>)msg);
         });
     }
 

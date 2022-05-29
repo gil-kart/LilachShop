@@ -1,9 +1,6 @@
 package org.lilachshop.server;
 
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.ExampleEntity;
-import org.lilachshop.entities.ExampleEnum;
-import org.lilachshop.entities.Item;
+import org.lilachshop.entities.*;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
@@ -37,6 +34,38 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+
+        if(msg.getClass().equals(CustomerLoginRequest.class)){
+            CustomerLoginRequest request = (CustomerLoginRequest) msg;
+            String message_from_client = request.getRequest();
+            try {
+                switch (message_from_client){
+                    case "customer login request" -> {
+                        String requestPassword = request.getUserPassword();
+                        String requestUserName = request.getUserName();
+                        List<Customer> customers = entityFactory.getCustomers();
+                        for(Customer customer: customers){
+                            if((customer.getUserPassword().equals(requestPassword)) &&
+                                customer.getUserName().equals(requestUserName)){
+                                try {
+                                    client.sendToClient(customer);
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        try {
+                            client.sendToClient("client not exist");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         if(msg.getClass().equals(UserComplaintRequest.class)){
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
@@ -46,11 +75,11 @@ public class LilachServer extends AbstractServer {
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
                         entityFactory.createOrUpdateSingleRecord(complaint);
-//                        System.out.println(complaint.getContent());
                     }
                 }
             }catch (Exception e){
                 e.printStackTrace();
+
             }
         }
         if(msg.getClass().equals(SupportComplaintRequest.class)){
@@ -143,7 +172,21 @@ public class LilachServer extends AbstractServer {
                     }
 
                     case "write catalog" ->{
-                        entityFactory.createCatalog();
+//                        entityFactory.createCatalog();
+//                        entityFactory.createCatalogFromExistingOne();
+//                        entityFactory.fillDataBase();
+                        List<Store> stores = entityFactory.getStores();
+                        List<Customer> customers = entityFactory.getCustomers();
+                        List<Employee> employees = entityFactory.getEmployees();
+                        List<Complaint> complaints = entityFactory.getComplaints();
+                        List<Order> orders = entityFactory.getOrders();
+                        //todo: make successful queries from database!
+//                        List<Store> stores = entityFactory.getStores();
+//                        Store store1 = stores.get(0);
+//                        List<Order> orders = store1.getOrders();
+//                        List<Complaint> store1Complaints = store1.getComplaints();
+//                        System.out.println(store1Complaints.get(0).getContent());
+
                         client.sendToClient("Catalog is created!");
                     }
 
@@ -155,7 +198,6 @@ public class LilachServer extends AbstractServer {
                 System.out.println("Failed sending reply to client.");
                 e.printStackTrace();
             }
-
         }
     }
 

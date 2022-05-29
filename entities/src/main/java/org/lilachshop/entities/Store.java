@@ -1,5 +1,6 @@
 package org.lilachshop.entities;
 
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -56,9 +57,11 @@ public class Store implements Serializable {
     Catalog catalog;
 
     @OneToMany(cascade = CascadeType.ALL)
+
     List<Complaint> complaints;
 
     @OneToMany(cascade = CascadeType.ALL)
+
     List<Order> orders;
 
     public void setOrders(List<Order> orders) {

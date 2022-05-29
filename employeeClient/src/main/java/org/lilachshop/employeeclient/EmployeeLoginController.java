@@ -16,8 +16,8 @@ import org.lilachshop.panels.Panel;
 
 
 public class EmployeeLoginController implements Initializable {
-    private static Panel panel;
 
+    static  private Panel panel;
 
     @FXML
     private ResourceBundle resources;
@@ -59,14 +59,22 @@ public class EmployeeLoginController implements Initializable {
 
     @FXML
     void tryLogEmployee(ActionEvent event) {
-        String userName = userNameTF.getText();
-        String password = passwordTF.getText();
+        String userName= userNameTF.getText();
+        String password= passwordTF.getText();
         // will be test if there is username && password that matches employee's details at DB
-        if (!userName.equals("yossi") || !password.equals("12345")) // In case invalid data
-            errorLogin.setVisible(true);
-        else {                                                      // will open employeeCatalog window
+        if(!userName.equals("yossi") || !password.equals("12345")) // In case invalid data
+            errorLogin.setVisible(true
+
+            );
+        else{                                                      // will open employeeCatalog window
             errorLogin.setVisible(false);
         }
+
+
+
+
+
+
 
 
     }

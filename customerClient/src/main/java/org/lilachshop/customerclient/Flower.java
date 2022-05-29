@@ -3,6 +3,7 @@ package org.lilachshop.customerclient;
 public class Flower {
     public Flower(){}
 
+
     public Flower(String name, int price, String imgSrc,int percent) {
         this.name = name;
         this.price = price;
@@ -36,6 +37,7 @@ public class Flower {
     public void setName(String name) {
         this.name = name;
     }
+
 
     public int getPrice() {
         return price;
