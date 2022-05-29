@@ -10,9 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.panels.OperationsPanelFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.EmployeeAnonymousPanel;
 
 
 public class EmployeeLoginController implements Initializable {
@@ -52,30 +55,38 @@ public class EmployeeLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(1, this); // will change this
+        panel = OperationsPanelFactory.createPanel(5, this);
 
     }
+
+
+    @FXML
+    void userNameClick(MouseEvent event) {
+        errorLogin.setVisible(false);
+    }
+
+
+
 
 
     @FXML
     void tryLogEmployee(ActionEvent event) {
         String userName= userNameTF.getText();
         String password= passwordTF.getText();
-        // will be test if there is username && password that matches employee's details at DB
-        if(!userName.equals("yossi") || !password.equals("12345")) // In case invalid data
-            errorLogin.setVisible(true
+        ((EmployeeAnonymousPanel) panel).sendLoginRequest(userName, password);
 
-            );
-        else{                                                      // will open employeeCatalog window
-            errorLogin.setVisible(false);
+    }
+
+    @Subscribe
+    public void handleMessageReceived(Object msg){
+        if(msg.getClass().equals(Employee.class)){ // will open Employee dashboard
+            System.out.println("WE found you! ! !");
         }
 
+        else{  // couldn't find employee
+            errorLogin.setVisible(true);
 
-
-
-
-
-
+        }
 
     }
 

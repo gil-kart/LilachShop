@@ -12,7 +12,8 @@ import javafx.scene.text.Text;
 import org.w3c.dom.events.MouseEvent;
 
 public class SaleItemController {
-
+    private MyListener myListener;
+    private Flower flower;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -42,8 +43,7 @@ public class SaleItemController {
         myListener.onClickListener(flower);
     }
 
-    private MyListener myListener;
-    private Flower flower;
+
 
     /**
      * upload the data of the item and set as sale item

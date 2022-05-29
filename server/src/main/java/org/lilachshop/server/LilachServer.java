@@ -5,6 +5,7 @@ import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,6 +35,30 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+        if(msg.getClass().equals(EmployeeLoginRequest.class)){
+            EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
+            String userName = request.getUserName();
+            String password = request.getPassword();
+            List<Employee> employees = entityFactory.getEmployees();
+            for(Employee employee: employees){
+                if(employee.getUserName().equals(userName) &&
+                        employee.getUserPassword().equals(password)){
+                    try {
+                        client.sendToClient(employee);
+                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            try {
+                client.sendToClient("Incorrect details");
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
         if(msg.getClass().equals(CustomerLoginRequest.class)){
             CustomerLoginRequest request = (CustomerLoginRequest) msg;

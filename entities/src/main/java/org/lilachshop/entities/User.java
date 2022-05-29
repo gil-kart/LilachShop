@@ -18,8 +18,19 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
-    protected User() {
+
+    public String getUserName() {
+        return userName;
     }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+
+    protected User() {}
+
+
 
     String userName;
     String userPassword;
