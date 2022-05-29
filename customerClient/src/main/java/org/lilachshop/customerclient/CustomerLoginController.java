@@ -54,7 +54,6 @@ public class CustomerLoginController implements Initializable {
         String userpassword = Password.getText();
         ((CustomerAnonymousPanel) panel).sendCustomerLoginRequest(userName, userpassword);
 //        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
-        System.out.println("customer login request was sent!");
     }
 
     @Subscribe
@@ -81,7 +80,6 @@ public class CustomerLoginController implements Initializable {
                     e.printStackTrace();
                 }
             }
-
         });
     }
 }
