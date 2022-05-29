@@ -268,6 +268,11 @@ public class EntityFactory {
     public List<Order> getOrders(){return getAllRecords(Order.class);}
 
 
+    public void addCustomer(Customer customer){
+        createOrUpdateSingleRecord(customer);
+    }
+
+
 
     /*
      *****************************************   Entity Methods   ******************************************************

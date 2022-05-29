@@ -3,6 +3,7 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Transactional
 @Entity
@@ -27,6 +28,11 @@ public class Account implements Serializable {
         return accountType;
     }
 
+
+    public  Account(AccountType accountType){
+        this.creationDate = LocalDate.now().toString();
+        this.accountType = accountType;
+    }
 
     public Account(String creationDate, AccountType accountType) {
         this.creationDate = creationDate;

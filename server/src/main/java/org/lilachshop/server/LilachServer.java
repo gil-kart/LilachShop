@@ -35,14 +35,14 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if(msg.getClass().equals(EmployeeLoginRequest.class)){
+        if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
             String password = request.getPassword();
             List<Employee> employees = entityFactory.getEmployees();
-            for(Employee employee: employees){
-                if(employee.getUserName().equals(userName) &&
-                        employee.getUserPassword().equals(password)){
+            for (Employee employee : employees) {
+                if (employee.getUserName().equals(userName) &&
+                        employee.getUserPassword().equals(password)) {
                     try {
                         client.sendToClient(employee);
                         return;
@@ -59,24 +59,29 @@ public class LilachServer extends AbstractServer {
             }
         }
 
+        if (msg.getClass().equals(SignUpRequest.class)) {
+            SignUpRequest request = (SignUpRequest) msg;
+            System.out.println("Server: got new signup request...");
+            entityFactory.addCustomer(request.getCustomer());
+        }
 
-        if(msg.getClass().equals(CustomerLoginRequest.class)){
+        if (msg.getClass().equals(CustomerLoginRequest.class)) {
             CustomerLoginRequest request = (CustomerLoginRequest) msg;
             String message_from_client = request.getRequest();
             try {
-                switch (message_from_client){
+                switch (message_from_client) {
                     case "customer login request" -> {
                         String requestPassword = request.getUserPassword();
                         String requestUserName = request.getUserName();
                         List<Customer> customers = entityFactory.getCustomers();
-                        for(Customer customer: customers){
-                            if((customer.getUserPassword().equals(requestPassword)) &&
-                                customer.getUserName().equals(requestUserName)){
+                        for (Customer customer : customers) {
+                            if ((customer.getUserPassword().equals(requestPassword)) &&
+                                    customer.getUserName().equals(requestUserName)) {
                                 try {
                                     client.sendToClient(customer);
                                     return;
 
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -84,20 +89,20 @@ public class LilachServer extends AbstractServer {
                         }
                         try {
                             client.sendToClient("client not exist");
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        if(msg.getClass().equals(UserComplaintRequest.class)){
+        if (msg.getClass().equals(UserComplaintRequest.class)) {
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
-            try{
+            try {
                 switch (message_from_client) {
                     case "post new complaint" -> {
                         System.out.println("posting new complaint:");
@@ -105,26 +110,26 @@ public class LilachServer extends AbstractServer {
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
         }
-        if(msg.getClass().equals(SupportComplaintRequest.class)){
+        if (msg.getClass().equals(SupportComplaintRequest.class)) {
             SupportComplaintRequest request = (SupportComplaintRequest) msg;
             String message_from_client = request.getRequest();
-            try{
-                switch (message_from_client){
-                    case "get all complaints" ->{
+            try {
+                switch (message_from_client) {
+                    case "get all complaints" -> {
                         List<Complaint> complaints = entityFactory.getAllComplaints();
                         client.sendToClient(complaints);
                     }
-                    case "reply to customer complaint"->{
+                    case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -150,16 +155,16 @@ public class LilachServer extends AbstractServer {
 //            }
 //
 //        }
-        if(msg.getClass().equals(CatalogRequest.class)){
+        if (msg.getClass().equals(CatalogRequest.class)) {
             CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
-                        List<Item> items =  entityFactory.getAllItems();
+                        List<Item> items = entityFactory.getAllItems();
                         client.sendToClient(new LinkedList<Item>(items));
                         System.out.println("catalog was sent!");
-                        for(Item item: items){
+                        for (Item item : items) {
                             System.out.println(item);
                         }
                     }
@@ -167,7 +172,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("request does not exist");
                     }
                 }
-            }catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Failed sending reply to client.");
                 e.printStackTrace();
             }
@@ -199,7 +204,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("This is a reply from LilachServer!");
                     }
 
-                    case "write catalog" ->{
+                    case "write catalog" -> {
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
 //                        entityFactory.fillDataBase();
@@ -218,7 +223,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient("Catalog is created!");
                     }
 
-                    case "get all items" ->{
+                    case "get all items" -> {
                         entityFactory.getAllItems();
                     }
                 }

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpLoginController">
+   <children>
+      <Ellipse layoutX="202.0" layoutY="355.0" radiusX="406.0" radiusY="565.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0">
+         <fill>
+            <LinearGradient endX="0.7320075757575757" endY="0.5265151515151515" startX="0.35606060515750537" startY="0.1590909379901308">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.006729475100942127">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.18207661753602716">
+                     <color>
+                        <Color red="1.0" green="0.3199999928474426" blue="0.804111659526825" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.8332064151763916" blue="0.5" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+         <effect>
+            <Blend />
+         </effect>
+      </Ellipse>
+      <Ellipse layoutX="195.0" layoutY="357.0" radiusX="401.0" radiusY="576.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0">
+         <fill>
+            <LinearGradient endX="0.6410984992980956" endY="0.5113636508132472" startX="0.35606060515750537" startY="0.1590909379901308">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.9578947424888611" green="0.3902534246444702" blue="0.7213774919509888" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.006729475100942127">
+                     <color>
+                        <Color red="0.9578947424888611" green="0.3902534246444702" blue="0.7213774919509888" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.21707317073170732">
+                     <color>
+                        <Color red="0.8631578683853149" green="0.5274853706359863" blue="0.7232943177223206" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.9052631855010986" green="0.8113840222358704" blue="0.8880519866943359" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Ellipse>
+      <Ellipse fill="#bc336173" layoutX="478.0" layoutY="616.0" radiusX="128.0" radiusY="316.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+         <effect>
+            <GaussianBlur radius="63.0" />
+         </effect>
+      </Ellipse>
+      <Group layoutX="652.0" layoutY="562.0">
+         <children>
+            <Ellipse fill="#ec97e4" layoutX="303.0" layoutY="88.0" radiusX="176.0" radiusY="17.0" stroke="BLACK" strokeType="INSIDE">
+               <effect>
+                  <BoxBlur height="24.06" iterations="3" width="97.71" />
+               </effect>
+            </Ellipse>
+            <Rectangle arcHeight="60.0" arcWidth="60.0" height="67.0" layoutX="141.0" stroke="BLACK" strokeLineCap="ROUND" strokeMiterLimit="30.0" strokeType="INSIDE" strokeWidth="0.0" width="351.0">
+               <fill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.9184086322784424" green="0.8460000157356262" blue="0.9399999976158142" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.9098039269447327" green="0.16470588743686676" blue="0.5568627715110779" opacity="0.7400000095367432" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Rectangle>
+            <Button fx:id="logInBtn" layoutX="137.0" layoutY="-7.0" mnemonicParsing="false" prefHeight="69.0" prefWidth="364.0" style="-fx-background-color: rgba(0,0,0,0);" text="התחבר" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="39.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </Group>
+      <HBox layoutX="741.0" layoutY="280.0" prefHeight="106.0" prefWidth="459.0">
+         <children>
+            <TextField fx:id="userNameTF" alignment="CENTER" prefHeight="76.0" prefWidth="397.0" promptText="שם משתמש" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #ca60cc; -fx-border-width: 0px 0px 1px 0px;">
+               <font>
+                  <Font name="Agency FB" size="34.0" />
+               </font></TextField>
+            <ImageView fitHeight="80.0" fitWidth="89.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@signUpResources/UserIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <HBox layoutX="743.0" layoutY="410.0" prefHeight="96.0" prefWidth="471.0">
+         <children>
+            <PasswordField fx:id="passwordTF" alignment="BOTTOM_CENTER" prefHeight="51.0" prefWidth="374.0" promptText="סיסמא" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #ca60cc; -fx-border-width: 0px 0px 1px 0px;">
+               <font>
+                  <Font name="Dubai Regular" size="34.0" />
+               </font>
+            </PasswordField>
+            <ImageView fitHeight="81.0" fitWidth="95.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@signUpResources/passwordIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+      <Button fx:id="signUpBtn" layoutX="76.0" layoutY="294.0" mnemonicParsing="false" onAction="#onClickSignupBtn" prefHeight="87.0" prefWidth="245.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: white; -fx-border-radius: 60;" text="צור חשבון" textFill="WHITE">
+         <font>
+            <Font name="Dubai Bold" size="35.0" />
+         </font>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Text fill="#ffffffd8" layoutX="64.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="אין לך משתמש?" wrappingWidth="433.33336181640607">
+         <font>
+            <Font name="Dubai Bold" size="50.0" />
+         </font>
+      </Text>
+      <Text layoutX="727.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="התחברות:" wrappingWidth="409.38330078125">
+         <font>
+            <Font name="Dubai Bold" size="87.0" />
+         </font>
+         <fill>
+            <LinearGradient endX="0.4441287734291769" endY="0.2954546249274052" startX="0.44318182450352295" startY="0.8863636363636364">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.8631578683853149" green="0.25575047731399536" blue="0.5189603567123413" opacity="0.6399999856948853" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.08344549125168237">
+                     <color>
+                        <Color red="0.8631578683853149" green="0.25575047731399536" blue="0.5189603567123413" opacity="0.6399999856948853" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.3014804845222072">
+                     <color>
+                        <Color red="0.8631578683853149" green="0.25575047731399536" blue="0.5189603567123413" opacity="0.6399999856948853" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.46239372353346686">
+                     <color>
+                        <Color red="0.8600000143051147" green="0.257999986410141" blue="0.5289000272750854" opacity="0.6399999856948853" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8411843876177655">
+                     <color>
+                        <Color red="0.9473684430122375" green="0.7914035320281982" blue="0.5017544031143188" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.9263157844543457" green="0.8588433861732483" blue="0.521481454372406" opacity="0.6399999856948853" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Text>
+      <Text fill="#ffffffd2" layoutX="21.0" layoutY="193.0" lineSpacing="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="צור חשבון בכמה דקות והחל להזמין זרים יפים מרשת לילך כבר היום!" textAlignment="CENTER" wrappingWidth="468.6458625793457">
+         <font>
+            <Font name="Dubai Bold" size="28.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="529.0" fitWidth="480.0" layoutX="286.0" layoutY="271.0" nodeOrientation="RIGHT_TO_LEFT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@signUpResources/DesignWomanFlower.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
