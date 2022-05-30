@@ -16,6 +16,8 @@ public class CreditCard implements Serializable {
     String number;
     String expDate;
     String threeDigits;
+//    String ownerName;
+//    String ownerID;
 
     @OneToOne
     Customer customer;
@@ -31,8 +33,14 @@ public class CreditCard implements Serializable {
     protected CreditCard() {
     }
 
+
     public String getNumber() {
         return number;
+    }
+
+    public CreditCard(String number, String expDate) {
+        this.number = number;
+        this.expDate = expDate;
     }
 
     public String getExpDate() {
