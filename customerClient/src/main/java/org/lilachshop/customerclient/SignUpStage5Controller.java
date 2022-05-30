@@ -67,7 +67,7 @@ public class SignUpStage5Controller {
 
     @Subscribe
     public void onSignUp3Event(Signup3Event signupEvent) {
-        registeringCustomer.setAccount(new Account(signupEvent.getChosenAccount()));
+     //   registeringCustomer.setAccount(new Account(signupEvent.getChosenAccount(), ));
 //        registeringCustomer.setStore(signupEvent.getStore());
         System.out.println("gotEvent3");
     }
@@ -92,7 +92,7 @@ public class SignUpStage5Controller {
         EventBus.getDefault().register(this);
         registeringCustomer = registeringCustomer == null ? new Customer() : registeringCustomer;
         if (panel == null)
-            panel = OperationsPanelFactory.createPanel(2, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this);
     }
 
 }

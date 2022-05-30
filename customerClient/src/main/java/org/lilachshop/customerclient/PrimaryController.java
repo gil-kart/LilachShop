@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.ExamplePanel;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.PanelEnum;
 
 public class PrimaryController implements Initializable {
 
@@ -50,9 +51,9 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(1, this); // this should be the default panel according to customer/employee
-        if (panel == null) {
-            throw new RuntimeException("Panel creation failed!");
-        }
+//        panel = OperationsPanelFactory.createPanel(PanelEnum., this); // this should be the default panel according to customer/employee
+//        if (panel == null) {
+//            throw new RuntimeException("Panel creation failed!");
+//        }
     }
 }

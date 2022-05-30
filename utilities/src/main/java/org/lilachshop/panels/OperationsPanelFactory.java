@@ -4,45 +4,46 @@ public class OperationsPanelFactory {
     private OperationsPanelFactory() {
     }
 
-    public static Panel createPanel(int panel_num, Object controller) {    // for now int, later going to be enum!
+    public static Panel createPanel(PanelEnum panel_num, Object controller) {    // for now int, later going to be enum!
         switch (panel_num) {
-            case 1 -> {
-                return new ExamplePanel("localhost", 3000, controller);
-            }
-            case 2 ->{
+//            case 1 -> {
+//                return new ExamplePanel("localhost", 3000, controller);
+//            }
+            case CUSTOMER_ANONYMOUS : {
                 return new CustomerAnonymousPanel("localhost", 3000, controller);
             }
-            case 3 ->{
+            case STORE_CUSTOMER: {
                 return new StoreCustomerPanel("localhost", 3000, controller);
             }
-            case 4 ->{
+            case CHAIN_CUSTOMER: {
                 return new ChainCustomerPanel("localhost", 3000, controller);
             }
-            case 5 ->{
+            case ANNUAL_CUSTOMER: {
                 return new AnnualCustomerPanel("localhost", 3000, controller);
             }
-            case 6 ->{
+            case EMPLOYEE_ANONYMOUS: {
                 return new EmployeeAnonymousPanel("localhost", 3000, controller);
             }
-            case 7 ->{
+            case GENERAL_EMPLOYEE: {
                 return new GeneralEmployeePanel("localhost", 3000, controller);
             }
-            case 8 ->{
+            case STORE_MANAGER: {
                 return new StoreManagerPanel("localhost", 3000, controller);
             }
-            case 9 ->{
+            case CHAIN_MANAGER: {
                 return new ChainManagerPanel("localhost", 3000, controller);
             }
-            case 10 ->{
+            case CUSTOMER_SERVICE: {
                 return new CustomerServicePanel("localhost", 3000, controller);
             }
-            case 11 ->{
-                return new ChainSystemPanel("localhost", 3000, controller);
+            case SYSTEM_MANAGER: {
+                return new SystemManagerPanel("localhost", 3000, controller);
             }
-            default -> {
+            default : {
                 System.out.println("No panel found.");
                 return null;
             }
+
         }
     }
 }

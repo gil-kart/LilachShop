@@ -17,6 +17,7 @@ import org.lilachshop.entities.Complaint;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.panels.PanelEnum;
 import org.lilachshop.panels.StoreCustomerPanel;
 
 public class ComplaintController implements Initializable {
@@ -45,7 +46,7 @@ public class ComplaintController implements Initializable {
         Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", complaintText.getText(), String.valueOf(java.time.LocalDate.now()), "");
 
 //        ((StoreCustomerPanel) panel).sendComplaintToServer(complaint);
-        ((StoreCustomerPanel) panel).sendCatalogRequestToServer();
+       // ((StoreCustomerPanel) panel).sendCatalogRequestToServer();
         System.out.println(complaint.getContent());
 //        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
 //        stage.close();
@@ -74,7 +75,7 @@ public class ComplaintController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(3, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }

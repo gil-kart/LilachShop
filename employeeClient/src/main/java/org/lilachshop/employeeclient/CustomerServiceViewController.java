@@ -20,6 +20,7 @@ import org.lilachshop.entities.Item;
 import org.lilachshop.panels.CustomerServicePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.PanelEnum;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,7 +54,7 @@ public class CustomerServiceViewController implements Initializable {
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
         status.setCellValueFactory(new PropertyValueFactory<Complaint, String>("status"));
-        panel = OperationsPanelFactory.createPanel(4, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_SERVICE, this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }

@@ -16,11 +16,9 @@ public class Account implements Serializable {
 
     String creationDate;
     AccountType accountType;
-
     public Long getId() {
         return id;
     }
-
 
     protected Account() {}
 

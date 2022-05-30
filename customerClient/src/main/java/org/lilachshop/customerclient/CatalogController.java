@@ -23,10 +23,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.AccountType;
+import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Item;
-import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.PanelEnum;
 
 public class CatalogController {
     private static Panel panel;
@@ -38,6 +40,13 @@ public class CatalogController {
     List<ItemController> itemControllers = new ArrayList<>();
     int count = 0;
     private static final int MAX_ON_SALE = 10;
+    Customer customer = null;
+    long storeId;
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
 
     @FXML
     private Label history;
@@ -206,11 +215,31 @@ public class CatalogController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        panel = OperationsPanelFactory.createPanel(2, this);
-        if (panel == null) {
-            throw new RuntimeException("Panel creation failed!");
-        }
-        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
+//        panel = OperationsPanelFactory.createPanel(2, this);
+//        if (panel == null) {
+//            throw new RuntimeException("Panel creation failed!");
+//        }
+
+            if(customer.equals(null)){
+                panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS,this);
+            }
+            else{
+                AccountType userAccountType = customer.getAccount().getAccountType();
+                if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)){
+                    panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER,this);
+                    // todo: implement enable store combo box!
+                }
+                else if (userAccountType.equals(AccountType.STORE_ACCOUNT)){
+                    panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER,this);
+                    storeId = customer.getStore().getId();
+                }
+                else{
+                    panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER,this);
+
+                }
+            }
+
+        //((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
         myFlowers = new ArrayList<>();
         //flowerList = this.getItemList();
         if (flowerList.size() > 0) {

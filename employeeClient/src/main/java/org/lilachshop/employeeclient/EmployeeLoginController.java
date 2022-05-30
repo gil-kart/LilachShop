@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.EmployeeAnonymousPanel;
+import org.lilachshop.panels.PanelEnum;
 
 
 public class EmployeeLoginController implements Initializable {
@@ -55,7 +56,7 @@ public class EmployeeLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(6, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
 
     }
 

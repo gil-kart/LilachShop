@@ -37,6 +37,8 @@ public class EntityFactory {
         return getAllRecords(Item.class);
     }
 
+    public List<Catalog> getAllCatalogs(){ return getAllRecords(Catalog.class); }
+
     public List<Complaint> getAllComplaints(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Complaint.class);
     }
