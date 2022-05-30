@@ -49,7 +49,7 @@ public class CustomerLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
@@ -85,7 +85,7 @@ public class CustomerLoginController implements Initializable {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();
                     CatalogController controller = fxmlLoader.getController();
-                    controller.setCustomer(((Customer) msg));
+                    controller.setData(((Customer) msg));
 
                     Stage stage = App.getStage();
                     stage.setScene(new Scene(root1));

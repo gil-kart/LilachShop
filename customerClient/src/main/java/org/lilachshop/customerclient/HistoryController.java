@@ -40,7 +40,7 @@ public class HistoryController {
             FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
             Parent root = fxmlLoader.load();
             CatalogController catalogController = fxmlLoader.getController();
-            catalogController.showInfo(myFlowers);
+            catalogController.setMyFlowers(myFlowers);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

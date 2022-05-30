@@ -45,8 +45,8 @@ public class ComplaintController implements Initializable {
 
         Complaint complaint = new Complaint(String.valueOf(java.time.LocalDate.now()), "פתוח", complaintText.getText(), String.valueOf(java.time.LocalDate.now()), "");
 
-//        ((StoreCustomerPanel) panel).sendComplaintToServer(complaint);
-       // ((StoreCustomerPanel) panel).sendCatalogRequestToServer();
+        ((StoreCustomerPanel) panel).sendComplaintToServer(complaint);
+//        ((StoreCustomerPanel) panel).sendGetGeneralCatalogRequestToServer();
         System.out.println(complaint.getContent());
 //        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
 //        stage.close();

@@ -19,6 +19,9 @@ public class Account implements Serializable {
         return accountType;
     }
 
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
 
     public  Account(AccountType accountType){
         this.creationDate = LocalDate.now().toString();

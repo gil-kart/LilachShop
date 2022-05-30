@@ -1,6 +1,7 @@
 package org.lilachshop.panels;
 
 import org.lilachshop.entities.Customer;
+import org.lilachshop.requests.CatalogRequest;
 import org.lilachshop.requests.SignUpRequest;
 import org.lilachshop.requests.CustomerLoginRequest;
 import org.lilachshop.requests.DebugRequest;
@@ -13,7 +14,7 @@ public class CustomerAnonymousPanel extends Panel{
         super(host, port, controller);
     }
     public void sendGetGeneralCatalogRequestToServer() {
-        sendToServer(new CatalogRequest("get general catalog", 0));
+        sendToServer(new CatalogRequest("get catalog", 0));
 //        sendToServer(new DebugRequest("write catalog"));
     }
     public void sendCustomerLoginRequest(String userName, String password){

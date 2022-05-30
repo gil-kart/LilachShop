@@ -21,6 +21,7 @@ import org.lilachshop.entities.Customer;
 import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.PanelEnum;
 
 public class SignUpLoginController implements Initializable {
 
@@ -84,7 +85,7 @@ public class SignUpLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(2, this); //TODO:make sure to change to Enum when code pushed
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this); //TODO:make sure to change to Enum when code pushed
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
@@ -107,16 +108,18 @@ public class SignUpLoginController implements Initializable {
                 }
             }
             else{
-                Stage stage = App.getStage();
-                Parent root = null;
-                FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("main.fxml"));
                 try {
-                    root = fxmlLoader.load();
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    CatalogController controller = fxmlLoader.getController();
+                    controller.setData(((Customer) msg));
+
+                    Stage stage = App.getStage();
+                    stage.setScene(new Scene(root1));
+                    stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                stage.setScene(new Scene(root));
-                stage.show();
         }
     });
     }

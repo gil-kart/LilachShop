@@ -73,7 +73,7 @@ public class CartController implements Initializable {
             FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
             Parent root = fxmlLoader.load();
             CatalogController catalogController = fxmlLoader.getController();
-            catalogController.showInfo(myFlowers);
+            catalogController.setMyFlowers(myFlowers);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();

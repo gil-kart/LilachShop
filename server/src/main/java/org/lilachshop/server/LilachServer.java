@@ -22,6 +22,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
+        entityFactory.fillDataBase();
     }
 
     @Override
@@ -161,8 +162,9 @@ public class LilachServer extends AbstractServer {
             try {
                 switch (message_from_client) {
                     case "get catalog" -> {
-                        List<Item> items = entityFactory.getAllItems();
-                        client.sendToClient(new LinkedList<Item>(items));
+                        Catalog catalog = entityFactory.getSingleCatalogEntityRecord(request.getCatalogId());
+                        List<Item> items = catalog.getItems();
+                        client.sendToClient(items);
                         System.out.println("catalog was sent!");
                         for (Item item : items) {
                             System.out.println(item);
@@ -211,7 +213,6 @@ public class LilachServer extends AbstractServer {
                     case "write catalog" -> {
 //                        entityFactory.createCatalog();
 //                        entityFactory.createCatalogFromExistingOne();
-                        entityFactory.fillDataBase();
                         List<Store> stores = entityFactory.getStores();
                         List<Customer> customers = entityFactory.getCustomers();
                         List<Employee> employees = entityFactory.getEmployees();

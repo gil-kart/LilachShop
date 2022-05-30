@@ -29,7 +29,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Signup"));
+        scene = new Scene(loadFXML("SignupLogin"));
         stage.setScene(scene);
         App.stage = stage;
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);

@@ -64,7 +64,7 @@ public class OrderStage4Controller {
                 FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 CatalogController catalogController = fxmlLoader.getController();
-                catalogController.showInfo(myOrder.getMyOrder());
+                catalogController.setMyFlowers(myOrder.getMyOrder());
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
@@ -101,7 +101,7 @@ public class OrderStage4Controller {
             FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
             Parent root = fxmlLoader.load();
             CatalogController catalogController = fxmlLoader.getController();
-            catalogController.showInfo(myOrder.getMyOrder());
+            catalogController.setMyFlowers(myOrder.getMyOrder());
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

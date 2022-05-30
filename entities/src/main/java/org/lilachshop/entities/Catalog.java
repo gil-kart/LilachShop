@@ -16,6 +16,10 @@ public class Catalog implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> items;
 
+    public List<Item> getItems() {
+        return items;
+    }
+
     public int getId() {
         return id;
     }

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,20 +25,25 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Item;
-import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.PanelEnum;
+import org.lilachshop.entities.Store;
+import org.lilachshop.panels.*;
 
 public class CatalogController {
     private static Panel panel;
     Boolean switchFlag = false;
     private Item flowerShown;
+
+    public void setMyFlowers(List<myOrderItem> myFlowers) {
+        this.myFlowers = myFlowers;
+    }
+
     private MyListener myListener;
     private List<Item> flowerList = new ArrayList<>();
-    private List<myOrderItem> myFlowers;
+    private List<myOrderItem> myFlowers = null;
     List<ItemController> itemControllers = new ArrayList<>();
     int count = 0;
     private static final int MAX_ON_SALE = 10;
@@ -101,7 +108,7 @@ public class CatalogController {
     private ScrollPane scroll; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopList"
-    private ComboBox<?> shopList; // Value injected by FXMLLoader
+    private ChoiceBox<?> shopList; // Value injected by FXMLLoader
 
     /**
      * set the new scene cart
@@ -147,6 +154,19 @@ public class CatalogController {
     @FXML
     void openPersonalArea(ActionEvent event) {
 
+    }
+
+    public void gotoHistory(MouseEvent event) {
+        try {
+            Stage stage = App.getStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("test.fxml"));
+            Parent root = fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        }catch(IOException e)
+        {
+
+        }
     }
 
     @FXML
@@ -215,74 +235,18 @@ public class CatalogController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-//        panel = OperationsPanelFactory.createPanel(2, this);
-//        if (panel == null) {
-//            throw new RuntimeException("Panel creation failed!");
-//        }
-
-            if(customer.equals(null)){
-                panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS,this);
-            }
-            else{
-                AccountType userAccountType = customer.getAccount().getAccountType();
-                if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)){
-                    panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER,this);
-                    // todo: implement enable store combo box!
-                }
-                else if (userAccountType.equals(AccountType.STORE_ACCOUNT)){
-                    panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER,this);
-                    storeId = customer.getStore().getId();
-                }
-                else{
-                    panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER,this);
-
-                }
-            }
-
-        //((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
+        count = 0;
+        shopList.setDisable(true);
         myFlowers = new ArrayList<>();
+           //for (myOrderItem flower : myFlowers)
+             //   count += flower.getCount();
+        countItems.setText(String.valueOf(count));
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS,this);
+            ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
+
+
         //flowerList = this.getItemList();
-        if (flowerList.size() > 0) {
-            setChosenItem(flowerList.get(0));
-            myListener = new MyListener() {
-                @Override
-                public void onClickListener(Item flower) {
-                    setChosenItem(flower);
-                }
-            };
-        }
-        try {
-            int countOnSale = 0;
-            for (Item flower : flowerList) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
 
-                ItemController itemController = fxmlLoader.getController();
-                itemControllers.add(itemController);
-                itemController.setData(flower, myListener);
-
-                grid.getChildren().add(anchorPane);//, column++, row);
-                GridPane.setMargin(anchorPane, new Insets(5));
-
-                if(countOnSale <= MAX_ON_SALE && flower.getPercent() > 0)
-                {
-                    try {
-                        FXMLLoader fxmlLoaderSale = new FXMLLoader();
-                        fxmlLoaderSale.setLocation(getClass().getResource("saleItem.fxml"));
-                        AnchorPane anchorPaneSale = fxmlLoaderSale.load();
-
-                        SaleItemController saleItemController = fxmlLoaderSale.getController();
-                        saleItemController.setData(flower,myListener);
-                        itemLayout.getChildren().add(anchorPaneSale);
-                    }catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -315,71 +279,73 @@ public class CatalogController {
         }
         flowerShown = flower;
     }
-
-    /*private List<Flower> getItemList() {
-        Flower flower;
-        List<Flower> flowerList = new ArrayList<>();
-        itemLayout.getChildren().clear();
-        String base_path = "/images/";
-        flower = new Flower("סחלב קורל", 160, base_path + "sahlav_coral.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("ורד ענבר", 120, base_path + "vered_inbar.jpg",10);
-        flowerList.add(flower);
-        flower = new Flower("סחלב לבן", 140, base_path + "sahlav_lavan.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("נרקיס חצוצרה", 110, base_path + "narkis_hatsostra.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("רקפות", 100, base_path + "cyclamen.jpg",30);
-        flowerList.add(flower);
-        flower = new Flower("קקטוס", 70, base_path + "cactus.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("תורמוס", 200, base_path + "lupins.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("חמניות", 170, base_path + "heilanthus.jpg",15);
-        flowerList.add(flower);
-        flower = new Flower("חינניות", 125, base_path + "daisy.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("אדמוניות", 190, base_path + "peonybouquet.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("צבעוני", 175, base_path + "orange_tulips.jpg",5);
-        flowerList.add(flower);
-        flower = new Flower("פרג", 180, base_path + "poppy.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("סוקולנטים", 100, base_path + "succulents.jpg",0);
-        flowerList.add(flower);
-        flower = new Flower("שושן", 90, base_path + "lily.jpg",0);
-        flowerList.add(flower);
-        return flowerList;
-    }*/
-
-    /**
-     * set the scene catalog
-     */
-    public void showInfo(List<myOrderItem> myFlowers) {
-        count = 0;
-        shopList.setDisable(true);
-        this.myFlowers = myFlowers;
-        for (myOrderItem flower : myFlowers)
-            count += flower.getCount();
-        if(count > 0) {
-            switchFlag = true;
-            name.setText("שלום, "+ "יוסי לוי");
-            history.setVisible(true);
-            historyImg.setVisible(true);
+    @Subscribe
+    public void handleMessageReceivedFromClient(List<Item> msg) {
+        flowerList = msg;
+        int countOnSale = 0;
+        System.out.println("catalogController recieved message from server");
+        if (flowerList.size() > 0) {
+            setChosenItem(flowerList.get(0));
+            myListener = new MyListener() {
+                @Override
+                public void onClickListener(Item flower) {
+                    setChosenItem(flower);
+                }
+            };
         }
-        countItems.setText(String.valueOf(count));
-    }
-
-    public void gotoHistory(MouseEvent event) {
         try {
-            Stage stage = App.getStage();
-            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("test.fxml"));
-            Parent root = fxmlLoader.load();
-            stage.setScene(new Scene(root));
-            stage.show();
-        }catch(IOException e)
+            for (Item flower : flowerList) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
+                AnchorPane anchorPane = fxmlLoader.load();
+
+                ItemController itemController = fxmlLoader.getController();
+                itemController.setData(flower, myListener);
+                Platform.runLater(()->{grid.getChildren().add(anchorPane);});//, column++, row);
+
+                //GridPane.setMargin(anchorPane, new Insets(5));
+
+                if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
+                    try {
+                        FXMLLoader fxmlLoaderSale = new FXMLLoader();
+                        fxmlLoaderSale.setLocation(getClass().getResource("saleItem.fxml"));
+                        AnchorPane anchorPaneSale = fxmlLoaderSale.load();
+
+                        SaleItemController saleItemController = fxmlLoaderSale.getController();
+                        saleItemController.setData(flower, myListener);
+                        Platform.runLater(()->{itemLayout.getChildren().add(anchorPaneSale);});
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } catch (IOException e)
         {
 
         }
+    }
+
+    public void setData(Customer msg) {
+            switchFlag = true;
+            this.customer = msg;
+            name.setText("שלום, "+ customer.getName());
+            history.setVisible(true);
+            historyImg.setVisible(true);
+            AccountType userAccountType = customer.getAccount().getAccountType();
+            if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)){
+                panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER,this);
+                storeId = customer.getStore().getId();
+                // todo: implement enable store combo box!
+                shopList.setDisable(false);
+            }
+            else if (userAccountType.equals(AccountType.STORE_ACCOUNT)){
+                panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER,this);
+                storeId = customer.getStore().getId();
+            }
+            else{
+                panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER,this);
+                storeId = customer.getStore().getId();
+            }
+            ((StoreCustomerPanel) panel).sendGetCatalogRequestToServer(storeId);
     }
 }

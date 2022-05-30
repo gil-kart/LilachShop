@@ -78,7 +78,7 @@ public class ItemController {
         myListener.onClickListener(flower);
     }
 
-    void setPriceInCatalog(Flower flower){
+    void setPriceInCatalog(Item flower){
         this.flower.setPrice(flower.getPrice());
         Price.setText(String.valueOf(flower.getPrice()) );
 
