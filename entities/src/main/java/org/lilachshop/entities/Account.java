@@ -6,19 +6,12 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 @Transactional
-@Entity
-@Table(name = "Accounts")
+@Embeddable
 public class Account implements Serializable {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+
 
     String creationDate;
     AccountType accountType;
-    public Long getId() {
-        return id;
-    }
 
     protected Account() {}
 

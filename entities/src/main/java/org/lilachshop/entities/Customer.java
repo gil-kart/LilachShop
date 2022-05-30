@@ -26,7 +26,7 @@ public class Customer extends User implements Serializable {
         this.store = store;
         this.account = account;
     }
-    @OneToOne
+    @Embedded
     Account account;
 
 //    String firstName;
@@ -37,7 +37,7 @@ public class Customer extends User implements Serializable {
     String phoneNumber;
     Boolean disabled;
 
-    @OneToOne
+  @Embedded
     CreditCard card;
 
     @OneToMany

@@ -33,9 +33,7 @@ public class Employee extends User implements Serializable {
         this.userPassword = userPassword;
     }
 
-    protected Employee() {
-
-    }
+    protected Employee() {}
 
     public Store getStore() {
         return store;
