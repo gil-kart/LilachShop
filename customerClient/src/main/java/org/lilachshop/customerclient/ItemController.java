@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.text.Text;
+import org.lilachshop.entities.Item;
 import org.w3c.dom.events.MouseEvent;
 
 import java.util.Objects;
@@ -41,20 +42,20 @@ public class ItemController {
     }
 
     private MyListener myListener;
-    private Flower flower;
+    private Item flower;
 
 
     /**
      * upload the data of the item in the catalog
      */
-    public void setData(Flower flower, MyListener myListener) {
+    public void setData(Item flower, MyListener myListener) {
         this.flower = flower;
         this.myListener = myListener;
         Name.setText(flower.getName());
 
         Price.setText(String.valueOf(flower.getPrice()));
         try{
-            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getImgSrc()))));
+            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getImage()))));
             Img.setImage(image);
         }
         catch (Exception e){

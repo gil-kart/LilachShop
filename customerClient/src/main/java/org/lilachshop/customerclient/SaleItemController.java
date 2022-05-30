@@ -9,11 +9,12 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.lilachshop.entities.Item;
 import org.w3c.dom.events.MouseEvent;
 
 public class SaleItemController {
     private MyListener myListener;
-    private Flower flower;
+    private Item flower;
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
@@ -48,7 +49,7 @@ public class SaleItemController {
     /**
      * upload the data of the item and set as sale item
      */
-    public void setData(Flower flower, MyListener myListener)
+    public void setData(Item flower, MyListener myListener)
     {
         this.flower = flower;
         this.myListener = myListener;

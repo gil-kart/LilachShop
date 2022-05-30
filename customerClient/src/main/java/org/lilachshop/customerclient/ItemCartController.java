@@ -114,7 +114,7 @@ public class ItemCartController {
 
         }
         try{
-            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getFlower().getImgSrc()))));
+            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getFlower().getImage()))));
             item_img.setImage(image);
         }
         catch (Exception e){

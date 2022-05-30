@@ -80,7 +80,7 @@ public class SignUpStage5Controller {
             CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
             System.out.println(panel.getClass());
             System.out.println(registeringCustomer);
-            customerAnonymousPanel.sendSignUpRequest(registeringCustomer);
+            //customerAnonymousPanel.sendSignUpRequest(registeringCustomer);
             System.out.println("gotEvent4");
         }
     }

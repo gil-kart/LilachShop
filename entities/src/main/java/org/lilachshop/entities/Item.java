@@ -14,6 +14,16 @@ public class Item implements Serializable {
     @Column(name = "item_name")
     private String name;
 
+    public int getPercent() {
+        return percent;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
+    }
+
+    private int percent;
+
     private int price;
     private String image;
 

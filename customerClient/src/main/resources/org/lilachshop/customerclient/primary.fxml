@@ -5,10 +5,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.PrimaryController_proto">
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" >
    <children>
       <Label text="Primary View" />
-      <Button fx:id="msgButton" mnemonicParsing="false" onAction="#onSendMessageClick" text="Send Message To server" />
+      <Button fx:id="msgButton" mnemonicParsing="false"  text="Send Message To server" />
       <Label fx:id="message_label" />
    </children>
    <padding>

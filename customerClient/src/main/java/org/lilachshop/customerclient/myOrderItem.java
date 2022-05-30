@@ -1,22 +1,24 @@
 package org.lilachshop.customerclient;
 
+import org.lilachshop.entities.Item;
+
 public class myOrderItem {
-    private  Flower flower;
+    private Item flower;
     private int count;
 
     public myOrderItem() {
 
     }
-    public myOrderItem(Flower flower,int count) {
+    public myOrderItem(Item flower,int count) {
         this.flower = flower;
         this.count = count;
     }
 
-    public Flower getFlower() {
+    public Item getFlower() {
         return flower;
     }
 
-    public void setFlower(Flower flower) {
+    public void setFlower(Item flower) {
         this.flower = flower;
     }
 

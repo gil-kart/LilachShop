@@ -7,5 +7,6 @@ public class EmployeeAnonymousPanel extends Panel {
         super(host, port, controller);
     }
     public void sendLoginRequest(String userName, String password){
-        sendToServer(new EmployeeLoginRequest("client login", userName, password));}
+        sendToServer(new EmployeeLoginRequest("client login", userName, password));
+    }
 }

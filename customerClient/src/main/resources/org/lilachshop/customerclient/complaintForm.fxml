@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="455.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ComplaintController">
+<AnchorPane prefHeight="455.0" prefWidth="568.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ComplaintController">
    <children>
       <BorderPane layoutX="83.0" layoutY="64.0" prefHeight="327.0" prefWidth="401.0">
          <top>
@@ -33,11 +33,6 @@
                               <Font size="16.0" />
                            </font></Label>
                         <Label fx:id="orderNumber" alignment="CENTER_RIGHT" contentDisplay="CENTER" prefHeight="17.0" prefWidth="72.0" text="123" />
-                        <Label fx:id="orderNumber">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
                      </children>
                      <opaqueInsets>
                         <Insets right="130.0" />

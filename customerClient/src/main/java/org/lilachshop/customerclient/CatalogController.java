@@ -23,12 +23,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Item;
+import org.lilachshop.panels.CustomerAnonymousPanel;
+import org.lilachshop.panels.OperationsPanelFactory;
+import org.lilachshop.panels.Panel;
 
 public class CatalogController {
+    private static Panel panel;
     Boolean switchFlag = false;
-    private Flower flowerShown;
+    private Item flowerShown;
     private MyListener myListener;
-    private List<Flower> flowerList = new ArrayList<>();
+    private List<Item> flowerList = new ArrayList<>();
     private List<myOrderItem> myFlowers;
     List<ItemController> itemControllers = new ArrayList<>();
     int count = 0;
@@ -201,20 +206,25 @@ public class CatalogController {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        panel = OperationsPanelFactory.createPanel(2, this);
+        if (panel == null) {
+            throw new RuntimeException("Panel creation failed!");
+        }
+        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
         myFlowers = new ArrayList<>();
-        flowerList = this.getItemList();
+        //flowerList = this.getItemList();
         if (flowerList.size() > 0) {
             setChosenItem(flowerList.get(0));
             myListener = new MyListener() {
                 @Override
-                public void onClickListener(Flower flower) {
+                public void onClickListener(Item flower) {
                     setChosenItem(flower);
                 }
             };
         }
         try {
             int countOnSale = 0;
-            for (Flower flower : flowerList) {
+            for (Item flower : flowerList) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
                 AnchorPane anchorPane = fxmlLoader.load();
@@ -249,7 +259,7 @@ public class CatalogController {
     /**
      * set the chosen item from the catalog in the fields on the left side of the scene
      */
-    public void setChosenItem(Flower flower) {
+    public void setChosenItem(Item flower) {
         FlowerNameLabel.setText(flower.getName());
 
         if (flower.getPercent()>0)
@@ -270,14 +280,14 @@ public class CatalogController {
             saleImag.setVisible(false);
         }
         try {
-            FlowerImg.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(flower.getImgSrc()))));
+            FlowerImg.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(flower.getImage()))));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         flowerShown = flower;
     }
 
-    private List<Flower> getItemList() {
+    /*private List<Flower> getItemList() {
         Flower flower;
         List<Flower> flowerList = new ArrayList<>();
         itemLayout.getChildren().clear();
@@ -311,7 +321,7 @@ public class CatalogController {
         flower = new Flower("שושן", 90, base_path + "lily.jpg",0);
         flowerList.add(flower);
         return flowerList;
-    }
+    }*/
 
     /**
      * set the scene catalog
