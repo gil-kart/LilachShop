@@ -38,15 +38,13 @@ import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.*;
-import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.SysAdminPanel;
+import org.lilachshop.panels.*;
 
 public class EmployeeTableController implements Initializable {
 
     private Panel panel;
 
-    private SysAdminPanel sPanel;
+    private SystemManagerPanel sPanel;
 
     private Parent popUpRoot;
 
@@ -193,8 +191,8 @@ public class EmployeeTableController implements Initializable {
             System.out.println("Unable to load pop up display.");
             e.printStackTrace();
         }
-        panel = OperationsPanelFactory.createPanel(6, this);
-        sPanel = (SysAdminPanel) panel;
+        panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, this);
+        sPanel = (SystemManagerPanel) panel;
         sPanel.getAllEmployees();
 
         /*TableView stuff*/

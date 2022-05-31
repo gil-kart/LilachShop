@@ -21,10 +21,11 @@ public class Customer extends User implements Serializable {
         this.store = store;
         this.account = account;
     }
-   @Embedded
+
+    @Embedded
     Account account;
 
-//    String firstName;
+    //    String firstName;
 //    String lastName;
 //    String city;
     String name;
@@ -32,7 +33,7 @@ public class Customer extends User implements Serializable {
     String phoneNumber;
     Boolean disabled;
 
-  @Embedded
+    @Embedded
     CreditCard card;
 
     @OneToMany
@@ -50,8 +51,12 @@ public class Customer extends User implements Serializable {
         this.store = store;
     }
 
-    public Customer() {}
-    public void addOrderToList(Order order){ this.orders.add(order);}
+    public Customer() {
+    }
+
+    public void addOrderToList(Order order) {
+        this.orders.add(order);
+    }
 
 
     public Account getAccount() {

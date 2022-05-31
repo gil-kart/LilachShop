@@ -50,10 +50,6 @@ public class EntityFactory {
         return getAllRecords(Complaint.class);
     }
 
-    public List<Catalog> getAllCatalogs() {
-        return getAllRecords(Catalog.class);
-    }
-
     public void createCatalog() {
         Catalog catalog = App.generateCatalog();
         createOrUpdateSingleRecord(catalog);

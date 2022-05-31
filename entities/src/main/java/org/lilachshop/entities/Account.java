@@ -1,7 +1,6 @@
 package org.lilachshop.entities;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
 

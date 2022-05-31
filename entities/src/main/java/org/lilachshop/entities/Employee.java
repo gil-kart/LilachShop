@@ -1,13 +1,11 @@
 package org.lilachshop.entities;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "Employees")
 public class Employee extends User implements Serializable {
-
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
 
@@ -23,12 +21,12 @@ public class Employee extends User implements Serializable {
     protected Employee() {
     }
 
-    public Store getStore() {
-        return store;
-    }
-
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public Store getStore() {
+        return store;
     }
 
     public Role getRole() {

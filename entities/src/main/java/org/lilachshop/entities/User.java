@@ -22,10 +22,6 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
-    String userName;
-
-    String userPassword;
-
     public String getUserName() {
         return userName;
     }
