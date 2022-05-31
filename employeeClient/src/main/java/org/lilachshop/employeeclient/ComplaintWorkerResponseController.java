@@ -8,6 +8,7 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class ComplaintWorkerResponseController {
     @FXML
@@ -30,11 +31,11 @@ public class ComplaintWorkerResponseController {
 
     CustomerServiceViewController controllerInstance;
 
-    public void setComplaintData(String _complaintNumber, String _complaintStatus, String _lastDateToHandle,
+    public void setComplaintData(String _complaintNumber, String _complaintStatus, LocalDate _lastDateToHandle,
                                  String _content, CustomerServiceViewController _controllerInstance){
         complaintNumber.setText(_complaintNumber);
         complaintStatus.setText(_complaintStatus);
-        lastDateToHandle.setText(_lastDateToHandle);
+        lastDateToHandle.setText(_lastDateToHandle.toString());
         content.setText(_content);
         controllerInstance = _controllerInstance;
     }
