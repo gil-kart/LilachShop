@@ -1,7 +1,8 @@
 package org.lilachshop.requests;
 
-public class CatalogRequest extends Request{
+public class CatalogRequest extends Request {
     long catalogId;
+
     public CatalogRequest(String request, long catalogId) {
         super(request);
         this.catalogId = catalogId;

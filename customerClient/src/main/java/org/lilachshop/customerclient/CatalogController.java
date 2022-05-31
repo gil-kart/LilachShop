@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +33,7 @@ import org.lilachshop.panels.*;
 
 public class CatalogController {
     private static Panel panel;
+
     Boolean switchFlag = false;
     private Item flowerShown;
 

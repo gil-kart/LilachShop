@@ -36,35 +36,67 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if(msg.getClass().equals(ReportsRequest.class)){
+
+        //************************ Report Request*******************************
+
+        if (msg.getClass().equals(ReportsRequest.class)) {
             ReportsRequest request = (ReportsRequest) msg;
             String message_from_client = request.getRequest();
 
-            switch (message_from_client){
-                case "get store complaints"->{
+            switch (message_from_client) {
+                case "get store complaints" -> {
                     long storeID = request.getStoreID();
                     List<Complaint> complaints = entityFactory.getComplaintsByStoreId(storeID);
                     try {
                         client.sendToClient(complaints);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                case "get store orders"->{
+                case "get store orders" -> {
                     long storeID = request.getStoreID();
                     List<Order> orders = entityFactory.getOrdersByStoreId(storeID);
                     try {
                         client.sendToClient(orders);
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                case "get store catalog"->{
+                case "get store catalog" -> {
                     long storeID = request.getStoreID();
                     Catalog catalog = entityFactory.getSingleCatalogEntityRecord(storeID);
                     try {
                         client.sendToClient(catalog);
-                    }catch (Exception e){
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
+
+        //************************** Employee edit Request ***********************************
+
+        if (msg.getClass().equals(EmployeeEditRequest.class)) {
+            System.out.println("Got EmployeeEditRequest...");
+            EmployeeEditRequest request = (EmployeeEditRequest) msg;
+            String message_from_client = request.getRequest();
+            System.out.println("Message content: <" + message_from_client + ">");
+            switch (message_from_client) {
+                case "GET_ALL_EMPLOYEES" -> {
+                    List<Employee> employees = entityFactory.getEmployees();
+                    try {
+                        client.sendToClient(employees);
+                    } catch (IOException e) {
+                        System.out.println("Could not send list of employees to client.");
+                        e.printStackTrace();
+                    }
+                }
+                case "SET_ALL_EMPLOYEES" -> {
+                    List<Employee> employees = request.getAllEmployeesToEdit();
+                    System.out.println("Setting #" + employees.size() + " employees...");
+                    entityFactory.addAllEmployees(employees);
+                }
+            }
+        }
 
         //************************** Store Request ***********************************
 
@@ -85,7 +117,9 @@ public class LilachServer extends AbstractServer {
                 }
             }
         }
-    
+
+        //************************Employee Login Request*****************************
+
         if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
@@ -109,7 +143,6 @@ public class LilachServer extends AbstractServer {
                 e.printStackTrace();
             }
         }
-
 
         //************************ SignUp Request********************************
 

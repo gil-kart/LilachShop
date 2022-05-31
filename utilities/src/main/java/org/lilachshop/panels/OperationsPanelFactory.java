@@ -1,15 +1,18 @@
 package org.lilachshop.panels;
 
+import org.jetbrains.annotations.Nullable;
+
 public class OperationsPanelFactory {
     private OperationsPanelFactory() {
     }
 
-    public static Panel createPanel(PanelEnum panel_num, Object controller) {    // for now int, later going to be enum!
+    @Nullable
+    public static Panel createPanel(PanelEnum panel_num, Object controller) {
         switch (panel_num) {
 //            case 1 -> {
 //                return new ExamplePanel("localhost", 3000, controller);
 //            }
-            case CUSTOMER_ANONYMOUS : {
+            case CUSTOMER_ANONYMOUS: {
                 return new CustomerAnonymousPanel("localhost", 3000, controller);
             }
             case STORE_CUSTOMER: {
@@ -39,7 +42,7 @@ public class OperationsPanelFactory {
             case SYSTEM_MANAGER: {
                 return new SystemManagerPanel("localhost", 3000, controller);
             }
-            default : {
+            default: {
                 System.out.println("No panel found.");
                 return null;
             }

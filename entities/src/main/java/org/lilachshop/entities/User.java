@@ -22,6 +22,9 @@ public class User implements Serializable {
         this.userPassword = userPassword;
     }
 
+    String userName;
+
+    String userPassword;
 
     public String getUserName() {
         return userName;
@@ -32,9 +35,8 @@ public class User implements Serializable {
     }
 
 
-    protected User() {}
-
-
+    protected User() {
+    }
 
     public Long getId() {
         return id;

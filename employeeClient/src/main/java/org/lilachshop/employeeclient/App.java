@@ -14,11 +14,14 @@ import java.io.IOException;
  */
 public class App extends Application {
 
+    private static final double WIDTH = 1280.0;
+    private static final double HEIGHT = 800.0;
+
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("EmployeeLogin"));
+        scene = new Scene(loadFXML("EmployeeLogin"), WIDTH, HEIGHT);
         stage.setScene(scene);
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         stage.show();

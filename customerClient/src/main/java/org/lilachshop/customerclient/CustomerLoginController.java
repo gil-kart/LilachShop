@@ -67,9 +67,9 @@ public class CustomerLoginController implements Initializable {
     public void handleMessageReceivedFromClient(Object msg) {
         System.out.println("message about login was received from server");
 
-        Platform.runLater(()->{
-            if(msg.getClass().equals(String.class)){
-                if(String.valueOf(msg).equals("client not exist")){
+        Platform.runLater(() -> {
+            if (msg.getClass().equals(String.class)) {
+                if (String.valueOf(msg).equals("client not exist")) {
                     Alert a = new Alert(Alert.AlertType.NONE);
                     a.setAlertType(Alert.AlertType.INFORMATION);
                     a.setHeaderText("שם המשתמש או הסיסמה אינם נכונים");
@@ -79,8 +79,7 @@ public class CustomerLoginController implements Initializable {
                     UserName.setText("");
                     Password.setText("");
                 }
-            }
-            else{
+            } else {
                 try {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
                     Parent root1 = (Parent) fxmlLoader.load();

@@ -5,8 +5,8 @@ import org.lilachshop.requests.EmployeeEditRequest;
 
 import java.util.List;
 
-public class SystemManagerPanel extends Panel {
-    public SystemManagerPanel(String host, int port, Object controller) {
+public class SysAdminPanel extends Panel {
+    public SysAdminPanel(String host, int port, Object controller) {
         super(host, port, controller);
     }
 
