@@ -5,12 +5,12 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Transactional
 @Embeddable
-public class Account implements Serializable {
-
+public class Account implements Serializable{
 
     String creationDate;
+
+    @Enumerated(EnumType.STRING)
     AccountType accountType;
 
     protected Account() {}

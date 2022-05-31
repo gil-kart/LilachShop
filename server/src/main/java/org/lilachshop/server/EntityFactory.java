@@ -33,6 +33,10 @@ public class EntityFactory {
         return ef;
     }
 
+    public List<Store>getAllStores(){
+        return getAllRecords(Store.class);
+    }
+
     public List<Item> getAllItems(){    // should be gotten from a specific catalog,but currently DB has a single table of Items
         return getAllRecords(Item.class);
     }
@@ -207,14 +211,14 @@ public class EntityFactory {
 //        }
         for (Customer customer:customers){
             createOrUpdateSingleRecord(customer);
-            creditCards.get(i).setCustomer(customer);
-            i++;
+//            creditCards.get(i).setCustomer(customer);
+//            i++;
         }
-        i=0;
-        for(CreditCard creditCard: creditCards){
-            creditCard.setCustomer(customers.get(i));
-            i++;
-        }
+//        i=0;
+//        for(CreditCard creditCard: creditCards){
+//            creditCard.setCustomer(customers.get(i));
+//            i++;
+//        }
 
         // ---------------------------------------------------------
         List<Item> itemList1 = new ArrayList<>();

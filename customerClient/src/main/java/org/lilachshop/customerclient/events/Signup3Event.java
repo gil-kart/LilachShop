@@ -6,19 +6,16 @@ import org.lilachshop.entities.Store;
 
 //Event to pass from SignUp3 to final stage to create new costumer
 public class Signup3Event {
-        AccountType chosenAccount;
-
+    AccountType chosenAccount;
     Store chosenStore;
 
-    public Signup3Event(Store store) {
-        this.chosenAccount = AccountType.STORE_ACCOUNT;
+
+    public Signup3Event(AccountType chosenAccount, Store store) {
+        this.chosenAccount = chosenAccount;
         this.chosenStore = store;
     }
 
-
-    public Signup3Event(AccountType chosenAccount) {
-        this.chosenAccount = chosenAccount;
-        //TODO:SET STORE TO BE THE DEFAULT STORE(CHAIN)
+    public Signup3Event() {
     }
 
     public AccountType getChosenAccount() {
@@ -26,6 +23,6 @@ public class Signup3Event {
     }
 
     public Store getStore() {
-       return chosenStore;
-   }
+        return chosenStore;
+    }
 }

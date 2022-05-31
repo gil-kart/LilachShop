@@ -83,7 +83,7 @@ public class SignUpStage4Controller implements Initializable {
     void onClickEndSignUpBtn(ActionEvent event) {
         Signup4Event finalEvent = new Signup4Event(creditCardNumberTF.getPlainText(), expDateLabel.getText(),
                 cardOwnerNameLabel.getText(), cardOwnerIDLabel.getText());
-
+        System.out.println("pre-post event4");
         EventBus.getDefault().post(finalEvent);
 
         Stage stage = App.getStage();
@@ -96,7 +96,6 @@ public class SignUpStage4Controller implements Initializable {
         }
         stage.setScene(new Scene(root));
         stage.show();
-
 
     }
 

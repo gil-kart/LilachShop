@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Transactional
 @Entity
@@ -80,4 +81,29 @@ public class Store implements Serializable {
         this.orders.add(order);
     }
 
+    @Override
+    public String toString() {
+        return storeName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // self check
+        if (this == obj)
+            return true;
+        // null check
+        if (obj == null)
+            return false;
+        // type check and cast
+        if (getClass() != obj.getClass())
+            return false;
+        Store store = (Store) obj;
+        // field comparison
+        return Objects.equals(storeName, store.storeName);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

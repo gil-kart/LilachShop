@@ -128,19 +128,15 @@ public class CatalogController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else
-        {
+        } else {
             Alert a = new Alert(Alert.AlertType.NONE);
-            if (!switchFlag)
-            {
+            if (!switchFlag) {
                 ButtonType button = new ButtonType("הרשם/התחבר");
                 a.getButtonTypes().setAll(button);
                 a.setAlertType(Alert.AlertType.INFORMATION);
                 a.setHeaderText("נא התחבר או הרשם למערכת");
                 a.setTitle("הוספה לסל");
-            }
-            else
-            {
+            } else {
                 ButtonType button = new ButtonType("אישור");
                 a.getButtonTypes().setAll(button);
                 a.setHeaderText("הסל ריק נא הוסף מוצרים לסל");
@@ -163,26 +159,30 @@ public class CatalogController {
             Parent root = fxmlLoader.load();
             stage.setScene(new Scene(root));
             stage.show();
-        }catch(IOException e)
-        {
+        } catch (IOException e) {
 
         }
     }
 
     @FXML
     void gotoSignUp(MouseEvent event) {
-        if(!switchFlag)
-        {
+        if (!switchFlag) {
             switchFlag = true;
-            name.setText("שלום, "+ "יוסי לוי");
+            name.setText("שלום, " + "יוסי לוי");
             history.setVisible(true);
             historyImg.setVisible(true);
+        } else {
+            Stage stage = App.getStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignupLogin.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+            stage.show();
         }
-        else
-        {
-
-        }
-
     }
 
     /**
@@ -192,25 +192,20 @@ public class CatalogController {
     @FXML
     void onAddToCart(ActionEvent event) {
         boolean addFlag = false;
-        if (switchFlag)
-        {
-            for (myOrderItem flower : myFlowers)
-            {
-              if(flowerShown == flower.getFlower()) {
-                  flower.setCount(flower.getCount() + 1);
-                  addFlag = true;
-              }
+        if (switchFlag) {
+            for (myOrderItem flower : myFlowers) {
+                if (flowerShown == flower.getFlower()) {
+                    flower.setCount(flower.getCount() + 1);
+                    addFlag = true;
+                }
             }
-            if(!addFlag)
-            {
-                myOrderItem newFlower = new myOrderItem(flowerShown,1);
+            if (!addFlag) {
+                myOrderItem newFlower = new myOrderItem(flowerShown, 1);
                 myFlowers.add(newFlower);
             }
             count++;
             countItems.setText(String.valueOf(count));
-        }
-        else
-        {
+        } else {
             Alert a = new Alert(Alert.AlertType.NONE);
             ButtonType button = new ButtonType("הרשם/התחבר");
             a.getButtonTypes().setAll(button);
@@ -233,16 +228,17 @@ public class CatalogController {
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         count = 0;
         shopList.setDisable(true);
         myFlowers = new ArrayList<>();
-           //for (myOrderItem flower : myFlowers)
-             //   count += flower.getCount();
+        //for (myOrderItem flower : myFlowers)
+        //   count += flower.getCount();
         countItems.setText(String.valueOf(count));
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS,this);
-            ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
+        ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
 
 
         //flowerList = this.getItemList();
@@ -255,18 +251,15 @@ public class CatalogController {
     public void setChosenItem(Item flower) {
         FlowerNameLabel.setText(flower.getName());
 
-        if (flower.getPercent()>0)
-        {
-            System.out.println(flower.getPercent()>0);
+        if (flower.getPercent() > 0) {
+            System.out.println(flower.getPercent() > 0);
             oldPrice.setVisible(true);
             oldPrice.setText(String.valueOf(flower.getPrice()));
-            FlowerPrice.setText(String.valueOf(flower.getPrice()*(100-flower.getPercent())/100));
+            FlowerPrice.setText(String.valueOf(flower.getPrice() * (100 - flower.getPercent()) / 100));
             oldPrice1.setVisible(true);
             saleImag.setVisible(true);
 
-        }
-        else
-        {
+        } else {
             FlowerPrice.setText(String.valueOf(flower.getPrice()));
             oldPrice.setVisible(false);
             oldPrice1.setVisible(false);
@@ -279,6 +272,7 @@ public class CatalogController {
         }
         flowerShown = flower;
     }
+
     @Subscribe
     public void handleMessageReceivedFromClient(List<Item> msg) {
         flowerList = msg;
@@ -301,7 +295,9 @@ public class CatalogController {
 
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setData(flower, myListener);
-                Platform.runLater(()->{grid.getChildren().add(anchorPane);});//, column++, row);
+                Platform.runLater(() -> {
+                    grid.getChildren().add(anchorPane);
+                });//, column++, row);
 
                 //GridPane.setMargin(anchorPane, new Insets(5));
 
@@ -313,39 +309,38 @@ public class CatalogController {
 
                         SaleItemController saleItemController = fxmlLoaderSale.getController();
                         saleItemController.setData(flower, myListener);
-                        Platform.runLater(()->{itemLayout.getChildren().add(anchorPaneSale);});
+                        Platform.runLater(() -> {
+                            itemLayout.getChildren().add(anchorPaneSale);
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
 
         }
     }
 
     public void setData(Customer msg) {
-            switchFlag = true;
-            this.customer = msg;
-            name.setText("שלום, "+ customer.getName());
-            history.setVisible(true);
-            historyImg.setVisible(true);
-            AccountType userAccountType = customer.getAccount().getAccountType();
-            if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)){
-                panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER,this);
-                storeId = customer.getStore().getId();
-                // todo: implement enable store combo box!
-                shopList.setDisable(false);
-            }
-            else if (userAccountType.equals(AccountType.STORE_ACCOUNT)){
-                panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER,this);
-                storeId = customer.getStore().getId();
-            }
-            else{
-                panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER,this);
-                storeId = customer.getStore().getId();
-            }
-            ((StoreCustomerPanel) panel).sendGetCatalogRequestToServer(storeId);
+        switchFlag = true;
+        this.customer = msg;
+        name.setText("שלום, " + customer.getName());
+        history.setVisible(true);
+        historyImg.setVisible(true);
+        AccountType userAccountType = customer.getAccount().getAccountType();
+        if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, this);
+            storeId = customer.getStore().getId();
+            // todo: implement enable store combo box!
+            shopList.setDisable(false);
+        } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
+            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this);
+            storeId = customer.getStore().getId();
+        } else {
+            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, this);
+            storeId = customer.getStore().getId();
+        }
+        ((StoreCustomerPanel) panel).sendGetCatalogRequestToServer(storeId);
     }
 }

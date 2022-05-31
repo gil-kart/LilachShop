@@ -6,14 +6,9 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-@Transactional
 @Entity
 @Table(name = "Customers")
 public class Customer extends User implements Serializable {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
 
     public Customer(String userName, String userPassword, String name, String address, String phoneNumber, Boolean disabled, CreditCard card, List<Order> orders, Store store, Account account) {
         super(userName, userPassword);
@@ -26,7 +21,7 @@ public class Customer extends User implements Serializable {
         this.store = store;
         this.account = account;
     }
-    @Embedded
+   @Embedded
     Account account;
 
 //    String firstName;
@@ -58,14 +53,6 @@ public class Customer extends User implements Serializable {
     public Customer() {}
     public void addOrderToList(Order order){ this.orders.add(order);}
 
-    @Override
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Account getAccount() {
         return account;

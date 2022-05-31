@@ -23,7 +23,7 @@ import org.lilachshop.panels.*;
 public class SignUpStage5Controller {
 
     static private Panel panel = null;
-
+    EventBus signupBus = null;
     Customer registeringCustomer;
 
     @FXML
@@ -67,8 +67,8 @@ public class SignUpStage5Controller {
 
     @Subscribe
     public void onSignUp3Event(Signup3Event signupEvent) {
-     //   registeringCustomer.setAccount(new Account(signupEvent.getChosenAccount(), ));
-//        registeringCustomer.setStore(signupEvent.getStore());
+        registeringCustomer.setAccount(new Account(signupEvent.getChosenAccount()));
+        registeringCustomer.setStore(signupEvent.getStore());
         System.out.println("gotEvent3");
     }
 
@@ -77,11 +77,14 @@ public class SignUpStage5Controller {
     public void onSignUp4Event(Signup4Event signupEvent) {
         registeringCustomer.setCard(new CreditCard(signupEvent.getCardNumber(), signupEvent.getExpDate()));
         if (panel.getClass().equals(CustomerAnonymousPanel.class)) {
+
             CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
             System.out.println(panel.getClass());
             System.out.println(registeringCustomer);
-            //customerAnonymousPanel.sendSignUpRequest(registeringCustomer);
+            customerAnonymousPanel.sendSignUpRequest(registeringCustomer);
             System.out.println("gotEvent4");
+            registeringCustomer = null;
+            EventBus.getDefault().unregister(this);
         }
     }
 
@@ -89,10 +92,13 @@ public class SignUpStage5Controller {
     @FXML
     void initialize() {
         assert backCatalogBtn != null : "fx:id=\"backCatalogBtn\" was not injected: check your FXML file 'SignUp5.fxml'.";
-        EventBus.getDefault().register(this);
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this);
+
+
         registeringCustomer = registeringCustomer == null ? new Customer() : registeringCustomer;
         if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
     }
 
 }

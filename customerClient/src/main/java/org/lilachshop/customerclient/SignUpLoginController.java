@@ -28,6 +28,7 @@ public class SignUpLoginController implements Initializable {
     private static Panel panel;
 
 
+   static FXMLLoader FinalStagefxmlLoader = null;
     @FXML
     private ResourceBundle resources;
 
@@ -49,11 +50,15 @@ public class SignUpLoginController implements Initializable {
     @FXML
     void onClickSignupBtn(ActionEvent event) throws IOException {
 
-        FXMLLoader FinalStagefxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp5.fxml"));
         Stage stage = App.getStage();
         Parent root = null;
-        root = FinalStagefxmlLoader.load();
-        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp1.fxml"));
+
+        if (FinalStagefxmlLoader == null) {
+            FinalStagefxmlLoader = new FXMLLoader(getClass().getResource("SignUp5.fxml"));
+            FinalStagefxmlLoader.load();
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUp1.fxml"));
         try {
             root = fxmlLoader.load();
         } catch (IOException e) {
@@ -74,13 +79,10 @@ public class SignUpLoginController implements Initializable {
 
     @FXML
     void initialize() {
-
-
         assert logInBtn != null : "fx:id=\"logInBtn\" was not injected: check your FXML file 'SignupLogin.fxml'.";
         assert passwordTF != null : "fx:id=\"passwordTF\" was not injected: check your FXML file 'SignupLogin.fxml'.";
         assert signUpBtn != null : "fx:id=\"signUpBtn\" was not injected: check your FXML file 'SignupLogin.fxml'.";
         assert userNameTF != null : "fx:id=\"userNameTF\" was not injected: check your FXML file 'SignupLogin.fxml'.";
-
     }
 
     @Override
@@ -124,4 +126,3 @@ public class SignUpLoginController implements Initializable {
     });
     }
 }
-

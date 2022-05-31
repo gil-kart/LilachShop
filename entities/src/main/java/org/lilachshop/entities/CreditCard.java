@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 
-@Transactional
 @Embeddable
 public class CreditCard implements Serializable {
 
@@ -43,5 +42,8 @@ public class CreditCard implements Serializable {
         this.expDate = expDate;
         this.threeDigits = threeDigits;
     }
-    public void setCustomer(Customer customer){this.customer = customer;}
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

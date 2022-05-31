@@ -8,22 +8,22 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Employees")
 public class Employee extends User implements Serializable {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Long id;
+//    @Id
+//    @GeneratedValue(strategy=GenerationType.IDENTITY)
+//    @Column(name = "id", nullable = false)
+//    private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
     Role role;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
 
     public Employee(Store store, Role role,String userName, String userPassword) {
         super();
