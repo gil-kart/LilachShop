@@ -18,14 +18,14 @@ public class EmployeeEditRequest extends Request {
         super(request.name());
     }
 
-    public EmployeeEditRequest(String request, Employee employeeToEdit) {
-        super(request);
+    public EmployeeEditRequest(Messages request, Employee employeeToEdit) {
+        super(request.name());
         this.employeesToEdit = new LinkedList<>();
         employeesToEdit.add(employeeToEdit);
     }
 
-    public EmployeeEditRequest(String request, List<Employee> employeesToEdit) {
-        super(request);
+    public EmployeeEditRequest(Messages request, List<Employee> employeesToEdit) {
+        super(request.name());
         this.employeesToEdit = employeesToEdit;
     }
 

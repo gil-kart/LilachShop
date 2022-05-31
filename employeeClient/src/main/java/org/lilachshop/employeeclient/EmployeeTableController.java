@@ -3,21 +3,10 @@ package org.lilachshop.employeeclient;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Function;
 
-import com.mysql.cj.util.StringUtils;
 import javafx.application.Platform;
-import javafx.beans.InvalidationListener;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.ReadOnlyLongWrapper;
-import javafx.beans.property.SimpleLongProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableLongValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,14 +26,16 @@ import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
+import org.lilachshop.events.StoreEvent;
 import org.lilachshop.panels.*;
 
 public class EmployeeTableController implements Initializable {
 
-    private Panel panel;
+    static private Panel panel;
 
-    private SystemManagerPanel sPanel;
+    static private SystemManagerPanel sPanel;
 
     private Parent popUpRoot;
 
@@ -103,15 +94,14 @@ public class EmployeeTableController implements Initializable {
 
     @Subscribe
     public void onRecieveEmployees(List<Employee> employees) {
-        System.out.println("got employees from server, # of employees is: " + employees.size());
         Platform.runLater(() -> {
             setEmployeeRows(employees);
         });
     }
 
     @Subscribe
-    public void onRecieveStores(List<Store> stores) {
-        this.stores = stores.size() > 0 ? stores : null;
+    public void onReceiveStores(StoreEvent storeEvent) {
+        this.stores = storeEvent.getStores().size() > 0 ? storeEvent.getStores() : null;
     }
 
     private void setEmployeeRows(List<Employee> employees) {
@@ -160,7 +150,7 @@ public class EmployeeTableController implements Initializable {
 
     @FXML
     void onUpdateClicked(ActionEvent event) {
-        List<Employee> employeesToUpdate = listOfEmployees;
+        List<Employee> employeesToUpdate = new LinkedList<>(listOfEmployees);
         sPanel.setAllEmployees(employeesToUpdate);
     }
 
@@ -192,8 +182,16 @@ public class EmployeeTableController implements Initializable {
             e.printStackTrace();
         }
         panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, this);
-        sPanel = (SystemManagerPanel) panel;
+        try {
+            sPanel = (SystemManagerPanel) panel;
+        } catch (Exception e) {
+            System.out.println("Insufficient permissions!");
+            e.printStackTrace();
+            System.exit(-1);
+        }
         sPanel.getAllEmployees();
+        sPanel.getAllStores();
+
 
         /*TableView stuff*/
 //        employeeTable.setOnMouseClicked(e -> {

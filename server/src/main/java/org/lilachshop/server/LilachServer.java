@@ -1,6 +1,7 @@
 package org.lilachshop.server;
 
 import org.lilachshop.entities.*;
+import org.lilachshop.events.StoreEvent;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
@@ -104,7 +105,6 @@ public class LilachServer extends AbstractServer {
             StoreRequest request = (StoreRequest) msg;
             String messageFromClient = request.getRequest();
 
-
             switch (messageFromClient) {
                 //CASE: want to get list of store, example for common usage - choiceBox
                 case "get all stores" -> {
@@ -113,6 +113,16 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient(allStores);
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }
+                }
+                case "get all stores event" -> {
+                    {
+                        List<Store> allStores = entityFactory.getAllStores();
+                        try {
+                            client.sendToClient(new StoreEvent(allStores));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
