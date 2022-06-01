@@ -79,27 +79,12 @@ public class EmployeeTableController implements Initializable {
     private static Stage popUpStage = null;
 
     private static boolean wasSentToPopUp = false;
+
     private ObservableList<Employee> listOfEmployees;
 
     private List<Store> stores;
 
     Set<Long> idsToDelete = null;
-
-
-    private void presentRowSelected() throws IOException {
-        if (listOfEmployees.isEmpty()) {
-            return;
-        }
-        ObservableList<Employee> employees = employeeTable.getSelectionModel().getSelectedItems();
-        EventBus.getDefault().post(new EmployeeEvent(employees.get(0)));
-
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Selected Employee");
-        stage.setScene(new Scene(popUpRoot));
-        stage.show();
-    }
 
     @Subscribe
     public void onRecieveEmployees(List<Employee> employees) {
@@ -176,7 +161,6 @@ public class EmployeeTableController implements Initializable {
     @FXML
     void onDeleteClicked(ActionEvent event) {
         idsToDelete = idsToDelete == null ? new HashSet<>() : idsToDelete;
-        System.out.println("pre delete: #employees = " + listOfEmployees.size());
         Employee employee = employeeTable.getSelectionModel().getSelectedItem();
         idsToDelete.add(employee.getId());
         List<Employee> employeesCopy = new LinkedList<>(employeeTable.getItems());
@@ -186,7 +170,6 @@ public class EmployeeTableController implements Initializable {
         employeeTable.setItems(oListCopy);
         employeeTable.refresh();
         listOfEmployees = oListCopy;
-        System.out.println("post delete: #employees = " + listOfEmployees.size());
     }
 
     @FXML
@@ -201,10 +184,6 @@ public class EmployeeTableController implements Initializable {
         a.setHeaderText("מאגר העובדים עודכן.");
         a.setTitle("עדכון הרשאות עובדים");
         a.show();
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException ignored) {
-//        }
         sPanel.getAllEmployees();
     }
 
@@ -492,19 +471,6 @@ public class EmployeeTableController implements Initializable {
             }
         };
         passwordCol.setCellFactory(passwordCallback);
-
-        /*******************/
-
-        /*Catalog catalog = new Catalog();
-        Store store = new Store("address", "storename1", catalog, null, null);
-        Store store2 = new Store("address", "storename2", catalog, null, null);
-        stores = new LinkedList<>(Arrays.asList(store, store2));
-        Employee employee = new Employee(store, Role.STORE_EMPLOYEE, "Benny", "Blanco");
-//        employee.setId(1L);
-        Employee employee2 = new Employee(store2, Role.STORE_MANAGER, "Humus", "Sason");
-//        employee2.setId(2L);
-        List<Employee> dummyEmployees = new LinkedList<>(Arrays.asList(employee, employee2));
-        setEmployeeRows(dummyEmployees);*/
     }
 
     private void setCellsValueFactories() {

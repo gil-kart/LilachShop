@@ -94,7 +94,6 @@ public class LilachServer extends AbstractServer {
                 }
                 case "SET_ALL_EMPLOYEES" -> {
                     List<Employee> employees = request.getAllEmployeesToEdit();
-                    System.out.println("Setting #" + employees.size() + " employees...");
                     entityFactory.addAllEmployees(employees);
                 }
                 case "DELETE_EMPLOYEES_BY_ID" -> {

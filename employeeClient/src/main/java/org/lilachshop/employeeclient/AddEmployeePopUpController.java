@@ -1,10 +1,7 @@
 package org.lilachshop.employeeclient;
 
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -17,12 +14,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.commonUtils.DisableOnEmptyListener;
 import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Role;
 import org.lilachshop.entities.Store;
@@ -123,6 +118,14 @@ public class AddEmployeePopUpController implements Initializable {
                 or(storeChoiceBox.valueProperty().isNull()));
 
         roleChoiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Role.values())));
+//        roleChoiceBox.valueProperty().addListener(new ChangeListener<Role>() { todo: bind to default store for not store employee
+//            @Override
+//            public void changed(ObservableValue<? extends Role> observable, Role oldValue, Role newValue) {
+//                if (newValue != Role.STORE_EMPLOYEE){
+//                    storeChoiceBox.getSelectionModel().selected
+//                }
+//            }
+//        });
     }
 }
 
