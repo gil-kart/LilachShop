@@ -18,7 +18,7 @@ public class Complaint implements Serializable {
 
     LocalDate creationDate;
     LocalDate endOfHandleDate;
-    String status;
+    ComplaintStatus status;
     String content;
     String reply;
 
@@ -43,7 +43,7 @@ public class Complaint implements Serializable {
         return id;
     }
 
-    public Complaint(LocalDate endOfHandleDate, String status, String content, LocalDate creationDate, String reply) {
+    public Complaint(LocalDate endOfHandleDate, ComplaintStatus status, String content, LocalDate creationDate, String reply) {
         this.endOfHandleDate = endOfHandleDate;
         this.status = status;
         this.content = content;
@@ -59,11 +59,11 @@ public class Complaint implements Serializable {
         this.endOfHandleDate = creationDate;
     }
 
-    public String getStatus() {
+    public ComplaintStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ComplaintStatus status) {
         this.status = status;
     }
 

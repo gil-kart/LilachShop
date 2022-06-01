@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.entities.ComplaintStatus;
 import org.lilachshop.entities.Item;
 import org.lilachshop.panels.CustomerServicePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
@@ -81,7 +82,7 @@ public class CustomerServiceViewController implements Initializable {
         //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
             if(String.valueOf(complaint.getId()).equals(updatedComplaintNumber)){
-                complaint.setStatus("סגור");
+                complaint.setStatus(ComplaintStatus.CLOSED);
                 // close complaint on server
                 ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply);
                 break;
@@ -99,11 +100,25 @@ public class CustomerServiceViewController implements Initializable {
         Parent root1 = (Parent) fxmlLoader.load();
 
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
+        ComplaintStatus complaintStatus = listOfComplaints.get(0).getStatus();
+        String status;
+        switch (complaintStatus){
+            case LATE:{
+                status= "באיחור";
+            }
+            case OPEN:{
+                status= "פתוח";
+            }
+            case CLOSED:{
+                status= "סגור";
+            }
+            default: status = "";
+        }
 
         try{
             controller.setComplaintData(
                     String.valueOf(listOfComplaints.get(0).getId()),
-                    listOfComplaints.get(0).getStatus(),
+                    status,
                     listOfComplaints.get(0).getCreationDate(),
                     listOfComplaints.get(0).getContent(), this);
         }catch (Exception e){

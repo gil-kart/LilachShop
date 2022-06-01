@@ -3,6 +3,7 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Transactional
 @Entity
@@ -16,9 +17,9 @@ public class PickUpDetails implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     Order order;
 
-    String PickUptime;
+    LocalDate PickUptime;
 
-    public PickUpDetails(String pickUptime) {
+    public PickUpDetails(LocalDate pickUptime) {
         PickUptime = pickUptime;
     }
 
@@ -26,11 +27,11 @@ public class PickUpDetails implements Serializable {
 
     }
 
-    public String getPickUptime() {
+    public LocalDate getPickUptime() {
         return PickUptime;
     }
 
-    public void setPickUptime(String pickUptime) {
+    public void setPickUptime(LocalDate pickUptime) {
         PickUptime = pickUptime;
     }
 

@@ -103,16 +103,9 @@ public class EntityFactory {
         LocalDate dt = LocalDate.of(2022, 5, 27);
         String time = dt.toString();
 
-        Complaint complaint1 = new Complaint(dt.plusDays(1), "פתוח", "אני כועס מאוד על השירות בחיפה1", dt, "");
-        Complaint complaint2 = new Complaint(dt.plusDays(2), "פתוח", "אני כועס מאוד על השירות בחיפה2", dt.plusDays(1), "");
-        Complaint complaint3 = new Complaint(dt.plusDays(1), "פתוח", "אני כועס מאוד על השירות בהרצליה3", dt, "");
-
-//        Complaint complaint4 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה1", time, "");
-//        Complaint complaint5 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה2", time, "");
-//        Complaint complaint6 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בהרצליה3", time, "");
-
-//        Complaint complaint7 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב1", time, "");
-//        Complaint complaint8 = new Complaint(time, "פתוח", "אני כועס מאוד על השירות בתל אביב2", time, "");
+        Complaint complaint1 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה1", dt, "");
+        Complaint complaint2 = new Complaint(dt.plusDays(2), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה2", dt.plusDays(1), "");
+        Complaint complaint3 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בהרצליה3", dt, "");
 
         complaint1.setOrder(store1.getOrders().get(0));
         complaint1.setStore(store1);
@@ -127,117 +120,60 @@ public class EntityFactory {
         createOrUpdateSingleRecord(complaint1);
         createOrUpdateSingleRecord(complaint2);
         createOrUpdateSingleRecord(complaint3);
-//        createOrUpdateSingleRecord(complaint4);
-//        createOrUpdateSingleRecord(complaint5);
-//        createOrUpdateSingleRecord(complaint6);
-//        createOrUpdateSingleRecord(complaint7);
-//        createOrUpdateSingleRecord(complaint8);
-
 
         store1.addComplaint(complaint1);
         store1.addComplaint(complaint2);
         store1.addComplaint(complaint3);
-//
-//        store2.addComplaint(complaint4);
-//        store2.addComplaint(complaint5);
-//        store2.addComplaint(complaint6);
-//
-//        store3.addComplaint(complaint7);
-//        store3.addComplaint(complaint8);
+
     }
 
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         LocalDate dt = LocalDate.of(2022, 5, 27);
-        String timeNow = dt.toString();
         List<Item> generalItemList = App.createItemList();
-        // ---- add items to database ----
         for (Item item : generalItemList) {
             createOrUpdateSingleRecord(item);
         }
-//        createOrUpdateSingleRecord(generalItemList.get(0));
-//        createOrUpdateSingleRecord(generalItemList.get(1));
-//        createOrUpdateSingleRecord(generalItemList.get(2));
-//        createOrUpdateSingleRecord(generalItemList.get(3));
-//        createOrUpdateSingleRecord(generalItemList.get(4));
-//        createOrUpdateSingleRecord(generalItemList.get(5));
-//        createOrUpdateSingleRecord(generalItemList.get(6));
-//        createOrUpdateSingleRecord(generalItemList.get(7));
-//        createOrUpdateSingleRecord(generalItemList.get(8));
-//        createOrUpdateSingleRecord(generalItemList.get(9));
-//        createOrUpdateSingleRecord(generalItemList.get(10));
-//        createOrUpdateSingleRecord(generalItemList.get(11));
-//        createOrUpdateSingleRecord(generalItemList.get(12));
-//        createOrUpdateSingleRecord(generalItemList.get(13));
 
-        //----------- need to generate customers first! ------------
-        // ---- create credit cards ----
         List<CreditCard> creditCards = new ArrayList<>();
-        creditCards.add(new CreditCard("1234123412341234", timeNow, "123"));
-        creditCards.add(new CreditCard("4321123412341234", timeNow, "821"));
-        creditCards.add(new CreditCard("1111123412341234", timeNow, "347"));
-//        CreditCard creditCard1 = new CreditCard("1234123412341234", timeNow,"123");
-//        CreditCard creditCard2 = new CreditCard("4321123412341234", timeNow,"821");
-//        CreditCard creditCard3 = new CreditCard("1111123412341234", timeNow,"347");
+        creditCards.add(new CreditCard("1234123412341234", dt, "gil", "12345734", "123"));
+        creditCards.add(new CreditCard("4321123412341234", dt, "ziv", "82121312", "412"));
+        creditCards.add(new CreditCard("1111123412341234", dt, "tsvika", "43232354", "415"));
 
-//        createOrUpdateSingleRecord(creditCard1);
-//        createOrUpdateSingleRecord(creditCard2);
-//        createOrUpdateSingleRecord(creditCard3);
-        // ---- add credit cards to database ----
-        // ---- save credit card to db ----
-
-        // same for customers and so on ...
 
         Account account1 = new Account(AccountType.STORE_ACCOUNT);
         Account account2 = new Account(AccountType.CHAIN_ACCOUNT);
         Account account3 = new Account(AccountType.ANNUAL_SUBSCRIPTION);
-//        createOrUpdateSingleRecord(account1);
-//        createOrUpdateSingleRecord(account2);
-//        createOrUpdateSingleRecord(account3);
+
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", false, creditCards.get(0), new ArrayList<Order>(), store1, account1));
         customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", false, creditCards.get(1), new ArrayList<Order>(), store1, account2));
         customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", false, creditCards.get(2), new ArrayList<Order>(), store2, account3));
 
-//        Customer customer1 = new Customer("gil", "1234","גיל קרטגינר","חיפה 32","0542494993", false,creditCard1,new ArrayList<Order>(),store1);
-//        Customer customer2 = new Customer("yaron", "1111","ירון מלמד","חיפה 55","0542493123", false,creditCard2,new ArrayList<Order>(),store1);
-//        Customer customer3 = new Customer("ziv", "4444","זיו קרטגינר","הרצליה 32","0542453293", false,creditCard3,new ArrayList<Order>(),store2);
-
-//        createOrUpdateSingleRecord(customer1);
-//        createOrUpdateSingleRecord(customer2);
-//        createOrUpdateSingleRecord(customer3);
         int i = 0;
-
-
-//        for(CreditCard creditCard: creditCards){
-//            createOrUpdateSingleRecord(creditCard);
-//        }
         for (Customer customer : customers) {
+            customer.setCard(creditCards.get(i % 3));
             createOrUpdateSingleRecord(customer);
-//            creditCards.get(i).setCustomer(customer);
-//            i++;
+            i++;
         }
-//        i=0;
-//        for(CreditCard creditCard: creditCards){
-//            creditCard.setCustomer(customers.get(i));
-//            i++;
-//        }
 
         // ---------------------------------------------------------
-        List<Item> itemList1 = new ArrayList<>();
-        itemList1.add(generalItemList.get(0));
+        List<myOrderItem> itemList1 = new ArrayList<>();
+        itemList1.add(new myOrderItem(generalItemList.get(0), 3));
+        itemList1.add(new myOrderItem(generalItemList.get(1), 2));
+        itemList1.add(new myOrderItem(generalItemList.get(2), 1));
+        itemList1.add(new myOrderItem(generalItemList.get(3), 5));
 
-        itemList1.add(generalItemList.get(1));
-        itemList1.add(generalItemList.get(2));
-        itemList1.add(generalItemList.get(3));
-        DeliveryDetails deliveryDetails1 = new DeliveryDetails(timeNow, "05429384384", "גיל", "חיפה 42");
+
+        DeliveryDetails deliveryDetails1 = new DeliveryDetails(dt, "05429384384", "גיל", "חיפה 42");
         Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100, 4, deliveryDetails1, null, null, customers.get(0));
         order1.setStore(store1);
         deliveryDetails1.setOrder(order1);
-        List<Item> itemList2 = new ArrayList<>();
-        itemList2.add(generalItemList.get(4));
-        itemList2.add(generalItemList.get(5));
-        itemList2.add(generalItemList.get(11));
-        DeliveryDetails deliveryDetails2 = new DeliveryDetails(timeNow, "05429384384", "זיו", "חיפה, נווה שאנן 42");
+        List<myOrderItem> itemList2 = new ArrayList<>();
+        itemList2.add(new myOrderItem(generalItemList.get(4), 2));
+        itemList2.add(new myOrderItem(generalItemList.get(5), 5));
+        itemList2.add(new myOrderItem(generalItemList.get(11), 7));
+
+        DeliveryDetails deliveryDetails2 = new DeliveryDetails(dt, "05429384384", "זיו", "חיפה, נווה שאנן 42");
         Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200, 4, deliveryDetails2, null, null, customers.get(1));
         order2.setStore(store1);
         deliveryDetails2.setOrder(order2);
@@ -251,11 +187,11 @@ public class EntityFactory {
         customers.get(0).addOrderToList(order1);
         customers.get(1).addOrderToList(order2);
 
-        List<Item> itemList3 = new ArrayList<>();
-        itemList1.add(generalItemList.get(9));
-        itemList1.add(generalItemList.get(8));
-        itemList1.add(generalItemList.get(10));
-        PickUpDetails pickUpDetails1 = new PickUpDetails(timeNow);
+        List<myOrderItem> itemList3 = new ArrayList<>();
+        itemList3.add(new myOrderItem(generalItemList.get(1), 5));
+        itemList3.add(new myOrderItem(generalItemList.get(7), 1));
+        itemList3.add(new myOrderItem(generalItemList.get(3), 3));
+        PickUpDetails pickUpDetails1 = new PickUpDetails(dt);
         Order order3 = new Order(dt, "", itemList3, 400, 4, null, pickUpDetails1, null, customers.get(2));
         order3.setStore(store2);
         pickUpDetails1.setOrder(order3);
@@ -481,7 +417,7 @@ public class EntityFactory {
 
     private static SessionFactory getSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(DeliveryDetails.class).addAnnotatedClass(PickUpDetails.class).addAnnotatedClass(Order.class).addAnnotatedClass(Store.class).addAnnotatedClass(User.class).addAnnotatedClass(Employee.class).addAnnotatedClass(Customer.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Account.class);
+        configuration.addAnnotatedClass(ExampleEntity.class).addAnnotatedClass(ExampleEnum.class).addAnnotatedClass(Item.class).addAnnotatedClass(Catalog.class).addAnnotatedClass(Complaint.class).addAnnotatedClass(DeliveryDetails.class).addAnnotatedClass(PickUpDetails.class).addAnnotatedClass(Order.class).addAnnotatedClass(Store.class).addAnnotatedClass(User.class).addAnnotatedClass(Employee.class).addAnnotatedClass(Customer.class).addAnnotatedClass(CreditCard.class).addAnnotatedClass(Account.class).addAnnotatedClass(myOrderItem.class);
 
 
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()

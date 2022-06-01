@@ -1,14 +1,16 @@
 package org.lilachshop.customerclient.events;
 
 
+import java.time.LocalDate;
+
 //Event to pass from SignUp4 to final stage to create new costumer
 public class Signup4Event{
     String cardNumber;
-    String expDate;
+    LocalDate expDate;
     String cardOwnerName;
-    String cardOwnerID;
+    int cardOwnerID;
 
-    public Signup4Event(String cardNumber, String expDate, String cardOwnerName, String cardOwnerID) {
+    public Signup4Event(String cardNumber, LocalDate expDate, String cardOwnerName, int cardOwnerID) {
         this.cardNumber = cardNumber;
         this.expDate = expDate;
         this.cardOwnerName = cardOwnerName;
@@ -19,7 +21,7 @@ public class Signup4Event{
         return cardNumber;
     }
 
-    public String getExpDate() {
+    public LocalDate getExpDate() {
         return expDate;
     }
 
@@ -27,7 +29,7 @@ public class Signup4Event{
         return cardOwnerName;
     }
 
-    public String getCardOwnerID() {
+    public int getCardOwnerID() {
         return cardOwnerID;
     }
 }

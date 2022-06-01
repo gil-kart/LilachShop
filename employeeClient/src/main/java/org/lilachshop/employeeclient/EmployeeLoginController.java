@@ -56,7 +56,7 @@ public class EmployeeLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.EMPLOYEE_ANONYMOUS, this);
 
     }
 

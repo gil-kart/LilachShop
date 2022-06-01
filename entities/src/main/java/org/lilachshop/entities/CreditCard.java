@@ -1,17 +1,18 @@
 package org.lilachshop.entities;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Embeddable
 public class CreditCard implements Serializable {
 
     String number;
-    String expDate;
+    LocalDate expDate;
     String threeDigits;
-//    String ownerName;
-//    String ownerID;
+    String ownerName;
+
+    String cardOwnerId;
 
     @OneToOne
     Customer customer;
@@ -24,12 +25,15 @@ public class CreditCard implements Serializable {
         return number;
     }
 
-    public CreditCard(String number, String expDate) {
+    public CreditCard(String number, LocalDate expDate, String ownerName, String cardOwnerID, String threeDigits) {
         this.number = number;
         this.expDate = expDate;
+        this.ownerName = ownerName;
+        this.cardOwnerId = cardOwnerID;
+        this.threeDigits = threeDigits;
     }
 
-    public String getExpDate() {
+    public LocalDate getExpDate() {
         return expDate;
     }
 
@@ -37,11 +41,7 @@ public class CreditCard implements Serializable {
         return threeDigits;
     }
 
-    public CreditCard(String number, String expDate, String threeDigits) {
-        this.number = number;
-        this.expDate = expDate;
-        this.threeDigits = threeDigits;
-    }
+
 
     public void setCustomer(Customer customer) {
         this.customer = customer;

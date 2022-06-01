@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Embeddable
 public class Account implements Serializable{
 
-    String creationDate;
+    LocalDate creationDate;
 
     @Enumerated(EnumType.STRING)
     AccountType accountType;
@@ -23,11 +23,11 @@ public class Account implements Serializable{
     }
 
     public  Account(AccountType accountType){
-        this.creationDate = LocalDate.now().toString();
+        this.creationDate = LocalDate.now();
         this.accountType = accountType;
     }
 
-    public Account(String creationDate, AccountType accountType) {
+    public Account(LocalDate creationDate, AccountType accountType) {
         this.creationDate = creationDate;
         this.accountType = accountType;
     }

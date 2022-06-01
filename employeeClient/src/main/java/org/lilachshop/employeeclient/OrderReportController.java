@@ -16,6 +16,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Catalog;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
+import org.lilachshop.entities.myOrderItem;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -120,12 +121,12 @@ public class OrderReportController implements Initializable {
                 }
             }
         }
-        //finding number of sales todo: right the number of sales for every product is 1 ---- must change to real number!
+        //finding number of sales
         for(Order order: ordersInDateRange){
-            List<Item> orderItems = order.getItems();
-            for (Item itemFromOrder: orderItems){
+            List<myOrderItem> orderItems = order.getItems();
+            for (myOrderItem itemFromOrder: orderItems){
               if(itemFromOrder.getName().equals(item.getName())){ //todo: right now comparing only product name, maybe should check more attributes
-                  counter++;
+                  counter += itemFromOrder.getCount();
               }
             }
         }

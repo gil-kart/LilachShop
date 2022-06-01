@@ -24,14 +24,11 @@ public class Customer extends User implements Serializable {
 
     @Embedded
     Account account;
-
-    //    String firstName;
-//    String lastName;
-//    String city;
     String name;
     String address;
     String phoneNumber;
     Boolean disabled;
+
 
     @Embedded
     CreditCard card;
@@ -42,6 +39,7 @@ public class Customer extends User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "store_id")
     Store store;
+
 
     public Store getStore() {
         return store;

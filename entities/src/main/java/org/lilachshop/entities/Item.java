@@ -22,14 +22,23 @@ public class Item implements Serializable {
         this.percent = percent;
     }
 
+    String description;
+
     private int percent = 0;
 
     private int price;
     private String image;
 
-//    @ManyToMany
-//    private List<Catalog> catalog;
 
+
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
+
+    @Enumerated(EnumType.STRING)
+    private Color color;
+
+    @Lob
+    private byte[] imageBlob;
 
     public Item() {
     }
@@ -39,6 +48,13 @@ public class Item implements Serializable {
         return "item name: " + name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 
     public int getId() {
         return id;
