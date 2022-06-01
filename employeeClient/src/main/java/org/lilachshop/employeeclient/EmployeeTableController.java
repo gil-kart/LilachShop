@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,11 +24,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
+import org.lilachshop.events.AddEmployeeEvent;
 import org.lilachshop.events.StoreEvent;
 import org.lilachshop.panels.*;
 
@@ -36,8 +38,6 @@ public class EmployeeTableController implements Initializable {
     static private Panel panel;
 
     static private SystemManagerPanel sPanel;
-
-    private Parent popUpRoot;
 
     @FXML
     private ResourceBundle resources;
@@ -74,8 +74,17 @@ public class EmployeeTableController implements Initializable {
 
     private static EventBus popUpBus;
 
+    private Parent popUpRoot;
+
+    private static Stage popUpStage = null;
+
+    private static boolean wasSentToPopUp = false;
     private ObservableList<Employee> listOfEmployees;
+
     private List<Store> stores;
+
+    Set<Long> idsToDelete = null;
+
 
     private void presentRowSelected() throws IOException {
         if (listOfEmployees.isEmpty()) {
@@ -102,13 +111,17 @@ public class EmployeeTableController implements Initializable {
     @Subscribe
     public void onReceiveStores(StoreEvent storeEvent) {
         this.stores = storeEvent.getStores().size() > 0 ? storeEvent.getStores() : null;
+        if (!wasSentToPopUp) {
+            popUpBus.post(storeEvent);
+            wasSentToPopUp = true;
+        }
     }
 
     private void setEmployeeRows(List<Employee> employees) {
-        if (employees.isEmpty())
-            return;
-        listOfEmployees = FXCollections.observableArrayList();
-        listOfEmployees.addAll(employees);
+        ObservableList<Employee> oEmployees = FXCollections.observableArrayList(employees);
+        employeeTable.setItems(oEmployees);
+        employeeTable.refresh();
+        listOfEmployees = oEmployees;
         employeeTable.setEditable(true);
         employeeTable.setItems(listOfEmployees);
     }
@@ -131,13 +144,41 @@ public class EmployeeTableController implements Initializable {
         return new HashSet<>(stores);
     }
 
-    @FXML
-    void onAddClicked(ActionEvent event) {
+    @Subscribe
+    public void onGetNewEmployee(AddEmployeeEvent event) {
+        Employee employee = event.getEmployee();
+        Platform.runLater(() -> {
+            List<Employee> employees = new LinkedList<>(employeeTable.getItems());
+            employees.add(employee);
+            ObservableList<Employee> oEmployees = FXCollections.observableArrayList(employees);
+            employeeTable.setItems(oEmployees);
+            employeeTable.refresh();
+            listOfEmployees = oEmployees;
+        });
     }
 
     @FXML
+    void onAddClicked(ActionEvent event) {
+        popUpStage = popUpStage == null ? new Stage() : popUpStage;
+        popUpStage.setTitle("הוספת עובד");
+        popUpStage.setAlwaysOnTop(true);
+        if (popUpRoot.getScene() == null)
+            popUpStage.setScene(new Scene(popUpRoot));
+        popUpStage.show();
+        popUpStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onClosePopUp);
+    }
+
+    private void onClosePopUp(WindowEvent event) {
+        popUpBus.post("Clear widgets");
+    }
+
+
+    @FXML
     void onDeleteClicked(ActionEvent event) {
+        idsToDelete = idsToDelete == null ? new HashSet<>() : idsToDelete;
+        System.out.println("pre delete: #employees = " + listOfEmployees.size());
         Employee employee = employeeTable.getSelectionModel().getSelectedItem();
+        idsToDelete.add(employee.getId());
         List<Employee> employeesCopy = new LinkedList<>(employeeTable.getItems());
         employeesCopy.remove(employee);
         employeeTable.getItems().clear();
@@ -145,13 +186,26 @@ public class EmployeeTableController implements Initializable {
         employeeTable.setItems(oListCopy);
         employeeTable.refresh();
         listOfEmployees = oListCopy;
-        // todo send remove request here
+        System.out.println("post delete: #employees = " + listOfEmployees.size());
     }
 
     @FXML
     void onUpdateClicked(ActionEvent event) {
+        if (idsToDelete.size() > 0) {
+            sPanel.deleteEmployeesByID(idsToDelete);
+            idsToDelete.clear();
+        }
         List<Employee> employeesToUpdate = new LinkedList<>(listOfEmployees);
         sPanel.setAllEmployees(employeesToUpdate);
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setHeaderText("מאגר העובדים עודכן.");
+        a.setTitle("עדכון הרשאות עובדים");
+        a.show();
+//        try {
+//            Thread.sleep(1000);
+//        } catch (InterruptedException ignored) {
+//        }
+        sPanel.getAllEmployees();
     }
 
     @FXML
@@ -176,7 +230,8 @@ public class EmployeeTableController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEmployeePopUp.fxml"));
             popUpRoot = loader.load();
             AddEmployeePopUpController controller = loader.getController();
-            controller.getBus().register(this);
+            popUpBus = controller.getBus();
+            popUpBus.register(this);
         } catch (IOException e) {
             System.out.println("Unable to load pop up display.");
             e.printStackTrace();
@@ -192,15 +247,6 @@ public class EmployeeTableController implements Initializable {
         sPanel.getAllEmployees();
         sPanel.getAllStores();
 
-
-        /*TableView stuff*/
-//        employeeTable.setOnMouseClicked(e -> {
-//            try {
-//                presentRowSelected();
-//            } catch (IOException exception) {
-//                exception.printStackTrace();
-//            }
-//        });
         setPlaceHolder();
         var roleBoxCallback = new Callback<TableColumn<Employee, Role>, TableCell<Employee, Role>>() {
             @Override

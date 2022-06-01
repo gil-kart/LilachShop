@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -10,62 +11,61 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.lilachshop.employeeclient.AddEmployeePopUpController">
+<AnchorPane prefHeight="259.0" prefWidth="513.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.AddEmployeePopUpController">
     <children>
-        <Text layoutX="234.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="פרטי עובד">
+        <Text layoutX="207.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="פרטי עובד">
             <font>
-                <Font size="30.0"/>
+                <Font size="30.0" />
             </font>
         </Text>
-        <HBox alignment="CENTER" layoutX="34.0" layoutY="99.0" prefHeight="234.0" prefWidth="551.0" spacing="50.0">
+        <HBox alignment="CENTER" layoutX="18.0" layoutY="99.0" prefHeight="104.0" prefWidth="511.0" spacing="50.0">
             <children>
                 <VBox alignment="CENTER_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="214.0" prefWidth="197.0">
                     <children>
-                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                             <children>
-                                <ChoiceBox fx:id="storeChoiceBox" prefHeight="26.0" prefWidth="154.0"/>
-                                <Label alignment="CENTER" contentDisplay="RIGHT" text="חנות"/>
+                                <ChoiceBox fx:id="storeChoiceBox" prefHeight="26.0" prefWidth="154.0" />
+                                <Label alignment="CENTER" contentDisplay="RIGHT" text="חנות" />
                             </children>
                         </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                             <children>
-                                <ChoiceBox fx:id="roleChoiceBox" prefWidth="150.0">
+                                <ChoiceBox fx:id="roleChoiceBox" prefHeight="25.0" prefWidth="144.0">
                                     <HBox.margin>
-                                        <Insets/>
+                                        <Insets />
                                     </HBox.margin>
                                 </ChoiceBox>
-                                <Label alignment="CENTER" contentDisplay="RIGHT" text="תפקיד"/>
+                                <Label alignment="CENTER" contentDisplay="RIGHT" text="תפקיד" />
                             </children>
                         </HBox>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="248.0" prefWidth="238.0">
                     <children>
-                        <HBox alignment="TOP_RIGHT" prefHeight="70.0" prefWidth="244.0" spacing="10.0">
+                        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="244.0" spacing="15.0">
                             <children>
-                                <TextField fx:id="employeeTF" editable="false" prefHeight="26.0" prefWidth="181.0"/>
-                                <Label alignment="CENTER" contentDisplay="RIGHT" text="מ&quot;ס עובד"/>
+                                <TextField fx:id="employeeUsernameTF" alignment="CENTER_RIGHT" prefHeight="26.0" prefWidth="176.0" />
+                                <Label prefHeight="17.0" prefWidth="90.0" text="שם משתמש" />
                             </children>
                         </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="70.0" prefWidth="244.0" spacing="15.0">
+                        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="244.0" spacing="10.0">
                             <children>
-                                <TextField fx:id="employeeFirstNameTF" alignment="CENTER_RIGHT" prefHeight="26.0"
-                                           prefWidth="174.0"/>
-                                <Label text="שם פרטי"/>
+                                <TextField fx:id="employeePasswordTF" prefHeight="26.0" prefWidth="176.0" />
+                                <Label prefHeight="17.0" prefWidth="90.0" text="סיסמא" />
                             </children>
                         </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="70.0" prefWidth="244.0" spacing="10.0">
-                            <children>
-                                <TextField fx:id="employeeLastNameTF" prefHeight="26.0" prefWidth="166.0"/>
-                                <Label text="שם משפחה"/>
-                            </children>
-                        </HBox>
-                        <HBox prefHeight="54.0" prefWidth="244.0"/>
                     </children>
                 </VBox>
             </children>
+         <padding>
+            <Insets right="30.0" />
+         </padding>
         </HBox>
+      <HBox alignment="CENTER" layoutX="173.0" layoutY="203.0" prefHeight="40.0" prefWidth="200.0" spacing="50.0">
+         <children>
+            <Button fx:id="resetBtn" mnemonicParsing="false" onAction="#onClickReset" prefHeight="25.0" prefWidth="50.0" text="נקה" />
+            <Button fx:id="addBtn" mnemonicParsing="false" onAction="#onClickAdd" prefHeight="25.0" prefWidth="50.0" text="הוסף" />
+         </children>
+      </HBox>
     </children>
 </AnchorPane>

@@ -11,10 +11,7 @@ import org.lilachshop.entities.Order;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Hello world!
@@ -313,6 +310,16 @@ public class EntityFactory {
 
     public Store getStoreById(long entityID) {
         return getSingleRecord(Store.class, "id", entityID);
+    }
+
+    public void removeEmployeeByID(long id) {
+        deleteRecord(Employee.class, "id", id);
+    }
+
+    public void removeEmployeesByID(Set<Long> ids) {
+        for (Long id : ids) {
+            removeEmployeeByID(id);
+        }
     }
 
     /*

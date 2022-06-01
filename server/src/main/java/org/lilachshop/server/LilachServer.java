@@ -9,6 +9,7 @@ import org.lilachshop.requests.*;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
@@ -95,6 +96,10 @@ public class LilachServer extends AbstractServer {
                     List<Employee> employees = request.getAllEmployeesToEdit();
                     System.out.println("Setting #" + employees.size() + " employees...");
                     entityFactory.addAllEmployees(employees);
+                }
+                case "DELETE_EMPLOYEES_BY_ID" -> {
+                    Set<Long> ids = request.getIdsToDelete();
+                    entityFactory.removeEmployeesByID(ids);
                 }
             }
         }
