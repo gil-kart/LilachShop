@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -24,6 +25,7 @@ import javafx.event.ActionEvent;
 
 // todo: solve all the errors when changing stores and dates
 public class ComplaintReportController implements Initializable {
+    public Employee employee;
     private static Panel panel;
     List<Complaint> complaints;
     @FXML

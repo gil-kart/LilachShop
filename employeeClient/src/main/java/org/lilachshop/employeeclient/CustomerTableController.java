@@ -8,8 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import org.lilachshop.entities.Employee;
 
 public class CustomerTableController {
+
+    public Employee employee;
 
     @FXML
     private ResourceBundle resources;

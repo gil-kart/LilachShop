@@ -1,14 +1,20 @@
 package org.lilachshop.employeeclient;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Employee;
 import org.lilachshop.panels.OperationsPanelFactory;
@@ -80,15 +86,26 @@ public class EmployeeLoginController implements Initializable {
 
     @Subscribe
     public void handleMessageReceived(Object msg){
-        if(msg.getClass().equals(Employee.class)){ // will open Employee dashboard
-            System.out.println("WE found you! ! !");
-        }
-
-        else{  // couldn't find employee
-            errorLogin.setVisible(true);
-
-        }
-
+        Platform.runLater(()-> {
+                if (msg.getClass().equals(Employee.class)) { // will open Employee dashboard
+                    try {
+                        System.out.println("WE found you! ! !"); // DELETE AFTER
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+                        Parent root1 = (Parent) fxmlLoader.load();
+                        DashBoardController controller = fxmlLoader.getController();
+                        controller.employee = ((Employee)msg);
+                        controller.setData((Employee)msg);
+                        Stage stage = App.getStage();
+                        stage.setScene(new Scene(root1));
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {  // couldn't find employee
+                    errorLogin.setVisible(true);
+                }
+        });
     }
 
 

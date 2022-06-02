@@ -34,6 +34,7 @@ public class User implements Serializable {
     protected User() {
     }
 
+
     public Long getId() {
         return id;
     }

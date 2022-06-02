@@ -18,11 +18,17 @@ public class App extends Application {
     private static final double HEIGHT = 800.0;
 
     private static Scene scene;
+    private static Stage stage;
+
+    public static Stage getStage() {
+        return stage;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("EmployeeLogin"), WIDTH, HEIGHT);
         stage.setScene(scene);
+        App.stage= stage;
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         stage.show();
     }

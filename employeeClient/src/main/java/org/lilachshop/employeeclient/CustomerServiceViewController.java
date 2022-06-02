@@ -17,6 +17,7 @@ import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.ComplaintStatus;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Item;
 import org.lilachshop.panels.CustomerServicePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
@@ -30,6 +31,8 @@ import java.util.ResourceBundle;
 
 
 public class CustomerServiceViewController implements Initializable {
+    public Employee employee;
+
     private static Panel panel;
     @FXML
     private TableView<Complaint> tableView;
@@ -142,5 +145,3 @@ public class CustomerServiceViewController implements Initializable {
     }
 
 }
-
-

@@ -14,7 +14,9 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Order;
+import org.lilachshop.entities.Store;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -24,6 +26,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class IncomeReportController implements Initializable {
+    public Employee employee;
+
     private static Panel panel;
     List<Order> orders;
     @FXML
@@ -113,10 +117,7 @@ public class IncomeReportController implements Initializable {
             ((ChainManagerPanel) panel).getStoreOrders(1);
         }
         else {
-            ((StoreManagerPanel) panel).getStoreOrders(1);
-            storeList.setVisible(false);
-            chooseStoreLabel.setVisible(false);
-            newScreenBtn.setVisible(false);
+
         }
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
@@ -151,5 +152,20 @@ public class IncomeReportController implements Initializable {
     @Subscribe
     public void handleMessageFromClient(List<Order> orders){
         this.orders = orders;
+    }
+
+    public void setData(Employee employee){ // WILL NEED to "copy" this function to the others 2 reports orders
+        if(employee.getRole().equals("STORE_MANAGER")){
+            newScreenBtn.setVisible(false);
+            storeList.setVisible(false);
+//            Store store= employee.getStore();
+
+           // ((StoreManagerPanel) panel).getStoreOrders(employee.getStoreID()); //GIL, we need to change that.
+            ((StoreManagerPanel) panel).getStoreOrders(employee.getStore().getId());
+            storeList.setVisible(false);
+            chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
+        }
+
     }
 }

@@ -306,7 +306,6 @@ public class CatalogController {
                         FXMLLoader fxmlLoaderSale = new FXMLLoader();
                         fxmlLoaderSale.setLocation(getClass().getResource("saleItem.fxml"));
                         AnchorPane anchorPaneSale = fxmlLoaderSale.load();
-
                         SaleItemController saleItemController = fxmlLoaderSale.getController();
                         saleItemController.setData(flower, myListener);
                         Platform.runLater(() -> {

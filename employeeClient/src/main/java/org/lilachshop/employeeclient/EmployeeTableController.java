@@ -36,6 +36,7 @@ import static java.lang.Boolean.valueOf;
 
 public class EmployeeTableController implements Initializable {
 
+    public Employee employee; // Omer added that
     static private Panel panel;
 
     static private SystemManagerPanel sPanel;

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Catalog;
+import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class OrderReportController implements Initializable {
+    public Employee employee;
     private static Panel panel;
     Catalog catalog;
     List<Order> orders;
