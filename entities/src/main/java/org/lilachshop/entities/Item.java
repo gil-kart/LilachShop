@@ -1,4 +1,5 @@
 package org.lilachshop.entities;
+
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
@@ -11,8 +12,19 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Column(name = "item_name")
     private String name;
+
+    public Item(String name, String description, int percent, int price, ItemType itemType, Color color, byte[] imageBlob) {
+        this.name = name;
+        this.description = description;
+        this.percent = percent;
+        this.price = price;
+        this.itemType = itemType;
+        this.color = color;
+        this.imageBlob = imageBlob;
+    }
 
     public int getPercent() {
         return percent;
@@ -28,7 +40,6 @@ public class Item implements Serializable {
 
     private int price;
     private String image;
-
 
 
     @Enumerated(EnumType.STRING)
@@ -95,5 +106,13 @@ public class Item implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ItemType getItemType() {
+        return itemType;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }

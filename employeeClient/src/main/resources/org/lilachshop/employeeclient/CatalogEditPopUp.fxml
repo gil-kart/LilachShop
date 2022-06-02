@@ -12,31 +12,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane onDragDetected="#uploadImg" prefHeight="503.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CatalogEditPopUpController">
    <children>
-      <Text layoutX="422.0" layoutY="81.0" strokeType="OUTSIDE" strokeWidth="0.0" text="עריכה/הוספת מוצר">
+      <Text layoutX="411.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="עריכה/הוספת מוצר">
          <font>
             <Font size="39.0" />
          </font>
       </Text>
-      <HBox alignment="TOP_RIGHT" layoutX="34.0" layoutY="128.0" prefHeight="349.0" prefWidth="726.0" spacing="30.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="40.0">
+      <HBox alignment="CENTER" layoutX="28.0" layoutY="128.0" prefHeight="350.0" prefWidth="730.0" spacing="30.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="42.0">
          <children>
-            <VBox alignment="CENTER_RIGHT" prefHeight="350.0" prefWidth="302.0" spacing="10.0">
+            <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="278.0" spacing="10.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="RIGHT" text="תמונה:">
                      <font>
                         <Font size="17.0" />
                      </font>
                   </Label>
-                  <AnchorPane prefHeight="194.0" prefWidth="333.0" style="-fx-border-color: E6E6FAFF; -fx-border-width: 5;">
+                  <AnchorPane prefHeight="239.0" prefWidth="286.0" style="-fx-border-color: E6E6FAFF; -fx-border-width: 5;">
                      <children>
                         <ImageView fx:id="itemImgUpload" fitHeight="173.0" fitWidth="234.0" layoutX="58.0" layoutY="10.0" onDragDetected="#uploadImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      </children>
                   </AnchorPane>
                   <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="314.0" spacing="35.0">
                      <children>
-                        <ChoiceBox fx:id="storeChoiceBox" prefWidth="150.0" />
+                        <ChoiceBox fx:id="catalogChoiceBox" prefHeight="26.0" prefWidth="121.0" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" text="חנות" />
                      </children>
                   </HBox>
@@ -47,32 +46,38 @@
                   </AnchorPane>
                </children>
             </VBox>
-            <VBox prefHeight="353.0" prefWidth="372.0">
+            <VBox alignment="TOP_CENTER" prefHeight="353.0" prefWidth="372.0">
                <children>
                   <HBox alignment="CENTER_RIGHT" prefHeight="46.0" prefWidth="255.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="itemIDTF" alignment="TOP_RIGHT" editable="false" prefHeight="26.0" prefWidth="218.0" />
+                        <TextField fx:id="itemNameTF" prefHeight="26.0" prefWidth="153.0" />
+                        <Label alignment="CENTER" contentDisplay="RIGHT" text="שם הפריט" />
+                        <TextField fx:id="itemIDTF" alignment="CENTER" editable="false" prefHeight="26.0" prefWidth="87.0" promptText="-------" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" text="מק&quot;ט" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="354.0" spacing="15.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="266.0" spacing="10.0">
                      <children>
-                        <TextField fx:id="itemNameTF" editable="false" prefHeight="26.0" prefWidth="187.0" />
-                        <Label alignment="CENTER" contentDisplay="RIGHT" text="שם הפריט" />
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="266.0" spacing="30.0">
-                     <children>
-                        <TextField fx:id="priceTF" editable="false" prefHeight="26.0" prefWidth="200.0" />
+                        <TextField fx:id="discountTF" prefHeight="26.0" prefWidth="84.0" />
+                        <Label alignment="CENTER" contentDisplay="RIGHT" text="הנחה" />
+                        <TextField fx:id="priceTF" prefHeight="26.0" prefWidth="88.0" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" text="מחיר" />
                      </children>
                   </HBox>
-                  <VBox alignment="CENTER_RIGHT" prefHeight="202.0" prefWidth="394.0" spacing="5.0">
+                  <VBox alignment="CENTER_RIGHT" prefHeight="165.0" prefWidth="372.0" spacing="5.0">
                      <children>
                         <Label alignment="TOP_RIGHT" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="54.0" text="תיאור" textAlignment="RIGHT" />
-                        <TextArea fx:id="DescriptionTF" prefHeight="151.0" prefWidth="268.0" />
+                        <TextArea fx:id="DescriptionTF" prefHeight="126.0" prefWidth="372.0" />
                      </children>
                   </VBox>
+                  <HBox alignment="TOP_RIGHT" prefHeight="57.0" prefWidth="382.0" spacing="10.0">
+                     <children>
+                        <ChoiceBox fx:id="itemColorChoiceBox" prefHeight="26.0" prefWidth="109.0" />
+                        <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="74.0" text="צבע שולט" />
+                        <ChoiceBox fx:id="itemTypeChoiceBox" prefHeight="26.0" prefWidth="97.0" />
+                        <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="18.0" prefWidth="52.0" text="סוג פריט" />
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>

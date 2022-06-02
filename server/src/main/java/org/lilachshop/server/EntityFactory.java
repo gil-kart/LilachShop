@@ -62,19 +62,25 @@ public class EntityFactory {
     public void fillDataBase() {
         // ---------------- creating 3 catalogs -------------
         Catalog catalog1 = App.generateCatalog();
-        createOrUpdateSingleRecord(catalog1);
         Catalog catalog2 = App.generateCatalog();
-        createOrUpdateSingleRecord(catalog2);
         Catalog catalog3 = App.generateCatalog();
-        createOrUpdateSingleRecord(catalog3);
 
         Store store1 = new Store("חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store2 = new Store("הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store3 = new Store("תל אביב, דיזינגוף 52", "לילך תל אביב", catalog3, new ArrayList<Complaint>(), new ArrayList<Order>());
 
+        catalog1.setStore(store1);
+        catalog2.setStore(store2);
+        catalog3.setStore(store3);
+
         createOrUpdateSingleRecord(store1);
         createOrUpdateSingleRecord(store2);
         createOrUpdateSingleRecord(store3);
+
+        createOrUpdateSingleRecord(catalog1);
+        createOrUpdateSingleRecord(catalog2);
+        createOrUpdateSingleRecord(catalog3);
+
 
         addOredersToStoresStore(store1, store2, store3);
         addComplaintsToStores(store1, store2, store3);
@@ -226,6 +232,10 @@ public class EntityFactory {
         createOrUpdateSingleRecord(customer);
     }
 
+    public Customer getCustomerByUserName(String userNameKey) {
+        return getSingleRecord(Customer.class, "userName", userNameKey);
+    }
+
     public void addAllEmployees(List<Employee> employees) {
         for (Employee e : employees) {
             createOrUpdateSingleRecord(e);
@@ -248,6 +258,12 @@ public class EntityFactory {
         return getSingleRecord(Catalog.class, "id", entityID);
     }
 
+    public void addItemToCatalog(Long catalogId, Item item) {
+        Catalog catalog = getSingleCatalogEntityRecord(catalogId);
+        catalog.addItem(item);
+        createOrUpdateSingleRecord(catalog);
+    }
+
     public Store getStoreById(long entityID) {
         return getSingleRecord(Store.class, "id", entityID);
     }
@@ -263,11 +279,16 @@ public class EntityFactory {
     }
 
     /*
-     *****************************************   Entity Methods   ******************************************************
+     *****************************************  Example Entity Methods   ******************************************************
      */
 
     public List<ExampleEntity> getAllExampleEntities() {
         return getAllRecords(ExampleEntity.class);
+    }
+
+    public Catalog getSingleCatalogEntityRecordByStoreID(long storeID) {
+        Store store = getSingleRecord(Store.class, "id", storeID);
+        return store.getCatalog();
     }
 
     // Usage of query API
@@ -328,7 +349,7 @@ public class EntityFactory {
         return result;
     }
 
-    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) { // todo: test this
+    private <T, S> T getSingleRecord(Class<T> entityClass, String keyColumn, S key) {
         Session session = sf.openSession();
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<T> cq = cb.createQuery(entityClass);
@@ -338,6 +359,7 @@ public class EntityFactory {
 
         Query<T> query = session.createQuery(cq);
         List<T> record_list = query.getResultList();
+        session.close();
         return record_list.isEmpty() ? null : record_list.get(0);
     }
 

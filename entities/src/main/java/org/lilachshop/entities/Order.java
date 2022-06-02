@@ -59,16 +59,11 @@ public class Order implements Serializable {
     @ManyToOne
     Customer customer;
 
-    @OneToOne
-    Order order;
 
     protected Order() {
 
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public LocalDate getCreationDate() {
         return creationDate;

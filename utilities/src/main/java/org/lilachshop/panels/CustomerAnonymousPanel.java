@@ -27,4 +27,5 @@ public class CustomerAnonymousPanel extends Panel {
         sendToServer((new StoreRequest("get all stores")));
     }
 
+    public void checkIfUserNameTaken(String username){sendToServer(new SignUpRequest("check if username taken",username));}
 }

@@ -36,7 +36,7 @@ public class SignUpStage2Controller {
     private Button nextBtn; // Value injected by FXMLLoader
 
     @FXML // fx:id="phoneTF"
-    private TextField phoneTF; // Value injected by FXMLLoader
+    private MaskedTextField phoneTF; // Value injected by FXMLLoader
 
     @FXML
     void onClickNextBtn(ActionEvent event) {

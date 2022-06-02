@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.List;
+
 @Transactional
 @Entity
 @Table(name = "catalog")
@@ -15,6 +16,10 @@ public class Catalog implements Serializable {
     @OneToOne
     Store store;
 
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Item> items;
 
@@ -25,9 +30,21 @@ public class Catalog implements Serializable {
     public int getId() {
         return id;
     }
-    public void setItems(List<Item> items){ this.items = items;}
-    public void addItem(Item item){
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    public void addItem(Item item) {
         this.items.add(item);
     }
 
+    public Store getStore() {
+        return store;
+    }
+
+    @Override
+    public String toString() {
+        return this.store.storeName;
+    }
 }

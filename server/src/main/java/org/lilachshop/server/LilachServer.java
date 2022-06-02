@@ -7,7 +7,6 @@ import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -165,8 +164,24 @@ public class LilachServer extends AbstractServer {
 
         if (msg.getClass().equals(SignUpRequest.class)) {
             SignUpRequest request = (SignUpRequest) msg;
-            System.out.println("Server: got new signup request with username: " + request.getCustomer().getUserName());
-            entityFactory.addCustomer(request.getCustomer());
+            String message_from_client = request.getRequest();
+
+            try {
+                switch (message_from_client) {
+                    case "create new customer" -> {
+                        System.out.println("Server: got new signup request with username: " + request.getCustomer().getUserName());
+                        entityFactory.addCustomer(request.getCustomer());
+                    }
+                    case "check if username taken" -> {
+                        Customer customer = entityFactory.getCustomerByUserName(request.getUserName());
+                        Boolean taken = (customer != null);
+                        client.sendToClient(taken); //return true of taken already,otherwise false
+
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -283,6 +298,23 @@ public class LilachServer extends AbstractServer {
                         for (Item item : items) {
                             System.out.println(item);
                         }
+                    }
+                    case "Get Catalog By StoreID" -> {
+                        Catalog catalog = entityFactory.getSingleCatalogEntityRecordByStoreID(request.getId());
+                        client.sendToClient(catalog);
+                    }
+                    case "add new Item to Catalog" -> {
+                        System.out.println("Server: got request to add item to catalog num." + request.getId());
+                        entityFactory.addItemToCatalog(request.getId(), request.getItem());
+                        System.out.println("item added");
+                        client.sendToClient("item added to catalog successfully!");
+                    }
+                    case "get all catalogs" -> {
+                        client.sendToClient(entityFactory.getAllCatalogs());
+                    }
+                    case "get catalog by id" -> {
+                        System.out.println("Server: got request to send Catalog by id" + request.getId());
+                        client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
                     default -> {
                         client.sendToClient("request does not exist");
