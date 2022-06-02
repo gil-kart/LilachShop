@@ -232,6 +232,10 @@ public class EntityFactory {
         }
     }
 
+    public void updateEmployee(Employee employee) {
+        createOrUpdateSingleRecord(employee);
+    }
+
     public List<Complaint> getComplaintsByStoreId(long storeId) {
         return getListOfRecordByKey(Complaint.class, "store", storeId);
     }

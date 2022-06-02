@@ -100,6 +100,9 @@ public class LilachServer extends AbstractServer {
                     Set<Long> ids = request.getIdsToDelete();
                     entityFactory.removeEmployeesByID(ids);
                 }
+                case "CREATE_UPDATE_EMPLOYEE" -> {
+                    entityFactory.updateEmployee(request.getEmployeeToEdit());
+                }
             }
         }
 

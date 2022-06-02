@@ -4,6 +4,8 @@ import org.lilachshop.entities.Employee;
 import org.lilachshop.requests.EmployeeEditRequest;
 import org.lilachshop.requests.StoreRequest;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +24,18 @@ public class SystemManagerPanel extends Panel {
 
     public void deleteEmployeesByID(Set<Long> ids) {
         sendToServer(new EmployeeEditRequest(EmployeeEditRequest.Messages.DELETE_EMPLOYEES_BY_ID, ids));
+    }
+
+    public void createEmployee(Employee employee) {
+        updateEmployee(employee);
+    }
+
+    public void updateEmployee(Employee employee) {
+        sendToServer(new EmployeeEditRequest(EmployeeEditRequest.Messages.CREATE_UPDATE_EMPLOYEE, employee));
+    }
+
+    public void deleteEmployeeByID(Long id) {
+        sendToServer(new EmployeeEditRequest(EmployeeEditRequest.Messages.DELETE_EMPLOYEES_BY_ID, new HashSet<>(Collections.singleton(id))));
     }
 
     public void getAllStores() {

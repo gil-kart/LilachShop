@@ -11,6 +11,7 @@ public class EmployeeEditRequest extends Request {
     public enum Messages {
         GET_ALL_EMPLOYEES,
         SET_ALL_EMPLOYEES,
+        CREATE_UPDATE_EMPLOYEE,
         DELETE_EMPLOYEES_BY_ID;
     }
 
@@ -18,14 +19,15 @@ public class EmployeeEditRequest extends Request {
 
     private List<Employee> employeesToEdit = null;
 
+    private Employee employeeToEdit;
+
     public EmployeeEditRequest(Messages request) {
         super(request.name());
     }
 
     public EmployeeEditRequest(Messages request, Employee employeeToEdit) {
         super(request.name());
-        this.employeesToEdit = new LinkedList<>();
-        employeesToEdit.add(employeeToEdit);
+        this.employeeToEdit = employeeToEdit;
     }
 
     public EmployeeEditRequest(Messages request, List<Employee> employeesToEdit) {
@@ -44,5 +46,9 @@ public class EmployeeEditRequest extends Request {
 
     public List<Employee> getAllEmployeesToEdit() {
         return employeesToEdit;
+    }
+
+    public Employee getEmployeeToEdit() {
+        return employeeToEdit;
     }
 }

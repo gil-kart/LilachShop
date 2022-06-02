@@ -3,12 +3,12 @@ package org.lilachshop.employeeclient;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.function.BiFunction;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +17,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
@@ -32,6 +31,8 @@ import org.lilachshop.entities.*;
 import org.lilachshop.events.AddEmployeeEvent;
 import org.lilachshop.events.StoreEvent;
 import org.lilachshop.panels.*;
+
+import static java.lang.Boolean.valueOf;
 
 public class EmployeeTableController implements Initializable {
 
@@ -69,8 +70,7 @@ public class EmployeeTableController implements Initializable {
     @FXML
     private TableView<Employee> employeeTable;
 
-    @FXML
-    private Button updateBtn;
+    AddEmployeePopUpController popUpController;
 
     private static EventBus popUpBus;
 
@@ -83,8 +83,6 @@ public class EmployeeTableController implements Initializable {
     private ObservableList<Employee> listOfEmployees;
 
     private List<Store> stores;
-
-    Set<Long> idsToDelete = null;
 
     @Subscribe
     public void onRecieveEmployees(List<Employee> employees) {
@@ -129,16 +127,35 @@ public class EmployeeTableController implements Initializable {
         return new HashSet<>(stores);
     }
 
+    public boolean isUniqueUsername(List<Employee> employees, String value) {
+        for (Employee e : employees) {
+            if (Objects.equals(e.getUserName(), value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Subscribe
     public void onGetNewEmployee(AddEmployeeEvent event) {
         Employee employee = event.getEmployee();
+        List<Employee> employees = new LinkedList<>(employeeTable.getItems());
+        if (!isUniqueUsername(employees, employee.getUserName())) {
+            popUpBus.post(Boolean.FALSE);
+            return;
+        }
         Platform.runLater(() -> {
-            List<Employee> employees = new LinkedList<>(employeeTable.getItems());
             employees.add(employee);
             ObservableList<Employee> oEmployees = FXCollections.observableArrayList(employees);
             employeeTable.setItems(oEmployees);
             employeeTable.refresh();
             listOfEmployees = oEmployees;
+            sPanel.createEmployee(employee);
+            sPanel.getAllEmployees();
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText("נוסף עובד!");
+            a.setTitle("הוספת עובד");
+            a.show();
         });
     }
 
@@ -160,31 +177,9 @@ public class EmployeeTableController implements Initializable {
 
     @FXML
     void onDeleteClicked(ActionEvent event) {
-        idsToDelete = idsToDelete == null ? new HashSet<>() : idsToDelete;
-        Employee employee = employeeTable.getSelectionModel().getSelectedItem();
-        idsToDelete.add(employee.getId());
-        List<Employee> employeesCopy = new LinkedList<>(employeeTable.getItems());
-        employeesCopy.remove(employee);
-        employeeTable.getItems().clear();
-        ObservableList<Employee> oListCopy = FXCollections.observableArrayList(employeesCopy);
-        employeeTable.setItems(oListCopy);
+        sPanel.deleteEmployeeByID(employeeTable.getSelectionModel().getSelectedItem().getId());
+        employeeTable.getItems().remove(employeeTable.getSelectionModel().getSelectedItem());
         employeeTable.refresh();
-        listOfEmployees = oListCopy;
-    }
-
-    @FXML
-    void onUpdateClicked(ActionEvent event) {
-        if (idsToDelete.size() > 0) {
-            sPanel.deleteEmployeesByID(idsToDelete);
-            idsToDelete.clear();
-        }
-        List<Employee> employeesToUpdate = new LinkedList<>(listOfEmployees);
-        sPanel.setAllEmployees(employeesToUpdate);
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText("מאגר העובדים עודכן.");
-        a.setTitle("עדכון הרשאות עובדים");
-        a.show();
-        sPanel.getAllEmployees();
     }
 
     @FXML
@@ -197,19 +192,19 @@ public class EmployeeTableController implements Initializable {
         assert roleCol != null : "fx:id=\"employeeRole\" was not injected: check your FXML file 'EmployeeTable.fxml'.";
         assert storeCol != null : "fx:id=\"employeeStore\" was not injected: check your FXML file 'EmployeeTable.fxml'.";
         assert employeeTable != null : "fx:id=\"employeeTable\" was not injected: check your FXML file 'EmployeeTable.fxml'.";
-        assert updateBtn != null : "fx:id=\"updateBtn\" was not injected: check your FXML file 'EmployeeTable.fxml'.";
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setCellsValueFactories();
+        setPlaceHolder();
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddEmployeePopUp.fxml"));
             popUpRoot = loader.load();
-            AddEmployeePopUpController controller = loader.getController();
-            popUpBus = controller.getBus();
+            popUpController = loader.getController();
+            popUpBus = popUpController.getBus();
             popUpBus.register(this);
         } catch (IOException e) {
             System.out.println("Unable to load pop up display.");
@@ -226,7 +221,7 @@ public class EmployeeTableController implements Initializable {
         sPanel.getAllEmployees();
         sPanel.getAllStores();
 
-        setPlaceHolder();
+
         var roleBoxCallback = new Callback<TableColumn<Employee, Role>, TableCell<Employee, Role>>() {
             @Override
             public TableCell<Employee, Role> call(TableColumn<Employee, Role> param) {
@@ -255,6 +250,7 @@ public class EmployeeTableController implements Initializable {
                             if (employee != null)
                                 box.setItems(FXCollections.observableArrayList(Role.values()));
                             cell.setEditable(true);
+
                         }
                         if (event.getClickCount() == 2 && cell.isEditable()) {
                             box.getSelectionModel().select(0);
@@ -273,6 +269,7 @@ public class EmployeeTableController implements Initializable {
                             if (employee != null) {
                                 employee.setRole(box.getSelectionModel().getSelectedItem());
                                 cell.setEditable(false);
+                                sPanel.updateEmployee(employee);
                                 employeeTable.refresh();
                             }
                         } else if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -334,6 +331,7 @@ public class EmployeeTableController implements Initializable {
                             if (employee != null) {
                                 employee.setStore(box.getSelectionModel().getSelectedItem());
                                 cell.setEditable(false);
+                                sPanel.updateEmployee(employee);
                                 employeeTable.refresh();
                             }
                         } else if (event.getCode().equals(KeyCode.ESCAPE)) {
@@ -348,129 +346,26 @@ public class EmployeeTableController implements Initializable {
         };
         storeCol.setCellFactory(storeBoxCallback);
 
-        var usernameCallback = new Callback<TableColumn<Employee, String>, TableCell<Employee, String>>() {
-            String tempString;
+        setTextFieldFactory(userNameCol, ((employee, username) -> {
+            ((Employee) employee).setUserName(username);
+            return null;
+        }));
+        setTextFieldFactory(passwordCol, ((employee, password) -> {
+            ((Employee) employee).setUserPassword(password);
+            return null;
+        }));
+    }
 
+    private void setTextFieldFactory(TableColumn<Employee, String> col, BiFunction<Employee, String, Void> fieldSetter) {
+        col.setCellFactory(TextFieldTableCell.forTableColumn());
+        col.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Employee, String>>() {
             @Override
-            public TableCell<Employee, String> call(TableColumn<Employee, String> param) {
-                TextField usernameTF = new TextField();
-                TableCell<Employee, String> cell = new TableCell<Employee, String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty)
-                            setGraphic(null);
-                        else {
-                            setEditable(false);
-                            setText(item);
-                        }
-                    }
-                };
-
-                cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        try {
-                            var selModel = employeeTable.getSelectionModel();
-                            if (!selModel.isSelected(cell.getTableRow().getIndex(), cell.getTableColumn()))
-                                return;
-
-                            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                                tempString = cell.getItem();
-                                cell.setEditable(true);
-                            }
-                            if (event.getClickCount() == 2 && cell.isEditable()) {
-                                cell.setText(null);
-                                cell.setGraphic(usernameTF);
-                            }
-                        } catch (Exception ignored) {
-                        }
-                    }
-                });
-
-                cell.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        if (event.getCode().equals(KeyCode.ENTER)) {
-                            Employee employee = (Employee) employeeTable.getSelectionModel().getSelectedItem();
-                            if (employee != null) {
-                                employee.setUserName(usernameTF.getText());
-                                cell.setEditable(false);
-                                employeeTable.refresh();
-                            }
-                        } else if (event.getCode().equals(KeyCode.ESCAPE)) {
-                            cell.setEditable(false);
-                            employeeTable.refresh();
-                            employeeTable.getSelectionModel().clearSelection();
-                        }
-                    }
-                });
-                return cell;
+            public void handle(TableColumn.CellEditEvent<Employee, String> event) {
+                Employee employee = (Employee) event.getTableView().getItems().get(event.getTablePosition().getRow());
+                fieldSetter.apply(employee, event.getNewValue());
+                sPanel.updateEmployee(employee);
             }
-        };
-        userNameCol.setCellFactory(usernameCallback);
-
-        var passwordCallback = new Callback<TableColumn<Employee, String>, TableCell<Employee, String>>() {
-            String tempString;
-
-            @Override
-            public TableCell<Employee, String> call(TableColumn<Employee, String> param) {
-                TextField passwordTF = new TextField();
-                TableCell<Employee, String> cell = new TableCell<Employee, String>() {
-                    @Override
-                    protected void updateItem(String item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty)
-                            setGraphic(null);
-                        else {
-                            setEditable(false);
-                            setText(item);
-                        }
-                    }
-                };
-
-                cell.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        try {
-                            var selModel = employeeTable.getSelectionModel();
-                            if (!selModel.isSelected(cell.getTableRow().getIndex(), cell.getTableColumn()))
-                                return;
-
-                            if (event.getButton().equals(MouseButton.PRIMARY)) {
-                                tempString = cell.getItem();
-                                cell.setEditable(true);
-                            }
-                            if (event.getClickCount() == 2 && cell.isEditable()) {
-                                cell.setText(null);
-                                cell.setGraphic(passwordTF);
-                            }
-                        } catch (Exception ignored) {
-                        }
-                    }
-                });
-
-                cell.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                    @Override
-                    public void handle(KeyEvent event) {
-                        if (event.getCode().equals(KeyCode.ENTER)) {
-                            Employee employee = (Employee) employeeTable.getSelectionModel().getSelectedItem();
-                            if (employee != null) {
-                                employee.setUserPassword(passwordTF.getText());
-                                cell.setEditable(false);
-                                employeeTable.refresh();
-                            }
-                        } else if (event.getCode().equals(KeyCode.ESCAPE)) {
-                            cell.setEditable(false);
-                            employeeTable.refresh();
-                            employeeTable.getSelectionModel().clearSelection();
-                        }
-                    }
-                });
-                return cell;
-            }
-        };
-        passwordCol.setCellFactory(passwordCallback);
+        });
     }
 
     private void setCellsValueFactories() {

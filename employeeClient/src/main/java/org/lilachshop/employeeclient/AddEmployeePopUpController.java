@@ -10,11 +10,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,12 +53,22 @@ public class AddEmployeePopUpController implements Initializable {
     @FXML
     private Button addBtn;
 
+    @FXML
+    private Label takenLabel;
+
     private Stage stage;
 
     private static EventBus bus = null;
 
+    private Boolean canEmployeeBeAdded;
+
     public EventBus getBus() {
         return bus;
+    }
+
+    @Subscribe
+    public void setEmployeeCanBeAdded(Boolean result) {
+        canEmployeeBeAdded = result;
     }
 
     @FXML
@@ -64,10 +77,28 @@ public class AddEmployeePopUpController implements Initializable {
         Role role = roleChoiceBox.getSelectionModel().getSelectedItem();
         String username = employeeUsernameTF.getText();
         String password = employeePasswordTF.getText();
-        Employee employee = new Employee(store, role, username, password);
-        bus.post(new AddEmployeeEvent(employee));
-        stage = (Stage) addBtn.getScene().getWindow();
-        stage.close();
+
+        // Try to add an employee
+        if (canEmployeeBeAdded) {
+            Employee employee = new Employee(store, role, username, password);
+            bus.post(new AddEmployeeEvent(employee));
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        if (canEmployeeBeAdded) {
+            onClickReset(null);
+            takenLabel.setVisible(false);
+            stage = (Stage) addBtn.getScene().getWindow();
+            stage.close();
+        } else {
+            takenLabel.setVisible(true);
+            canEmployeeBeAdded = true;
+        }
     }
 
     @FXML
@@ -76,6 +107,7 @@ public class AddEmployeePopUpController implements Initializable {
         employeePasswordTF.setText("");
         roleChoiceBox.getSelectionModel().clearSelection();
         storeChoiceBox.getSelectionModel().clearSelection();
+        storeChoiceBox.setDisable(false);
     }
 
     @Subscribe
@@ -88,8 +120,23 @@ public class AddEmployeePopUpController implements Initializable {
 
     @Subscribe
     public void onClearScreen(String msg) {
-        if (msg.equals("Clear widgets")) {
-            Platform.runLater(() -> onClickReset(null));
+        switch (msg) {
+            case "Clear widgets": {
+                Platform.runLater(() -> onClickReset(null));
+                break;
+            }
+//            case "Print taken": {
+//                Platform.runLater(() -> {
+//                    takenLabel.setVisible(true);
+//                    employeeUsernameTF.setOnKeyPressed(new EventHandler<KeyEvent>() {
+//                        @Override
+//                        public void handle(KeyEvent event) {
+//                            takenLabel.setVisible(false);
+//                            employeeUsernameTF.setOnKeyPressed(null);
+//                        }
+//                    });
+//                });
+//            }
         }
     }
 
@@ -106,26 +153,33 @@ public class AddEmployeePopUpController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        canEmployeeBeAdded = true;
+        takenLabel.setVisible(false);
         bus = bus == null ? EventBus.builder().build() : bus;
         if (!bus.isRegistered(this))
             bus.register(this);
 
         onClickReset(null);
-        addBtn.setDisable(true);
 
-        addBtn.disableProperty().bind(Bindings.isEmpty(employeeUsernameTF.textProperty()).
-                or(Bindings.isEmpty(employeePasswordTF.textProperty())).or(roleChoiceBox.valueProperty().isNull()).
-                or(storeChoiceBox.valueProperty().isNull()));
+
+        addBtn.disableProperty().
+                bind(Bindings.isEmpty(employeeUsernameTF.textProperty()).
+                        or(Bindings.isEmpty(employeePasswordTF.textProperty())).
+                        or(roleChoiceBox.valueProperty().isNull()).
+                        or(storeChoiceBox.valueProperty().isNull()));
 
         roleChoiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Role.values())));
-//        roleChoiceBox.valueProperty().addListener(new ChangeListener<Role>() { todo: bind to default store for not store employee
-//            @Override
-//            public void changed(ObservableValue<? extends Role> observable, Role oldValue, Role newValue) {
-//                if (newValue != Role.STORE_EMPLOYEE){
-//                    storeChoiceBox.getSelectionModel().selected
-//                }
-//            }
-//        });
+        roleChoiceBox.valueProperty().addListener(new ChangeListener<Role>() {
+            @Override
+            public void changed(ObservableValue<? extends Role> observable, Role oldValue, Role newValue) {
+                if (newValue != Role.STORE_EMPLOYEE) {
+                    storeChoiceBox.getSelectionModel().select(0);
+                    storeChoiceBox.setDisable(true);
+                } else {
+                    storeChoiceBox.setDisable(false);
+                }
+            }
+        });
     }
 }
 
