@@ -82,7 +82,7 @@ public class EntityFactory {
         createOrUpdateSingleRecord(store2);
         createOrUpdateSingleRecord(store3);
 
-
+        //
         createOrUpdateSingleRecord(new Employee(store1, Role.STORE_EMPLOYEE, "ronaldo", "1234"));
         createOrUpdateSingleRecord(new Employee(store1, Role.CUSTOMER_SERVICE, "yossi", "1234"));
         createOrUpdateSingleRecord(new Employee(store1, Role.STORE_MANAGER, "yaakov", "1234"));
