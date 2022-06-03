@@ -24,6 +24,11 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.AccountType;
+import org.lilachshop.entities.Order;
+import org.lilachshop.entities.myOrderItem;
+
+import static org.lilachshop.entities.AccountType.STORE_ACCOUNT;
 
 public class CartController implements Initializable {
     List<myOrderItem> myFlowers = new ArrayList<>();
@@ -68,18 +73,8 @@ public class CartController implements Initializable {
      */
     @FXML
     void returnToCatalog(MouseEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myFlowers);
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.setMyFlowers(myFlowers);
+        App.getCustomerCatalog();
 
     }
 
@@ -92,12 +87,18 @@ public class CartController implements Initializable {
     void onCreateOrder(ActionEvent event) {
         if(Integer.parseInt(count.getText()) > 0)
         {
+
+            if (App.getMyCustomer().getAccount().getAccountType().equals(AccountType.ANNUAL_SUBSCRIPTION) && sum > 50)
+            {
+                sum -= sum*0.1;
+            }
+            sum += App.getShipPrice();
             Stage stage = App.getStage();
             try {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage1.fxml"));
                 Parent root = fxmlLoader1.load();
                 OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
-                Order myOrder = new Order(myFlowers);
+                Order myOrder = new Order(myFlowers,sum,countItem,App.getMyCustomer());
                 orderStage1Controller.showInfo(myOrder);
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -124,11 +125,21 @@ public class CartController implements Initializable {
     /**
      * upload the data of the order
      */
-    public void showInfo(List<myOrderItem> myFlowers) {
-        this.myFlowers = myFlowers;
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
+    void initialize() {
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        name.setText("שלום, " + App.getMyCustomer().getName());
+        sum = 0;
+        EventBus.getDefault().register(this);
+        this.myFlowers = App.getMyFlowers();
         for (int i = 0; i < myFlowers.size(); i++) {
             //calculate the sum price of the order
-            sum += (myFlowers.get(i).getFlower().getPercent() > 0 ? myFlowers.get(i).getFlower().getPrice() * (100 - myFlowers.get(i).getFlower().getPercent()) / 100 : myFlowers.get(i).getFlower().getPrice())*myFlowers.get(i).getCount();
+            sum += (myFlowers.get(i).getItem().getPercent() > 0 ? myFlowers.get(i).getItem().getPrice() * (100 - myFlowers.get(i).getItem().getPercent()) / 100 : myFlowers.get(i).getItem().getPrice())*myFlowers.get(i).getCount();
             //calculate the amount of items that has in the order
             countItem += myFlowers.get(i).getCount();
             //load the item fxml
@@ -150,17 +161,6 @@ public class CartController implements Initializable {
         count.setText(String.valueOf(countItem));
     }
 
-    @FXML
-        // This method is called by the FXMLLoader when initialization is complete
-    void initialize() {
-
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        EventBus.getDefault().register(this);
-    }
-
     /**
      * handle the eventbus for remove and add the items
      * update the external fields of the item in case of remove and add
@@ -175,19 +175,23 @@ public class CartController implements Initializable {
                     myFlowers.remove(cartEvent.updateFlower);
                 }
                 count.setText(String.valueOf(Integer.parseInt(count.getText())-1));
-                if (cartEvent.updateFlower.getFlower().getPercent() > 0)
-                    finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())-(cartEvent.updateFlower.getFlower().getPrice()*(100- cartEvent.updateFlower.getFlower().getPercent())/100)));
+                countItem--;
+                if (cartEvent.updateFlower.getItem().getPercent() > 0)
+                    sum -= cartEvent.updateFlower.getItem().getPrice()*(100- cartEvent.updateFlower.getItem().getPercent())/100;
                 else
-                    finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())- cartEvent.updateFlower.getFlower().getPrice()));
+                    sum -= cartEvent.updateFlower.getItem().getPrice();
+                finalPrice.setText(String.valueOf(sum));
             });
         }
         else if(cartEvent.action == "add")
         {
             count.setText(String.valueOf(Integer.parseInt(count.getText())+1));
-            if (cartEvent.updateFlower.getFlower().getPercent() > 0)
-                finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())+(cartEvent.updateFlower.getFlower().getPrice()*(100- cartEvent.updateFlower.getFlower().getPercent())/100)));
+            countItem++;
+            if (cartEvent.updateFlower.getItem().getPercent() > 0)
+                sum += cartEvent.updateFlower.getItem().getPrice()*(100- cartEvent.updateFlower.getItem().getPercent())/100;
             else
-                finalPrice.setText(String.valueOf(Integer.parseInt(finalPrice.getText())+ cartEvent.updateFlower.getFlower().getPrice()));
+                sum += cartEvent.updateFlower.getItem().getPrice();
+            finalPrice.setText(String.valueOf(sum));
         }
     }
 }

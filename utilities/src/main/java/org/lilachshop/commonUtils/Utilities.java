@@ -1,5 +1,6 @@
 package org.lilachshop.commonUtils;
 
+
 import java.util.List;
 
 public class Utilities {

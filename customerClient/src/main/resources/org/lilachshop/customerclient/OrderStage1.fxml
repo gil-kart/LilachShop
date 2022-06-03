@@ -53,7 +53,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" prefHeight="26.0" prefWidth="111.0" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
                                  <font>
                                     <Font size="16.0" />
                                  </font>

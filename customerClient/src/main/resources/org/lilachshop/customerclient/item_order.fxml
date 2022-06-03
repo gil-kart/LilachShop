@@ -12,11 +12,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="removeObject" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ItemCartController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.ItemCartController">
    <children>
-      <HBox alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="1000.0">
+      <HBox alignment="CENTER_LEFT" prefWidth="700.0">
          <children>
-            <TextField fx:id="amount" editable="false" prefHeight="30.0" prefWidth="27.0" text="3">
+            <TextField fx:id="amount" accessibleRole="TEXT" editable="false" prefHeight="30.0" prefWidth="27.0" text="3">
                <cursor>
                   <Cursor fx:constant="DISAPPEAR" />
                </cursor>
@@ -27,16 +27,16 @@
                   <Font size="14.0" />
                </font>
             </TextField>
-            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="462.0">
+            <VBox alignment="CENTER" prefHeight="150.0" prefWidth="450.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="34.0" prefWidth="466.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="434.0">
                      <children>
-                        <Label fx:id="price1" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="46.0" text="ש&quot;ח">
+                        <Label fx:id="price1" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="53.0" text="ש&quot;ח">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="price" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="428.0" text="180">
+                        <Label fx:id="price" nodeOrientation="LEFT_TO_RIGHT" text="180">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -72,7 +72,7 @@
                   </HBox>
                </children>
             </VBox>
-            <Label fx:id="flowerName" alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="316.0" text="נרקיס">
+            <Label fx:id="flowerName" alignment="CENTER_RIGHT" text="נרקיס">
                <font>
                   <Font size="22.0" />
                </font>
@@ -82,26 +82,6 @@
                   <Image url="@../../../images/narkis_hatsostra.jpg" />
                </image>
             </ImageView>
-            <VBox alignment="CENTER" prefHeight="130.0" prefWidth="66.0">
-               <children>
-                  <ImageView fx:id="add" fitHeight="44.0" fitWidth="45.0" onMouseClicked="#addItem" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../images/add.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="remove" fitHeight="58.0" fitWidth="48.0" onMouseClicked="#removeItem" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../images/Artboard1.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </VBox>
          </children>
       </HBox>
    </children>

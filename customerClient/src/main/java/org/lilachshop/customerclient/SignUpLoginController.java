@@ -2,6 +2,7 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -18,6 +19,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Customer;
+import org.lilachshop.entities.myOrderItem;
 import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
@@ -25,11 +27,10 @@ import org.lilachshop.panels.PanelEnum;
 
 public class SignUpLoginController implements Initializable {
 
+
     private static Panel panel;
 
-
-
-    static FXMLLoader FinalStagefxmlLoader = null;
+   static FXMLLoader FinalStagefxmlLoader = null;
     @FXML
     private ResourceBundle resources;
 
@@ -110,19 +111,11 @@ public class SignUpLoginController implements Initializable {
                     userNameTF.setText("");
                     passwordTF.setText("");
                 }
-            } else {
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    CatalogController controller = fxmlLoader.getController();
-                    controller.setData(((Customer) msg));
-
-                    Stage stage = App.getStage();
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            }
+            else{
+                App.setMyCustomer((Customer) msg);
+                App.setMyFlowers(new ArrayList<myOrderItem>());
+                App.CreatePanel();
         }
     });
     }

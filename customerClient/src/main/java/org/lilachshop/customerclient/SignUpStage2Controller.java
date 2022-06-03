@@ -13,8 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
-import org.lilachshop.customerclient.events.Signup1Event;
-import org.lilachshop.customerclient.events.Signup2Event;
+import org.lilachshop.events.Signup2Event;
 
 import java.io.IOException;
 

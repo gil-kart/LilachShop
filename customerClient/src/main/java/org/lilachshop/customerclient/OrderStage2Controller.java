@@ -6,22 +6,21 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
+import org.lilachshop.entities.PickUpDetails;
+import org.lilachshop.panels.Panel;
 
 public class OrderStage2Controller {
     Order myOrder;
@@ -80,26 +79,39 @@ public class OrderStage2Controller {
     private CheckBox selfRecieveImm; // Value injected by FXMLLoader
 
     @FXML // fx:id="selfTime"
-    private ComboBox<?> selfTime; // Value injected by FXMLLoader
+    private ComboBox<String> selfTime; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopNum"
     private Text shopNum; // Value injected by FXMLLoader
 
     @FXML // fx:id="time"
-    private ComboBox<?> time; // Value injected by FXMLLoader
+    private ComboBox<String> time; // Value injected by FXMLLoader
 
     @FXML
     void gotoNext(ActionEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
-            Parent root = fxmlLoader1.load();
-            OrderStage3Controller orderStage3Controller = fxmlLoader1.getController();
-            orderStage3Controller.showInfo(myOrder);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        boolean flagNext = true;
+
+        if(flagNext)
+        {
+            Stage stage = App.getStage();
+            try {
+                FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
+                Parent root = fxmlLoader1.load();
+                OrderStage3Controller orderStage3Controller = fxmlLoader1.getController();
+                if(deliveryBool){
+                }
+                else {
+                    LocalDate datePickUp = LocalDate.of (selfDate.getValue().getYear(),selfDate.getValue().getMonth(),selfDate.getValue().getDayOfMonth());
+                    PickUpDetails pickUp = new PickUpDetails(datePickUp);
+                    myOrder.setPickUpDetails(pickUp);
+                }
+                orderStage3Controller.showInfo(myOrder);
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -126,17 +138,7 @@ public class OrderStage2Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.getCustomerCatalog();
     }
 
     @FXML
@@ -179,7 +181,12 @@ public class OrderStage2Controller {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-
+        selfTime.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
+        time.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
+        receipient.setText(App.getMyCustomer().getName());
+        phoneNum.setText(App.getMyCustomer().getPhoneNumber());
+        address.setText(App.getMyCustomer().getAddress());
+        name.setText("שלום, " + App.getMyCustomer().getName());
     }
 
     public void showInfo(Order order) {

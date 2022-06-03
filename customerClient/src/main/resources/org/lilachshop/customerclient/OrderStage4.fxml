@@ -60,7 +60,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" prefHeight="26.0" prefWidth="111.0" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -204,7 +204,7 @@
                               <Font name="Arial Black" size="30.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="valid" layoutX="181.0" layoutY="303.0" prefHeight="40.0" prefWidth="72.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="12/29">
+                        <TextField fx:id="validMonth" layoutX="181.0" layoutY="303.0" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="12">
                            <font>
                               <Font name="Arial Black" size="16.0" />
                            </font>
@@ -217,6 +217,26 @@
                         <TextField fx:id="idCard" layoutX="448.0" layoutY="351.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="311231239">
                            <font>
                               <Font name="Arial Black" size="20.0" />
+                           </font>
+                        </TextField>
+                        <TextField layoutX="210.0" layoutY="303.0" prefHeight="40.0" prefWidth="25.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="/">
+                           <font>
+                              <Font name="Arial Black" size="16.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="validYear" layoutX="222.0" layoutY="303.0" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="29">
+                           <font>
+                              <Font name="Arial Black" size="16.0" />
+                           </font>
+                        </TextField>
+                        <Text fill="WHITE" layoutX="460.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cv" wrappingWidth="147.73670959472656">
+                           <font>
+                              <Font name="Arial Black" size="16.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="cv" layoutX="447.0" layoutY="305.0" prefHeight="40.0" prefWidth="51.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="111">
+                           <font>
+                              <Font name="Arial Black" size="16.0" />
                            </font>
                         </TextField>
                      </children>

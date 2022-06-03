@@ -2,6 +2,7 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -13,11 +14,11 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.customerclient.events.Signup1Event;
-import org.lilachshop.customerclient.events.Signup2Event;
-import org.lilachshop.customerclient.events.Signup3Event;
-import org.lilachshop.customerclient.events.Signup4Event;
 import org.lilachshop.entities.*;
+import org.lilachshop.events.Signup1Event;
+import org.lilachshop.events.Signup2Event;
+import org.lilachshop.events.Signup3Event;
+import org.lilachshop.events.Signup4Event;
 import org.lilachshop.panels.*;
 
 public class SignUpStage5Controller {
@@ -37,16 +38,9 @@ public class SignUpStage5Controller {
 
     @FXML
     void onClickBackCatalogBtn(ActionEvent event) {
-        Stage stage = App.getStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("main.fxml"));
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setScene(new Scene(root));
-        stage.show();
+        App.setMyFlowers(new LinkedList<myOrderItem>());
+        App.setMyCustomer(registeringCustomer);
+        App.CreatePanel();
     }
 
 
@@ -91,6 +85,7 @@ public class SignUpStage5Controller {
 
     @FXML
     void initialize() {
+
         assert backCatalogBtn != null : "fx:id=\"backCatalogBtn\" was not injected: check your FXML file 'SignUp5.fxml'.";
         if (!EventBus.getDefault().isRegistered(this))
             EventBus.getDefault().register(this);

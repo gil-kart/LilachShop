@@ -6,6 +6,9 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -17,14 +20,22 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.lilachshop.entities.CreditCard;
+import org.lilachshop.entities.Order;
+import org.lilachshop.entities.PickUpDetails;
+import org.lilachshop.entities.myOrderItem;
+import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.StoreCustomerPanel;
 
 public class OrderStage4Controller {
-
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    @FXML // fx:id="cardNum"
+    private TextField cv;
 
     @FXML // fx:id="cardNum"
     private TextField cardNum; // Value injected by FXMLLoader
@@ -44,13 +55,20 @@ public class OrderStage4Controller {
     @FXML // fx:id="prev"
     private Button prev; // Value injected by FXMLLoader
 
-    @FXML // fx:id="valid"
-    private TextField valid; // Value injected by FXMLLoader
+    @FXML
+    private TextField validMonth;
+
+    @FXML
+    private TextField validYear;
 
     Order myOrder;
 
     @FXML
     void endOrder(ActionEvent event) {
+        LocalDate cardValid = LocalDate.of (Integer.parseInt(validYear.getText()) , Integer.parseInt(validMonth.getText()),1);
+        //CreditCard creditCard = new CreditCard(cardNum.getText(),cardValid,name.getText(),idCard.getText(),cv.getText());
+        ((StoreCustomerPanel)App.getPanel()).sendNewOrderCreationToServer(myOrder);
+
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText("אישור הזמנה");
@@ -59,17 +77,8 @@ public class OrderStage4Controller {
         a.initModality(Modality.APPLICATION_MODAL);
         Optional<ButtonType> result = a.showAndWait();
         if (result.get() == ButtonType.OK) {
-            Stage stage = App.getStage();
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-                Parent root = fxmlLoader.load();
-                CatalogController catalogController = fxmlLoader.getController();
-                catalogController.setMyFlowers(myOrder.getMyOrder());
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            App.setMyFlowers(new LinkedList<myOrderItem>());
+            App.getCustomerCatalog();
         }
 
     }
@@ -96,17 +105,7 @@ public class OrderStage4Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        App.getCustomerCatalog();
 
     }
 
@@ -118,7 +117,13 @@ public class OrderStage4Controller {
         assert next != null : "fx:id=\"next\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert ownerName != null : "fx:id=\"ownerName\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert prev != null : "fx:id=\"prev\" was not injected: check your FXML file 'OrderStage4.fxml'.";
-        assert valid != null : "fx:id=\"valid\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        name.setText("שלום, " + App.getMyCustomer().getName());
+        cardNum.setText(App.getMyCustomer().getCard().getNumber());
+        validMonth.setText(Integer.toString(App.getMyCustomer().getCard().getExpDate().getMonth().getValue()));
+        validYear.setText(Integer.toString(App.getMyCustomer().getCard().getExpDate().getYear()));
+        name.setText(App.getMyCustomer().getName());
+        idCard.setText(Long.toString(App.getMyCustomer().getId()));
+        cv.setText(App.getMyCustomer().getCard().getThreeDigits());
 
     }
 

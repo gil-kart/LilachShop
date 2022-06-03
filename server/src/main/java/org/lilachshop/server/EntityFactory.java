@@ -231,6 +231,9 @@ public class EntityFactory {
     public void addCustomer(Customer customer) {
         createOrUpdateSingleRecord(customer);
     }
+    public void addOrder(Order order) {
+        createOrUpdateSingleRecord(order);
+    }
 
     public Customer getCustomerByUserName(String userNameKey) {
         return getSingleRecord(Customer.class, "userName", userNameKey);
@@ -248,6 +251,10 @@ public class EntityFactory {
 
     public List<Complaint> getComplaintsByStoreId(long storeId) {
         return getListOfRecordByKey(Complaint.class, "store", storeId);
+    }
+
+    public List<Order> getOrderCustomerID(long customerID) {
+        return getListOfRecordByKey(Order.class, "customer", customerID);
     }
 
     public List<Order> getOrdersByStoreId(long storeId) {
@@ -451,4 +458,7 @@ public class EntityFactory {
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
+
+
+
 }

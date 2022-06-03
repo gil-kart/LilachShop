@@ -11,7 +11,7 @@ public class CustomerAnonymousPanel extends Panel {
     }
 
     public void sendGetGeneralCatalogRequestToServer() {
-        sendToServer(new CatalogRequest("get catalog", 0));
+        sendToServer(new CatalogRequest("get catalog", 1));
 //        sendToServer(new DebugRequest("write catalog"));
     }
 

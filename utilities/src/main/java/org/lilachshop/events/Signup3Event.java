@@ -1,4 +1,4 @@
-package org.lilachshop.customerclient.events;
+package org.lilachshop.events;
 
 import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Store;

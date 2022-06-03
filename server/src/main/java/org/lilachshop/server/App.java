@@ -4,6 +4,7 @@ import org.lilachshop.entities.Catalog;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
@@ -46,7 +47,7 @@ public class App {
 
     public static List<Item> createItemList() {
         Item item;
-        List<Item> itemList = new ArrayList<>();
+        List<Item> itemList = new LinkedList<Item>();
         //    for (int i = 0; i < 5; i++) {
         String base_path = "/images/";
         item = new Item("סחלב קורל", 160, base_path + "sahlav_coral.jpg", 0);

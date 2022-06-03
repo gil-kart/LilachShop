@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.entities.myOrderItem;
 
 public class ItemCartController {
 
@@ -102,19 +103,19 @@ public class ItemCartController {
     public void setData(myOrderItem flower) {
         this.flower = flower;
         amount.setText(String.valueOf(flower.getCount()));
-        price.setText(String.valueOf(flower.getFlower().getPrice()));
-        flowerName.setText(flower.getFlower().getName());
-        if (flower.getFlower().getPercent()>0)
+        price.setText(String.valueOf(flower.getItem().getPrice()));
+        flowerName.setText(flower.getItem().getName());
+        if (flower.getItem().getPercent()>0)
         {
             oldPrice.setVisible(true);
-            oldPrice.setText(String.valueOf(flower.getFlower().getPrice()));
-            price.setText(String.valueOf(flower.getFlower().getPrice()*(100-flower.getFlower().getPercent())/100));
+            oldPrice.setText(String.valueOf(flower.getItem().getPrice()));
+            price.setText(String.valueOf(flower.getItem().getPrice()*(100-flower.getItem().getPercent())/100));
             oldPrice1.setVisible(true);
             saleImage.setVisible(true);
 
         }
         try{
-            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getFlower().getImage()))));
+            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getItem().getImage()))));
             item_img.setImage(image);
         }
         catch (Exception e){

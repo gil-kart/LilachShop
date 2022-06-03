@@ -204,7 +204,6 @@ public class DashBoardController {
         reportBtn.setVisible(false);    //CHECK IF I CAN DO IT AT ONCE
         employeeBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
         stage= App.getStage();
-
     }
 
 
@@ -215,25 +214,26 @@ public class DashBoardController {
 
             case STORE_EMPLOYEE: {
                 catalogBtn.setVisible(true);
+                break;
             }
 
-            case STORE_MANAGER: {
-                catalogBtn.setVisible(true);
-                reportBtn.setVisible(true);
-            }
+            case STORE_MANAGER:
 
             case CHAIN_MANAGER: {
                 catalogBtn.setVisible(true);
                 reportBtn.setVisible(true);
+                break;
             }
 
             case CUSTOMER_SERVICE: {
                 complaintsBtn.setVisible(true);
+                break;
             }
 
             case SYSTEM_MANAGER: {
                 employeeBtn.setVisible(true);
                 costumerBtn.setVisible(true);
+                break;
             }
         }
     }

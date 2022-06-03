@@ -15,12 +15,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
+
+import static org.lilachshop.entities.AccountType.ANNUAL_SUBSCRIPTION;
+import static org.lilachshop.entities.AccountType.STORE_ACCOUNT;
 
 public class OrderStage3Controller {
-    Order order;
+    private Order order;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -30,6 +35,9 @@ public class OrderStage3Controller {
 
     @FXML // fx:id="amount"
     private Text amount; // Value injected by FXMLLoader
+
+    @FXML // fx:id="amount"
+    private Text discount; // Value injected by FXMLLoader
 
     @FXML // fx:id="itemLayout"
     private VBox itemLayout; // Value injected by FXMLLoader
@@ -88,18 +96,7 @@ public class OrderStage3Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(order.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        App.getCustomerCatalog();
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -111,11 +108,37 @@ public class OrderStage3Controller {
         assert prev != null : "fx:id=\"prev\" was not injected: check your FXML file 'OrderStage3.fxml'.";
         assert shipPayment != null : "fx:id=\"shipPayment\" was not injected: check your FXML file 'OrderStage3.fxml'.";
         assert totalPrice != null : "fx:id=\"totalPrice\" was not injected: check your FXML file 'OrderStage3.fxml'.";
-
+        name.setText("שלום, " + App.getMyCustomer().getName());
     }
 
 
     public void showInfo(Order myOrder) {
         order = myOrder;
+        shipPayment.setText(Integer.toString(App.getShipPrice()));
+        amount.setText(Integer.toString(myOrder.getAmountOfProducts()));
+        if (App.getMyCustomer().getAccount().getAccountType().equals(STORE_ACCOUNT))
+        {
+            discount.setText("0");
+        }
+        else if (App.getMyCustomer().getAccount().getAccountType().equals(ANNUAL_SUBSCRIPTION) && (myOrder.getTotalPrice()-App.getShipPrice()) > 50)
+        {
+            discount.setText(Double.toString((((myOrder.getTotalPrice()-App.getShipPrice())/0.9)*0.1)));
+        }
+        totalPrice.setText(Double.toString(myOrder.getTotalPrice()));
+         for (int i = 0; i < order.getItems().size(); i++) {
+            //load the item fxml
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("item_order.fxml"));
+            try {
+                AnchorPane anchorPane = fxmlLoader.load();
+                ItemCartController itemCartController = fxmlLoader.getController();
+                //set the photo,name,price and amount from this flower
+                itemCartController.setData(order.getItems().get(i));
+                itemLayout.getChildren().add(anchorPane);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.OrderStage3Controller">
    <children>
-      <BorderPane layoutY="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
@@ -55,7 +55,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" prefHeight="26.0" prefWidth="111.0" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -134,7 +134,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text fx:id="shipPayment" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
+                                    <Text fx:id="shipPayment" strokeType="OUTSIDE" strokeWidth="0.0" text="15">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -143,6 +143,34 @@
                                        </font>
                                     </Text>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח:">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fx:id="discount" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="הנחה:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -179,9 +207,9 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <ScrollPane prefHeight="505.0" prefWidth="750.0">
+                        <ScrollPane>
                            <content>
-                              <VBox fx:id="itemLayout" prefHeight="76.0" prefWidth="513.0" />
+                              <VBox fx:id="itemLayout" />
                            </content>
                         </ScrollPane>
                      </items>

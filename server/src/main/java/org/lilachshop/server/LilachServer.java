@@ -1,6 +1,8 @@
 package org.lilachshop.server;
 
 import org.lilachshop.entities.*;
+import org.lilachshop.events.ItemsEvent;
+import org.lilachshop.events.OrderEvent;
 import org.lilachshop.events.StoreEvent;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
@@ -23,7 +25,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+        //entityFactory.fillDataBase();
     }
 
     @Override
@@ -37,7 +39,25 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        //************************ Report Request*******************************
+        if((msg.getClass().equals(OrderRequest.class))){
+            OrderRequest request = (OrderRequest) msg;
+            String message_from_client = request.getRequest();
+            if(message_from_client.equals("create new order")){
+                entityFactory.addOrder(request.getOrder());
+            }
+            if (message_from_client.equals("get all clients orders"))
+            {
+                long customerID = request.getCustomerID();
+                List<Order> customerOrders = entityFactory.getOrderCustomerID(customerID);
+                try {
+                    OrderEvent ordersEvent = new OrderEvent(customerOrders);
+                    client.sendToClient(ordersEvent);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+        }
 
         if (msg.getClass().equals(ReportsRequest.class)) {
             ReportsRequest request = (ReportsRequest) msg;
@@ -293,7 +313,8 @@ public class LilachServer extends AbstractServer {
                     case "get catalog" -> {
                         Catalog catalog = entityFactory.getSingleCatalogEntityRecord(request.getId());
                         List<Item> items = catalog.getItems();
-                        client.sendToClient(items);
+                        ItemsEvent itemEvent = new ItemsEvent(items);
+                        client.sendToClient(itemEvent);
                         System.out.println("catalog was sent!");
                         for (Item item : items) {
                             System.out.println(item);

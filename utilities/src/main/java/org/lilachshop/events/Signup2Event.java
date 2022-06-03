@@ -1,4 +1,4 @@
-package org.lilachshop.customerclient.events;
+package org.lilachshop.events;
 
 
 //Event to pass from SignUp2 to final stage to create new costumer

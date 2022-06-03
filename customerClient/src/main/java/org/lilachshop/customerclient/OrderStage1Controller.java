@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.lilachshop.entities.Order;
 
 public class OrderStage1Controller {
 
@@ -28,6 +29,10 @@ public class OrderStage1Controller {
 
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
+
+    public void setCardField(TextArea cardField) {
+        this.cardField = cardField;
+    }
 
     @FXML // fx:id="cardField"
     private TextArea cardField; // Value injected by FXMLLoader
@@ -45,39 +50,29 @@ public class OrderStage1Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        Stage stage = App.getStage();
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("main.fxml"));
-            Parent root = fxmlLoader.load();
-            CatalogController catalogController = fxmlLoader.getController();
-            catalogController.setMyFlowers(myOrder.getMyOrder());
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
+        App.getCustomerCatalog();
     }
 
     @FXML
     void gotoNext(ActionEvent event)
     {
-            Stage stage = App.getStage();
-            try {
-                FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
-                Parent root = fxmlLoader1.load();
-                OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
-                orderStage2Controller.showInfo(myOrder);
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        myOrder.setGreetingCard(cardField.getText());
+        Stage stage = App.getStage();
+        try {
+            FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
+            Parent root = fxmlLoader1.load();
+            OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
+            orderStage2Controller.showInfo(myOrder);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
+        name.setText("שלום, " + App.getMyCustomer().getName());
 
 
     }

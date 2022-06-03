@@ -19,9 +19,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.customerclient.events.Signup3Event;
 import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Store;
+import org.lilachshop.events.Signup3Event;
 import org.lilachshop.panels.CustomerAnonymousPanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
@@ -30,7 +30,6 @@ import org.lilachshop.panels.PanelEnum;
 
 import java.io.IOException;
 import java.net.URL;
-import java.net.http.WebSocket;
 import java.util.*;
 
 public class SignUpStage3Controller implements Initializable {

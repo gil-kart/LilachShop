@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.customerclient.MaskedTextField;
-import org.lilachshop.customerclient.events.Signup4Event;
+import org.lilachshop.events.Signup4Event;
 
 public class SignUpStage4Controller implements Initializable {
 
@@ -144,4 +144,3 @@ public class SignUpStage4Controller implements Initializable {
         });
     }
 }
-

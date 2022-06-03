@@ -6,15 +6,13 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
+
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,10 +23,8 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.entities.AccountType;
-import org.lilachshop.entities.Customer;
-import org.lilachshop.entities.Item;
-import org.lilachshop.entities.Store;
+import org.lilachshop.entities.*;
+import org.lilachshop.events.Signup3Event;
 import org.lilachshop.panels.*;
 
 public class CatalogController {
@@ -37,23 +33,12 @@ public class CatalogController {
     Boolean switchFlag = false;
     private Item flowerShown;
 
-    public void setMyFlowers(List<myOrderItem> myFlowers) {
-        this.myFlowers = myFlowers;
-    }
-
     private MyListener myListener;
-    private List<Item> flowerList = new ArrayList<>();
+    private List<Item> flowerList = new LinkedList<Item>();
     private List<myOrderItem> myFlowers = null;
-    List<ItemController> itemControllers = new ArrayList<>();
     int count = 0;
     private static final int MAX_ON_SALE = 10;
-    Customer customer = null;
-    long storeId;
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
+    static Set<Store> allStoresSet = null;
 
     @FXML
     private Label history;
@@ -108,7 +93,8 @@ public class CatalogController {
     private ScrollPane scroll; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopList"
-    private ChoiceBox<?> shopList; // Value injected by FXMLLoader
+    private ChoiceBox<Store> storeChoiceBox; // Value injected by FXMLLoader
+
 
     /**
      * set the new scene cart
@@ -116,13 +102,12 @@ public class CatalogController {
      */
     @FXML
     void gotoCart(MouseEvent event) {
-        if (myFlowers.size() > 0) {
+        if (myFlowers != null && myFlowers.size() > 0) {
             Stage stage = App.getStage();
             try {
+                App.setMyFlowers(myFlowers);
                 FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("cart.fxml"));
                 Parent root = fxmlLoader.load();
-                CartController cartController = fxmlLoader.getController();
-                cartController.showInfo(myFlowers);
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
@@ -131,7 +116,7 @@ public class CatalogController {
         } else {
             Alert a = new Alert(Alert.AlertType.NONE);
             if (!switchFlag) {
-                ButtonType button = new ButtonType("הרשם/התחבר");
+                ButtonType button = new ButtonType("אישור");
                 a.getButtonTypes().setAll(button);
                 a.setAlertType(Alert.AlertType.INFORMATION);
                 a.setHeaderText("נא התחבר או הרשם למערכת");
@@ -153,35 +138,21 @@ public class CatalogController {
     }
 
     public void gotoHistory(MouseEvent event) {
-        try {
-            Stage stage = App.getStage();
-            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("test.fxml"));
-            Parent root = fxmlLoader.load();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
+        ((StoreCustomerPanel) App.getPanel()).sendGetAllOrdersToServer(App.getMyCustomer().getId());
 
-        }
     }
 
     @FXML
-    void gotoSignUp(MouseEvent event) {
+    void gotoSignUp(MouseEvent event) throws IOException {
         if (!switchFlag) {
-            switchFlag = true;
-            name.setText("שלום, " + "יוסי לוי");
-            history.setVisible(true);
-            historyImg.setVisible(true);
-        } else {
             Stage stage = App.getStage();
             FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignupLogin.fxml"));
-            Parent root = null;
-            try {
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Parent root = fxmlLoader.load();
             stage.setScene(new Scene(root));
             stage.show();
+
+        } else {
+
         }
     }
 
@@ -194,7 +165,7 @@ public class CatalogController {
         boolean addFlag = false;
         if (switchFlag) {
             for (myOrderItem flower : myFlowers) {
-                if (flowerShown == flower.getFlower()) {
+                if (flowerShown == flower.getItem()) {
                     flower.setCount(flower.getCount() + 1);
                     addFlag = true;
                 }
@@ -207,7 +178,7 @@ public class CatalogController {
             countItems.setText(String.valueOf(count));
         } else {
             Alert a = new Alert(Alert.AlertType.NONE);
-            ButtonType button = new ButtonType("הרשם/התחבר");
+            ButtonType button = new ButtonType("אישור");
             a.getButtonTypes().setAll(button);
             a.setAlertType(Alert.AlertType.INFORMATION);
             a.setHeaderText("נא התחבר או הרשם למערכת");
@@ -229,20 +200,11 @@ public class CatalogController {
     }
 
     @FXML
-        // This method is called by the FXMLLoader when initialization is complete
+// This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         count = 0;
-        shopList.setDisable(true);
-        myFlowers = new ArrayList<>();
-        //for (myOrderItem flower : myFlowers)
-        //   count += flower.getCount();
+        storeChoiceBox.setDisable(true);
         countItems.setText(String.valueOf(count));
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
-        ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
-
-
-        //flowerList = this.getItemList();
-
     }
 
     /**
@@ -273,9 +235,22 @@ public class CatalogController {
         flowerShown = flower;
     }
 
-    @Subscribe
-    public void handleMessageReceivedFromClient(List<Item> msg) {
-        flowerList = msg;
+    public void showInfo(List<Item> flowerList, App app) {
+        this.myFlowers = App.getMyFlowers();
+        if (myFlowers != null && myFlowers.size() > 0) {
+            for (myOrderItem flower : myFlowers)
+                count += flower.getCount();
+        }
+        countItems.setText(String.valueOf(count));
+        App.setApp(app);
+        this.flowerList = flowerList;
+        if (App.getMyCustomer() != null) {
+            switchFlag = true;
+            name.setText("שלום, " + App.getMyCustomer().getName());
+            history.setVisible(true);
+            historyImg.setVisible(true);
+
+        }
         int countOnSale = 0;
         System.out.println("catalogController recieved message from server");
         if (flowerList.size() > 0) {
@@ -287,6 +262,8 @@ public class CatalogController {
                 }
             };
         }
+        grid.getChildren().clear();
+        itemLayout.getChildren().clear();
         try {
             for (Item flower : flowerList) {
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -295,9 +272,7 @@ public class CatalogController {
 
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setData(flower, myListener);
-                Platform.runLater(() -> {
-                    grid.getChildren().add(anchorPane);
-                });//, column++, row);
+                grid.getChildren().add(anchorPane);
 
                 //GridPane.setMargin(anchorPane, new Insets(5));
 
@@ -308,9 +283,8 @@ public class CatalogController {
                         AnchorPane anchorPaneSale = fxmlLoaderSale.load();
                         SaleItemController saleItemController = fxmlLoaderSale.getController();
                         saleItemController.setData(flower, myListener);
-                        Platform.runLater(() -> {
-                            itemLayout.getChildren().add(anchorPaneSale);
-                        });
+
+                        itemLayout.getChildren().add(anchorPaneSale);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -319,27 +293,29 @@ public class CatalogController {
         } catch (IOException e) {
 
         }
+
+        if(App.getMyCustomer() !=null && !App.getMyCustomer().getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
+            storeChoiceBox.setDisable(false);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, this);
+            ((AnnualCustomerPanel) panel).getAllStores();
+        }
     }
 
-    public void setData(Customer msg) {
-        switchFlag = true;
-        this.customer = msg;
-        name.setText("שלום, " + customer.getName());
-        history.setVisible(true);
-        historyImg.setVisible(true);
-        AccountType userAccountType = customer.getAccount().getAccountType();
-        if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, this);
-            storeId = customer.getStore().getId();
-            // todo: implement enable store combo box!
-            shopList.setDisable(false);
-        } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this);
-            storeId = customer.getStore().getId();
-        } else {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, this);
-            storeId = customer.getStore().getId();
-        }
-        ((StoreCustomerPanel) panel).sendGetCatalogRequestToServer(storeId);
+    public ChoiceBox<Store> getStoreChoiceBox() {
+        return storeChoiceBox;
+    }
+
+    @Subscribe
+    public void onGetAllStores(List<Store> allStores) {
+        Platform.runLater(() -> {
+            storeChoiceBox.setItems(FXCollections.observableArrayList(allStores));
+            storeChoiceBox.setOnAction((event) -> {
+                Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
+                App.setMyStore(selectedItem);
+                App.setStoreId(selectedItem.getId());
+                App.getCustomerCatalog();
+            });
+
+        });
     }
 }

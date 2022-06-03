@@ -4,6 +4,8 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 @Transactional
 @Entity
@@ -13,6 +15,30 @@ public class Order implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 //    @Column(name = "id", nullable = false)
     private Long id;
+
+    public String getGreetingCard() {
+        return greetingCard;
+    }
+
+    public DeliveryDetails getDeliveryDetails() {
+        return deliveryDetails;
+    }
+
+    public PickUpDetails getPickUpDetails() {
+        return pickUpDetails;
+    }
+
+    public Order(List<myOrderItem> items, int totalPrice, int amountOfProducts, Customer customer) {
+        this.creationDate = LocalDate.now();
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.amountOfProducts = amountOfProducts;
+        this.customer = customer;
+    }
+
+    public int getAmountOfProducts() {
+        return amountOfProducts;
+    }
 
     public Order(LocalDate creationDate, String greetingCard, List<myOrderItem> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
@@ -24,6 +50,10 @@ public class Order implements Serializable {
         this.pickUpDetails = pickUpDetails;
         this.complaint = complaint;
         this.customer = customer;
+    }
+
+    public void setPickUpDetails(PickUpDetails pickUpDetails) {
+        this.pickUpDetails = pickUpDetails;
     }
 
     public List<myOrderItem> getItems() {
@@ -59,6 +89,14 @@ public class Order implements Serializable {
     @ManyToOne
     Customer customer;
 
+
+    public void setGreetingCard(String greetingCard) {
+        this.greetingCard = greetingCard;
+    }
+
+    public void setDeliveryDetails(DeliveryDetails deliveryDetails) {
+        this.deliveryDetails = deliveryDetails;
+    }
 
     protected Order() {
 

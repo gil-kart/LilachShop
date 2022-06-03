@@ -1,6 +1,7 @@
 package org.lilachshop.customerclient;
 
 import javafx.scene.layout.AnchorPane;
+import org.lilachshop.entities.myOrderItem;
 
 public class CartEvent {
     public AnchorPane object;
