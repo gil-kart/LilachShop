@@ -1,6 +1,7 @@
 package org.lilachshop.server;
 
 import org.lilachshop.entities.*;
+import org.lilachshop.events.RefreshCatalogEvent;
 import org.lilachshop.events.ItemsEvent;
 import org.lilachshop.events.OrderEvent;
 import org.lilachshop.events.StoreEvent;
@@ -25,7 +26,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        //entityFactory.fillDataBase();
+        entityFactory.fillDataBase();
     }
 
     @Override
@@ -327,7 +328,6 @@ public class LilachServer extends AbstractServer {
                     case "add new Item to Catalog" -> {
                         System.out.println("Server: got request to add item to catalog num." + request.getId());
                         entityFactory.addItemToCatalog(request.getId(), request.getItem());
-                        System.out.println("item added");
                         client.sendToClient("item added to catalog successfully!");
                     }
                     case "get all catalogs" -> {

@@ -22,7 +22,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.OrderStage4Controller">
    <children>
-      <BorderPane layoutY="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane layoutY="7.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="7.0">
          <top>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0" BorderPane.alignment="CENTER_RIGHT">
                <children>
@@ -102,153 +102,8 @@
                </children>
             </HBox>
          </top>
-         <center>
-            <VBox alignment="TOP_CENTER" BorderPane.alignment="TOP_CENTER">
-               <BorderPane.margin>
-                  <Insets left="150.0" />
-               </BorderPane.margin>
-               <children>
-                  <AnchorPane prefHeight="366.0" prefWidth="743.0">
-                     <children>
-                        <Rectangle arcHeight="32.0" arcWidth="32.0" height="320.0" layoutX="170.0" layoutY="90.0" stroke="#c3f4da99" strokeType="OUTSIDE" strokeWidth="0.5" width="595.0">
-                           <fill>
-                              <LinearGradient endX="0.6174242640986586" startX="1.0" startY="0.3484848782871708">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" opacity="0.10000000149011612" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="0.007680491551459294">
-                                       <color>
-                                          <Color red="1.0" green="1.0" blue="1.0" opacity="0.10000000149011612" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="0.7614814639091492" green="0.800000011920929" blue="0.7788147926330566" opacity="0.6000000238418579" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Rectangle>
-                        <Rectangle height="79.0" layoutX="173.0" layoutY="285.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="591.0">
-                           <fill>
-                              <LinearGradient endX="0.9128788890260638" endY="0.7348484893639882" startX="0.24242428667617555" startY="0.4318181312445438">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.487199991941452" green="0.8317199945449829" blue="0.8700000047683716" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="0.480798771121352">
-                                       <color>
-                                          <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.6066849827766418" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="0.23529411852359772" green="0.6705882549285889" blue="0.6196078658103943" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Rectangle>
-                        <Ellipse fill="#2f753ede" layoutX="464.0" layoutY="413.0" radiusX="302.0" radiusY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-                           <effect>
-                              <BoxBlur height="28.83" iterations="2" width="24.07" />
-                           </effect>
-                        </Ellipse>
-                        <Rectangle arcHeight="32.0" arcWidth="32.0" height="103.0" layoutX="170.0" layoutY="304.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="594.0">
-                           <fill>
-                              <LinearGradient endX="0.9128788890260638" endY="0.7348484893639882" startX="0.24242428667617555" startY="0.4318181312445438">
-                                 <stops>
-                                    <Stop>
-                                       <color>
-                                          <Color red="0.487199991941452" green="0.8317199945449829" blue="0.8700000047683716" opacity="0.8999999761581421" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="0.480798771121352">
-                                       <color>
-                                          <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.6066849827766418" />
-                                       </color>
-                                    </Stop>
-                                    <Stop offset="1.0">
-                                       <color>
-                                          <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.5996500253677368" />
-                                       </color>
-                                    </Stop>
-                                 </stops>
-                              </LinearGradient>
-                           </fill>
-                        </Rectangle>
-                        <Text fill="#497ccfc7" layoutX="190.0" layoutY="132.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPERBANK" wrappingWidth="350.6655962047815">
-                           <font>
-                              <Font name="Arial Black" size="22.0" />
-                           </font>
-                        </Text>
-                        <Text fill="WHITE" layoutX="182.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VALID THRU" wrappingWidth="147.73670959472656">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </Text>
-                        <Text fill="WHITE" layoutX="460.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="147.73670959472656">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="cardNum" layoutX="184.0" layoutY="209.0" prefHeight="65.0" prefWidth="414.0" style="-fx-text-fill: #3aa689; -fx-background-color: traspernt;" text="1234 5678 1234 5678">
-                           <font>
-                              <Font name="Arial Black" size="30.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="validMonth" layoutX="181.0" layoutY="303.0" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="12">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="ownerName" layoutX="171.0" layoutY="353.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="LIZA SIVASHOV">
-                           <font>
-                              <Font name="Arial Black" size="20.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="idCard" layoutX="448.0" layoutY="351.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="311231239">
-                           <font>
-                              <Font name="Arial Black" size="20.0" />
-                           </font>
-                        </TextField>
-                        <TextField layoutX="210.0" layoutY="303.0" prefHeight="40.0" prefWidth="25.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="/">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </TextField>
-                        <TextField fx:id="validYear" layoutX="222.0" layoutY="303.0" prefHeight="40.0" prefWidth="42.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="29">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </TextField>
-                        <Text fill="WHITE" layoutX="460.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="cv" wrappingWidth="147.73670959472656">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </Text>
-                        <TextField fx:id="cv" layoutX="447.0" layoutY="305.0" prefHeight="40.0" prefWidth="51.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="111">
-                           <font>
-                              <Font name="Arial Black" size="16.0" />
-                           </font>
-                        </TextField>
-                     </children>
-                     <VBox.margin>
-                        <Insets left="100.0" />
-                     </VBox.margin>
-                  </AnchorPane>
-               </children>
-            </VBox>
-         </center>
          <bottom>
-            <HBox BorderPane.alignment="CENTER_LEFT">
+            <HBox prefHeight="88.0" prefWidth="1260.0" BorderPane.alignment="CENTER_LEFT">
                <BorderPane.margin>
                   <Insets bottom="20.0" left="20.0" />
                </BorderPane.margin>
@@ -262,6 +117,190 @@
                </children>
             </HBox>
          </bottom>
+         <center>
+            <HBox prefHeight="481.0" prefWidth="1280.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane prefHeight="495.0" prefWidth="683.0">
+                     <children>
+                        <Ellipse fill="#2f753ede" layoutX="386.0" layoutY="425.0" radiusX="302.0" radiusY="26.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
+                           <effect>
+                              <BoxBlur height="28.83" iterations="2" width="24.07" />
+                           </effect>
+                        </Ellipse>
+                        <AnchorPane layoutX="79.0" layoutY="56.0" prefHeight="364.0" prefWidth="639.0">
+                           <children>
+                              <Rectangle arcHeight="32.0" arcWidth="32.0" height="303.0" layoutX="-8.0" layoutY="12.0" stroke="#c3f4da99" strokeType="OUTSIDE" strokeWidth="0.5" width="600.0">
+                                 <fill>
+                                    <LinearGradient endX="0.6174242640986586" startX="1.0" startY="0.3484848782871708">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.10000000149011612" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.007680491551459294">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" opacity="0.10000000149011612" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.7614814639091492" green="0.800000011920929" blue="0.7788147926330566" opacity="0.6000000238418579" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                              </Rectangle>
+                              <Rectangle height="79.0" layoutX="-5.0" layoutY="218.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="603.0">
+                                 <fill>
+                                    <LinearGradient endX="0.9128788890260638" endY="0.7348484893639882" startX="0.24242428667617555" startY="0.4318181312445438">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.487199991941452" green="0.8317199945449829" blue="0.8700000047683716" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.480798771121352">
+                                             <color>
+                                                <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.6066849827766418" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.23529411852359772" green="0.6705882549285889" blue="0.6196078658103943" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                              </Rectangle>
+                              <Rectangle arcHeight="32.0" arcWidth="32.0" height="114.0" layoutX="-6.0" layoutY="237.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="604.0">
+                                 <fill>
+                                    <LinearGradient endX="0.9128788890260638" endY="0.7348484893639882" startX="0.24242428667617555" startY="0.4318181312445438">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="0.487199991941452" green="0.8317199945449829" blue="0.8700000047683716" opacity="0.8999999761581421" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.480798771121352">
+                                             <color>
+                                                <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.6066849827766418" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="0.24789999425411224" green="0.6700000166893005" blue="0.5996500253677368" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                              </Rectangle>
+                              <Text fill="#497ccfc7" layoutX="15.0" layoutY="72.0" lineSpacing="0.1" strokeType="OUTSIDE" strokeWidth="0.0" text="SUPERBANK" wrappingWidth="350.6655962047815">
+                                 <font>
+                                    <Font name="Arial Black" size="22.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="WHITE" layoutX="7.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VALID THRU" wrappingWidth="147.73670959472656">
+                                 <font>
+                                    <Font name="Arial Black" size="16.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="WHITE" layoutX="440.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ID" wrappingWidth="147.73670959472656">
+                                 <font>
+                                    <Font name="Arial Black" size="16.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="cardNumLabel" layoutX="28.0" layoutY="138.0" prefHeight="78.0" prefWidth="445.0" style="-fx-text-fill: #3aa689; -fx-background-color: traspernt;" text="1234 5678 1234 5678">
+                                 <font>
+                                    <Font name="Arial Black" size="32.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="ownerNameLabel" layoutX="1.0" layoutY="305.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="LIZA SIVASHOV">
+                                 <font>
+                                    <Font name="Arial Black" size="20.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="idCardLabel" layoutX="428.0" layoutY="303.0" prefHeight="42.0" prefWidth="145.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="311231239">
+                                 <font>
+                                    <Font name="Arial Black" size="20.0" />
+                                 </font>
+                              </TextField>
+                              <Text fill="WHITE" layoutX="437.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CVC" wrappingWidth="147.73670959472656">
+                                 <font>
+                                    <Font name="Arial Black" size="16.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="cvcLabel" layoutX="475.0" layoutY="217.0" prefHeight="40.0" prefWidth="51.0" style="-fx-background-color: tran; -fx-text-fill: #ffffff;" text="111">
+                                 <font>
+                                    <Font name="Arial Black" size="16.0" />
+                                 </font>
+                              </TextField>
+                              <Text fx:id="expDateLabel" fill="WHITE" layoutX="8.0" layoutY="264.0" strokeType="OUTSIDE" strokeWidth="0.0" text="11/11" wrappingWidth="63.47001647949219">
+                                 <font>
+                                    <Font name="Arial Black" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+                  <VBox alignment="CENTER" prefHeight="518.0" prefWidth="488.0" spacing="30.0">
+                     <children>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="468.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="creditNumTF" prefHeight="40.0" prefWidth="354.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="מספר כ&quot;א" wrappingWidth="118.13660049438477">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="468.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="ownerNameTF" prefHeight="40.0" prefWidth="354.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="שם בעל הכרטיס" wrappingWidth="184.2698998451233">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="468.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="idCardTF" prefHeight="40.0" prefWidth="354.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ת.ז. בעל הכרטיס" wrappingWidth="190.67029011249542">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="468.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="cvcTF" prefHeight="40.0" prefWidth="159.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="CVC" wrappingWidth="76.53680503368378">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="expDateTF" prefHeight="40.0" prefWidth="133.0" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="תוקף" wrappingWidth="59.46980130672455">
+                                 <font>
+                                    <Font size="25.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="468.0" spacing="20.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

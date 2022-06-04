@@ -6,11 +6,10 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.lilachshop.entities.CreditCard;
 import org.lilachshop.entities.Order;
-import org.lilachshop.entities.PickUpDetails;
 import org.lilachshop.entities.myOrderItem;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.StoreCustomerPanel;
 
 public class OrderStage4Controller {
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -34,53 +30,58 @@ public class OrderStage4Controller {
     @FXML // URL location of the FXML file that was given to the FXMLLoader
     private URL location;
 
-    @FXML // fx:id="cardNum"
-    private TextField cv;
-
-    @FXML // fx:id="cardNum"
-    private TextField cardNum; // Value injected by FXMLLoader
-
-    @FXML // fx:id="idCard"
-    private TextField idCard; // Value injected by FXMLLoader
-
-    @FXML // fx:id="name"
-    private Label name; // Value injected by FXMLLoader
-
-    @FXML // fx:id="next"
-    private Button next; // Value injected by FXMLLoader
-
-    @FXML // fx:id="ownerName"
-    private TextField ownerName; // Value injected by FXMLLoader
-
-    @FXML // fx:id="prev"
-    private Button prev; // Value injected by FXMLLoader
+    @FXML
+    private TextField cardNumLabel;
 
     @FXML
-    private TextField validMonth;
+    private TextField creditNumTF;
 
     @FXML
-    private TextField validYear;
+    private TextField cvcTF;
+
+    @FXML
+    private TextField expDateTF;
+
+    @FXML
+    private TextField idCardLabel;
+
+    @FXML
+    private TextField idCardTF;
+
+    @FXML
+    private Label name;
+
+    @FXML
+    private Button next;
+
+    @FXML
+    private TextField ownerNameLabel;
+
+    @FXML
+    private TextField ownerNameTF;
+
+    @FXML
+    private Button prev;
 
     Order myOrder;
 
     @FXML
     void endOrder(ActionEvent event) {
-        LocalDate cardValid = LocalDate.of (Integer.parseInt(validYear.getText()) , Integer.parseInt(validMonth.getText()),1);
-        //CreditCard creditCard = new CreditCard(cardNum.getText(),cardValid,name.getText(),idCard.getText(),cv.getText());
-        ((StoreCustomerPanel)App.getPanel()).sendNewOrderCreationToServer(myOrder);
 
-        Alert a = new Alert(Alert.AlertType.NONE);
-        a.setAlertType(Alert.AlertType.INFORMATION);
-        a.setHeaderText("אישור הזמנה");
-        a.setTitle("אישור הזמנה");
-        a.setContentText("ההזמנתך אושרה בהצלחה");
-        a.initModality(Modality.APPLICATION_MODAL);
-        Optional<ButtonType> result = a.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            App.setMyFlowers(new LinkedList<myOrderItem>());
-            App.getCustomerCatalog();
+        CreditCard card = validateCreditCard();
+        if (card != null) {
+            Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setHeaderText("אישור הזמנה");
+            a.setTitle("אישור הזמנה");
+            a.setContentText("ההזמנתך אושרה בהצלחה");
+            a.initModality(Modality.APPLICATION_MODAL);
+            Optional<ButtonType> result = a.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                App.setMyFlowers(new LinkedList<myOrderItem>());
+                App.getCustomerCatalog();
+            }
         }
-
     }
 
     @FXML
@@ -109,23 +110,47 @@ public class OrderStage4Controller {
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        assert cardNum != null : "fx:id=\"cardNum\" was not injected: check your FXML file 'OrderStage4.fxml'.";
-        assert idCard != null : "fx:id=\"idCard\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert cardNumLabel != null : "fx:id=\"cardNumLabel\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert creditNumTF != null : "fx:id=\"creditNumTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert cvcTF != null : "fx:id=\"cvcTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert expDateTF != null : "fx:id=\"expDateTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert idCardLabel != null : "fx:id=\"idCardLabel\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert idCardTF != null : "fx:id=\"idCardTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert name != null : "fx:id=\"name\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert next != null : "fx:id=\"next\" was not injected: check your FXML file 'OrderStage4.fxml'.";
-        assert ownerName != null : "fx:id=\"ownerName\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert ownerNameLabel != null : "fx:id=\"ownerNameLabel\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+        assert ownerNameTF != null : "fx:id=\"ownerNameTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert prev != null : "fx:id=\"prev\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         name.setText("שלום, " + App.getMyCustomer().getName());
-        cardNum.setText(App.getMyCustomer().getCard().getNumber());
-        validMonth.setText(Integer.toString(App.getMyCustomer().getCard().getExpDate().getMonth().getValue()));
-        validYear.setText(Integer.toString(App.getMyCustomer().getCard().getExpDate().getYear()));
-        name.setText(App.getMyCustomer().getName());
-        idCard.setText(Long.toString(App.getMyCustomer().getId()));
-        cv.setText(App.getMyCustomer().getCard().getThreeDigits());
-
+        creditNumTF.setText(App.getMyCustomer().getCard().getNumber().toString());
+        expDateTF.setText(App.getMyCustomer().getCard().getExpDateStringFormat());
+        ownerNameTF.setText(App.getMyCustomer().getCard().getOwnerName());
+        idCardTF.setText(Long.toString(App.getMyCustomer().getId()));
+        cvcTF.setText(App.getMyCustomer().getCard().getThreeDigits());
     }
+
+    private CreditCard validateCreditCard() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        CreditCard card = new CreditCard();
+
+        try {
+            card.setNumber(creditNumTF.getText());
+            card.setOwnerName(ownerNameTF.getText());
+            card.setExpDate(expDateTF.getText());
+            card.setThreeDigits(cvcTF.getText());
+            card.setCardOwnerId(idCardTF.getText());
+        } catch (Exception e) {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.show();
+            return null;
+        }
+        return card;
+    }
+
 
     public void showInfo(Order order) {
         myOrder = order;

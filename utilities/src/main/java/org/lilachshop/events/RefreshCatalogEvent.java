@@ -2,7 +2,9 @@ package org.lilachshop.events;
 
 import org.lilachshop.entities.Store;
 
-public class RefreshCatalogEvent {
+import java.io.Serializable;
+
+public class RefreshCatalogEvent implements Serializable {
     int id;
 
     public RefreshCatalogEvent(int id) {

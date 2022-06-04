@@ -9,27 +9,24 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.employeeclient.employeeEvents.AddItemEvent;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.RefreshCatalogEvent;
-import org.lilachshop.panels.GeneralEmployeePanel;
-import org.lilachshop.panels.OperationsPanelFactory;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.PanelEnum;
+import org.lilachshop.panels.*;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -78,6 +75,10 @@ public class CatalogEditTableController implements Initializable {
     @FXML
     private ChoiceBox<Catalog> storeCatalogChoice;
 
+    @FXML
+    private Button uploadImageBtn;
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -96,10 +97,18 @@ public class CatalogEditTableController implements Initializable {
             this.itemTypeCol.setCellValueFactory((new PropertyValueFactory<Item, ItemType>("itemType")));
         });
 
-
-        //Setting up panel
+        itemTable.setOnMouseClicked(e -> {
+            if(e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
+                System.out.println("double-Click -open Edit pop up");
+           Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
+           openEditItem(selectedItem);
+                }
+                });
+    //Setting up panel
         panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
         GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+
+
 
         //Setting up listener to CatalogChoiceBox
         ChangeListener changeListener = new ChangeListener() {
@@ -122,7 +131,6 @@ public class CatalogEditTableController implements Initializable {
         } else {
             storeCatalogChoice.setItems(FXCollections.observableArrayList(allCatalog));
         }
-
     }
 
 
@@ -162,14 +170,7 @@ public class CatalogEditTableController implements Initializable {
 
     @FXML
     void onClickAddbtn(ActionEvent event) throws IOException {
-        stage = stage == null ? new Stage() : stage;
-        fxmlLoader = fxmlLoader == null ? new FXMLLoader(App.class.getResource("CatalogEditPopUp.fxml")) : fxmlLoader;
-        if (root == null) {
-            try {
-                root = fxmlLoader.load();
-            } catch (Exception e) {
-            }
-        }
+        setUpEditItemPopUp();
         //sending relevant info to pop up
         EventBus.getDefault().post(new AddItemEvent(((GeneralEmployeePanel) panel).getEmployee()));
 
@@ -179,8 +180,49 @@ public class CatalogEditTableController implements Initializable {
 
     }
 
+    public void openEditItem(Item item) {
+        setUpEditItemPopUp();
+         CatalogEditPopUpController controller= fxmlLoader.getController();
+         controller.setItemDetailinTF(item,storeCatalogChoice.getSelectionModel().getSelectedItem());
+        scene = scene == null ? new Scene(root) : scene;
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    private void setUpEditItemPopUp() {
+        stage = stage == null ? new Stage() : stage;
+        fxmlLoader = fxmlLoader == null ? new FXMLLoader(App.class.getResource("CatalogEditPopUp.fxml")) : fxmlLoader;
+        if (root == null) {
+            try {
+                root = fxmlLoader.load();
+            } catch (Exception e) {
+            }
+        }
+    }
+
+
     @FXML
     void onClickDeleteBtn(ActionEvent event) {
+        Item item = itemTable.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("מחיקת מוצר");
+        alert.setHeaderText("מחיקת פריט - " + item.getName());
+        alert.setResizable(false);
+        alert.setContentText("האם ברצונך למחוק את הפריט?");
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        ButtonType button = result.orElse(ButtonType.CANCEL);
+
+        if (button == ButtonType.OK) {
+            GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+            generalEmployeePanel.deleteItem(item,storeCatalogChoice.getSelectionModel().getSelectedItem().getId());
+        } else {
+            System.out.println("canceled");
+        }
+
 
     }
 }

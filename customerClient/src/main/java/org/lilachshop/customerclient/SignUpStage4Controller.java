@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,7 +84,7 @@ public class SignUpStage4Controller implements Initializable {
     @FXML
     void onClickEndSignUpBtn(ActionEvent event) {
 
-        Signup4Event finalEvent = new Signup4Event(creditCardNumberTF.getPlainText(), LocalDate.now(),//todo: change to actual card input date
+        Signup4Event finalEvent = new Signup4Event(creditCardNumberTF.getPlainText(), YearMonth.now(),//todo: change to actual card input date
                 cardOwnerNameLabel.getText(), Integer.parseInt(cardOwnerIDLabel.getText())); // todo: handle number format exception
         System.out.println("pre-post event4");
         EventBus.getDefault().post(finalEvent);
