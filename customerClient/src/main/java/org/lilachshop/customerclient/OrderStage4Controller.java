@@ -11,11 +11,13 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -31,7 +33,7 @@ public class OrderStage4Controller {
     private URL location;
 
     @FXML
-    private TextField cardNumLabel;
+    private Label cardNumLabel;
 
     @FXML
     private TextField creditNumTF;
@@ -43,7 +45,7 @@ public class OrderStage4Controller {
     private TextField expDateTF;
 
     @FXML
-    private TextField idCardLabel;
+    private Label idCardLabel;
 
     @FXML
     private TextField idCardTF;
@@ -55,7 +57,7 @@ public class OrderStage4Controller {
     private Button next;
 
     @FXML
-    private TextField ownerNameLabel;
+    private Label ownerNameLabel;
 
     @FXML
     private TextField ownerNameTF;
@@ -63,13 +65,20 @@ public class OrderStage4Controller {
     @FXML
     private Button prev;
 
+    @FXML
+    private Label expDateLabel;
+
+
+    @FXML
+    private Label cvcLabel;
+
     Order myOrder;
 
     @FXML
     void endOrder(ActionEvent event) {
-
         CreditCard card = validateCreditCard();
         if (card != null) {
+            myOrder.setCreditCard(card);
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.INFORMATION);
             a.setHeaderText("אישור הזמנה");
@@ -124,12 +133,64 @@ public class OrderStage4Controller {
         assert ownerNameLabel != null : "fx:id=\"ownerNameLabel\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert ownerNameTF != null : "fx:id=\"ownerNameTF\" was not injected: check your FXML file 'OrderStage4.fxml'.";
         assert prev != null : "fx:id=\"prev\" was not injected: check your FXML file 'OrderStage4.fxml'.";
+
+        //set Actions to creditCard Display
+        creditNumTF.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                String curr_val = creditNumTF.getText();
+                cardNumLabel.setText(curr_val);
+            }
+        });
+        expDateTF.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                String curr_val = expDateTF.getText();
+                expDateLabel.setText(curr_val);
+            }
+        });
+
+        ownerNameTF.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                String curr_val = ownerNameTF.getText();
+                ownerNameLabel.setText(curr_val);
+            }
+        });
+
+        idCardTF.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                String curr_val = idCardTF.getText();
+                idCardLabel.setText(curr_val);
+            }
+        });
+
+        cvcTF.setOnKeyTyped(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                String curr_val = cvcTF.getText();
+                cvcLabel.setText(curr_val);
+            }
+        });
+
+        //set TextFields to customer data
         name.setText("שלום, " + App.getMyCustomer().getName());
+
         creditNumTF.setText(App.getMyCustomer().getCard().getNumber().toString());
+        cardNumLabel.setText(App.getMyCustomer().getCard().getNumber().toString());
+
         expDateTF.setText(App.getMyCustomer().getCard().getExpDateStringFormat());
+        expDateLabel.setText(App.getMyCustomer().getCard().getExpDateStringFormat());
+
         ownerNameTF.setText(App.getMyCustomer().getCard().getOwnerName());
+        ownerNameLabel.setText(App.getMyCustomer().getCard().getOwnerName());
+
         idCardTF.setText(Long.toString(App.getMyCustomer().getId()));
+        idCardLabel.setText(Long.toString(App.getMyCustomer().getId()));
+
         cvcTF.setText(App.getMyCustomer().getCard().getThreeDigits());
+        cvcLabel.setText(App.getMyCustomer().getCard().getThreeDigits());
     }
 
     private CreditCard validateCreditCard() {

@@ -12,7 +12,7 @@ import java.util.List;
 @Table(name = "Orders")
 public class Order implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "id", nullable = false)
     private Long id;
 
@@ -89,6 +89,9 @@ public class Order implements Serializable {
     @ManyToOne
     Customer customer;
 
+    @Embedded
+    CreditCard creditCard;
+
 
     public void setGreetingCard(String greetingCard) {
         this.greetingCard = greetingCard;
@@ -99,7 +102,6 @@ public class Order implements Serializable {
     }
 
     protected Order() {
-
     }
 
 
@@ -113,5 +115,13 @@ public class Order implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public CreditCard getCreditCard() {
+        return creditCard;
+    }
+
+    public void setCreditCard(CreditCard creditCard) {
+        this.creditCard = creditCard;
     }
 }

@@ -18,9 +18,6 @@ public class CreditCard implements Serializable {
 
     String cardOwnerId;
 
-    @OneToOne
-    Customer customer;
-
     public CreditCard() {
     }
 
@@ -82,7 +79,7 @@ public class CreditCard implements Serializable {
     }
 
     public void setThreeDigits(String threeDigits) throws Exception{
-        if (threeDigits.length() == 3) {
+        if ((threeDigits.length() == 3) && (isNonNegativeNumeric(threeDigits))) {
             this.threeDigits = threeDigits;
         } else {
             throw new Exception("קוד אימות הכרטיס אינו תקין, אנא מלא מחדש");
@@ -102,7 +99,7 @@ public class CreditCard implements Serializable {
     }
 
     public void setCardOwnerId(String cardOwnerId) throws Exception {
-        if (cardOwnerId.length() == 9) {
+        if ((cardOwnerId.length() == 9)&&(isNonNegativeNumeric(cardOwnerId))) {
             this.cardOwnerId = cardOwnerId;
         } else {
             throw new Exception("תעודת זהות אינה תקינה, אנא מלא שוב");
@@ -112,12 +109,6 @@ public class CreditCard implements Serializable {
     public String getThreeDigits() {
         return threeDigits;
     }
-
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
 
     private static boolean validateCreditCardNumber(String str) {
 
