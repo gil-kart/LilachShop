@@ -151,7 +151,6 @@ public class OrderStage4Controller {
         return card;
     }
 
-
     public void showInfo(Order order) {
         myOrder = order;
     }
