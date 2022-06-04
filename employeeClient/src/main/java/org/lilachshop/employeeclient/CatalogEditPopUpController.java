@@ -193,7 +193,6 @@ public class CatalogEditPopUpController implements Initializable {
         itemIDTF.setText(String.valueOf(itemToEdit.getId()));
         this.catalogChoiceBox.setItems(FXCollections.observableArrayList(catalog));
         catalogChoiceBox.getSelectionModel().select(catalog);
-
     }
 
 
