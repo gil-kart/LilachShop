@@ -2,9 +2,7 @@ package org.lilachshop.server;
 
 import org.lilachshop.entities.*;
 import org.lilachshop.events.RefreshCatalogEvent;
-import org.lilachshop.events.ItemsEvent;
-import org.lilachshop.events.OrderEvent;
-import org.lilachshop.events.StoreEvent;
+import org.lilachshop.events.*;
 import org.lilachshop.server.ocsf.AbstractServer;
 import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
@@ -40,25 +38,57 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
-        if((msg.getClass().equals(OrderRequest.class))){
+
+        //************************** Order Request *******************************************
+
+        if ((msg.getClass().equals(OrderRequest.class))) {
             OrderRequest request = (OrderRequest) msg;
             String message_from_client = request.getRequest();
-            if(message_from_client.equals("create new order")){
+            if (message_from_client.equals("create new order")) {
                 entityFactory.addOrder(request.getOrder());
             }
-            if (message_from_client.equals("get all clients orders"))
-            {
+            if (message_from_client.equals("get all clients orders")) {
                 long customerID = request.getCustomerID();
                 List<Order> customerOrders = entityFactory.getOrderCustomerID(customerID);
                 try {
                     OrderEvent ordersEvent = new OrderEvent(customerOrders);
                     client.sendToClient(ordersEvent);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         }
+
+        //************************** Customer edit Request ***********************************
+
+        if (msg.getClass().equals(CustomerEditRequest.class)) {
+            CustomerEditRequest request = (CustomerEditRequest) msg;
+            String message_from_client = request.getRequest();
+
+            switch (message_from_client) {
+                case "GET_ALL_CUSTOMERS" -> {
+                    List<Customer> customers = entityFactory.getCustomers();
+                    try {
+                        client.sendToClient(new CustomerEvent(customers));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                case "CREATE_UPDATE_CUSTOMER" -> {
+                    Customer customer = request.getCustomer();
+                    entityFactory.addCustomer(customer); // this also updates customers
+                }
+                case "DELETE_CUSTOMER_BY_ID" -> {
+                    System.out.println("got delete request");
+                    Customer customer = request.getCustomer();
+                    customer.clearOrders();
+                    entityFactory.addCustomer(customer); // also updates.
+                    entityFactory.deleteCustomerByID(customer.getId());
+                }
+            }
+        }
+
+        //************************ Report Request*********************************************
 
         if (msg.getClass().equals(ReportsRequest.class)) {
             ReportsRequest request = (ReportsRequest) msg;
@@ -337,10 +367,10 @@ public class LilachServer extends AbstractServer {
                         System.out.println("Server: got request to send Catalog by id" + request.getId());
                         client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
-                    case "delete item" ->{
-                        System.out.println("Server:got request to delete item num "+request.getItem().getId());
-                        entityFactory.removeItem(request.getItem(),request.getId());
-                        client.sendToClient(new RefreshCatalogEvent((int)request.getId()));
+                    case "delete item" -> {
+                        System.out.println("Server:got request to delete item num " + request.getItem().getId());
+                        entityFactory.removeItem(request.getItem(), request.getId());
+                        client.sendToClient(new RefreshCatalogEvent((int) request.getId()));
                     }
                     case "edit Item to Catalog" -> {
                         System.out.println("Server: got request to Edit item num" + request.getItem().getId() + "in catalog" + request.getId());

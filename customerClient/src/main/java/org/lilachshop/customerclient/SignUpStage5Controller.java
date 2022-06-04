@@ -54,7 +54,10 @@ public class SignUpStage5Controller {
     @Subscribe
     public void onSignUp2Event(Signup2Event signupEvent) {
         registeringCustomer.setName(signupEvent.getFirstName() + " " + signupEvent.getLastName());
-        registeringCustomer.setPhoneNumber(signupEvent.getPhoneNumber());
+        try {
+            registeringCustomer.setPhoneNumber(signupEvent.getPhoneNumber());
+        } catch (Exception ignored) {
+        }
         registeringCustomer.setAddress(signupEvent.getCity() + ", " + signupEvent.getAddress());
         System.out.println("gotEvent2");
     }
@@ -69,7 +72,7 @@ public class SignUpStage5Controller {
 
     @Subscribe
     public void onSignUp4Event(Signup4Event signupEvent) {
-        registeringCustomer.setCard(new CreditCard(signupEvent.getCardNumber(), signupEvent.getExpDate(), signupEvent.getCardOwnerName(),String.valueOf(signupEvent.getCardOwnerID()), "123"));
+        registeringCustomer.setCard(new CreditCard(signupEvent.getCardNumber(), signupEvent.getExpDate(), signupEvent.getCardOwnerName(), String.valueOf(signupEvent.getCardOwnerID()), "123"));
         if (panel.getClass().equals(CustomerAnonymousPanel.class)) {
 
             CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;

@@ -1,4 +1,4 @@
-package org.lilachshop.employeeclient.employeeEvents;
+package org.lilachshop.events;
 
 import org.lilachshop.entities.Employee;
 

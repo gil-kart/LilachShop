@@ -158,9 +158,9 @@ public class EntityFactory {
         Account account3 = new Account(AccountType.ANNUAL_SUBSCRIPTION);
 
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", false, creditCards.get(0), new ArrayList<Order>(), store1, account1));
-        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", false, creditCards.get(1), new ArrayList<Order>(), store1, account2));
-        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", false, creditCards.get(2), new ArrayList<Order>(), store2, account3));
+        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", creditCards.get(0), new ArrayList<Order>(), store1, account1));
+        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", creditCards.get(1), new ArrayList<Order>(), store1, account2));
+        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", creditCards.get(2), new ArrayList<Order>(), store2, account3));
 
         int i = 0;
         for (Customer customer : customers) {
@@ -238,6 +238,11 @@ public class EntityFactory {
     public void addCustomer(Customer customer) {
         createOrUpdateSingleRecord(customer);
     }
+
+    public void deleteCustomerByID(long customerID) {
+        deleteRecord(Customer.class, "id", customerID);
+    }
+
     public void addOrder(Order order) {
         createOrUpdateSingleRecord(order);
     }
@@ -291,15 +296,16 @@ public class EntityFactory {
             removeEmployeeByID(id);
         }
     }
-    public void removeItem(Item item,Long id){
+
+    public void removeItem(Item item, Long id) {
         System.out.println("1");
         Catalog catalog = getSingleCatalogEntityRecord(id);
         System.out.println("2");
-        List<Item> updatedItems =new ArrayList<>();
+        List<Item> updatedItems = new ArrayList<>();
         System.out.println("3");
         List<Item> curr_CatlogItems = catalog.getItems();
-        for (Item i:curr_CatlogItems) {
-            if(i.getId()!=item.getId())
+        for (Item i : curr_CatlogItems) {
+            if (i.getId() != item.getId())
                 updatedItems.add(i);
         }
         System.out.println(updatedItems);
@@ -307,9 +313,16 @@ public class EntityFactory {
         System.out.println("5");
         createOrUpdateSingleRecord(catalog);
         System.out.println("6");
-        deleteRecord(Item.class,"id",item.getId());
+        deleteRecord(Item.class, "id", item.getId());
     }
-    public Item getItemByID(int itemID){return getSingleRecord(Item.class,"id",itemID);}
+
+    public Item getItemByID(int itemID) {
+        return getSingleRecord(Item.class, "id", itemID);
+    }
+
+    public void deleteOrderByID(Long id) {
+        deleteRecord(Order.class, "id", id);
+    }
 
 
     /*
@@ -485,7 +498,4 @@ public class EntityFactory {
                 .build();
         return configuration.buildSessionFactory(serviceRegistry);
     }
-
-
-
 }

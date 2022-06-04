@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -13,11 +14,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -32,7 +33,7 @@ import org.lilachshop.events.AddEmployeeEvent;
 import org.lilachshop.events.StoreEvent;
 import org.lilachshop.panels.*;
 
-import static java.lang.Boolean.valueOf;
+import static org.lilachshop.commonUtils.Utilities.setTextFieldFactory;
 
 public class EmployeeTableController implements Initializable {
 
@@ -348,25 +349,13 @@ public class EmployeeTableController implements Initializable {
         storeCol.setCellFactory(storeBoxCallback);
 
         setTextFieldFactory(userNameCol, ((employee, username) -> {
-            ((Employee) employee).setUserName(username);
+            employee.setUserName(username);
             return null;
-        }));
+        }), User::getUserName, employee -> sPanel.updateEmployee(employee), Boolean.TRUE);
         setTextFieldFactory(passwordCol, ((employee, password) -> {
-            ((Employee) employee).setUserPassword(password);
+            employee.setUserPassword(password);
             return null;
-        }));
-    }
-
-    private void setTextFieldFactory(TableColumn<Employee, String> col, BiFunction<Employee, String, Void> fieldSetter) {
-        col.setCellFactory(TextFieldTableCell.forTableColumn());
-        col.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<Employee, String>>() {
-            @Override
-            public void handle(TableColumn.CellEditEvent<Employee, String> event) {
-                Employee employee = (Employee) event.getTableView().getItems().get(event.getTablePosition().getRow());
-                fieldSetter.apply(employee, event.getNewValue());
-                sPanel.updateEmployee(employee);
-            }
-        });
+        }), User::getUserPassword, employee -> sPanel.updateEmployee(employee));
     }
 
     private void setCellsValueFactories() {

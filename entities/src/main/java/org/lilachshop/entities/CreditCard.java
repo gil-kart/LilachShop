@@ -44,7 +44,7 @@ public class CreditCard implements Serializable {
     }
 
     private static boolean isNonNegativeNumeric(String number) {
-        Pattern pattern = Pattern.compile("^[1-9]\\d*$");
+        Pattern pattern = Pattern.compile("^[0-9]\\d*$");
         if (number == null)
             return false;
         return pattern.matcher(number).matches();
@@ -78,7 +78,7 @@ public class CreditCard implements Serializable {
         }
     }
 
-    public void setThreeDigits(String threeDigits) throws Exception{
+    public void setThreeDigits(String threeDigits) throws Exception {
         if ((threeDigits.length() == 3) && (isNonNegativeNumeric(threeDigits))) {
             this.threeDigits = threeDigits;
         } else {
@@ -99,7 +99,7 @@ public class CreditCard implements Serializable {
     }
 
     public void setCardOwnerId(String cardOwnerId) throws Exception {
-        if ((cardOwnerId.length() == 9)&&(isNonNegativeNumeric(cardOwnerId))) {
+        if ((cardOwnerId.length() == 9) && (isNonNegativeNumeric(cardOwnerId))) {
             this.cardOwnerId = cardOwnerId;
         } else {
             throw new Exception("תעודת זהות אינה תקינה, אנא מלא שוב");

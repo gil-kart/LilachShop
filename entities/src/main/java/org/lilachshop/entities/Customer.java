@@ -1,25 +1,30 @@
 package org.lilachshop.entities;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Entity
-@Table(name = "Customers")
 public class Customer extends User implements Serializable {
 
-    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, Boolean disabled, CreditCard card, List<Order> orders, Store store, Account account) {
+    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, ActiveDisabledState... disabled) {
         super(userName, userPassword);
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.disabled = disabled;
         this.card = card;
         this.orders = orders;
         this.store = store;
         this.account = account;
+        this.disabled = disabled.length > 0 ? disabled[0] : ActiveDisabledState.ACTIVE;
     }
 
     @Embedded
@@ -27,7 +32,9 @@ public class Customer extends User implements Serializable {
     String name;
     String address;
     String phoneNumber;
-    Boolean disabled;
+
+    @Enumerated(EnumType.STRING)
+    ActiveDisabledState disabled;
 
 
     @Embedded
@@ -39,6 +46,14 @@ public class Customer extends User implements Serializable {
     @ManyToOne
     @JoinColumn(name = "store_id")
     Store store;
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void clearOrders() {
+        orders.clear();
+    }
 
 
     public Store getStore() {
@@ -86,15 +101,23 @@ public class Customer extends User implements Serializable {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phoneNumber) throws Exception {
+        if (phoneNumber == null)
+            return;
+        Pattern pattern = Pattern.compile("^[0-9]\\d*$");
+        int length = phoneNumber.length();
+        if (pattern.matcher(phoneNumber).matches() &&
+                ((length == 10 && phoneNumber.startsWith("05")) || (length == 9 && phoneNumber.startsWith("0"))))
+            this.phoneNumber = phoneNumber;
+        else
+            throw new Exception("מספר טלפון אינו תקין");
     }
 
-    public Boolean getDisabled() {
+    public ActiveDisabledState getDisabled() {
         return disabled;
     }
 
-    public void setDisabled(Boolean disabled) {
+    public void setDisabled(ActiveDisabledState disabled) {
         this.disabled = disabled;
     }
 
@@ -104,6 +127,34 @@ public class Customer extends User implements Serializable {
 
     public void setCard(CreditCard card) {
         this.card = card;
+    }
+
+    public AccountType getAccountType() {
+        return account.accountType;
+    }
+
+    public LocalDate getCreationDate() {
+        return account.creationDate;
+    }
+
+    public String getCardExpDate() {
+        return card.getExpDateStringFormat();
+    }
+
+    public String getCardThreeDigits() {
+        return card.getThreeDigits();
+    }
+
+    public String getCardOwnerName() {
+        return card.getOwnerName();
+    }
+
+    public String getCardOwnerId() {
+        return card.getCardOwnerId();
+    }
+
+    public String getCardNumber() {
+        return card.getNumber();
     }
 
     @Override

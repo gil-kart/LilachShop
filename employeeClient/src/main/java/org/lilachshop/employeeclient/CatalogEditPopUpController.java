@@ -19,7 +19,7 @@ import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.employeeclient.employeeEvents.AddItemEvent;
+import org.lilachshop.events.AddItemEvent;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.RefreshCatalogEvent;
 import org.lilachshop.panels.GeneralEmployeePanel;

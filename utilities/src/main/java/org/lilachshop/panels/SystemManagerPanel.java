@@ -1,6 +1,9 @@
 package org.lilachshop.panels;
 
+import javafx.collections.ObservableList;
+import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Employee;
+import org.lilachshop.requests.CustomerEditRequest;
 import org.lilachshop.requests.EmployeeEditRequest;
 import org.lilachshop.requests.StoreRequest;
 
@@ -40,5 +43,17 @@ public class SystemManagerPanel extends Panel {
 
     public void getAllStores() {
         sendToServer(new StoreRequest("get all stores event"));
+    }
+
+    public void getAllCustomers() {
+        sendToServer(new CustomerEditRequest(CustomerEditRequest.Messages.GET_ALL_CUSTOMERS));
+    }
+
+    public void updateCustomer(Customer customer) {
+        sendToServer(new CustomerEditRequest(CustomerEditRequest.Messages.CREATE_UPDATE_CUSTOMER, customer));
+    }
+
+    public void deleteCustomerByID(Long id) {
+        sendToServer(new CustomerEditRequest(CustomerEditRequest.Messages.DELETE_CUSTOMER_BY_ID, id));
     }
 }
