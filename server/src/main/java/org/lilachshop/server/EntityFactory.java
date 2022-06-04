@@ -291,6 +291,26 @@ public class EntityFactory {
             removeEmployeeByID(id);
         }
     }
+    public void removeItem(Item item,Long id){
+        System.out.println("1");
+        Catalog catalog = getSingleCatalogEntityRecord(id);
+        System.out.println("2");
+        List<Item> updatedItems =new ArrayList<>();
+        System.out.println("3");
+        List<Item> curr_CatlogItems = catalog.getItems();
+        for (Item i:curr_CatlogItems) {
+            if(i.getId()!=item.getId())
+                updatedItems.add(i);
+        }
+        System.out.println(updatedItems);
+        catalog.setItems(updatedItems);
+        System.out.println("5");
+        createOrUpdateSingleRecord(catalog);
+        System.out.println("6");
+        deleteRecord(Item.class,"id",item.getId());
+    }
+    public Item getItemByID(int itemID){return getSingleRecord(Item.class,"id",itemID);}
+
 
     /*
      *****************************************  Example Entity Methods   ******************************************************

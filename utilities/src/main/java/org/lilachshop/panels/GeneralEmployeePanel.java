@@ -27,10 +27,15 @@ public class GeneralEmployeePanel extends Panel {
         sendToServer(new CatalogRequest("Get Catalog By StoreID",storeID));
     }
 
-    public void saveNewItem(Item item, Catalog catalog) {
-        sendToServer(new CatalogRequest("add new Item to Catalog",catalog.getId(),item));
+    public void saveNewItem(Item item, Catalog catalog,boolean saveMode) {
+        if (saveMode) { //save-mode
+            System.out.println("General panel sending request to server:add new item to Catalog" +catalog.getId());
+            sendToServer(new CatalogRequest("add new Item to Catalog",catalog.getId(),item));
+        }else{ //edit - mode
+            System.out.println("General panel sending request to server:edit item" + item.getId()+" to Catalog" +catalog.getId());
+            sendToServer(new CatalogRequest("edit Item to Catalog",catalog.getId(),item));
+        }
     }
-
     public void getAllCatalog() {
         sendToServer(new CatalogRequest("get all catalogs"));
     }

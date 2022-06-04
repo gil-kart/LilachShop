@@ -26,7 +26,6 @@ import org.lilachshop.panels.GeneralEmployeePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
-import org.lilachshop.requests.CatalogRequest;
 
 public class CatalogEditPopUpController implements Initializable {
 
@@ -61,10 +60,6 @@ public class CatalogEditPopUpController implements Initializable {
 
     @FXML
     private TextField discountTF;
-
-    public void setStoreChoiceBox(ChoiceBox<Catalog> storeChoiceBox) {
-        this.catalogChoiceBox = storeChoiceBox;
-    }
 
     @FXML
     private ChoiceBox<Catalog> catalogChoiceBox;
@@ -167,6 +162,10 @@ public class CatalogEditPopUpController implements Initializable {
         clearAllTextField();
     }
 
+    public void setStoreChoiceBox(ChoiceBox<Catalog> storeChoiceBox) {
+        this.catalogChoiceBox = storeChoiceBox;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //setting up EventBus
@@ -178,6 +177,23 @@ public class CatalogEditPopUpController implements Initializable {
             itemTypeChoiceBox.setItems(FXCollections.observableArrayList(ItemType.values()));
             itemColorChoiceBox.setItems((FXCollections.observableArrayList(Color.values())));
         });
+    }
+
+    //initialize the pop-up with the item info
+    public void setItemDetailinTF(Item itemToEdit, Catalog catalog) {
+        //Setting mode
+        saveMode = false;
+        //setting up text Fields
+        itemNameTF.setText(itemToEdit.getName());
+        priceTF.setText(String.valueOf(itemToEdit.getPrice()));
+        discountTF.setText(String.valueOf(itemToEdit.getPercent()));
+        DescriptionTF.setText(itemToEdit.getDescription());
+        itemTypeChoiceBox.getSelectionModel().select(itemToEdit.getItemType());
+        itemColorChoiceBox.getSelectionModel().select(itemToEdit.getColor());
+        itemIDTF.setText(String.valueOf(itemToEdit.getId()));
+        this.catalogChoiceBox.setItems(FXCollections.observableArrayList(catalog));
+        catalogChoiceBox.getSelectionModel().select(catalog);
+
     }
 
 

@@ -337,6 +337,17 @@ public class LilachServer extends AbstractServer {
                         System.out.println("Server: got request to send Catalog by id" + request.getId());
                         client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
+                    case "delete item" ->{
+                        System.out.println("Server:got request to delete item num "+request.getItem().getId());
+                        entityFactory.removeItem(request.getItem(),request.getId());
+                        client.sendToClient(new RefreshCatalogEvent((int)request.getId()));
+                    }
+                    case "edit Item to Catalog" -> {
+                        System.out.println("Server: got request to Edit item num" + request.getItem().getId() + "in catalog" + request.getId());
+                        entityFactory.createOrUpdateSingleRecord(request.getItem());
+                        client.sendToClient("item edited in catalog successfully!");
+                        System.out.println("item edited in catalog successfully!");
+                    }
                     default -> {
                         client.sendToClient("request does not exist");
                     }
