@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -14,14 +13,14 @@
 
 <AnchorPane onDragDetected="#uploadImg" prefHeight="503.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CatalogEditPopUpController">
    <children>
-      <Text layoutX="411.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="עריכה/הוספת מוצר">
+      <Text layoutX="429.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="עריכת/הוספת מוצר">
          <font>
             <Font size="39.0" />
          </font>
       </Text>
-      <HBox alignment="CENTER" layoutX="28.0" layoutY="128.0" prefHeight="350.0" prefWidth="730.0" spacing="30.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="42.0">
+      <HBox alignment="CENTER" layoutX="28.0" layoutY="89.0" prefHeight="389.0" prefWidth="746.0" spacing="30.0" AnchorPane.leftAnchor="28.0" AnchorPane.rightAnchor="26.0">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="278.0" spacing="10.0">
+            <VBox alignment="TOP_CENTER" prefHeight="391.0" prefWidth="278.0" spacing="10.0">
                <children>
                   <Label alignment="CENTER" contentDisplay="RIGHT" text="תמונה:">
                      <font>
@@ -33,6 +32,12 @@
                         <ImageView fx:id="itemImgUpload" fitHeight="173.0" fitWidth="234.0" layoutX="58.0" layoutY="10.0" onDragDetected="#uploadImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                      </children>
                   </AnchorPane>
+                  <HBox prefHeight="30.0" prefWidth="278.0">
+                     <children>
+                        <Button mnemonicParsing="false" text="Button" />
+                        <TextField prefHeight="26.0" prefWidth="239.0" />
+                     </children>
+                  </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="314.0" spacing="35.0">
                      <children>
                         <ChoiceBox fx:id="catalogChoiceBox" prefHeight="26.0" prefWidth="121.0" />
@@ -41,7 +46,7 @@
                   </HBox>
                   <AnchorPane prefHeight="51.0" prefWidth="350.0">
                      <children>
-                        <Button fx:id="saveBtn" alignment="CENTER" contentDisplay="TOP" mnemonicParsing="false" onAction="#onClickSaveBtn" prefHeight="36.0" prefWidth="91.0" text="שמור" />
+                        <Button fx:id="saveBtn" alignment="CENTER" contentDisplay="TOP" layoutX="-32.0" layoutY="5.0" mnemonicParsing="false" onAction="#onClickSaveBtn" prefHeight="36.0" prefWidth="91.0" text="שמור" />
                      </children>
                   </AnchorPane>
                </children>
@@ -56,7 +61,7 @@
                         <Label alignment="CENTER" contentDisplay="RIGHT" text="מק&quot;ט" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="266.0" spacing="10.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="87.0" prefWidth="372.0" spacing="10.0">
                      <children>
                         <TextField fx:id="discountTF" prefHeight="26.0" prefWidth="84.0" />
                         <Label alignment="CENTER" contentDisplay="RIGHT" text="הנחה" />

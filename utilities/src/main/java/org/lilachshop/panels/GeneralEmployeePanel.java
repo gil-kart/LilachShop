@@ -42,4 +42,8 @@ public class GeneralEmployeePanel extends Panel {
     public void getCatalogByID(int id) {
         sendToServer(new CatalogRequest("get catalog by id",id));
     }
+
+    public void deleteItem(Item item,long id) {
+        sendToServer(new CatalogRequest("delete item",id,item));
+    }
 }

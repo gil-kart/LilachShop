@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,18 +81,24 @@ public class CatalogEditPopUpController implements Initializable {
 
     @FXML
     void onClickSaveBtn(ActionEvent event) {
-
-        //Save attributes of the new Item
+        //setting up item Info for Database Change
         Item item = new Item(itemNameTF.getText(), DescriptionTF.getText(),
                 Integer.parseInt(discountTF.getText()),
                 Integer.parseInt(priceTF.getText())
                 , itemTypeChoiceBox.getSelectionModel().getSelectedItem(),
                 itemColorChoiceBox.getSelectionModel().getSelectedItem(),
                 null);
-
+        if (panel == null) {
+            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
+        }
         GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-        generalEmployeePanel.saveNewItem(item, catalogChoiceBox.getSelectionModel().getSelectedItem());
-
+        if (saveMode == true) {
+            //setting up item Info for Database Change
+            generalEmployeePanel.saveNewItem(item, catalogChoiceBox.getSelectionModel().getSelectedItem(), saveMode);
+        } else {
+            item.setId(Integer.parseInt(itemIDTF.getText()));
+            generalEmployeePanel.saveNewItem(item, catalogChoiceBox.getSelectionModel().getSelectedItem(), saveMode);
+        }
     }
 
     @Subscribe
@@ -98,11 +106,14 @@ public class CatalogEditPopUpController implements Initializable {
         System.out.println(msg);
         Catalog catalog = catalogChoiceBox.getSelectionModel().getSelectedItem();
         EventBus.getDefault().post(new RefreshCatalogEvent(catalog.getId()));
+        Stage stage = (Stage) saveBtn.getScene().getWindow();
         Platform.runLater(() -> {
             clearAllTextField();
             a.setAlertType(Alert.AlertType.INFORMATION);
-            a.setContentText("Item added");
+            a.setContentText(msg);
             a.show();
+            stage.close();
+
         });
     }
 
@@ -112,25 +123,23 @@ public class CatalogEditPopUpController implements Initializable {
 
     }
 
+
+
+
     @Subscribe
     public void onAddItemEvent(AddItemEvent event) {
-        System.out.println("POP UP - ADD ITEM");
         saveMode = true;
-        editMode = false;
-
+        System.out.println("POP UP - ADD ITEM");
         if (panel == null) {
             panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
-            GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-
-            if (allCatalog == null) {
-                generalEmployeePanel.getAllCatalog();
-            } else {
-                Platform.runLater(() -> {
-                    catalogChoiceBox.setItems(FXCollections.observableArrayList(allCatalog));
-                });
-            }
         }
+        GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+        generalEmployeePanel.getAllCatalog();
+        Platform.runLater(() -> {
+            catalogChoiceBox.setItems(FXCollections.observableArrayList(allCatalog));
+        });
     }
+
 
     @Subscribe
     public void onGetAllCatalog(List<Catalog> catalogs) {
@@ -155,7 +164,6 @@ public class CatalogEditPopUpController implements Initializable {
     }
 
     public void onCloseWindowEvent(WindowEvent event) {
-        // clear this window
         clearAllTextField();
     }
 
@@ -165,17 +173,16 @@ public class CatalogEditPopUpController implements Initializable {
         if (!(EventBus.getDefault().isRegistered(this))) {
             EventBus.getDefault().register(this);
         }
-
         Platform.runLater(() -> {
             //Setting up Enum ChoiceBox
             itemTypeChoiceBox.setItems(FXCollections.observableArrayList(ItemType.values()));
             itemColorChoiceBox.setItems((FXCollections.observableArrayList(Color.values())));
         });
-
     }
 
 
     public void clearAllTextField() {
+        itemIDTF.clear();
         itemNameTF.clear();
         priceTF.clear();
         discountTF.clear();

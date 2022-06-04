@@ -11,6 +11,8 @@ import org.lilachshop.entities.Order;
 import javax.persistence.criteria.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.*;
 
 /**
@@ -62,8 +64,12 @@ public class EntityFactory {
     public void fillDataBase() {
         // ---------------- creating 3 catalogs -------------
         Catalog catalog1 = App.generateCatalog();
+        createOrUpdateSingleRecord(catalog1);
         Catalog catalog2 = App.generateCatalog();
+        createOrUpdateSingleRecord(catalog2);
         Catalog catalog3 = App.generateCatalog();
+        createOrUpdateSingleRecord(catalog3);
+
 
         Store store1 = new Store("חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store2 = new Store("הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
@@ -135,15 +141,16 @@ public class EntityFactory {
 
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         LocalDate dt = LocalDate.of(2022, 5, 27);
+        YearMonth expDate = YearMonth.of(2025, Month.JULY);
         List<Item> generalItemList = App.createItemList();
         for (Item item : generalItemList) {
             createOrUpdateSingleRecord(item);
         }
 
         List<CreditCard> creditCards = new ArrayList<>();
-        creditCards.add(new CreditCard("1234123412341234", dt, "gil", "12345734", "123"));
-        creditCards.add(new CreditCard("4321123412341234", dt, "ziv", "82121312", "412"));
-        creditCards.add(new CreditCard("1111123412341234", dt, "tsvika", "43232354", "415"));
+        creditCards.add(new CreditCard("1234123412341234", expDate, "gil", "12345734", "123"));
+        creditCards.add(new CreditCard("4321123412341234", expDate, "ziv", "82121312", "412"));
+        creditCards.add(new CreditCard("1111123412341234", expDate, "tsvika", "43232354", "415"));
 
 
         Account account1 = new Account(AccountType.STORE_ACCOUNT);
