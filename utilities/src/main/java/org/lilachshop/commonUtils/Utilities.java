@@ -1,7 +1,16 @@
 package org.lilachshop.commonUtils;
 
+import javafx.event.EventHandler;
+import javafx.geometry.NodeOrientation;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Utilities {
     /**
@@ -29,7 +38,53 @@ public class Utilities {
         return type;
     }
 
+    public static <T> void setTextFieldFactory(TableColumn<T, String> col, BiFunction<T, String, Void> fieldSetter, Function<T, String> fieldGetter, Consumer<T> dbUpdater, Boolean... uniqueValSet) {
+        ButtonType hebrewYes = new ButtonType("כן", ButtonBar.ButtonData.OK_DONE);
+        ButtonType hebrewNo = new ButtonType("לא", ButtonBar.ButtonData.CANCEL_CLOSE);
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "פעולה זו אינה הפיכה", hebrewYes, hebrewNo);
+        alert.setTitle("עדכון שדה");
+        alert.setHeaderText("האם ברצונך לעדכן שדה זה?");
+        alert.setResizable(false);
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+        col.setCellFactory(TextFieldTableCell.forTableColumn());
+        col.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent<T, String>>() {
+            @Override
+            public void handle(TableColumn.CellEditEvent<T, String> event) {
+                T row_item = (T) event.getTableView().getItems().get(event.getTablePosition().getRow());
+
+                Optional<ButtonType> result = alert.showAndWait();
+                ButtonType buttonType = result.orElse(hebrewNo);
+                if (buttonType == hebrewYes) {
+                    if (uniqueValSet.length < 1 || uniqueValSet[0].equals(Boolean.FALSE)) {
+                        fieldSetter.apply(row_item, event.getNewValue());
+                        dbUpdater.accept(row_item);
+                    } else {
+                        // check uniqueness, if true should set value, else show error message.
+                        List<T> items = event.getTableView().getItems();
+                        boolean isUnique = true;
+                        for (T item : items) {
+                            if (Objects.equals(event.getNewValue(), fieldGetter.apply(item))) {
+                                isUnique = false;
+                                break;
+                            }
+                        }
+                        if (isUnique) {
+                            fieldSetter.apply(row_item, event.getNewValue());
+                            dbUpdater.accept(row_item);
+                        } else {
+                            Alert notUniqueAlert = new Alert(Alert.AlertType.ERROR, "פעולה בוטלה");
+                            notUniqueAlert.setHeaderText("לא ניתן לשנות לערך קיים.");
+                            notUniqueAlert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                            notUniqueAlert.show();
+                        }
+                    }
+                }
+                col.getTableView().refresh();
+            }
+        });
+    }
 //    public static class Socket {
 //
 //        private String ip;
