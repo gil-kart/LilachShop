@@ -8,17 +8,21 @@ import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
-    private static Set<User> connectedUsers;
+    private static Set<User> connectedUsers = null;
 
     public LilachServer(Integer... port) {
         // default is 3000, otherwise needs to be specified.
         super(port.length > 0 ? port[0] : 3000);
         assert port.length < 2 : "Server should receive only a port.";
+        if (connectedUsers == null) {
+            connectedUsers = new HashSet<>();
+        }
         try {
             entityFactory = EntityFactory.getEntityFactory();
         } catch (Exception e) {
