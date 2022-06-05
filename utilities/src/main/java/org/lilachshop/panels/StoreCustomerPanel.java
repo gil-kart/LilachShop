@@ -14,8 +14,8 @@ public class StoreCustomerPanel extends Panel {
         super(socket, controller);
     }
 
-    public void sendComplaintToServer(Complaint complaint) {
-        sendToServer(new UserComplaintRequest("post new complaint", complaint));
+    public void sendComplaintToServer(Complaint complaint, Order order) {
+        sendToServer(new UserComplaintRequest("post new complaint", complaint, order));
     }
 
     public void sendGetCatalogRequestToServer(long id_store) {
@@ -29,6 +29,7 @@ public class StoreCustomerPanel extends Panel {
     public void sendNewOrderCreationToServer(Order myOrder) {
         sendToServer(new OrderRequest("create new order", myOrder));
     }
+
 
     public void getAllStores() {
         sendToServer((new StoreRequest("get all stores")));

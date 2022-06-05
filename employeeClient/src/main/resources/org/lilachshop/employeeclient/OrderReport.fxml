@@ -11,9 +11,9 @@
 
 <AnchorPane prefHeight="649.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.OrderReportController">
    <children>
-      <TableView fx:id="tableView" layoutX="89.0" layoutY="52.0" prefHeight="428.0" prefWidth="573.0">
+      <TableView fx:id="tableView" layoutX="89.0" layoutY="90.0" prefHeight="390.0" prefWidth="573.0">
          <columns>
-            <TableColumn fx:id="OrderNumber" prefWidth="197.0" text="מספר הזמנות" />
+            <TableColumn fx:id="OrderNumber" prefWidth="197.0" text="מספר הזמנות של המוצר" />
             <TableColumn fx:id="Price" minWidth="6.0" prefWidth="134.0" text="מחיר" />
             <TableColumn fx:id="ItemName" prefWidth="240.0" text="שם מוצר" />
          </columns>
@@ -28,6 +28,8 @@
       <Button fx:id="okBtn" layoutX="356.0" layoutY="569.0" mnemonicParsing="false" onAction="#updateBarChart" text="בחר" />
       <ComboBox fx:id="storeList" layoutX="294.0" layoutY="610.0" onAction="#onChangeStore" prefWidth="150.0" />
       <Label fx:id="chooseStoreLabel" layoutX="478.0" layoutY="614.0" text="בחר חנות:" />
-      <Button fx:id="newScreenBtn" layoutX="23.0" layoutY="14.0" mnemonicParsing="false" onAction="#onNewScreenBtnClick" text="פתיחת מסך נוסף להשוואה" />
+      <Button fx:id="newScreenBtn" layoutX="28.0" layoutY="36.0" mnemonicParsing="false" onAction="#onNewScreenBtnClick" text="פתיחת מסך נוסף להשוואה" />
+      <Label layoutX="522.0" layoutY="49.0" prefHeight="25.0" prefWidth="150.0" text="סך כמות ההזמנות הכללית" />
+      <Label fx:id="totalNumOfOrders" layoutX="402.0" layoutY="49.0" prefHeight="25.0" prefWidth="131.0" />
    </children>
 </AnchorPane>

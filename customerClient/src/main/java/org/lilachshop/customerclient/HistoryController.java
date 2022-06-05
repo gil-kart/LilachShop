@@ -16,6 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
@@ -63,6 +66,10 @@ public class HistoryController implements Initializable {
                 HistoryItemController historyItemController = fxmlLoader.getController();
                 //set the photo,name,price and amount from this flower
                 historyItemController.setData(order);
+                Complaint complaint = order.getComplaint();
+                if(complaint != null){
+                    historyItemController.disablePostComplaintBtn();
+                }
                 itemLayout.getChildren().add(anchorPane);
 
             } catch (IOException e) {

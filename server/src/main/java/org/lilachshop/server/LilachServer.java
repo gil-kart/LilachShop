@@ -29,7 +29,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+        //entityFactory.fillDataBase();
     }
 
     @Override
@@ -130,6 +130,15 @@ public class LilachServer extends AbstractServer {
             String message_from_client = request.getRequest();
 
             switch (message_from_client) {
+                case "get all stores orders"->{
+                    List<Order> orders = entityFactory.getOrders();
+                    OrderEvent orderEvent = new OrderEvent(orders);
+                    try {
+                        client.sendToClient(orderEvent);
+                    }catch (Exception e){
+
+                    }
+                }
                 case "get store complaints" -> {
                     long storeID = request.getStoreID();
                     List<Complaint> complaints = entityFactory.getComplaintsByStoreId(storeID);
@@ -286,8 +295,14 @@ public class LilachServer extends AbstractServer {
                             if ((customer.getUserPassword().equals(requestPassword)) &&
                                     customer.getUserName().equals(requestUserName)) {
                                 try {
-                                    connectedUsers.add(customer);
-                                    client.sendToClient(customer);
+                                    
+                                    return;
+                                    if(customer.getDisabled().equals(false)){
+                                        connectedUsers.add(customer);
+                                        client.sendToClient(customer);
+                                    }
+                                    else
+                                        client.sendToClient("client account disabled");
                                     return;
 
                                 } catch (Exception e) {
@@ -317,6 +332,8 @@ public class LilachServer extends AbstractServer {
                     case "post new complaint" -> {
                         System.out.println("posting new complaint:");
                         Complaint complaint = request.getComplaint();
+                        Order order = request.getOrder();
+                        entityFactory.createOrUpdateSingleRecord(order);
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }
@@ -340,6 +357,7 @@ public class LilachServer extends AbstractServer {
                     }
                     case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
+                        complaint.setReply(request.getReply());
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }

@@ -18,12 +18,14 @@ import javafx.stage.Stage;
 import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Role;
 import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.PanelEnum;
 
 public class DashBoardController {
 
     public Employee employee;
     private static Panel panel;
     private Stage stage;
+    static PanelEnum panelEnum=null;
 
 
     @FXML
@@ -53,7 +55,7 @@ public class DashBoardController {
     private BorderPane mainPane;
 
     @FXML
-    void onClickReportBtn(MouseEvent event) { // WE DONT USE IT
+    void onClickReportBtn(MouseEvent event) { // WE DON'T USE IT
 
     }
 
@@ -64,9 +66,8 @@ public class DashBoardController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
             AnchorPane anchorPaneOrderReport =  fxmlLoader.load();
             displayer.getChildren().add(anchorPaneOrderReport);
-//            OrderReportController controller = fxmlLoader.getController();
-//            controller.employee= this.employee;
-
+            OrderReportController controller = fxmlLoader.getController();
+            controller.setData();
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -81,9 +82,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
                 AnchorPane anchorPaneComplaintReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneComplaintReport);
-//                ComplaintReportController controller = fxmlLoader.getController();
-//                controller.employee= this.employee;
-
+                ComplaintReportController controller = fxmlLoader.getController();
+                controller.setData();
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -99,9 +99,8 @@ public class DashBoardController {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
                 AnchorPane anchorPaneIncomeReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneIncomeReport);
-//                IncomeReportController controller = fxmlLoader.getController();
-//                controller.employee= this.employee;
-//                controller.setData(this.employee);
+                IncomeReportController controller = fxmlLoader.getController();
+                controller.setData();
 
             }catch (IOException e) {
                 e.printStackTrace();
@@ -203,29 +202,37 @@ public class DashBoardController {
 
 
     public void setData(Employee employee) {
-
         Role role = employee.getRole();
         switch (role) {
 
             case STORE_EMPLOYEE: {
                 catalogBtn.setVisible(true);
+                panelEnum = PanelEnum.GENERAL_EMPLOYEE;
                 break;
             }
 
-            case STORE_MANAGER:
+            case STORE_MANAGER: {
+                panelEnum = PanelEnum.STORE_MANAGER;
+                catalogBtn.setVisible(true);
+                reportBtn.setVisible(true);
+                break;
+            }
 
             case CHAIN_MANAGER: {
+                panelEnum = PanelEnum.CHAIN_MANAGER;
                 catalogBtn.setVisible(true);
                 reportBtn.setVisible(true);
                 break;
             }
 
             case CUSTOMER_SERVICE: {
+                panelEnum = PanelEnum.CUSTOMER_SERVICE;
                 complaintsBtn.setVisible(true);
                 break;
             }
 
             case SYSTEM_MANAGER: {
+                panelEnum = PanelEnum.SYSTEM_MANAGER;
                 employeeBtn.setVisible(true);
                 costumerBtn.setVisible(true);
                 break;

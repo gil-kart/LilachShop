@@ -15,10 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.ComplaintStatus;
-import org.lilachshop.entities.Employee;
-import org.lilachshop.entities.Item;
+import org.lilachshop.entities.*;
 import org.lilachshop.panels.CustomerServicePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
@@ -32,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class CustomerServiceViewController implements Initializable {
     public Employee employee;
-
+    List<Order> orders;
     private static Panel panel;
     @FXML
     private TableView<Complaint> tableView;
@@ -54,7 +51,7 @@ public class CustomerServiceViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb){
 
-        complaintNumber.setCellValueFactory(new PropertyValueFactory<Complaint, String>("complaintNumber"));
+        complaintNumber.setCellValueFactory(new PropertyValueFactory<Complaint, String>("id"));
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
         status.setCellValueFactory(new PropertyValueFactory<Complaint, String>("status"));
@@ -95,13 +92,22 @@ public class CustomerServiceViewController implements Initializable {
         tableView.refresh();
     }
 
+    private Order getComplaintOrder(Complaint complaint) {
+        for(Order order: orders){
+            if (order.getComplaint().getId() == (complaint.getId())){
+                return order;
+            }
+        }
+        throw new RuntimeException("complaint has no order");
+    }
+
     private void presentRowSelected() throws IOException {
         if (listOfComplaints.isEmpty())
             return;
         ObservableList<Complaint> listOfComplaints = tableView.getSelectionModel().getSelectedItems();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintWorkerResponse.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
-
+        Order order = listOfComplaints.get(0).getOrder();
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
         ComplaintStatus complaintStatus = listOfComplaints.get(0).getStatus();
         String status;
@@ -123,7 +129,7 @@ public class CustomerServiceViewController implements Initializable {
                     String.valueOf(listOfComplaints.get(0).getId()),
                     status,
                     listOfComplaints.get(0).getCreationDate(),
-                    listOfComplaints.get(0).getContent(), this);
+                    listOfComplaints.get(0).getContent(), this, order);
         }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -139,6 +145,7 @@ public class CustomerServiceViewController implements Initializable {
     @Subscribe
     public void handleComplaintsReceivedFromClient(Object msg) {
         System.out.println("Complaints recieved from server");
+
         Platform.runLater(()->{
             setListOfComplaints((List<Complaint>)msg);
         });

@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="203.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.HistoryItemController">
+<AnchorPane prefHeight="203.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.HistoryItemController">
    <children>
       <VBox alignment="TOP_RIGHT" layoutY="-1.0" prefHeight="190.0" prefWidth="1220.0">
          <children>
@@ -98,7 +98,7 @@
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onFilingComplaint" text="הגשת תלונה" />
+                  <Button fx:id="fillComplaint" mnemonicParsing="false" onAction="#onFilingComplaint" text="הגשת תלונה" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

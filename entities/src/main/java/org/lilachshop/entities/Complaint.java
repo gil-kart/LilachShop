@@ -33,6 +33,10 @@ public class Complaint implements Serializable {
         return store;
     }
 
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
     public void setStore(Store store) {
         this.store = store;
     }
@@ -41,6 +45,10 @@ public class Complaint implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public Order getOrder() {
+        return order;
     }
 
     public Complaint(LocalDate endOfHandleDate, ComplaintStatus status, String content, LocalDate creationDate, String reply) {

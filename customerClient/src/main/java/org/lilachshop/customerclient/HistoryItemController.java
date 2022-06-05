@@ -4,18 +4,28 @@ package org.lilachshop.customerclient; /**
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
 
+import java.io.IOException;
+
 public class HistoryItemController {
-
-
+    Order order;
+    @FXML
+    private Button fillComplaint;
     @FXML
     private HBox layout;
 
@@ -32,6 +42,7 @@ public class HistoryItemController {
     private Circle statusColor;
 
     public void setData(Order order) {
+        this.order = order;
         for (myOrderItem itemsType : order.getItems())
         {
             for(int i = 0; i < itemsType.getCount(); i++)
@@ -57,6 +68,16 @@ public class HistoryItemController {
     public void onCencelOrder(ActionEvent event) {
     }
 
-    public void onFilingComplaint(ActionEvent event) {
+    public void onFilingComplaint(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintForm.fxml"));
+        Parent root1 = (Parent) fxmlLoader.load();
+        ComplaintController controller = fxmlLoader.getController();
+        controller.setData(order, this);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root1));
+        stage.show();
+    }
+    public void disablePostComplaintBtn(){
+        fillComplaint.setDisable(true);
     }
 }

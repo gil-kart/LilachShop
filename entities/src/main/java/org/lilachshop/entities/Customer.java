@@ -51,11 +51,6 @@ public class Customer extends User implements Serializable {
         return orders;
     }
 
-    public void clearOrders() {
-        orders.clear();
-    }
-
-
     public Store getStore() {
         return store;
     }

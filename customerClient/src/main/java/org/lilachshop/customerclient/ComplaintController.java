@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.ComplaintStatus;
+import org.lilachshop.entities.Order;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.greenrobot.eventbus.Subscribe;
@@ -23,9 +24,9 @@ import org.lilachshop.panels.PanelEnum;
 import org.lilachshop.panels.StoreCustomerPanel;
 
 public class ComplaintController implements Initializable {
-
+    Order order;
     private static Panel panel;
-
+    HistoryItemController historyItemController;
     @FXML
     private Button onSendComplaintClick;
 
@@ -34,7 +35,11 @@ public class ComplaintController implements Initializable {
 
     @FXML
     private Label orderNumber;
-
+    public void setData(Order order, HistoryItemController historyItemController){
+        this.orderNumber.setText(String.valueOf(order.getId()));
+        this.order = order;
+        this.historyItemController = historyItemController;
+    }
     @FXML
     void SendComplaintClicked(ActionEvent event) throws IOException {
         Alert a = new Alert(Alert.AlertType.NONE);
@@ -44,23 +49,15 @@ public class ComplaintController implements Initializable {
         a.setContentText("");
         a.show();
 
-
-        Complaint complaint = new Complaint(LocalDate.of(2022, 5, 28), ComplaintStatus.OPEN, complaintText.getText(), LocalDate.of(2022, 5, 27), "");
-
-        ((StoreCustomerPanel) panel).sendComplaintToServer(complaint);
-//        ((StoreCustomerPanel) panel).sendGetGeneralCatalogRequestToServer();
+        Complaint complaint = new Complaint(LocalDate.now().plusDays(1), ComplaintStatus.OPEN, complaintText.getText(), LocalDate.now(), "");
+        order.setComplaint(complaint);
+        complaint.setOrder(order);
+        complaint.setStore(order.getStore());
+        ((StoreCustomerPanel) panel).sendComplaintToServer(complaint, order);
         System.out.println(complaint.getContent());
-//        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-//        stage.close();
-//        try {
-//            App.setRoot("main");
-//        } catch (Exception e) {
-//            System.out.println("cant go to main screen");
-//            e.printStackTrace();
-//            Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
-//            stage.close();
-//        }
-
+        historyItemController.disablePostComplaintBtn();
+        Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
+        stage.close();
     }
 
     @Subscribe

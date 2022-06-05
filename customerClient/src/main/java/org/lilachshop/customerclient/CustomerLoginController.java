@@ -72,7 +72,17 @@ public class CustomerLoginController implements Initializable {
                     UserName.setText("");
                     Password.setText("");
                 }
-            } else {
+                else if(String.valueOf(msg).equals("client account disabled")){
+                    Alert a = new Alert(Alert.AlertType.NONE);
+                    a.setAlertType(Alert.AlertType.INFORMATION);
+                    a.setHeaderText("החשבון חסום. לא ניתן לבצע התחברות");
+                    a.setTitle("התחברות");
+                    a.setContentText("");
+                    a.show();
+                    UserName.setText("");
+                    Password.setText("");
+                }
+            }else {
                 CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
                 CustomerApp.setMyCustomer((Customer) msg);
                 CustomerApp.getCustomerCatalog();

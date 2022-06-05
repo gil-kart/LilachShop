@@ -13,10 +13,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.Employee;
-import org.lilachshop.entities.Order;
-import org.lilachshop.entities.Store;
+import org.lilachshop.entities.*;
+import org.lilachshop.events.OrderEvent;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -27,8 +25,12 @@ import java.util.ResourceBundle;
 
 public class IncomeReportController implements Initializable {
     public Employee employee;
-
+    List<Order> ordersFromAllStores;
     private static Panel panel;
+    @FXML
+    private Label totalChainIncomeLabel;
+    @FXML
+    private Label totalChainIncome;
     List<Order> orders;
     @FXML
     private Button newScreenBtn;
@@ -73,6 +75,9 @@ public class IncomeReportController implements Initializable {
         else if(selectedStore.equals("לילך חיפה")){
             ((ChainManagerPanel) panel).getStoreOrders(1);
         }
+        else if(selectedStore.equals("לילך תל אביב")){
+            ((ChainManagerPanel) panel).getStoreOrders(3);
+        }
     }
 
     @FXML
@@ -88,8 +93,8 @@ public class IncomeReportController implements Initializable {
             return;
         }
 
-        complaintBarChart.getData().clear();
         complaintBarChart.getXAxis().animatedProperty().set(false);
+        complaintBarChart.getData().clear();
 
         int todayIncomeCounter=0;
         long curTotalIncome = 0;
@@ -107,19 +112,33 @@ public class IncomeReportController implements Initializable {
             todayIncomeCounter=0;
         }
         this.totalIncome.setText(String.valueOf(curTotalIncome));
+//        if(!employee.getRole().equals("STORE_MANAGER"))
+        //todo: get all order again from server to show updated info
+            calcTotalIncomeForAllStores(start, end);
+    }
+
+    private void calcTotalIncomeForAllStores(LocalDate start, LocalDate end) {
+        long todayIncomeCounter = 0;
+        long curTotalIncomeForAllStores = 0;
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1))
+        {
+            for(Order order: ordersFromAllStores){
+                if(order.getCreationDate().equals(date)){
+                    todayIncomeCounter += order.getTotalPrice();
+                }
+            }
+            curTotalIncomeForAllStores += todayIncomeCounter;
+            todayIncomeCounter=0;
+        }
+        totalChainIncome.setText(String.valueOf(curTotalIncomeForAllStores) + " ש''ח ");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER,EmployeeApp.getSocket(), this);
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum,EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
-        if(panel.getClass().equals(ChainManagerPanel.class)){
-            ((ChainManagerPanel) panel).getStoreOrders(1);
-        }
-        else {
 
-        }
-        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
+        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
         storeList.promptTextProperty().set("לילך חיפה");
     }
@@ -154,18 +173,28 @@ public class IncomeReportController implements Initializable {
         this.orders = orders;
     }
 
-    public void setData(Employee employee){ // WILL NEED to "copy" this function to the others 2 reports orders
-        if(employee.getRole().equals("STORE_MANAGER")){
+    @Subscribe
+    public void handleMessageAllOrdersFromClient(OrderEvent orderEvent){
+        this.ordersFromAllStores = orderEvent.getOrders();
+    }
+
+    public void setData(){ // WILL NEED to "copy" this function to the others 2 reports orders
+        if(DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
             newScreenBtn.setVisible(false);
             storeList.setVisible(false);
-//            Store store= employee.getStore();
-
-           // ((StoreManagerPanel) panel).getStoreOrders(employee.getStoreID()); //GIL, we need to change that.
             ((StoreManagerPanel) panel).getStoreOrders(employee.getStore().getId());
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);
+            totalChainIncome.setVisible(false);
+            totalChainIncomeLabel.setVisible(false);
+            ((StoreManagerPanel) panel).getStoreOrders(1);
         }
-
+        else{
+            if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+                ((ChainManagerPanel) panel).getStoreOrders(1);
+                ((ChainManagerPanel) panel).getAllOrders();
+            }
+        }
     }
 }

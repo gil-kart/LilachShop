@@ -16,6 +16,10 @@ public class Order implements Serializable {
 //    @Column(name = "id", nullable = false)
     private Long id;
 
+    public void setComplaint(Complaint complaint) {
+        this.complaint = complaint;
+    }
+
     public String getGreetingCard() {
         return greetingCard;
     }
@@ -26,6 +30,10 @@ public class Order implements Serializable {
 
     public PickUpDetails getPickUpDetails() {
         return pickUpDetails;
+    }
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public Order(List<myOrderItem> items, int totalPrice, int amountOfProducts, Customer customer) {
@@ -52,6 +60,10 @@ public class Order implements Serializable {
         this.customer = customer;
     }
 
+    public Complaint getComplaint() {
+        return complaint;
+    }
+
     public void setPickUpDetails(PickUpDetails pickUpDetails) {
         this.pickUpDetails = pickUpDetails;
     }
@@ -66,6 +78,10 @@ public class Order implements Serializable {
 
     public int getTotalPrice() {
         return totalPrice;
+    }
+
+    public Store getStore() {
+        return store;
     }
 
     @ManyToOne

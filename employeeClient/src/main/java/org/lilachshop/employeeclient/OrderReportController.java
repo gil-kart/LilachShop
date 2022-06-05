@@ -1,4 +1,5 @@
 package org.lilachshop.employeeclient;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,11 +14,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.entities.Catalog;
-import org.lilachshop.entities.Employee;
-import org.lilachshop.entities.Item;
-import org.lilachshop.entities.Order;
-import org.lilachshop.entities.myOrderItem;
+import org.lilachshop.entities.*;
+import org.lilachshop.events.OrderEvent;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -32,7 +30,10 @@ public class OrderReportController implements Initializable {
     private static Panel panel;
     Catalog catalog;
     List<Order> orders;
+    List<Order> ordersFromAllStores;
     ObservableList<ItemSalesObservable> listOfObservableItems;
+    @FXML
+    private Label totalNumOfOrders;
     @FXML
     private Button newScreenBtn;
 
@@ -70,11 +71,10 @@ public class OrderReportController implements Initializable {
         startDate.setValue(null);
         endDate.setValue(null);
         //todo: get complaints from all stores
-        if(selectedStore.equals("לילך הרצליה")){
+        if (selectedStore.equals("לילך הרצליה")) {
             ((StoreManagerPanel) panel).getStoreOrders(2);
             ((StoreManagerPanel) panel).getStoreCatalog(2);
-        }
-        else if(selectedStore.equals("לילך חיפה")){
+        } else if (selectedStore.equals("לילך חיפה")) {
             ((StoreManagerPanel) panel).getStoreOrders(1);
             ((StoreManagerPanel) panel).getStoreCatalog(1);
         }
@@ -84,11 +84,11 @@ public class OrderReportController implements Initializable {
     void updateBarChart(ActionEvent event) {
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
-        if(start == null || end == null){
+        if (start == null || end == null) {
             displayNullAlert();
             return;
         }
-        if(end.isBefore(start)){
+        if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
         }
@@ -97,11 +97,27 @@ public class OrderReportController implements Initializable {
         listOfObservableItems.addAll(observableItems);
         tableView.setEditable(true);
         tableView.setItems(listOfObservableItems);
+        calcTotalNumOfOrders(start, end);
+    }
+
+    private void calcTotalNumOfOrders(LocalDate start, LocalDate end) {
+        long todayOrderCounter = 0;
+        long curTotalOrderForAllStores = 0;
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (Order order : ordersFromAllStores) {
+                if (order.getCreationDate().equals(date)) {
+                    todayOrderCounter += 1;
+                }
+            }
+            curTotalOrderForAllStores += todayOrderCounter;
+            todayOrderCounter = 0;
+        }
+        totalNumOfOrders.setText(String.valueOf(curTotalOrderForAllStores));
     }
 
     private List<ItemSalesObservable> getObservalbeItems() {
         List<ItemSalesObservable> itemSalesObservables = new ArrayList<>();
-        for(Item item: catalog.getItems()){
+        for (Item item : catalog.getItems()) {
             int numOfSales = getNumOfSalesForItem(item);
             ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName());
 
@@ -116,20 +132,20 @@ public class OrderReportController implements Initializable {
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
         // saving all orders in range in a list
-        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)){
-            for (Order order: orders){
-                if(order.getCreationDate().equals(date)){
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (Order order : orders) {
+                if (order.getCreationDate().equals(date)) {
                     ordersInDateRange.add(order);
                 }
             }
         }
         //finding number of sales
-        for(Order order: ordersInDateRange){
+        for (Order order : ordersInDateRange) {
             List<myOrderItem> orderItems = order.getItems();
-            for (myOrderItem itemFromOrder: orderItems){
-              if(itemFromOrder.getName().equals(item.getName())){ //todo: right now comparing only product name, maybe should check more attributes
-                  counter += itemFromOrder.getCount();
-              }
+            for (myOrderItem itemFromOrder : orderItems) {
+                if (itemFromOrder.getName().equals(item.getName())) { //todo: right now comparing only product name, maybe should check more attributes
+                    counter += itemFromOrder.getCount();
+                }
             }
         }
         return counter;
@@ -137,19 +153,9 @@ public class OrderReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER,EmployeeApp.getSocket(), this);
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
-        if(panel.getClass().equals(ChainManagerPanel.class)){
-            ((ChainManagerPanel) panel).getStoreOrders(1);
-            ((ChainManagerPanel) panel).getStoreCatalog(1);
-        }
-        else {
-            ((StoreManagerPanel) panel).getStoreOrders(1);
-            ((StoreManagerPanel) panel).getStoreCatalog(1);
-            storeList.setVisible(false);
-            chooseStoreLabel.setVisible(false);
-            newScreenBtn.setVisible(false);
-        }
+
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
         storeList.promptTextProperty().set("לילך חיפה");
@@ -176,6 +182,7 @@ public class OrderReportController implements Initializable {
         a.setContentText("");
         a.show();
     }
+
     @FXML
     void onNewScreenBtnClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
@@ -186,11 +193,31 @@ public class OrderReportController implements Initializable {
     }
 
     @Subscribe
-    public void handleMessageFromClient(Catalog catalog){
+    public void handleMessageFromClient(Catalog catalog) {
         this.catalog = catalog;
     }
+
     @Subscribe
-    public void handleMessageFromClient(List<Order> orders){
+    public void handleMessageFromClient(List<Order> orders) {
         this.orders = orders;
+    }
+
+    @Subscribe
+    public void handleMessageAllOrdersFromClient(OrderEvent orderEvent) {
+        this.ordersFromAllStores = orderEvent.getOrders();
+    }
+
+    public void setData() {
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            ((ChainManagerPanel) panel).getStoreOrders(1);
+            ((ChainManagerPanel) panel).getStoreCatalog(1);
+            ((ChainManagerPanel) panel).getAllOrders();
+        } else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
+            ((StoreManagerPanel) panel).getStoreOrders(1);
+            ((StoreManagerPanel) panel).getStoreCatalog(1);
+            storeList.setVisible(false);
+            chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
+        }
     }
 }

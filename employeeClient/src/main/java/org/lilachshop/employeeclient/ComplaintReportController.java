@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.Employee;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -26,9 +25,10 @@ import javafx.event.ActionEvent;
 
 // todo: solve all the errors when changing stores and dates
 public class ComplaintReportController implements Initializable {
-    public Employee employee;
     private static Panel panel;
     List<Complaint> complaints;
+    @FXML
+    private Label TotalSumOfComplaints;
     @FXML
     private Button newScreenBtn;
 
@@ -57,16 +57,9 @@ public class ComplaintReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER, EmployeeApp.getSocket(), this);
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
-        if (panel.getClass().equals(ChainManagerPanel.class)) {
-            ((ChainManagerPanel) panel).getStoreComplaint(1);
-        } else {
-            ((StoreManagerPanel) panel).getStoreComplaint(1);
-            storeList.setVisible(false);
-            chooseStoreLabel.setVisible(false);
-            newScreenBtn.setVisible(false);
-        }
+
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
         storeList.promptTextProperty().set("לילך חיפה");
@@ -88,7 +81,8 @@ public class ComplaintReportController implements Initializable {
         complaintBarChart.getData().clear();
         complaintBarChart.getXAxis().animatedProperty().set(false);
 
-        int todayComplaintCounter = 0;
+        int todayComplaintCounter=0;
+        int totalComplaintCounter = 0;
         XYChart.Series set = new XYChart.Series<>();
         for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Complaint complaint : complaints) {
@@ -98,8 +92,10 @@ public class ComplaintReportController implements Initializable {
             }
             set.getData().add(new XYChart.Data(date.toString(), todayComplaintCounter));
             complaintBarChart.getData().addAll(set);
+            totalComplaintCounter += todayComplaintCounter;
             todayComplaintCounter = 0;
         }
+        TotalSumOfComplaints.setText(String.valueOf(totalComplaintCounter));
     }
 
     private void displayChronologyAlert() {
@@ -146,6 +142,18 @@ public class ComplaintReportController implements Initializable {
     @Subscribe
     public void handleMessageFromClient(List<Complaint> complaints) {
         this.complaints = complaints;
+    }
+
+    public void setData() {
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+            ((ChainManagerPanel) panel).getStoreComplaint(1);
+        }
+        else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
+            ((StoreManagerPanel) panel).getStoreComplaint(1);
+            storeList.setVisible(false);
+            chooseStoreLabel.setVisible(false);
+            newScreenBtn.setVisible(false);
+        }
     }
 }
 

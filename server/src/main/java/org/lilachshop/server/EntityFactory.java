@@ -212,6 +212,7 @@ public class EntityFactory {
         createOrUpdateSingleRecord(pickUpDetails1);
         createOrUpdateSingleRecord(order3);
         store2.addOrder(order3);
+        customers.get(0).getOrders().add(order1);
 
     }
 
