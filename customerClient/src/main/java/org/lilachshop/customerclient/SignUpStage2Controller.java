@@ -43,7 +43,7 @@ public class SignUpStage2Controller {
         Signup2Event event2 = new Signup2Event(firstNameTF.getText(),
                 lastNameTF.getText(),phoneTF.getText(),cityTF.getText(),addressTF.getText());
         EventBus.getDefault().post(event2);
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp3.fxml"));
         Parent root = null;
         try {
@@ -58,7 +58,7 @@ public class SignUpStage2Controller {
 
     @FXML
     void onClickBtnBack(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("Signup1.fxml"));
         Parent root = null;
         try {

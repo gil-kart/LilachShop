@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
+    private static Set<User> connectedUsers;
 
     public LilachServer(Integer... port) {
         // default is 3000, otherwise needs to be specified.
@@ -38,6 +39,36 @@ public class LilachServer extends AbstractServer {
             }
             return;
         }
+
+        //************************** SignOut Request *****************************************
+
+        if ((msg.getClass().equals(SignOutRequest.class))) {
+            SignOutRequest request = (SignOutRequest) msg;
+            String message = request.getRequest();
+            switch (message) {
+                case "SIGN_OUT" -> {
+                    connectedUsers.remove(request.getUser());
+                }
+                case "CHECK_SIGNED_OUT" -> {
+                    if (connectedUsers.contains(request.getUser())) {
+                        try {
+                            client.sendToClient(Boolean.FALSE);
+                        } catch (IOException e) {
+                            System.out.println("Unable to send SignOut answer to client.");
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            client.sendToClient(Boolean.TRUE);
+                        } catch (IOException e) {
+                            System.out.println("Unable to send SignOut answer to client.");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
 
         //************************** Order Request *******************************************
 
@@ -196,6 +227,7 @@ public class LilachServer extends AbstractServer {
                 if (employee.getUserName().equals(userName) &&
                         employee.getUserPassword().equals(password)) {
                     try {
+                        connectedUsers.add(employee);
                         client.sendToClient(employee);
                         return;
                     } catch (Exception e) {
@@ -250,6 +282,7 @@ public class LilachServer extends AbstractServer {
                             if ((customer.getUserPassword().equals(requestPassword)) &&
                                     customer.getUserName().equals(requestUserName)) {
                                 try {
+                                    connectedUsers.add(customer);
                                     client.sendToClient(customer);
                                     return;
 

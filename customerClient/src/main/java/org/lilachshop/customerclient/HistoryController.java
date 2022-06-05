@@ -6,26 +6,19 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
-import org.lilachshop.panels.Panel;
-import org.lilachshop.panels.StoreCustomerPanel;
 
 public class HistoryController implements Initializable {
 
@@ -43,11 +36,11 @@ public class HistoryController implements Initializable {
     @FXML // fx:id="name"
     private Label name; // Value injected by FXMLLoader
     private Customer customer;
-    private App controller;
+    private CustomerApp controller;
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.getCustomerCatalog();
+        CustomerApp.getCustomerCatalog();
 
     }
 
@@ -58,9 +51,9 @@ public class HistoryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        name.setText("שלום, " + App.getMyCustomer().getName());
-        this.myFlowers = App.getMyFlowers();
-        this.myOrders = App.getMyOrders();
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
+        this.myFlowers = CustomerApp.getMyFlowers();
+        this.myOrders = CustomerApp.getMyOrders();
         for (Order order: myOrders)
         {
             FXMLLoader fxmlLoader = new FXMLLoader();

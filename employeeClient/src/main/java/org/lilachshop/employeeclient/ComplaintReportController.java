@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.chrono.Chronology;
 import java.util.List;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 
 // todo: solve all the errors when changing stores and dates
@@ -53,14 +54,14 @@ public class ComplaintReportController implements Initializable {
 
     @FXML
     private Label chooseStoreLabel;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
-        if(panel.getClass().equals(ChainManagerPanel.class)){
-        ((ChainManagerPanel) panel).getStoreComplaint(1);
-        }
-        else {
+        if (panel.getClass().equals(ChainManagerPanel.class)) {
+            ((ChainManagerPanel) panel).getStoreComplaint(1);
+        } else {
             ((StoreManagerPanel) panel).getStoreComplaint(1);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
@@ -70,15 +71,16 @@ public class ComplaintReportController implements Initializable {
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
         storeList.promptTextProperty().set("לילך חיפה");
     }
+
     @FXML
     void updateBarChart(ActionEvent event) {
         LocalDate start = startDate.getValue();
         LocalDate end = endDate.getValue();
-        if(start == null || end == null){
+        if (start == null || end == null) {
             displayNullAlert();
             return;
         }
-        if(end.isBefore(start)){
+        if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
         }
@@ -86,18 +88,17 @@ public class ComplaintReportController implements Initializable {
         complaintBarChart.getData().clear();
         complaintBarChart.getXAxis().animatedProperty().set(false);
 
-        int todayComplaintCounter=0;
+        int todayComplaintCounter = 0;
         XYChart.Series set = new XYChart.Series<>();
-        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1))
-        {
-            for(Complaint complaint: complaints){
-                if(complaint.getCreationDate().equals(date)){
+        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (Complaint complaint : complaints) {
+                if (complaint.getCreationDate().equals(date)) {
                     todayComplaintCounter++;
                 }
             }
-            set.getData().add(new XYChart.Data(date.toString() , todayComplaintCounter));
+            set.getData().add(new XYChart.Data(date.toString(), todayComplaintCounter));
             complaintBarChart.getData().addAll(set);
-            todayComplaintCounter=0;
+            todayComplaintCounter = 0;
         }
     }
 
@@ -118,6 +119,7 @@ public class ComplaintReportController implements Initializable {
         a.setContentText("");
         a.show();
     }
+
     @FXML
     void onChangeStore(ActionEvent event) {
         String selectedStore = storeList.getSelectionModel().getSelectedItem();
@@ -125,13 +127,13 @@ public class ComplaintReportController implements Initializable {
         startDate.setValue(null);
         endDate.setValue(null);
         //todo: get complaints from all stores
-        if(selectedStore.equals("לילך הרצליה")){
+        if (selectedStore.equals("לילך הרצליה")) {
             ((ChainManagerPanel) panel).getStoreComplaint(2);
-        }
-        else if(selectedStore.equals("לילך חיפה")){
+        } else if (selectedStore.equals("לילך חיפה")) {
             ((ChainManagerPanel) panel).getStoreComplaint(1);
         }
     }
+
     @FXML
     void onNewScreenBtnClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
@@ -142,7 +144,7 @@ public class ComplaintReportController implements Initializable {
     }
 
     @Subscribe
-    public void handleMessageFromClient(List<Complaint> complaints){
+    public void handleMessageFromClient(List<Complaint> complaints) {
         this.complaints = complaints;
     }
 }

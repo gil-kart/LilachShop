@@ -1,14 +1,14 @@
 package org.lilachshop.panels;
 
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.panels.ocsf.AbstractClient;
 
 public class LilachClient extends AbstractClient {
-    private final EventBus bus;
+    private EventBus bus = null;
 
-    public LilachClient(String host, int port, EventBus bus) { //todo change object to actual controller type, maybe some generic type
+    private LilachClient(String host, int port) {
         super(host, port);
-        this.bus = bus; // this posts stuff
     }
 
     @Override
@@ -24,5 +24,19 @@ public class LilachClient extends AbstractClient {
     @Override
     protected void handleMessageFromServer(Object msg) {
         bus.post(msg);
+    }
+
+    public EventBus getBus() {
+        return bus;
+    }
+
+    public static LilachClient getClient(Socket socket) {
+        LilachClient client;
+        client = new LilachClient(socket.getHostname(), socket.getPort());
+
+        if (client.getBus() == null) {
+            client.bus = EventBus.builder().build();
+        }
+        return client;
     }
 }

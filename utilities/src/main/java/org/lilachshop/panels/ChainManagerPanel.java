@@ -1,7 +1,9 @@
 package org.lilachshop.panels;
 
+import org.lilachshop.commonUtils.Socket;
+
 public class ChainManagerPanel extends StoreManagerPanel {
-    public ChainManagerPanel(String host, int port, Object controller) {
-        super(host, port, controller);
+    public ChainManagerPanel(Socket socket, Object controller) {
+        super(socket, controller);
     }
 }

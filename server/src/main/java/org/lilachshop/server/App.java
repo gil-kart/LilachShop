@@ -1,4 +1,5 @@
 package org.lilachshop.server;
+
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Catalog;
 
@@ -25,7 +26,7 @@ public class App {
             }
             InetAddress IP = InetAddress.getLocalHost();
             String host_name = IP.getHostName();
-            System.out.println("RUNNING SERVER ON " + host_name + "...");
+            System.out.println("RUNNING SERVER ON " + host_name + ":" + port + " ...");
             System.out.println("SERVER: INITIALIZING SERVER");
             server = new LilachServer(port);
             System.out.println("SERVER: LISTENING");
@@ -52,7 +53,7 @@ public class App {
         String base_path = "/images/";
         item = new Item("סחלב קורל", 160, base_path + "sahlav_coral.jpg", 0);
         itemList.add(item);
-        item = new Item("ורד ענבר", 120, base_path + "vered_inbar.jpg" , 5);
+        item = new Item("ורד ענבר", 120, base_path + "vered_inbar.jpg", 5);
         itemList.add(item);
         item = new Item("סחלב לבן", 140, base_path + "sahlav_lavan.jpg", 0);
         itemList.add(item);
@@ -60,7 +61,7 @@ public class App {
         itemList.add(item);
         item = new Item("רקפות", 100, base_path + "cyclamen.jpg", 0);
         itemList.add(item);
-        item = new Item("קקטוס", 70, base_path + "cactus.jpg" , 0);
+        item = new Item("קקטוס", 70, base_path + "cactus.jpg", 0);
         itemList.add(item);
         item = new Item("תורמוס", 200, base_path + "lupins.jpg", 0);
         itemList.add(item);

@@ -58,7 +58,7 @@ public class SignUpStage1Controller implements Initializable {
     @FXML
     void onClickBtnBack(ActionEvent event) {
         //TODO:Pop-up- Are you sure you want to leave SignUp?
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUpLogin.fxml"));
         Parent root = null;
         try {
@@ -76,20 +76,20 @@ public class SignUpStage1Controller implements Initializable {
         if (taken == false) {
             System.out.println("Moving to Stage 2");
             moveToStage2Signup();
-        }else{
-            Platform.runLater(()->{
+        } else {
+            Platform.runLater(() -> {
                 userNameTF.clear();
                 userNameTF.setPromptText("שם משתמש שבחרת תפוס");
             });
         }
     }
 
-    public void moveToStage2Signup(){
+    public void moveToStage2Signup() {
         Signup1Event event1 = new Signup1Event(userNameTF.getText(), passwordTF.getText());
         EventBus.getDefault().post(event1);
 
-        Platform.runLater(()->{
-            Stage stage = App.getStage();
+        Platform.runLater(() -> {
+            Stage stage = CustomerApp.getStage();
             FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp2.fxml"));
             Parent root = null;
             try {
@@ -104,17 +104,17 @@ public class SignUpStage1Controller implements Initializable {
 
     }
 
-        @FXML
-        void initialize() {
-            assert btnNext != null : "fx:id=\"btnNext\" was not injected: check your FXML file 'SignUp1.fxml'.";
-            assert passwordTF != null : "fx:id=\"passwordTF\" was not injected: check your FXML file 'SignUp1.fxml'.";
-            assert userNameTF != null : "fx:id=\"userNameTF\" was not injected: check your FXML file 'SignUp1.fxml'.";
-        }
-
-        @Override
-        public void initialize (URL location, ResourceBundle resources){
-            if (panel == null)
-                panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
-
-        }
+    @FXML
+    void initialize() {
+        assert btnNext != null : "fx:id=\"btnNext\" was not injected: check your FXML file 'SignUp1.fxml'.";
+        assert passwordTF != null : "fx:id=\"passwordTF\" was not injected: check your FXML file 'SignUp1.fxml'.";
+        assert userNameTF != null : "fx:id=\"userNameTF\" was not injected: check your FXML file 'SignUp1.fxml'.";
     }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (panel == null)
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this);
+
+    }
+}

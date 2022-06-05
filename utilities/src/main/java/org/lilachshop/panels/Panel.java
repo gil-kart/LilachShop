@@ -1,6 +1,6 @@
 package org.lilachshop.panels;
 
-import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.requests.Request;
 
 import java.io.IOException;
@@ -8,10 +8,9 @@ import java.io.IOException;
 public abstract class Panel {
     private final LilachClient lilachClient;
 
-    public Panel(String host, int port, Object controller) {
-        EventBus bus = EventBus.builder().build();
-        bus.register(controller);
-        lilachClient = new LilachClient(host, port, bus);
+    public Panel(Socket socket, Object controller) {
+        lilachClient = LilachClient.getClient(socket);
+        lilachClient.getBus().register(controller);
         try {
             lilachClient.openConnection();
         } catch (IOException e) {

@@ -58,7 +58,7 @@ public class CustomerServiceViewController implements Initializable {
         content.setCellValueFactory(new PropertyValueFactory<Complaint, String>("content"));
         creationDate.setCellValueFactory(new PropertyValueFactory<Complaint, String>("creationDate"));
         status.setCellValueFactory(new PropertyValueFactory<Complaint, String>("status"));
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_SERVICE, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_SERVICE,EmployeeApp.getSocket(), this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }

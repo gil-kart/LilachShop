@@ -59,7 +59,7 @@ public class OrderStage3Controller {
 
     @FXML
     void gotoNext(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage4.fxml"));
             Parent root = fxmlLoader1.load();
@@ -75,7 +75,7 @@ public class OrderStage3Controller {
 
     @FXML
     void gotoPrev(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
             Parent root = fxmlLoader1.load();
@@ -96,7 +96,7 @@ public class OrderStage3Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.getCustomerCatalog();
+        CustomerApp.getCustomerCatalog();
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -108,21 +108,21 @@ public class OrderStage3Controller {
         assert prev != null : "fx:id=\"prev\" was not injected: check your FXML file 'OrderStage3.fxml'.";
         assert shipPayment != null : "fx:id=\"shipPayment\" was not injected: check your FXML file 'OrderStage3.fxml'.";
         assert totalPrice != null : "fx:id=\"totalPrice\" was not injected: check your FXML file 'OrderStage3.fxml'.";
-        name.setText("שלום, " + App.getMyCustomer().getName());
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
     }
 
 
     public void showInfo(Order myOrder) {
         order = myOrder;
-        shipPayment.setText(Integer.toString(App.getShipPrice()));
+        shipPayment.setText(Integer.toString(CustomerApp.getShipPrice()));
         amount.setText(Integer.toString(myOrder.getAmountOfProducts()));
-        if (App.getMyCustomer().getAccount().getAccountType().equals(STORE_ACCOUNT))
+        if (CustomerApp.getMyCustomer().getAccount().getAccountType().equals(STORE_ACCOUNT))
         {
             discount.setText("0");
         }
-        else if (App.getMyCustomer().getAccount().getAccountType().equals(ANNUAL_SUBSCRIPTION) && (myOrder.getTotalPrice()-App.getShipPrice()) > 50)
+        else if (CustomerApp.getMyCustomer().getAccount().getAccountType().equals(ANNUAL_SUBSCRIPTION) && (myOrder.getTotalPrice()- CustomerApp.getShipPrice()) > 50)
         {
-            discount.setText(Double.toString((((myOrder.getTotalPrice()-App.getShipPrice())/0.9)*0.1)));
+            discount.setText(Double.toString((((myOrder.getTotalPrice()- CustomerApp.getShipPrice())/0.9)*0.1)));
         }
         totalPrice.setText(Double.toString(myOrder.getTotalPrice()));
          for (int i = 0; i < order.getItems().size(); i++) {

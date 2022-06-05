@@ -1,6 +1,6 @@
 package org.lilachshop.panels;
 
-import javafx.collections.ObservableList;
+import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Employee;
 import org.lilachshop.requests.CustomerEditRequest;
@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Set;
 
 public class SystemManagerPanel extends Panel {
-    public SystemManagerPanel(String host, int port, Object controller) {
-        super(host, port, controller);
+    public SystemManagerPanel(Socket socket, Object controller) {
+        super(socket, controller);
     }
 
     public void getAllEmployees() {

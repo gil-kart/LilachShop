@@ -79,7 +79,6 @@ public class CatalogEditTableController implements Initializable {
     private Button uploadImageBtn;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -98,16 +97,15 @@ public class CatalogEditTableController implements Initializable {
         });
 
         itemTable.setOnMouseClicked(e -> {
-            if(e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
+            if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
                 System.out.println("double-Click -open Edit pop up");
-           Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
-           openEditItem(selectedItem);
-                }
-                });
-    //Setting up panel
-        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
+                Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
+                openEditItem(selectedItem);
+            }
+        });
+        //Setting up panel
+        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
         GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-
 
 
         //Setting up listener to CatalogChoiceBox
@@ -182,8 +180,8 @@ public class CatalogEditTableController implements Initializable {
 
     public void openEditItem(Item item) {
         setUpEditItemPopUp();
-         CatalogEditPopUpController controller= fxmlLoader.getController();
-         controller.setItemDetailinTF(item,storeCatalogChoice.getSelectionModel().getSelectedItem());
+        CatalogEditPopUpController controller = fxmlLoader.getController();
+        controller.setItemDetailinTF(item, storeCatalogChoice.getSelectionModel().getSelectedItem());
         scene = scene == null ? new Scene(root) : scene;
         stage.setScene(scene);
         stage.show();
@@ -192,7 +190,7 @@ public class CatalogEditTableController implements Initializable {
 
     private void setUpEditItemPopUp() {
         stage = stage == null ? new Stage() : stage;
-        fxmlLoader = fxmlLoader == null ? new FXMLLoader(App.class.getResource("CatalogEditPopUp.fxml")) : fxmlLoader;
+        fxmlLoader = fxmlLoader == null ? new FXMLLoader(EmployeeApp.class.getResource("CatalogEditPopUp.fxml")) : fxmlLoader;
         if (root == null) {
             try {
                 root = fxmlLoader.load();
@@ -218,7 +216,7 @@ public class CatalogEditTableController implements Initializable {
 
         if (button == ButtonType.OK) {
             GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-            generalEmployeePanel.deleteItem(item,storeCatalogChoice.getSelectionModel().getSelectedItem().getId());
+            generalEmployeePanel.deleteItem(item, storeCatalogChoice.getSelectionModel().getSelectedItem().getId());
         } else {
             System.out.println("canceled");
         }

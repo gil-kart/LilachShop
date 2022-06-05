@@ -84,10 +84,10 @@ public class CatalogEditPopUpController implements Initializable {
                 itemColorChoiceBox.getSelectionModel().getSelectedItem(),
                 null);
         if (panel == null) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
         }
         GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-        if (saveMode == true) {
+        if (saveMode) {
             //setting up item Info for Database Change
             generalEmployeePanel.saveNewItem(item, catalogChoiceBox.getSelectionModel().getSelectedItem(), saveMode);
         } else {
@@ -119,14 +119,12 @@ public class CatalogEditPopUpController implements Initializable {
     }
 
 
-
-
     @Subscribe
     public void onAddItemEvent(AddItemEvent event) {
         saveMode = true;
         System.out.println("POP UP - ADD ITEM");
         if (panel == null) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
         }
         GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
         generalEmployeePanel.getAllCatalog();

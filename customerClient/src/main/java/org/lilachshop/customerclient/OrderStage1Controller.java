@@ -50,14 +50,14 @@ public class OrderStage1Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.getCustomerCatalog();
+        CustomerApp.getCustomerCatalog();
     }
 
     @FXML
     void gotoNext(ActionEvent event)
     {
         myOrder.setGreetingCard(cardField.getText());
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage2.fxml"));
             Parent root = fxmlLoader1.load();
@@ -72,7 +72,7 @@ public class OrderStage1Controller {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        name.setText("שלום, " + App.getMyCustomer().getName());
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
 
 
     }

@@ -90,7 +90,7 @@ public class SignUpStage3Controller implements Initializable {
         }
         EventBus.getDefault().post(event3);
 
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp4.fxml"));
         Parent root = null;
         try {
@@ -105,7 +105,7 @@ public class SignUpStage3Controller implements Initializable {
 
     @FXML
     void onClickBtnBack(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("Signup2.fxml"));
         Parent root = null;
         try {
@@ -172,7 +172,7 @@ public class SignUpStage3Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this);
 
         CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
         if (customerAnonymousPanel == null) {

@@ -20,7 +20,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.PickUpDetails;
-import org.lilachshop.panels.Panel;
 
 public class OrderStage2Controller {
     Order myOrder;
@@ -93,7 +92,7 @@ public class OrderStage2Controller {
 
         if(flagNext)
         {
-            Stage stage = App.getStage();
+            Stage stage = CustomerApp.getStage();
             try {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
                 Parent root = fxmlLoader1.load();
@@ -117,7 +116,7 @@ public class OrderStage2Controller {
 
     @FXML
     void gotoPrev(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage1.fxml"));
             Parent root = fxmlLoader1.load();
@@ -138,7 +137,7 @@ public class OrderStage2Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.getCustomerCatalog();
+        CustomerApp.getCustomerCatalog();
     }
 
     @FXML
@@ -183,10 +182,10 @@ public class OrderStage2Controller {
     void initialize() {
         selfTime.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
         time.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
-        receipient.setText(App.getMyCustomer().getName());
-        phoneNum.setText(App.getMyCustomer().getPhoneNumber());
-        address.setText(App.getMyCustomer().getAddress());
-        name.setText("שלום, " + App.getMyCustomer().getName());
+        receipient.setText(CustomerApp.getMyCustomer().getName());
+        phoneNum.setText(CustomerApp.getMyCustomer().getPhoneNumber());
+        address.setText(CustomerApp.getMyCustomer().getAddress());
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
     }
 
     public void showInfo(Order order) {

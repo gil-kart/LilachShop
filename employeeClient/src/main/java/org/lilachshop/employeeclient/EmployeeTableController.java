@@ -212,7 +212,7 @@ public class EmployeeTableController implements Initializable {
             System.out.println("Unable to load pop up display.");
             e.printStackTrace();
         }
-        panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER,EmployeeApp.getSocket(), this);
         try {
             sPanel = (SystemManagerPanel) panel;
         } catch (Exception e) {

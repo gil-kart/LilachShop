@@ -27,7 +27,7 @@ import org.lilachshop.panels.PanelEnum;
 
 public class EmployeeLoginController implements Initializable {
 
-    static  private Panel panel;
+    static private Panel panel;
 
     @FXML
     private ResourceBundle resources;
@@ -62,7 +62,7 @@ public class EmployeeLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.EMPLOYEE_ANONYMOUS, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.EMPLOYEE_ANONYMOUS, EmployeeApp.getSocket(), this);
 
     }
 
@@ -73,38 +73,33 @@ public class EmployeeLoginController implements Initializable {
     }
 
 
-
-
-
     @FXML
     void tryLogEmployee(ActionEvent event) {
-        String userName= userNameTF.getText();
-        String password= passwordTF.getText();
+        String userName = userNameTF.getText();
+        String password = passwordTF.getText();
         ((EmployeeAnonymousPanel) panel).sendLoginRequest(userName, password);
 
     }
 
     @Subscribe
-    public void handleMessageReceived(Object msg){
-        Platform.runLater(()-> {
-                if (msg.getClass().equals(Employee.class)) { // will open Employee dashboard
-                    try {
-                        System.out.println("WE found you! ! !"); // DELETE AFTER
-                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-                        Parent root1 = (Parent) fxmlLoader.load();
-                        DashBoardController controller = fxmlLoader.getController();
-                        controller.employee = ((Employee)msg);
-                        controller.setData((Employee)msg);
-                        Stage stage = App.getStage();
-                        stage.setScene(new Scene(root1));
-                        stage.show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+    public void handleMessageReceived(Object msg) {
+        Platform.runLater(() -> {
+            if (msg.getClass().equals(Employee.class)) { // will open Employee dashboard
+                try {
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+                    Parent root1 = (Parent) fxmlLoader.load();
+                    DashBoardController controller = fxmlLoader.getController();
+                    controller.employee = ((Employee) msg);
+                    controller.setData((Employee) msg);
+                    Stage stage = EmployeeApp.getStage();
+                    stage.setScene(new Scene(root1));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                else {  // couldn't find employee
-                    errorLogin.setVisible(true);
-                }
+            } else {  // couldn't find employee
+                errorLogin.setVisible(true);
+            }
         });
     }
 

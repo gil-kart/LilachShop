@@ -28,8 +28,6 @@ import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
 
-import static org.lilachshop.entities.AccountType.STORE_ACCOUNT;
-
 public class CartController implements Initializable {
     List<myOrderItem> myFlowers = new ArrayList<>();
 
@@ -73,8 +71,8 @@ public class CartController implements Initializable {
      */
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.setMyFlowers(myFlowers);
-        App.getCustomerCatalog();
+        CustomerApp.setMyFlowers(myFlowers);
+        CustomerApp.getCustomerCatalog();
 
     }
 
@@ -88,17 +86,17 @@ public class CartController implements Initializable {
         if(Integer.parseInt(count.getText()) > 0)
         {
 
-            if (App.getMyCustomer().getAccount().getAccountType().equals(AccountType.ANNUAL_SUBSCRIPTION) && sum > 50)
+            if (CustomerApp.getMyCustomer().getAccount().getAccountType().equals(AccountType.ANNUAL_SUBSCRIPTION) && sum > 50)
             {
                 sum -= sum*0.1;
             }
-            sum += App.getShipPrice();
-            Stage stage = App.getStage();
+            sum += CustomerApp.getShipPrice();
+            Stage stage = CustomerApp.getStage();
             try {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage1.fxml"));
                 Parent root = fxmlLoader1.load();
                 OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
-                Order myOrder = new Order(myFlowers,sum,countItem,App.getMyCustomer());
+                Order myOrder = new Order(myFlowers,sum,countItem, CustomerApp.getMyCustomer());
                 orderStage1Controller.showInfo(myOrder);
                 stage.setScene(new Scene(root));
                 stage.show();
@@ -133,10 +131,10 @@ public class CartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        name.setText("שלום, " + App.getMyCustomer().getName());
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
         sum = 0;
         EventBus.getDefault().register(this);
-        this.myFlowers = App.getMyFlowers();
+        this.myFlowers = CustomerApp.getMyFlowers();
         for (int i = 0; i < myFlowers.size(); i++) {
             //calculate the sum price of the order
             sum += (myFlowers.get(i).getItem().getPercent() > 0 ? myFlowers.get(i).getItem().getPrice() * (100 - myFlowers.get(i).getItem().getPercent()) / 100 : myFlowers.get(i).getItem().getPrice())*myFlowers.get(i).getCount();

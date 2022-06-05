@@ -38,12 +38,12 @@
             <version>2.1</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.junit.vintage</groupId>-->
-<!--            <artifactId>junit-vintage-engine</artifactId>-->
-<!--            <version>5.8.2</version>-->
-<!--            <scope>test</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.junit.vintage</groupId>-->
+        <!--            <artifactId>junit-vintage-engine</artifactId>-->
+        <!--            <version>5.8.2</version>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -109,6 +109,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.lilachshop.customerclient.CustomerMain</mainClass>
+                            <commandlineArgs>localhost:3000</commandlineArgs> <!-- SPECIFY SOCKET HERE -->
                         </configuration>
                     </execution>
                 </executions>

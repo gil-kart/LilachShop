@@ -3,19 +3,12 @@ package org.lilachshop.customerclient;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.myOrderItem;
 import org.lilachshop.panels.CustomerAnonymousPanel;
@@ -23,10 +16,8 @@ import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerLoginController implements Initializable {
@@ -51,7 +42,7 @@ public class CustomerLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
@@ -81,10 +72,10 @@ public class CustomerLoginController implements Initializable {
                     UserName.setText("");
                     Password.setText("");
                 }
-            }else {
-                App.setMyFlowers(new LinkedList<myOrderItem>());
-                App.setMyCustomer((Customer) msg);
-                App.getCustomerCatalog();
+            } else {
+                CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
+                CustomerApp.setMyCustomer((Customer) msg);
+                CustomerApp.getCustomerCatalog();
             }
         });
     }

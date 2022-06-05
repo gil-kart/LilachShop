@@ -1,17 +1,12 @@
 package org.lilachshop.customerclient;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.*;
@@ -38,9 +33,9 @@ public class SignUpStage5Controller {
 
     @FXML
     void onClickBackCatalogBtn(ActionEvent event) {
-        App.setMyFlowers(new LinkedList<myOrderItem>());
-        App.setMyCustomer(registeringCustomer);
-        App.CreatePanel();
+        CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
+        CustomerApp.setMyCustomer(registeringCustomer);
+        CustomerApp.createPanel();
     }
 
 
@@ -96,7 +91,7 @@ public class SignUpStage5Controller {
 
         registeringCustomer = registeringCustomer == null ? new Customer() : registeringCustomer;
         if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS,CustomerApp.getSocket(), this);
     }
 
 }

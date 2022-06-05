@@ -3,7 +3,6 @@
  */
 package org.lilachshop.customerclient;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,13 +20,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.lilachshop.customerclient.MaskedTextField;
 import org.lilachshop.events.Signup4Event;
 
 public class SignUpStage4Controller implements Initializable {
@@ -89,7 +85,7 @@ public class SignUpStage4Controller implements Initializable {
         System.out.println("pre-post event4");
         EventBus.getDefault().post(finalEvent);
 
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp5.fxml"));
         Parent root = null;
         try {
@@ -104,7 +100,7 @@ public class SignUpStage4Controller implements Initializable {
 
     @FXML
     void onClickBtnBack(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("Signup3.fxml"));
         Parent root = null;
         try {

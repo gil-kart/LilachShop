@@ -30,7 +30,7 @@ public class SignUpLoginController implements Initializable {
 
     private static Panel panel;
 
-   static FXMLLoader FinalStagefxmlLoader = null;
+    static FXMLLoader FinalStagefxmlLoader = null;
     @FXML
     private ResourceBundle resources;
 
@@ -52,7 +52,7 @@ public class SignUpLoginController implements Initializable {
     @FXML
     void onClickSignupBtn(ActionEvent event) throws IOException {
 
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         Parent root = null;
 
         if (FinalStagefxmlLoader == null) {
@@ -89,19 +89,20 @@ public class SignUpLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this); //TODO:make sure to change to Enum when code pushed
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this); //TODO:make sure to change to Enum when code pushed
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
     }
+
     @Subscribe
     public void handleMessageReceivedFromClient(Object msg) {
         System.out.println("message about login was received from server");
 
 
-        Platform.runLater(()->{
-            if(msg.getClass().equals(String.class)){
-                if(String.valueOf(msg).equals("client not exist")){
+        Platform.runLater(() -> {
+            if (msg.getClass().equals(String.class)) {
+                if (String.valueOf(msg).equals("client not exist")) {
                     Alert a = new Alert(Alert.AlertType.NONE);
                     a.setAlertType(Alert.AlertType.INFORMATION);
                     a.setHeaderText("שם המשתמש או הסיסמה אינם נכונים");
@@ -111,12 +112,11 @@ public class SignUpLoginController implements Initializable {
                     userNameTF.setText("");
                     passwordTF.setText("");
                 }
+            } else {
+                CustomerApp.setMyCustomer((Customer) msg);
+                CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
+                CustomerApp.createPanel();
             }
-            else{
-                App.setMyCustomer((Customer) msg);
-                App.setMyFlowers(new ArrayList<myOrderItem>());
-                App.CreatePanel();
-        }
-    });
+        });
     }
 }

@@ -77,7 +77,7 @@ public class ComplaintController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, this); // this should be the default panel according to customer/employee
+        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, CustomerApp.getSocket(), this); // this should be the default panel according to customer/employee
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }

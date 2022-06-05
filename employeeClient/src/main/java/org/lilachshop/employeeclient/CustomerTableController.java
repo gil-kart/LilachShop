@@ -153,7 +153,7 @@ public class CustomerTableController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, this);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, EmployeeApp.getSocket(), this);
 
         if (panel instanceof SystemManagerPanel) {
             sPanel = (SystemManagerPanel) panel;
@@ -166,11 +166,6 @@ public class CustomerTableController implements Initializable {
         sPanel.getAllCustomers();
         sPanel.getAllStores();
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         deleteBtn.setVisible(false);
         setCells();
     }

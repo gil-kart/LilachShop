@@ -1,13 +1,14 @@
 package org.lilachshop.panels;
 
+import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.requests.*;
 import org.lilachshop.entities.*;
 
 
 public class CustomerAnonymousPanel extends Panel {
 
-    public CustomerAnonymousPanel(String host, int port, Object controller) {
-        super(host, port, controller);
+    public CustomerAnonymousPanel(Socket socket, Object controller) {
+        super(socket, controller);
     }
 
     public void sendGetGeneralCatalogRequestToServer() {
@@ -27,5 +28,7 @@ public class CustomerAnonymousPanel extends Panel {
         sendToServer((new StoreRequest("get all stores")));
     }
 
-    public void checkIfUserNameTaken(String username){sendToServer(new SignUpRequest("check if username taken",username));}
+    public void checkIfUserNameTaken(String username) {
+        sendToServer(new SignUpRequest("check if username taken", username));
+    }
 }

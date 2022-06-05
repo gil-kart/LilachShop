@@ -87,15 +87,15 @@ public class OrderStage4Controller {
             a.initModality(Modality.APPLICATION_MODAL);
             Optional<ButtonType> result = a.showAndWait();
             if (result.get() == ButtonType.OK) {
-                App.setMyFlowers(new LinkedList<myOrderItem>());
-                App.getCustomerCatalog();
+                CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
+                CustomerApp.getCustomerCatalog();
             }
         }
     }
 
     @FXML
     void gotoPrev(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
             Parent root = fxmlLoader.load();
@@ -115,7 +115,7 @@ public class OrderStage4Controller {
 
     @FXML
     void returnToCatalog(MouseEvent event) {
-        App.getCustomerCatalog();
+        CustomerApp.getCustomerCatalog();
 
     }
 
@@ -175,22 +175,22 @@ public class OrderStage4Controller {
         });
 
         //set TextFields to customer data
-        name.setText("שלום, " + App.getMyCustomer().getName());
+        name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
 
-        creditNumTF.setText(App.getMyCustomer().getCard().getNumber().toString());
-        cardNumLabel.setText(App.getMyCustomer().getCard().getNumber().toString());
+        creditNumTF.setText(CustomerApp.getMyCustomer().getCard().getNumber().toString());
+        cardNumLabel.setText(CustomerApp.getMyCustomer().getCard().getNumber().toString());
 
-        expDateTF.setText(App.getMyCustomer().getCard().getExpDateStringFormat());
-        expDateLabel.setText(App.getMyCustomer().getCard().getExpDateStringFormat());
+        expDateTF.setText(CustomerApp.getMyCustomer().getCard().getExpDateStringFormat());
+        expDateLabel.setText(CustomerApp.getMyCustomer().getCard().getExpDateStringFormat());
 
-        ownerNameTF.setText(App.getMyCustomer().getCard().getOwnerName());
-        ownerNameLabel.setText(App.getMyCustomer().getCard().getOwnerName());
+        ownerNameTF.setText(CustomerApp.getMyCustomer().getCard().getOwnerName());
+        ownerNameLabel.setText(CustomerApp.getMyCustomer().getCard().getOwnerName());
 
-        idCardTF.setText(Long.toString(App.getMyCustomer().getId()));
-        idCardLabel.setText(Long.toString(App.getMyCustomer().getId()));
+        idCardTF.setText(Long.toString(CustomerApp.getMyCustomer().getId()));
+        idCardLabel.setText(Long.toString(CustomerApp.getMyCustomer().getId()));
 
-        cvcTF.setText(App.getMyCustomer().getCard().getThreeDigits());
-        cvcLabel.setText(App.getMyCustomer().getCard().getThreeDigits());
+        cvcTF.setText(CustomerApp.getMyCustomer().getCard().getThreeDigits());
+        cvcLabel.setText(CustomerApp.getMyCustomer().getCard().getThreeDigits());
     }
 
     private CreditCard validateCreditCard() {

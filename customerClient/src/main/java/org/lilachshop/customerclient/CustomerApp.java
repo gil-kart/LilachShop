@@ -6,27 +6,26 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.events.ItemsEvent;
-import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.OrderEvent;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.net.UnknownHostException;
 import java.util.List;
 
 /**
  * JavaFX App
  */
-public class App extends Application {
+public class CustomerApp extends Application {
+    static Socket socket = null;
     private static Panel panel;
-    private static App controller;
+    private static CustomerApp controller;
     private static final int shipPrice = 15;
     private static Customer myCustomer = null;
     private static Store myStore = null;
@@ -36,7 +35,7 @@ public class App extends Application {
     }
 
     public static void setPanel(Panel panel) {
-        App.panel = panel;
+        CustomerApp.panel = panel;
     }
 
     public static Customer getMyCustomer() {
@@ -44,7 +43,7 @@ public class App extends Application {
     }
 
     public static void setMyCustomer(Customer myCustomer) {
-        App.myCustomer = myCustomer;
+        CustomerApp.myCustomer = myCustomer;
     }
 
     public static List<myOrderItem> getMyFlowers() {
@@ -52,15 +51,15 @@ public class App extends Application {
     }
 
     public static void setMyStore(Store myStore) {
-        App.myStore = myStore;
+        CustomerApp.myStore = myStore;
     }
 
     public static void setMyFlowers(List<myOrderItem> myFlowers) {
-        App.myFlowers = myFlowers;
+        CustomerApp.myFlowers = myFlowers;
     }
 
     public static void setStoreId(long storeId) {
-        App.storeId = storeId;
+        CustomerApp.storeId = storeId;
     }
 
     private static Scene scene;
@@ -71,7 +70,7 @@ public class App extends Application {
     }
 
     public static void setMyOrders(List<Order> myOrders) {
-        App.myOrders = myOrders;
+        CustomerApp.myOrders = myOrders;
     }
 
     private static List<myOrderItem> myFlowers;
@@ -82,18 +81,18 @@ public class App extends Application {
         return stage;
     }
 
-    public static void CreatePanel() {
+    public static void createPanel() {
         myStore = myCustomer.getStore();
         AccountType userAccountType = myCustomer.getAccount().getAccountType();
         if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, controller);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
             // todo: implement enable store combo box!
         } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, controller);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
         } else {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, controller);
+            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
         }
         getCustomerCatalog();
@@ -104,12 +103,12 @@ public class App extends Application {
         ((StoreCustomerPanel) panel).sendGetCatalogRequestToServer(storeId);
     }
 
-    public static App getApp() {
+    public static CustomerApp getApp() {
         return controller;
     }
 
-    public static void setApp(App app) {
-        App.controller = app;
+    public static void setApp(CustomerApp customerApp) {
+        CustomerApp.controller = customerApp;
     }
 
     public static int getShipPrice() {
@@ -119,18 +118,18 @@ public class App extends Application {
     @Override
     public void init() throws Exception {
         System.out.println("Starting customer application...");
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, getSocket(), this);
     }
 
     @Override
     public void start(Stage stage) throws IOException {
-        App.stage = stage;
+        CustomerApp.stage = stage;
         ((CustomerAnonymousPanel) panel).getAllStores();
     }
 
     @Subscribe
     public void handleMessageReceivedFromClient(List<Store> msg) {
-        App.myStore = msg.get(0);
+        CustomerApp.myStore = msg.get(0);
         ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
     }
 
@@ -139,14 +138,13 @@ public class App extends Application {
         Platform.runLater(() -> {
             try {
                 List<Item> flowerList = msg.getItems();
-                FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 CatalogController controller = fxmlLoader.getController();
-                if (myCustomer == null ||myCustomer.getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
+                if (myCustomer == null || myCustomer.getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
                     controller.getStoreChoiceBox().setItems(FXCollections.observableArrayList(myStore));
                     controller.getStoreChoiceBox().getSelectionModel().selectFirst();
-                }
-                else
+                } else
                     controller.getStoreChoiceBox().getSelectionModel().select(myStore);
                 controller.showInfo(flowerList, this);
                 stage.setScene(new Scene(root));
@@ -160,18 +158,18 @@ public class App extends Application {
 
     @Subscribe
     public void handleReceivedOrderList(OrderEvent msg) {
-            Platform.runLater(() -> {
-                try {
-                    Stage stage = App.getStage();
-                    App.setMyOrders(msg.getOrders());
-                    FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("history.fxml"));
-                    Parent root = fxmlLoader.load();
-                    stage.setScene(new Scene(root));
-                    stage.show();
-                } catch (IOException e) {
+        Platform.runLater(() -> {
+            try {
+                Stage stage = CustomerApp.getStage();
+                CustomerApp.setMyOrders(msg.getOrders());
+                FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("history.fxml"));
+                Parent root = fxmlLoader.load();
+                stage.setScene(new Scene(root));
+                stage.show();
+            } catch (IOException e) {
 
-                }
-            });
+            }
+        });
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -179,11 +177,15 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
     public static void main(String[] args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+        setSocket(args);
         launch(args);
     }
 
@@ -192,4 +194,23 @@ public class App extends Application {
         System.exit(0);
     }
 
+    public static Socket getSocket() {
+        return socket;
+    }
+
+    private static void setSocket(String[] args) {
+        try {
+            int port = Socket.DEFAULT_PORT;
+            try {
+                port = Integer.parseInt(args[1]);
+                socket = new Socket(args[0], port);
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+                socket = new Socket(args[0]);
+            }
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host.");
+        } catch (IndexOutOfBoundsException e) {
+            socket = new Socket();
+        }
+    }
 }

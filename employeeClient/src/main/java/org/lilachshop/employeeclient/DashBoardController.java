@@ -2,7 +2,6 @@ package org.lilachshop.employeeclient;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
@@ -10,10 +9,6 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -203,7 +198,7 @@ public class DashBoardController {
         costumerBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
         reportBtn.setVisible(false);    //CHECK IF I CAN DO IT AT ONCE
         employeeBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
-        stage= App.getStage();
+        stage= EmployeeApp.getStage();
     }
 
 

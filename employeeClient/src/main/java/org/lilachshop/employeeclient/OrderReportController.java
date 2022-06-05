@@ -137,7 +137,7 @@ public class OrderReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER, this);
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_MANAGER,EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
         if(panel.getClass().equals(ChainManagerPanel.class)){
             ((ChainManagerPanel) panel).getStoreOrders(1);

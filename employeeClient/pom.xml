@@ -104,6 +104,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.lilachshop.employeeclient.EmployeeMain</mainClass>
+                            <commandlineArgs>localhost:3000</commandlineArgs>   <!-- SPECIFY SOCKET HERE -->
                         </configuration>
                     </execution>
                 </executions>
