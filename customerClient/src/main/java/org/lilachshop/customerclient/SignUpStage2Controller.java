@@ -7,17 +7,24 @@ package org.lilachshop.customerclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.entities.Customer;
 import org.lilachshop.events.Signup2Event;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SignUpStage2Controller {
+
+public class SignUpStage2Controller implements Initializable {
 
     @FXML // fx:id="addressTF"
     private TextField addressTF; // Value injected by FXMLLoader
@@ -37,23 +44,27 @@ public class SignUpStage2Controller {
     @FXML // fx:id="phoneTF"
     private MaskedTextField phoneTF; // Value injected by FXMLLoader
 
+    Alert alert;
+
+
     @FXML
     void onClickNextBtn(ActionEvent event) {
+        if (ValidateInput()) {
+            Signup2Event event2 = new Signup2Event(firstNameTF.getText(),
+                    lastNameTF.getText(), phoneTF.getText(), cityTF.getText(), addressTF.getText());
+            EventBus.getDefault().post(event2);
+            Stage stage = CustomerApp.getStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp3.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+            stage.show();
 
-        Signup2Event event2 = new Signup2Event(firstNameTF.getText(),
-                lastNameTF.getText(),phoneTF.getText(),cityTF.getText(),addressTF.getText());
-        EventBus.getDefault().post(event2);
-        Stage stage = CustomerApp.getStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp3.fxml"));
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        stage.setScene(new Scene(root));
-        stage.show();
-
     }
 
     @FXML
@@ -70,4 +81,51 @@ public class SignUpStage2Controller {
         stage.show();
     }
 
+    public boolean ValidateInput() {
+        System.out.println(phoneTF.getText().replace("_", ""));
+        if (phoneTF.getText().replace("_", "").length() != 11) {
+            alert.setContentText("טלפון אינו תקין - אנא מלא שוב");
+            alert.show();
+            phoneTF.clear();
+            return false;
+        }
+        if (!FieldInHebrewOrDisplayError(firstNameTF, "שם פרטי אינו תקין - אנא מלא שוב בעברית")) {
+            return false;
+        }
+        if (!FieldInHebrewOrDisplayError(lastNameTF, "שם משפחה אינו תקין - אנא מלא שוב בעברית")) {
+            return false;
+        }
+        if (!FieldInHebrewOrDisplayError(cityTF, "שם עיר אינו תקין - אנא מלא שוב בעברית")) {
+            return false;
+        }
+        if (!FieldInHebrewOrDisplayError(addressTF, "כתובת אינה תקינה - אנא מלא שוב בעברית"))
+            return false;
+        return true;
+    }
+
+
+    boolean FieldInHebrewOrDisplayError(TextField F, String msg) {
+        if (!containHebrew(F.getText())) {
+            alert.setContentText(msg);
+            alert.show();
+            F.clear();
+            return false;
+        }
+        return true;
+
+    }
+
+    boolean containHebrew(String str) {
+        boolean valid = str.chars().allMatch(p -> p <= 0x05ea && p >= 0x05d0);
+        System.out.println(valid);
+        return valid;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+
+    }
 }

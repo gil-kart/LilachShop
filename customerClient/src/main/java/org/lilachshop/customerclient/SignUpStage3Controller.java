@@ -36,7 +36,7 @@ public class SignUpStage3Controller implements Initializable {
 
     static private Panel panel = null;
     static Store defaultStore = null;
-    static Set<Store> allStoresSet = null;
+    static List<Store> allStoresList = null;
     AccountType chosenAccount;
 
     @FXML
@@ -159,9 +159,9 @@ public class SignUpStage3Controller implements Initializable {
     @Subscribe
     public void onGetAllStores(List<Store> allStores) {
         defaultStore = defaultStore == null ? allStores.get(0) : defaultStore;
-        allStoresSet = allStoresSet == null ? new HashSet<>(allStores) : allStoresSet;
+        allStoresList = allStoresList == null ? FXCollections.observableArrayList(allStores): allStoresList;
         Platform.runLater(() -> {
-            storeChoiceBox.setItems(FXCollections.observableArrayList(allStoresSet));
+            storeChoiceBox.setItems(FXCollections.observableArrayList(allStoresList));
             System.out.println("num of items in choice box:" + storeChoiceBox.getItems().size());
 
         });
@@ -188,11 +188,13 @@ public class SignUpStage3Controller implements Initializable {
             }
         };
 
-        if (allStoresSet == null) {
+        if (allStoresList == null) {
             customerAnonymousPanel.getAllStores();
         } else {
-            storeChoiceBox.setItems(FXCollections.observableArrayList(allStoresSet));
-            System.out.println("num of items in choice box:" + storeChoiceBox.getItems().size());
+            Platform.runLater(()->{
+                storeChoiceBox.setItems(FXCollections.observableArrayList(allStoresList));
+                System.out.println("num of items in choice box:" + storeChoiceBox.getItems().size());
+            });
         }
         storeChoiceBox.getSelectionModel().selectedItemProperty().addListener(changeListener);
 

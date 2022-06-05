@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -10,14 +11,14 @@
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@signUpResources/SignupBackground.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStage1Controller">
    <children>
-      <TextField fx:id="passwordTF" alignment="BOTTOM_RIGHT" layoutX="689.0" layoutY="411.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס סיסמא כאן" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
+      <PasswordField fx:id="passwordTF" alignment="BOTTOM_CENTER" layoutX="689.0" layoutY="411.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס סיסמא כאן - 5 ספרות לפחות" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
          <font>
-            <Font name="Arial Bold Italic" size="23.0" />
+            <Font name="Arial Bold Italic" size="15.0" />
          </font>
-      </TextField>
-      <TextField fx:id="userNameTF" alignment="BOTTOM_RIGHT" layoutX="686.0" layoutY="338.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס שם משתמש כאן" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
+      </PasswordField>
+      <TextField fx:id="userNameTF" alignment="BOTTOM_CENTER" layoutX="686.0" layoutY="338.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס שם משתמש כאן" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
          <font>
-            <Font name="Arial Bold Italic" size="23.0" />
+            <Font name="Arial Bold Italic" size="15.0" />
          </font>
       </TextField>
       <Ellipse fill="#5997c9" layoutX="704.0" layoutY="719.0" radiusX="121.0" radiusY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">

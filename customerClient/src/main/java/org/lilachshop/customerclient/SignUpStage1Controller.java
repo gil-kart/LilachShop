@@ -9,9 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
@@ -38,21 +41,31 @@ public class SignUpStage1Controller implements Initializable {
     private Button btnNext;
 
     @FXML
-    private TextField passwordTF;
+    private PasswordField passwordTF;
 
     @FXML
     private TextField userNameTF;
 
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+
+
     @FXML
     void onClickBtnNext(ActionEvent event) {
         System.out.println("Next btn clicked on");
-        //Validate UserName
-        CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
-        if (customerAnonymousPanel == null) {
-            throw new RuntimeException("Bad panel output in Signup Stage 3 controller");
+        //Validate Password
+        if (passwordTF.getText().length() < 5) {
+            alert.setContentText("סיסמא לא תקינה - סיסמא צריכה להכיל לפחות 5 ספרות");
+            alert.show();
+            passwordTF.clear();
+        } else {
+            //Validate UserName
+            CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
+            if (customerAnonymousPanel == null) {
+                throw new RuntimeException("Bad panel output in Signup Stage 3 controller");
+            }
+            System.out.println("Panel is set to request if userName exists in the system");
+            customerAnonymousPanel.checkIfUserNameTaken(userNameTF.getText());
         }
-        System.out.println("Panel is set to request if userName exists in the system");
-        customerAnonymousPanel.checkIfUserNameTaken(userNameTF.getText());
     }
 
     @FXML
@@ -78,6 +91,8 @@ public class SignUpStage1Controller implements Initializable {
             moveToStage2Signup();
         } else {
             Platform.runLater(() -> {
+                alert.setContentText("שם המשתמש שבחרת תפוס, אנא בחר שם משתמש חדש");
+                alert.show();
                 userNameTF.clear();
                 userNameTF.setPromptText("שם משתמש שבחרת תפוס");
             });
@@ -115,6 +130,7 @@ public class SignUpStage1Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         if (panel == null)
             panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this);
-
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        alert.setHeaderText("שגיאה במילוי פרטי הרשמה");
     }
 }

@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
@@ -58,24 +59,14 @@ public class SignUpStage4Controller implements Initializable {
     @FXML // fx:id="expDateTF"
     private MaskedTextField expDateTF; // Value injected by FXMLLoader
 
-    @FXML
-    void cardOwnerIDTyping(InputMethodEvent event) throws ParseException {
-    }
 
     @FXML
-    void cardOwnerNameTyping(InputMethodEvent event) {
+    private Text cvcLabel;
 
-    }
-
-    @FXML
-    void creditCardTyping(InputMethodEvent event) {
-        creditCardNumberLabel.setText(creditCardNumberTF.getPlainText());
-    }
 
     @FXML
-    void expDateTyping(InputMethodEvent event) {
+    private MaskedTextField cvcTF;
 
-    }
 
     @FXML
     void onClickEndSignUpBtn(ActionEvent event) {
@@ -120,6 +111,8 @@ public class SignUpStage4Controller implements Initializable {
         initalizeTextFieldAndLabelConnection(creditCardNumberTF, creditCardNumberLabel);
         initalizeTextFieldAndLabelConnection(cardOwnerIDTF, cardOwnerIDLabel);
         initalizeTextFieldAndLabelConnection(expDateTF, expDateLabel);
+        initalizeTextFieldAndLabelConnection(cvcTF,cvcLabel);
+
 
         //Handle NameTF
         cardOwnerNameTF.setOnKeyTyped(new EventHandler<KeyEvent>() {

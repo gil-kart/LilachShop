@@ -11,37 +11,123 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #FFFFF0;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStage3Controller">
    <children>
-      <Rectangle fx:id="YearlyAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="476.0" layoutX="466.0" layoutY="186.0" stroke="#77cce5bf" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="349.0">
+      <Rectangle fx:id="YearlyAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="520.0" layoutX="477.0" layoutY="168.0" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="346.0">
          <effect>
             <GaussianBlur radius="32.37" />
          </effect>
+         <stroke>
+            <LinearGradient endX="0.25757572506413307" endY="0.7424242442304438" startX="0.7424242568738533" startY="0.24242430022268585">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.006729475100942127">
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4777927321668908">
+                     <color>
+                        <Color red="1.0" green="0.18333333730697632" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.025925925001502037" blue="0.659074068069458" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Rectangle>
-      <Rectangle fx:id="ChainAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="484.0" layoutX="93.0" layoutY="183.0" stroke="#f753fc" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="349.0">
+      <Rectangle fx:id="ChainAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="513.0" layoutX="112.0" layoutY="171.0" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="338.0">
          <effect>
             <GaussianBlur radius="32.37" />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="0.8257575703389717" startX="0.14015150792670975" startY="0.24242430022268585">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.006729475100942127">
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4777927321668908">
+                     <color>
+                        <Color red="1.0" green="0.18333333730697632" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.025925925001502037" blue="0.659074068069458" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Rectangle>
-      <Rectangle fx:id="storeAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="473.0" layoutX="841.0" layoutY="187.0" stroke="#ffbc00" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="346.0">
+      <Rectangle fx:id="storeAccountHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="520.0" layoutX="849.0" layoutY="168.0" strokeType="INSIDE" strokeWidth="10.0" visible="false" width="338.0">
          <effect>
             <GaussianBlur radius="32.37" />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="0.8257575703389717" startX="0.14015150792670975" startY="0.24242430022268585">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.006729475100942127">
+                     <color>
+                        <Color red="1.0" green="0.70333331823349" blue="0.011111111380159855" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.4777927321668908">
+                     <color>
+                        <Color red="1.0" green="0.18333333730697632" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.025925925001502037" blue="0.659074068069458" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Rectangle>
-      <HBox layoutX="101.0" layoutY="199.0" prefHeight="450.0" prefWidth="1080.0" AnchorPane.bottomAnchor="151.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="99.0" AnchorPane.topAnchor="199.0">
+      <HBox layoutX="118.0" layoutY="175.0" prefHeight="501.0" prefWidth="1061.0" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="118.0" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="175.0">
          <children>
             <Pane fx:id="ChainAccountBtn" accessibleRole="BUTTON" onMouseClicked="#onClickChainAccount" prefHeight="400.0" prefWidth="330.0" style="-fx-border-color: #f1d2b7;" styleClass="bodybg" stylesheets="@signUpResources/Signup3Background.css">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="65.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="97.0" fitWidth="262.0" layoutX="28.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@signUpResources/TitleChainAccount.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="275.0" fitWidth="225.0" layoutX="44.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@signUpResources/ChainAccInfo.png" />
                      </image>
                   </ImageView>
                </children>
@@ -60,9 +146,14 @@
                   <Insets left="45.0" right="45.0" />
                </HBox.margin>
                <children>
-                  <ImageView fx:id="ChainAccountPaneHighlight" fitHeight="150.0" fitWidth="200.0" layoutX="65.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="ChainAccountPaneHighlight" fitHeight="97.0" fitWidth="259.0" layoutX="27.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@signUpResources/TitleYearlyAccount.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="271.0" fitWidth="251.0" layoutX="48.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@signUpResources/annualSubInfo.png" />
                      </image>
                   </ImageView>
                </children>
@@ -75,22 +166,27 @@
                   <Insets left="30.0" />
                </padding>
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="74.0" layoutY="49.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="97.0" fitWidth="262.0" layoutX="31.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@signUpResources/TitleStoreAccount.png" />
                      </image>
                   </ImageView>
-                  <ChoiceBox fx:id="storeChoiceBox" disable="true" layoutX="99.0" layoutY="302.0" prefHeight="33.0" prefWidth="165.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-image-width: 0 0 2 0; -fx-border-color: #ffbc00; -fx-border-radius: 30;" stylesheets="@signUpResources/choiceBox.css">
+                  <Text fx:id="chooseStoreTXT" fill="#bf931c" fontSmoothingType="LCD" layoutX="134.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" text="בחירת חנות:" textAlignment="RIGHT" underline="true">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Text>
+                  <ImageView fitHeight="271.0" fitWidth="262.0" layoutX="51.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@signUpResources/storeAccInfo.png" />
+                     </image>
+                  </ImageView>
+                  <ChoiceBox fx:id="storeChoiceBox" disable="true" layoutX="95.0" layoutY="347.0" prefHeight="33.0" prefWidth="165.0" style="-fx-background-color: rgba(0,0,0,0); -fx-border-image-width: 0 0 2 0; -fx-border-color: #ffbc00; -fx-border-radius: 30;" stylesheets="@signUpResources/choiceBox.css">
                      <styleClass>
                         <String fx:value="context-menu" />
                         <String fx:value="label" />
                         <String fx:value="choice-box" />
                      </styleClass></ChoiceBox>
-                  <Text fx:id="chooseStoreTXT" fill="#bf931c" fontSmoothingType="LCD" layoutX="125.0" layoutY="289.0" strokeType="OUTSIDE" strokeWidth="0.0" text="בחירת חנות:" textAlignment="RIGHT" underline="true">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                  </Text>
                </children>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -103,7 +199,7 @@
             <Image url="@signUpResources/progressIndicatorStge3.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="215.0" fitWidth="490.0" layoutX="796.0" layoutY="-3.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="215.0" fitWidth="490.0" layoutX="874.0" layoutY="-28.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@signUpResources/TitleChooseAccount.png" />
          </image>
@@ -116,7 +212,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="backBtn" contentDisplay="CENTER"  layoutX="1038.0" layoutY="691.0" mnemonicParsing="false" onAction="#onClickBtnBack" prefHeight="71.0" prefWidth="175.0" style="-fx-background-color: #fff0c6; -fx-background-radius: 30; -fx-border-color: #fcb900; -fx-border-radius: 30;" text="חזרה" textAlignment="CENTER" textFill="#fcb900">
+      <Button fx:id="backBtn" contentDisplay="CENTER" layoutX="1038.0" layoutY="691.0" mnemonicParsing="false" onAction="#onClickBtnBack" prefHeight="71.0" prefWidth="175.0" style="-fx-background-color: #fff0c6; -fx-background-radius: 30; -fx-border-color: #fcb900; -fx-border-radius: 30;" text="חזרה" textAlignment="CENTER" textFill="#fcb900">
          <font>
             <Font name="Agency FB Bold" size="29.0" />
          </font>
