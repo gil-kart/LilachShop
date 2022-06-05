@@ -8,8 +8,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,6 +27,7 @@ import java.time.YearMonth;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.entities.CreditCard;
 import org.lilachshop.events.Signup4Event;
 
 public class SignUpStage4Controller implements Initializable {
@@ -71,22 +74,23 @@ public class SignUpStage4Controller implements Initializable {
     @FXML
     void onClickEndSignUpBtn(ActionEvent event) {
 
-        Signup4Event finalEvent = new Signup4Event(creditCardNumberTF.getPlainText(), YearMonth.now(),//todo: change to actual card input date
-                cardOwnerNameLabel.getText(), Integer.parseInt(cardOwnerIDLabel.getText())); // todo: handle number format exception
-        System.out.println("pre-post event4");
-        EventBus.getDefault().post(finalEvent);
+        CreditCard card = validateCreditCard();
+        if(card!=null) {
+            Signup4Event finalEvent = new Signup4Event(card); // todo: handle number format exception
+            System.out.println("pre-post event4");
+            EventBus.getDefault().post(finalEvent);
 
-        Stage stage = CustomerApp.getStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp5.fxml"));
-        Parent root = null;
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Stage stage = CustomerApp.getStage();
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp5.fxml"));
+            Parent root = null;
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setScene(new Scene(root));
+            stage.show();
         }
-        stage.setScene(new Scene(root));
-        stage.show();
-
     }
 
     @FXML
@@ -133,4 +137,24 @@ public class SignUpStage4Controller implements Initializable {
             }
         });
     }
+
+    private CreditCard validateCreditCard() {
+        CreditCard card = new CreditCard();
+
+        try {
+            card.setNumber(creditCardNumberTF.getPlainText());
+            card.setOwnerName(cardOwnerNameTF.getText());
+            card.setExpDate(expDateTF.getPlainText());
+            card.setThreeDigits(cvcTF.getPlainText());
+            card.setCardOwnerId(cardOwnerIDTF.getPlainText());
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            alert.setContentText(e.getMessage());
+            alert.show();
+            return null;
+        }
+        return card;
+    }
+
 }

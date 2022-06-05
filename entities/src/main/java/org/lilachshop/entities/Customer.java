@@ -55,6 +55,7 @@ public class Customer extends User implements Serializable {
     }
 
     public Customer() {
+        this.disabled = ActiveDisabledState.ACTIVE;
     }
 
     public void addOrderToList(Order order) {

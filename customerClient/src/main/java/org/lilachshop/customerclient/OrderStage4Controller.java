@@ -193,10 +193,8 @@ public class OrderStage4Controller {
         cvcLabel.setText(CustomerApp.getMyCustomer().getCard().getThreeDigits());
     }
 
-    private CreditCard validateCreditCard() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    private CreditCard validateCreditCard() {;
         CreditCard card = new CreditCard();
-
         try {
             card.setNumber(creditNumTF.getText());
             card.setOwnerName(ownerNameTF.getText());
@@ -204,7 +202,7 @@ public class OrderStage4Controller {
             card.setThreeDigits(cvcTF.getText());
             card.setCardOwnerId(idCardTF.getText());
         } catch (Exception e) {
-            alert = new Alert(Alert.AlertType.ERROR);
+            Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
             alert.show();
             return null;
