@@ -34,6 +34,10 @@ public class CustomerApp extends Application {
         return panel;
     }
 
+    public static Store getMyStore() {
+        return myStore;
+    }
+
     public static void setPanel(Panel panel) {
         CustomerApp.panel = panel;
     }
@@ -167,7 +171,7 @@ public class CustomerApp extends Application {
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         });
     }

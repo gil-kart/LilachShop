@@ -31,7 +31,8 @@ public class ComplaintReportController implements Initializable {
     private Label TotalSumOfComplaints;
     @FXML
     private Button newScreenBtn;
-
+    @FXML
+    private Label totalComplaintsLabel;
     @FXML
     private BarChart<?, ?> complaintBarChart;
 
@@ -144,12 +145,12 @@ public class ComplaintReportController implements Initializable {
         this.complaints = complaints;
     }
 
-    public void setData() {
+    public void setData(long storeId) {
         if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            ((ChainManagerPanel) panel).getStoreComplaint(1);
+            ((ChainManagerPanel) panel).getStoreComplaint(1);// gets haifa by default
         }
         else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
-            ((StoreManagerPanel) panel).getStoreComplaint(1);
+            ((StoreManagerPanel) panel).getStoreComplaint(storeId);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);

@@ -67,7 +67,7 @@ public class DashBoardController {
             AnchorPane anchorPaneOrderReport =  fxmlLoader.load();
             displayer.getChildren().add(anchorPaneOrderReport);
             OrderReportController controller = fxmlLoader.getController();
-            controller.setData();
+            controller.setData(employee.getStore().getId());
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +83,7 @@ public class DashBoardController {
                 AnchorPane anchorPaneComplaintReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneComplaintReport);
                 ComplaintReportController controller = fxmlLoader.getController();
-                controller.setData();
+                controller.setData(employee.getStore().getId());
             }catch (IOException e) {
                 e.printStackTrace();
             }
@@ -100,7 +100,7 @@ public class DashBoardController {
                 AnchorPane anchorPaneIncomeReport =  fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneIncomeReport);
                 IncomeReportController controller = fxmlLoader.getController();
-                controller.setData();
+                controller.setData(employee.getStore().getId());
 
             }catch (IOException e) {
                 e.printStackTrace();

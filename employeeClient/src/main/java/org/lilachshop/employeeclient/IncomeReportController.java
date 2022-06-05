@@ -178,16 +178,17 @@ public class IncomeReportController implements Initializable {
         this.ordersFromAllStores = orderEvent.getOrders();
     }
 
-    public void setData(){ // WILL NEED to "copy" this function to the others 2 reports orders
+    public void setData(long storeId){ // WILL NEED to "copy" this function to the others 2 reports orders
         if(DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
             newScreenBtn.setVisible(false);
             storeList.setVisible(false);
-            ((StoreManagerPanel) panel).getStoreOrders(employee.getStore().getId());
+            ((StoreManagerPanel) panel).getStoreOrders(storeId);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);
             totalChainIncome.setVisible(false);
             totalChainIncomeLabel.setVisible(false);
+            chooseStoreLabel.setVisible(false);
             ((StoreManagerPanel) panel).getStoreOrders(1);
         }
         else{

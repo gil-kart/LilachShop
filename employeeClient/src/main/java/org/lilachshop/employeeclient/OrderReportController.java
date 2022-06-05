@@ -36,6 +36,8 @@ public class OrderReportController implements Initializable {
     private Label totalNumOfOrders;
     @FXML
     private Button newScreenBtn;
+    @FXML
+    private Label totalChainNumberOfOrders;
 
     @FXML
     private Label chooseStoreLabel;
@@ -97,20 +99,26 @@ public class OrderReportController implements Initializable {
         listOfObservableItems.addAll(observableItems);
         tableView.setEditable(true);
         tableView.setItems(listOfObservableItems);
-        calcTotalNumOfOrders(start, end);
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+            calcTotalNumOfOrders(start, end);
+        }
     }
 
     private void calcTotalNumOfOrders(LocalDate start, LocalDate end) {
         long todayOrderCounter = 0;
         long curTotalOrderForAllStores = 0;
-        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
-            for (Order order : ordersFromAllStores) {
-                if (order.getCreationDate().equals(date)) {
-                    todayOrderCounter += 1;
+        try {
+            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+                for (Order order : ordersFromAllStores) {
+                    if (order.getCreationDate().equals(date)) {
+                        todayOrderCounter += order.getAmountOfProducts();//1;
+                    }
                 }
+                curTotalOrderForAllStores += todayOrderCounter;
+                todayOrderCounter = 0;
             }
-            curTotalOrderForAllStores += todayOrderCounter;
-            todayOrderCounter = 0;
+        }catch (Exception e){
+            System.out.println("cant calculate number of orders");
         }
         totalNumOfOrders.setText(String.valueOf(curTotalOrderForAllStores));
     }
@@ -156,13 +164,11 @@ public class OrderReportController implements Initializable {
         panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
 
-        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
-        //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
+        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה");
         storeList.promptTextProperty().set("לילך חיפה");
         ItemName.setCellValueFactory(new PropertyValueFactory<>("ItemName"));
         OrderNumber.setCellValueFactory(new PropertyValueFactory<>("numOfSales"));
         Price.setCellValueFactory(new PropertyValueFactory<>("Price"));
-
     }
 
     private void displayChronologyAlert() {
@@ -207,10 +213,10 @@ public class OrderReportController implements Initializable {
         this.ordersFromAllStores = orderEvent.getOrders();
     }
 
-    public void setData() {
+    public void setData(long storeId) {
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
-            ((ChainManagerPanel) panel).getStoreOrders(1);
-            ((ChainManagerPanel) panel).getStoreCatalog(1);
+            ((ChainManagerPanel) panel).getStoreOrders(storeId);
+            ((ChainManagerPanel) panel).getStoreCatalog(storeId);
             ((ChainManagerPanel) panel).getAllOrders();
         } else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
             ((StoreManagerPanel) panel).getStoreOrders(1);
@@ -218,6 +224,7 @@ public class OrderReportController implements Initializable {
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);
+            totalChainNumberOfOrders.setVisible(false);
         }
     }
 }

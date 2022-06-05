@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import org.lilachshop.entities.CreditCard;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
+import org.lilachshop.panels.StoreCustomerPanel;
 
 public class OrderStage4Controller {
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -79,6 +80,8 @@ public class OrderStage4Controller {
         CreditCard card = validateCreditCard();
         if (card != null) {
             myOrder.setCreditCard(card);
+            myOrder.setStore(CustomerApp.getMyStore());
+            ((StoreCustomerPanel)CustomerApp.getPanel()).sendNewOrderCreationToServer(myOrder);
             Alert a = new Alert(Alert.AlertType.NONE);
             a.setAlertType(Alert.AlertType.INFORMATION);
             a.setHeaderText("אישור הזמנה");

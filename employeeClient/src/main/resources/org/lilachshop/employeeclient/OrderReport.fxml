@@ -29,7 +29,7 @@
       <ComboBox fx:id="storeList" layoutX="294.0" layoutY="610.0" onAction="#onChangeStore" prefWidth="150.0" />
       <Label fx:id="chooseStoreLabel" layoutX="478.0" layoutY="614.0" text="בחר חנות:" />
       <Button fx:id="newScreenBtn" layoutX="28.0" layoutY="36.0" mnemonicParsing="false" onAction="#onNewScreenBtnClick" text="פתיחת מסך נוסף להשוואה" />
-      <Label layoutX="522.0" layoutY="49.0" prefHeight="25.0" prefWidth="150.0" text="סך כמות ההזמנות הכללית" />
-      <Label fx:id="totalNumOfOrders" layoutX="402.0" layoutY="49.0" prefHeight="25.0" prefWidth="131.0" />
+      <Label fx:id="totalChainNumberOfOrders" layoutX="437.0" layoutY="49.0" prefHeight="25.0" prefWidth="235.0" text="כמות הפריטים שהוזמנו ברשת בפרק זמן זה:" />
+      <Label fx:id="totalNumOfOrders" layoutX="385.0" layoutY="49.0" prefHeight="25.0" prefWidth="42.0" />
    </children>
 </AnchorPane>
