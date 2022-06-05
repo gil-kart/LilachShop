@@ -56,6 +56,7 @@ public class ComplaintController implements Initializable {
         ((StoreCustomerPanel) panel).sendComplaintToServer(complaint, order);
         System.out.println(complaint.getContent());
         historyItemController.disablePostComplaintBtn();
+        historyItemController.enableShowComplaintBtn();
         Stage stage = (Stage) onSendComplaintClick.getScene().getWindow();
         stage.close();
     }

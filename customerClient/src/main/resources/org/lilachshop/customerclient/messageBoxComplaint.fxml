@@ -98,6 +98,37 @@
                         <Insets />
                     </VBox.margin>
                 </TextField>
+            <Text fx:id="noReplyYet" boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="אנו מטפלים בתלונתך. כאשר נסיים לטפל בה, המענה יהיה תחת לשונית 'תגובת המערכת:'" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="498.8943476676941">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+               <fill>
+                  <LinearGradient endX="1.0" endY="0.6249999918720939">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.007680491551459294">
+                           <color>
+                              <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.31487061325771">
+                           <color>
+                              <Color red="0.3391812741756439" green="0.7894737124443054" blue="0.406725138425827" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.02245614118874073" green="0.09150876849889755" blue="0.2526315748691559" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
                 <Label prefHeight="30.0" prefWidth="100.0" text="תגובת המערכת:" underline="true">
                     <font>
                         <Font size="14.0" />

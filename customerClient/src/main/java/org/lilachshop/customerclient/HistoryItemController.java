@@ -16,6 +16,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
@@ -63,15 +64,15 @@ public class HistoryItemController {
     }
 
     public void onComplaintReply(ActionEvent event) {
-        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MessageBoxComplaint.fxml"));
             Parent root = fxmlLoader.load();
             MessageBoxComplaintController controller = fxmlLoader.getController();
+            Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
-            long complaintID = order.getComplaint().getId();
-            controller.setData(complaintID);
+            Complaint complaint = order.getComplaint();
+            controller.setData(complaint);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -89,7 +90,17 @@ public class HistoryItemController {
         stage.setScene(new Scene(root1));
         stage.show();
     }
+
     public void disablePostComplaintBtn(){
         fillComplaint.setDisable(true);
     }
+
+    public void disableShowComplaintBtn(){
+        ComplaintReply.setDisable(true);
+    }
+
+    public void enableShowComplaintBtn(){
+        ComplaintReply.setDisable(false);
+    }
+
 }

@@ -70,6 +70,9 @@ public class HistoryController implements Initializable {
                 if(complaint != null){
                     historyItemController.disablePostComplaintBtn();
                 }
+                else{ // no complaint send -> don't show the complaint
+                    historyItemController.disableShowComplaintBtn();
+                }
                 itemLayout.getChildren().add(anchorPane);
 
             } catch (IOException e) {
