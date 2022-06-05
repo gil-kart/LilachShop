@@ -63,7 +63,7 @@ public class HistoryItemController {
     }
 
     public void onComplaintReply(ActionEvent event) {
-        Stage stage = App.getStage();
+        Stage stage = CustomerApp.getStage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MessageBoxComplaint.fxml"));
             Parent root = fxmlLoader.load();

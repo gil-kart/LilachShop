@@ -152,8 +152,5 @@ public class Customer extends User implements Serializable {
         return this.name;
     }
 
-    public List<Order> getOrders() {
-        return orders;
-    }
 }
 
