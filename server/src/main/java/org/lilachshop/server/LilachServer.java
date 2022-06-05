@@ -29,7 +29,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        //entityFactory.fillDataBase();
+        entityFactory.fillDataBase();
     }
 
     @Override
@@ -113,12 +113,8 @@ public class LilachServer extends AbstractServer {
                     Customer customer = request.getCustomer();
                     entityFactory.addCustomer(customer); // this also updates customers
                 }
-                case "DELETE_CUSTOMER_BY_ID" -> {
-                    System.out.println("got delete request");
-                    Customer customer = request.getCustomer();
-                    customer.clearOrders();
-                    entityFactory.addCustomer(customer); // also updates.
-                    entityFactory.deleteCustomerByID(customer.getId());
+                default -> {
+                    System.out.println("got to default in customer edit request");
                 }
             }
         }
@@ -295,9 +291,7 @@ public class LilachServer extends AbstractServer {
                             if ((customer.getUserPassword().equals(requestPassword)) &&
                                     customer.getUserName().equals(requestUserName)) {
                                 try {
-                                    
-                                    return;
-                                    if(customer.getDisabled().equals(false)){
+                                    if(customer.getAccountState().equals(ActiveDisabledState.ACTIVE)){
                                         connectedUsers.add(customer);
                                         client.sendToClient(customer);
                                     }

@@ -1,14 +1,9 @@
 package org.lilachshop.entities;
 
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -108,7 +103,7 @@ public class Customer extends User implements Serializable {
             throw new Exception("מספר טלפון אינו תקין");
     }
 
-    public ActiveDisabledState getDisabled() {
+    public ActiveDisabledState getAccountState() {
         return disabled;
     }
 
