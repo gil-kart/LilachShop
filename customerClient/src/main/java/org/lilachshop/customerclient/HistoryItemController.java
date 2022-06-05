@@ -23,7 +23,7 @@ import org.lilachshop.entities.myOrderItem;
 import java.io.IOException;
 
 public class HistoryItemController {
-    Order order;
+    private Order order;
     @FXML
     private Button fillComplaint;
     @FXML
@@ -41,6 +41,9 @@ public class HistoryItemController {
     @FXML
     private Circle statusColor;
 
+    @FXML
+    private Button ComplaintReply;
+
     public void setData(Order order) {
         this.order = order;
         for (myOrderItem itemsType : order.getItems())
@@ -56,13 +59,22 @@ public class HistoryItemController {
             //status.setText(order.);
             orderNum.setText("# "+ order.getId());
             price.setText(Double.toString(order.getTotalPrice()));
-
-
         }
-
     }
 
     public void onComplaintReply(ActionEvent event) {
+        Stage stage = App.getStage();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MessageBoxComplaint.fxml"));
+            Parent root = fxmlLoader.load();
+            MessageBoxComplaintController controller = fxmlLoader.getController();
+            stage.setScene(new Scene(root));
+            stage.show();
+            long complaintID = order.getComplaint().getId();
+            controller.setData(complaintID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onCencelOrder(ActionEvent event) {

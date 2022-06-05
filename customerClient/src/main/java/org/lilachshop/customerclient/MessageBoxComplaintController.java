@@ -42,12 +42,20 @@ public class MessageBoxComplaintController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //panel= OperationsPanelFactory.createPanel(); // might use it later
-        String complaintID= "654";
-        String complaintDescription= "I ordered green Rosses but i got red ones.";
-        String complaintAnswer= "My brothaaaaaaaa";
-        complainDescriptionTF.setText(complaintDescription);
-        complainAnswerTF.setText(complaintAnswer);
-        complaintIDTF.setText(complaintID);
+//        String complaintID= "654";
+//        String complaintDescription= "I ordered green Rosses but i got red ones.";
+//        String complaintAnswer= "My brothaaaaaaaa";
+//        complainDescriptionTF.setText(complaintDescription);
+//        complainAnswerTF.setText(complaintAnswer);
+//        complaintIDTF.setText(complaintID);
+
+    }
+
+    public void setData(long complaintId){
+        complainDescriptionTF.setText(String.valueOf(complaintId));
+
+
+
 
 
     }

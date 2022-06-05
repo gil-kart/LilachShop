@@ -89,7 +89,7 @@
             </ScrollPane>
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="634.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onComplaintReply" text="תגובה לתלונה">
+                  <Button fx:id="ComplaintReply" mnemonicParsing="false" onAction="#onComplaintReply" text="תגובה לתלונה">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>

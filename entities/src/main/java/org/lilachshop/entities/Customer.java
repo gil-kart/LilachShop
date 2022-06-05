@@ -151,4 +151,9 @@ public class Customer extends User implements Serializable {
     public String toString() {
         return this.name;
     }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
 }
+

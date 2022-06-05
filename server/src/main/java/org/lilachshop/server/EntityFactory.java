@@ -266,6 +266,14 @@ public class EntityFactory {
         return getListOfRecordByKey(Complaint.class, "store", storeId);
     }
 
+    public List<Complaint> getComplaintByOrderId(long orderId) {
+        return getListOfRecordByKey(Complaint.class, "order", orderId);
+    }
+
+    public List<Complaint> getComplaintByComplaintId(long complaintId) {
+        return getListOfRecordByKey(Complaint.class, "complaint", complaintId);
+    }
+
     public List<Order> getOrderCustomerID(long customerID) {
         return getListOfRecordByKey(Order.class, "customer", customerID);
     }
