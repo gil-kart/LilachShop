@@ -4,7 +4,14 @@ import javafx.event.EventHandler;
 import javafx.geometry.NodeOrientation;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -84,5 +91,16 @@ public class Utilities {
                 col.getTableView().refresh();
             }
         });
+    }
+
+    public static byte[] imgFileToBytesConverter(File imageFile, String extension) throws IOException {
+        BufferedImage image = ImageIO.read(imageFile);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ImageIO.write(image, extension, out);
+        return out.toByteArray();
+    }
+
+    public static Image bytesToImageConverter(byte[] imgBytes) {
+        return new Image(new ByteArrayInputStream(imgBytes));
     }
 }

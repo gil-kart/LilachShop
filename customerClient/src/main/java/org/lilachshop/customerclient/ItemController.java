@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.text.Text;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.Item;
 import org.w3c.dom.events.MouseEvent;
 
@@ -55,7 +56,8 @@ public class ItemController {
 
         Price.setText(String.valueOf(flower.getPrice()));
         try{
-            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getImage()))));
+//            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getImage()))));
+            Image image = Utilities.bytesToImageConverter(flower.getImageBlob());
             Img.setImage(image);
         }
         catch (Exception e){

@@ -23,6 +23,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
 import org.lilachshop.panels.*;
 
@@ -227,7 +228,7 @@ public class CatalogController {
             saleImag.setVisible(false);
         }
         try {
-            FlowerImg.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream(flower.getImage()))));
+            FlowerImg.setImage(Utilities.bytesToImageConverter(flower.getImageBlob()));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

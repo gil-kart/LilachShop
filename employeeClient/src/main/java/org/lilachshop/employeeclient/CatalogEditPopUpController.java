@@ -1,10 +1,9 @@
 package org.lilachshop.employeeclient;
 
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -12,13 +11,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.events.AddItemEvent;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.RefreshCatalogEvent;
@@ -26,6 +28,8 @@ import org.lilachshop.panels.GeneralEmployeePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
+
+import javax.imageio.ImageIO;
 
 public class CatalogEditPopUpController implements Initializable {
 
@@ -70,9 +74,15 @@ public class CatalogEditPopUpController implements Initializable {
     @FXML
     private ChoiceBox<Color> itemColorChoiceBox;
 
+    @FXML
+    private Button fileChooserBtn;
+
+    @FXML
+    private TextField filePathTF;
 
     Alert a = new Alert(Alert.AlertType.INFORMATION);
 
+    byte[] imageblob = null;
 
     @FXML
     void onClickSaveBtn(ActionEvent event) {
@@ -82,7 +92,7 @@ public class CatalogEditPopUpController implements Initializable {
                 Integer.parseInt(priceTF.getText())
                 , itemTypeChoiceBox.getSelectionModel().getSelectedItem(),
                 itemColorChoiceBox.getSelectionModel().getSelectedItem(),
-                null);
+                imageblob);
         if (panel == null) {
             panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
         }
@@ -115,6 +125,24 @@ public class CatalogEditPopUpController implements Initializable {
 
     @FXML
     void uploadImg(MouseEvent event) {
+
+    }
+
+    @FXML
+    void onFileChooser(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        String path = selectedFile.getPath();
+        String fileName = selectedFile.getName();
+        String extension = fileName.split("\\.")[1].toUpperCase(Locale.ROOT);
+
+        imageblob = Utilities.imgFileToBytesConverter(selectedFile,extension);
+
+        itemImgUpload.setImage(Utilities.bytesToImageConverter(imageblob));
+        filePathTF.setText(path);
 
     }
 
@@ -179,6 +207,7 @@ public class CatalogEditPopUpController implements Initializable {
 
     //initialize the pop-up with the item info
     public void setItemDetailinTF(Item itemToEdit, Catalog catalog) {
+        DescriptionTF.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
         //Setting mode
         saveMode = false;
         //setting up text Fields
@@ -191,6 +220,9 @@ public class CatalogEditPopUpController implements Initializable {
         itemIDTF.setText(String.valueOf(itemToEdit.getId()));
         this.catalogChoiceBox.setItems(FXCollections.observableArrayList(catalog));
         catalogChoiceBox.getSelectionModel().select(catalog);
+        if(itemToEdit.getImageBlob()!=null)
+        itemImgUpload.setImage(Utilities.bytesToImageConverter(itemToEdit.getImageBlob()));
+
     }
 
 
@@ -200,8 +232,10 @@ public class CatalogEditPopUpController implements Initializable {
         priceTF.clear();
         discountTF.clear();
         DescriptionTF.clear();
+        itemImgUpload.setImage(null);
         itemColorChoiceBox.setValue(null);
         itemTypeChoiceBox.setValue(null);
         catalogChoiceBox.getSelectionModel().clearSelection();
+        filePathTF.clear();
     }
 }

@@ -5,6 +5,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+import org.jetbrains.annotations.Nullable;
 import org.lilachshop.entities.*;
 import org.lilachshop.entities.Order;
 
@@ -33,41 +34,14 @@ public class EntityFactory {
         return ef;
     }
 
-    public List<Store> getAllStores() {
-        return getAllRecords(Store.class);
-    }
-
-    public List<Item> getAllItems() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
-        return getAllRecords(Item.class);
-    }
-
-    public List<Catalog> getAllCatalogs() {
-        return getAllRecords(Catalog.class);
-    }
-
-    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
-        return getAllRecords(Complaint.class);
-    }
-
-    public void createCatalog() {
-        Catalog catalog = App.generateCatalog();
-        createOrUpdateSingleRecord(catalog);
-    }
-
-    public void createCatalogFromExistingOne() {
-        List<Item> items = getAllRecords(Item.class);
-        Catalog catalog = new Catalog();
-        catalog.setItems(items);
-        createOrUpdateSingleRecord(catalog);
-    }
 
     public void fillDataBase() {
         // ---------------- creating 3 catalogs -------------
-        Catalog catalog1 = App.generateCatalog();
+        Catalog catalog1 = generateCatalog();
         createOrUpdateSingleRecord(catalog1);
-        Catalog catalog2 = App.generateCatalog();
+        Catalog catalog2 = generateCatalog();
         createOrUpdateSingleRecord(catalog2);
-        Catalog catalog3 = App.generateCatalog();
+        Catalog catalog3 = generateCatalog();
         createOrUpdateSingleRecord(catalog3);
 
 
@@ -142,7 +116,7 @@ public class EntityFactory {
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         LocalDate dt = LocalDate.of(2022, 5, 27);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
-        List<Item> generalItemList = App.createItemList();
+        List<Item> generalItemList = createItemList();
         for (Item item : generalItemList) {
             createOrUpdateSingleRecord(item);
         }
@@ -213,7 +187,81 @@ public class EntityFactory {
         createOrUpdateSingleRecord(order3);
         store2.addOrder(order3);
         customers.get(0).getOrders().add(order1);
+    }
 
+    private static Catalog generateCatalog() {
+
+        Catalog catalog = new Catalog();
+        catalog.setItems(createItemList());
+        return catalog;
+
+    }
+
+    private static List<Item> createItemList() {
+        Item item;
+        List<Item> itemList = new LinkedList<>();
+
+        String base_path = "/images/";
+        item = new Item("סחלב קורל", 160, getImageURL(base_path + "sahlav_coral.jpg"), 0);
+        itemList.add(item);
+        item = new Item("ורד ענבר", 120, getImageURL(base_path + "vered_inbar.jpg"), 5);
+        itemList.add(item);
+        item = new Item("סחלב לבן", 140, getImageURL(base_path + "sahlav_lavan.jpg"), 0);
+        itemList.add(item);
+        item = new Item("נרקיס חצוצרה", 110, getImageURL(base_path) + "narkis_hatsostra.jpg", 20);
+        itemList.add(item);
+        item = new Item("רקפות", 100, getImageURL(base_path + "cyclamen.jpg"), 0);
+        itemList.add(item);
+        item = new Item("קקטוס", 70, getImageURL(base_path + "cactus.jpg"), 0);
+        itemList.add(item);
+        item = new Item("תורמוס", 200, getImageURL(base_path + "lupins.jpg"), 0);
+        itemList.add(item);
+        item = new Item("חמניות", 170, getImageURL(base_path + "heilanthus.jpg"), 0);
+        itemList.add(item);
+        item = new Item("חינניות", 125, getImageURL(base_path + "daisy.jpg"), 10);
+        itemList.add(item);
+        item = new Item("אדמוניות", 190, getImageURL(base_path + "peonybouquet.jpg"), 0);
+        itemList.add(item);
+        item = new Item("צבעוני", 175, getImageURL(base_path + "orange_tulips.jpg"), 0);
+        itemList.add(item);
+        item = new Item("פרג", 180, getImageURL(base_path + "poppy.jpg"), 0);
+        itemList.add(item);
+        item = new Item("סוקולנטים", 100, getImageURL(base_path + "succulents.jpg"), 0);
+        itemList.add(item);
+        item = new Item("שושן", 90, getImageURL(base_path + "lily.jpg"), 10);
+        itemList.add(item);
+
+        return itemList;
+    }
+
+    @Nullable
+    static private String getImageURL(String relPath) {
+        try {
+            return App.class.getResource(relPath).getPath();
+        } catch (Exception e) {
+            System.out.println("Image path incorrect.");
+            return null;
+        }
+    }
+
+    /*
+     *****************************************  Queries  **********************************************************************
+     */
+
+    public List<Store> getAllStores() {
+        return getAllRecords(Store.class);
+    }
+
+    public List<Item> getAllItems() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Item.class);
+    }
+
+    public List<Catalog> getAllCatalogs() {
+        return getAllRecords(Catalog.class);
+    }
+
+    public List<Complaint> getAllComplaints() {    // should be gotten from a specific catalog,but currently DB has a single table of Items
+        return getAllRecords(Complaint.class);
     }
 
     public List<Store> getStores() {

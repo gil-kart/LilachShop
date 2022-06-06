@@ -89,7 +89,7 @@ public class SignUpLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this); //TODO:make sure to change to Enum when code pushed
+        panel = OperationsPanelFactory.createPanel(CustomerApp.panelEnum, CustomerApp.getSocket(), this); //TODO:make sure to change to Enum when code pushed
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
@@ -116,6 +116,7 @@ public class SignUpLoginController implements Initializable {
                 CustomerApp.setMyCustomer((Customer) msg);
                 CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
                 CustomerApp.createPanel();
+
             }
         });
     }

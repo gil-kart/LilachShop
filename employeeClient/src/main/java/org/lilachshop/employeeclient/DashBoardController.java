@@ -25,7 +25,7 @@ public class DashBoardController {
     public Employee employee;
     private static Panel panel;
     private Stage stage;
-    static PanelEnum panelEnum=null;
+    static PanelEnum panelEnum = null;
 
 
     @FXML
@@ -64,11 +64,11 @@ public class DashBoardController {
         try {
             this.displayer.getChildren().clear();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
-            AnchorPane anchorPaneOrderReport =  fxmlLoader.load();
+            AnchorPane anchorPaneOrderReport = fxmlLoader.load();
             displayer.getChildren().add(anchorPaneOrderReport);
             OrderReportController controller = fxmlLoader.getController();
             controller.setData(employee.getStore().getId());
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -76,15 +76,15 @@ public class DashBoardController {
 
     @FXML
     void onClickComplaintReportBtn(ActionEvent event) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
-                AnchorPane anchorPaneComplaintReport =  fxmlLoader.load();
+                AnchorPane anchorPaneComplaintReport = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneComplaintReport);
                 ComplaintReportController controller = fxmlLoader.getController();
                 controller.setData(employee.getStore().getId());
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -93,16 +93,16 @@ public class DashBoardController {
 
     @FXML
     void onClickIncomeReportBtn(Event event) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
-                AnchorPane anchorPaneIncomeReport =  fxmlLoader.load();
+                AnchorPane anchorPaneIncomeReport = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneIncomeReport);
                 IncomeReportController controller = fxmlLoader.getController();
                 controller.setData(employee.getStore().getId());
 
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -110,18 +110,17 @@ public class DashBoardController {
     }
 
 
-
     @FXML
     void onClickEmployeeBtn(MouseEvent event) throws IOException { // waiting for the GUI & Controller to be done
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EmployeeTable.fxml"));
-                AnchorPane anchorPaneEmployeeTable =  fxmlLoader.load();
+                AnchorPane anchorPaneEmployeeTable = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneEmployeeTable);
 //                EmployeeTableController controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -129,15 +128,15 @@ public class DashBoardController {
 
     @FXML
     void onClickCostumerBtn(MouseEvent event) {     // waiting for the GUI & Controller to be done
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerTable.fxml"));
-                AnchorPane anchorPaneCustomerTable =  fxmlLoader.load();
+                AnchorPane anchorPaneCustomerTable = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCustomerTable);
 //                CustomerTableController controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -146,16 +145,16 @@ public class DashBoardController {
 
     @FXML
     void onClickCatalogBtn(MouseEvent event) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CatalogEditTable.fxml"));
-                AnchorPane anchorPaneCatalog =  fxmlLoader.load();
+                AnchorPane anchorPaneCatalog = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCatalog);
 //                CatalogEditTableController  controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
 
-            }catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
@@ -164,24 +163,21 @@ public class DashBoardController {
 
     @FXML
     void onClickComplaintsBtn(MouseEvent event) {
-        Platform.runLater(()-> {
+        Platform.runLater(() -> {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("customerServiceView.fxml"));
-                AnchorPane anchorPaneComplaints =  fxmlLoader.load();
-                displayer.getChildren().add( anchorPaneComplaints);
+                AnchorPane anchorPaneComplaints = fxmlLoader.load();
+                displayer.getChildren().add(anchorPaneComplaints);
                 CustomerServiceViewController controller = fxmlLoader.getController();
-                controller.employee= this.employee;
-            }catch (IOException e) {
+                controller.employee = this.employee;
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         });
 
 
     }
-
-
-
 
 
     @FXML
@@ -197,7 +193,7 @@ public class DashBoardController {
         costumerBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
         reportBtn.setVisible(false);    //CHECK IF I CAN DO IT AT ONCE
         employeeBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
-        stage= EmployeeApp.getStage();
+        stage = EmployeeApp.getStage();
     }
 
 
@@ -239,7 +235,6 @@ public class DashBoardController {
             }
         }
     }
-
 
 
 //       public void openNewScreen(String screen){ WAS thinking to reduce duplicate, but for that we need to change the controllers.

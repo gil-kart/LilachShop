@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,6 +30,7 @@ public class CustomerApp extends Application {
     private static final int shipPrice = 15;
     private static Customer myCustomer = null;
     private static Store myStore = null;
+    static PanelEnum panelEnum = PanelEnum.CUSTOMER_ANONYMOUS;
 
     public static Panel getPanel() {
         return panel;
@@ -91,13 +93,16 @@ public class CustomerApp extends Application {
         if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
             panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
+            CustomerApp.panelEnum = PanelEnum.CHAIN_CUSTOMER;
             // todo: implement enable store combo box!
         } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
             panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
+            CustomerApp.panelEnum = PanelEnum.STORE_CUSTOMER;
         } else {
             panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, getSocket(), controller);
             storeId = myCustomer.getStore().getId();
+            CustomerApp.panelEnum = PanelEnum.ANNUAL_CUSTOMER;
         }
         getCustomerCatalog();
     }
@@ -133,8 +138,17 @@ public class CustomerApp extends Application {
 
     @Subscribe
     public void handleMessageReceivedFromClient(List<Store> msg) {
-        CustomerApp.myStore = msg.get(0);
-        ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
+        if (!msg.isEmpty()) {
+            CustomerApp.myStore = msg.get(0);
+            ((CustomerAnonymousPanel) panel).sendGetGeneralCatalogRequestToServer();
+        } else
+            Platform.runLater(() -> {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("קטלוג לא נמצא.");
+                alert.setContentText("אנא נסה שנית במועד מאוחר יותר.");
+                alert.show();
+                System.exit(-1);
+            });
     }
 
     @Subscribe

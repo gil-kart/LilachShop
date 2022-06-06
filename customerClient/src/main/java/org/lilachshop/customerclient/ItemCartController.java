@@ -7,6 +7,7 @@ package org.lilachshop.customerclient;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.myOrderItem;
 
 public class ItemCartController {
@@ -66,9 +68,9 @@ public class ItemCartController {
      */
     @FXML
     void addItem(MouseEvent event) {
-        amount.setText(String.valueOf(Integer.parseInt(amount.getText())+1));
-        flower.setCount(flower.getCount()+1);
-        EventBus.getDefault().post(new CartEvent(null ,flower,"add"));
+        amount.setText(String.valueOf(Integer.parseInt(amount.getText()) + 1));
+        flower.setCount(flower.getCount() + 1);
+        EventBus.getDefault().post(new CartEvent(null, flower, "add"));
     }
 
     /**
@@ -78,26 +80,23 @@ public class ItemCartController {
      */
     @FXML
     void removeItem(MouseEvent event) {
-        if (flower.getCount() - 1 > 0)
-        {
-            EventBus.getDefault().post(new CartEvent(null ,flower,"remove"));
-            amount.setText(String.valueOf(Integer.parseInt(amount.getText())-1));
-            flower.setCount(flower.getCount()-1);
-        }
-        else
-        {
-            EventBus.getDefault().post(new CartEvent(removeObject,flower,"remove"));
+        if (flower.getCount() - 1 > 0) {
+            EventBus.getDefault().post(new CartEvent(null, flower, "remove"));
+            amount.setText(String.valueOf(Integer.parseInt(amount.getText()) - 1));
+            flower.setCount(flower.getCount() - 1);
+        } else {
+            EventBus.getDefault().post(new CartEvent(removeObject, flower, "remove"));
         }
 
     }
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
 
     }
 
     /**
-     *
      * upload the data of the cart item
      */
     public void setData(myOrderItem flower) {
@@ -105,20 +104,18 @@ public class ItemCartController {
         amount.setText(String.valueOf(flower.getCount()));
         price.setText(String.valueOf(flower.getItem().getPrice()));
         flowerName.setText(flower.getItem().getName());
-        if (flower.getItem().getPercent()>0)
-        {
+        if (flower.getItem().getPercent() > 0) {
             oldPrice.setVisible(true);
             oldPrice.setText(String.valueOf(flower.getItem().getPrice()));
-            price.setText(String.valueOf(flower.getItem().getPrice()*(100-flower.getItem().getPercent())/100));
+            price.setText(String.valueOf(flower.getItem().getPrice() * (100 - flower.getItem().getPercent()) / 100));
             oldPrice1.setVisible(true);
             saleImage.setVisible(true);
 
         }
-        try{
-            Image image = new Image((Objects.requireNonNull(getClass().getResourceAsStream(flower.getItem().getImage()))));
+        try {
+            Image image = Utilities.bytesToImageConverter(flower.getItem().getImageBlob());
             item_img.setImage(image);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

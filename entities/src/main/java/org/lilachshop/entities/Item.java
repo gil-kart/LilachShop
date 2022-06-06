@@ -1,9 +1,13 @@
 package org.lilachshop.entities;
 
+import javax.imageio.ImageIO;
 import javax.persistence.*;
+import javax.swing.text.Utilities;
 import javax.transaction.Transactional;
-import java.io.Serializable;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.List;
+import java.util.Locale;
 
 @Transactional
 @Entity
@@ -39,7 +43,6 @@ public class Item implements Serializable {
     private int percent = 0;
 
     private int price;
-    private String image;
 
 
     @Enumerated(EnumType.STRING)
@@ -83,13 +86,17 @@ public class Item implements Serializable {
         this.name = name;
     }
 
-    public Item(String name, int price, String image, int percent) {
+    public Item(String name, int price, String imagePath, int percent) {
         super();
         this.name = name;
         this.price = price;
-        this.image = image;
         this.percent = percent;
-
+        try {
+            setImageBlob(imagePath);
+        } catch (Exception e) {
+            System.out.println("Load image failed for " + imagePath);
+            e.printStackTrace();
+        }
     }
 
     public int getPrice() {
@@ -100,19 +107,48 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public ItemType getItemType() {
         return itemType;
     }
 
     public Color getColor() {
         return color;
+    }
+
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public byte[] getImageBlob() {
+        return imageBlob;
+    }
+
+    public void setImageBlob(byte[] imageBlob) {
+        this.imageBlob = imageBlob;
+    }
+
+    private void setImageBlobInternal(BufferedImage image, String extension) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        ImageIO.write(image, extension, out);
+        imageBlob = out.toByteArray();
+    }
+
+    private void setImageBlob(String imgPath) throws IOException,NullPointerException {
+        File imageFile = new File(imgPath);
+        BufferedImage image = ImageIO.read(imageFile);
+        setImageBlobInternal(image, imageFile.getName().split("\\.")[1].toUpperCase(Locale.ROOT));
+    }
+
+    /*public BufferedImage getImageBlob() throws IOException {
+        InputStream in = new ByteArrayInputStream(imageBlob);
+        return ImageIO.read(in);
+    }*/
+
+    public InputStream getImageInputStream() {
+        return new ByteArrayInputStream(imageBlob);
     }
 }

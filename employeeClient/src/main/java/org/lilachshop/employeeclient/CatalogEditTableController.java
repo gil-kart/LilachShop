@@ -181,9 +181,9 @@ public class CatalogEditTableController implements Initializable {
     public void openEditItem(Item item) {
         setUpEditItemPopUp();
         CatalogEditPopUpController controller = fxmlLoader.getController();
-        controller.setItemDetailinTF(item, storeCatalogChoice.getSelectionModel().getSelectedItem());
         scene = scene == null ? new Scene(root) : scene;
         stage.setScene(scene);
+        controller.setItemDetailinTF(item, storeCatalogChoice.getSelectionModel().getSelectedItem());
         stage.show();
 
     }

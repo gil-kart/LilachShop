@@ -17,6 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.Item;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
@@ -47,18 +48,16 @@ public class HistoryItemController {
 
     public void setData(Order order) {
         this.order = order;
-        for (myOrderItem itemsType : order.getItems())
-        {
-            for(int i = 0; i < itemsType.getCount(); i++)
-            {
+        for (myOrderItem itemsType : order.getItems()) {
+            for (int i = 0; i < itemsType.getCount(); i++) {
                 ImageView img = new ImageView();
-                img.setImage(new Image(itemsType.getItem().getImage()));
+                img.setImage(Utilities.bytesToImageConverter(itemsType.getItem().getImageBlob()));
                 img.setFitWidth(70);
                 img.setFitHeight(70);
                 layout.getChildren().add(img);
             }
             //status.setText(order.);
-            orderNum.setText("# "+ order.getId());
+            orderNum.setText("# " + order.getId());
             price.setText(Double.toString(order.getTotalPrice()));
         }
     }
@@ -91,15 +90,15 @@ public class HistoryItemController {
         stage.show();
     }
 
-    public void disablePostComplaintBtn(){
+    public void disablePostComplaintBtn() {
         fillComplaint.setDisable(true);
     }
 
-    public void disableShowComplaintBtn(){
+    public void disableShowComplaintBtn() {
         ComplaintReply.setDisable(true);
     }
 
-    public void enableShowComplaintBtn(){
+    public void enableShowComplaintBtn() {
         ComplaintReply.setDisable(false);
     }
 
