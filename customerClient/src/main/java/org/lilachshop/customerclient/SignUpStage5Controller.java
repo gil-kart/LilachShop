@@ -99,7 +99,7 @@ public class SignUpStage5Controller {
             CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
             System.out.println(panel.getClass());
             System.out.println(registeringCustomer);
-            registeringCustomer.setDisabled(ActiveDisabledState.ACTIVE);
+            registeringCustomer.setAccountState(ActiveDisabledState.ACTIVE);
             customerAnonymousPanel.sendSignUpRequest(registeringCustomer);
             System.out.println("gotEvent4");
             registeringCustomer = null;

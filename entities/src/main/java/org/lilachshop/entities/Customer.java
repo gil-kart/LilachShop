@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 @Entity
 public class Customer extends User implements Serializable {
 
-    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, ActiveDisabledState... disabled) {
+    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, ActiveDisabledState... accountState) {
         super(userName, userPassword);
         this.name = name;
         this.address = address;
@@ -19,7 +19,7 @@ public class Customer extends User implements Serializable {
         this.orders = orders;
         this.store = store;
         this.account = account;
-        this.disabled = disabled.length > 0 ? disabled[0] : ActiveDisabledState.ACTIVE;
+        this.accountState = accountState.length > 0 ? accountState[0] : ActiveDisabledState.ACTIVE;
     }
 
     @Embedded
@@ -29,7 +29,7 @@ public class Customer extends User implements Serializable {
     String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    ActiveDisabledState disabled;
+    ActiveDisabledState accountState;
 
 
     @Embedded
@@ -55,7 +55,7 @@ public class Customer extends User implements Serializable {
     }
 
     public Customer() {
-        this.disabled = ActiveDisabledState.ACTIVE;
+        this.accountState = ActiveDisabledState.ACTIVE;
     }
 
     public void addOrderToList(Order order) {
@@ -105,11 +105,11 @@ public class Customer extends User implements Serializable {
     }
 
     public ActiveDisabledState getAccountState() {
-        return disabled;
+        return accountState;
     }
 
-    public void setDisabled(ActiveDisabledState disabled) {
-        this.disabled = disabled;
+    public void setAccountState(ActiveDisabledState accountState) {
+        this.accountState = accountState;
     }
 
     public CreditCard getCard() {

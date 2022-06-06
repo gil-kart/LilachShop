@@ -13,7 +13,6 @@ import java.util.List;
  * Hello world!
  */
 public class App {
-    private static LilachServer server;
 
     public static void main(String[] args) {
         try {
@@ -27,11 +26,9 @@ public class App {
             String host_name = IP.getHostName();
             System.out.println("RUNNING SERVER ON " + host_name + ":" + port + " ...");
             System.out.println("SERVER: INITIALIZING SERVER");
-            server = new LilachServer(port);
+            LilachServer server = new LilachServer(port);
             System.out.println("SERVER: LISTENING");
             server.listen();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
