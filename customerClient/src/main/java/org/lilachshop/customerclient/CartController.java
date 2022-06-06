@@ -33,7 +33,7 @@ public class CartController implements Initializable {
 
     int countItem = 0;
 
-    int sum = 0;
+    Double sum = Double.valueOf(0);
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -132,7 +132,7 @@ public class CartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
-        sum = 0;
+        sum = Double.valueOf(0);
         EventBus.getDefault().register(this);
         this.myFlowers = CustomerApp.getMyFlowers();
         for (int i = 0; i < myFlowers.size(); i++) {

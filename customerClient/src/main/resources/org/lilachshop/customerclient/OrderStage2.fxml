@@ -58,7 +58,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" text="שלום, יוסי לוי">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -69,7 +69,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Label>
-                              <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#gotoSignUpOrPersonalArea" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../images/account.png" />
                                  </image>
@@ -152,7 +152,21 @@
                                     <Insets top="30.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
+                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="129.0" prefHeight="23.0" prefWidth="743.0">
+                                 <children>
+                                    <CheckBox fx:id="selfRecieveImm" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onSelfRecieveImm" text="אשמח לקבל את ההזמנה באופן מיידי, כלומר כ-3 שעות מרגע זה">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin></CheckBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox fx:id="selfHboxDate" alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
                                     <DatePicker fx:id="selfDate" prefHeight="47.0" prefWidth="162.0">
                                        <HBox.margin>
@@ -172,7 +186,7 @@
                                     <Insets top="30.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
+                              <HBox fx:id="selfHboxTime" alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
                                     <ComboBox fx:id="selfTime" prefWidth="150.0">
                                        <HBox.margin>
@@ -187,20 +201,6 @@
                                           <Insets />
                                        </HBox.margin>
                                     </Text>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="30.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="129.0" prefHeight="23.0" prefWidth="743.0">
-                                 <children>
-                                    <CheckBox fx:id="selfRecieveImm" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="אשמח לקבל את ההזמנה באופן מיידי, כלומר כ-3 שעות מרגע זה">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin></CheckBox>
                                  </children>
                                  <VBox.margin>
                                     <Insets top="30.0" />
@@ -273,7 +273,23 @@
                                     <Insets left="32.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
+                              <CheckBox fx:id="receiveImm" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" onAction="#onRecieveImm" text="אשמח לקבל את ההזמנה באופן מיידי, כלומר כ-3 שעות מרגע זה">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <CheckBox fx:id="costumerRec" alignment="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="אני הוא מקבל ההזמנה">
+                                 <VBox.margin>
+                                    <Insets left="50.0" top="10.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <HBox fx:id="deliveryHboxDate" alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
                                     <DatePicker fx:id="date" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="183.0">
                                        <HBox.margin>
@@ -293,7 +309,7 @@
                                     <Insets left="16.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <HBox alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
+                              <HBox fx:id="deliveryHboxTime" alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
                                     <ComboBox fx:id="time" prefHeight="26.0" prefWidth="173.0">
                                        <HBox.margin>
@@ -310,22 +326,6 @@
                                     <Insets left="50.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
-                              <CheckBox fx:id="receiveImm" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="אשמח לקבל את ההזמנה באופן מיידי, כלומר כ-3 שעות מרגע זה">
-                                 <VBox.margin>
-                                    <Insets top="20.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </CheckBox>
-                              <CheckBox fx:id="costumerRec" alignment="CENTER" mnemonicParsing="false" nodeOrientation="RIGHT_TO_LEFT" text="אני הוא מקבל ההזמנה">
-                                 <VBox.margin>
-                                    <Insets left="50.0" top="10.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </CheckBox>
                            </children>
                         </VBox>
                      </children>

@@ -38,7 +38,7 @@ public class SignUpStage5Controller {
     @FXML
     void onClickBackCatalogBtn(ActionEvent event) {
         CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
-        CustomerApp.setMyCustomer(registeringCustomer);
+        CustomerApp.setMyCustomer(null);
         CustomerApp.createPanel();
     }
 

@@ -3,11 +3,10 @@ package org.lilachshop.panels;
 
 import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Order;
-import org.lilachshop.requests.CatalogRequest;
-import org.lilachshop.requests.OrderRequest;
-import org.lilachshop.requests.StoreRequest;
-import org.lilachshop.requests.UserComplaintRequest;
+import org.lilachshop.entities.User;
+import org.lilachshop.requests.*;
 
 public class StoreCustomerPanel extends Panel {
     public StoreCustomerPanel(Socket socket, Object controller) {
@@ -28,6 +27,9 @@ public class StoreCustomerPanel extends Panel {
 
     public void sendNewOrderCreationToServer(Order myOrder) {
         sendToServer(new OrderRequest("create new order", myOrder));
+    }
+    public void sendSignOutRequestToServer(User myCustomer) {
+        sendToServer(new SignOutRequest(SignOutRequest.Messages.SIGN_OUT, myCustomer));
     }
 
 

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
@@ -88,23 +89,28 @@ public class CustomerApp extends Application {
     }
 
     public static void createPanel() {
-        myStore = myCustomer.getStore();
-        AccountType userAccountType = myCustomer.getAccount().getAccountType();
-        if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, getSocket(), controller);
-            storeId = myCustomer.getStore().getId();
-            CustomerApp.panelEnum = PanelEnum.CHAIN_CUSTOMER;
-            // todo: implement enable store combo box!
-        } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, getSocket(), controller);
-            storeId = myCustomer.getStore().getId();
-            CustomerApp.panelEnum = PanelEnum.STORE_CUSTOMER;
+        if (myCustomer == null) {
+            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, getSocket(), controller);
+            ((CustomerAnonymousPanel) panel).getAllStores();
+            CustomerApp.panelEnum = PanelEnum.CUSTOMER_ANONYMOUS;
         } else {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, getSocket(), controller);
-            storeId = myCustomer.getStore().getId();
-            CustomerApp.panelEnum = PanelEnum.ANNUAL_CUSTOMER;
+            myStore = myCustomer.getStore();
+            AccountType userAccountType = myCustomer.getAccount().getAccountType();
+            if (userAccountType.equals(AccountType.CHAIN_ACCOUNT)) {
+                panel = OperationsPanelFactory.createPanel(PanelEnum.CHAIN_CUSTOMER, getSocket(), controller);
+                storeId = myCustomer.getStore().getId();
+                CustomerApp.panelEnum = PanelEnum.CHAIN_CUSTOMER;
+            } else if (userAccountType.equals(AccountType.STORE_ACCOUNT)) {
+                panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, getSocket(), controller);
+                storeId = myCustomer.getStore().getId();
+                CustomerApp.panelEnum = PanelEnum.STORE_CUSTOMER;
+            } else {
+                panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, getSocket(), controller);
+                storeId = myCustomer.getStore().getId();
+                CustomerApp.panelEnum = PanelEnum.ANNUAL_CUSTOMER;
+            }
+            getCustomerCatalog();
         }
-        getCustomerCatalog();
     }
 
 
@@ -176,18 +182,32 @@ public class CustomerApp extends Application {
 
     @Subscribe
     public void handleReceivedOrderList(OrderEvent msg) {
-        Platform.runLater(() -> {
-            try {
-                Stage stage = CustomerApp.getStage();
-                CustomerApp.setMyOrders(msg.getOrders());
-                FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("history.fxml"));
-                Parent root = fxmlLoader.load();
-                stage.setScene(new Scene(root));
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        if (msg.getOrders().size() > 0) {
+            Platform.runLater(() -> {
+                try {
+                    Stage stage = CustomerApp.getStage();
+                    CustomerApp.setMyOrders(msg.getOrders());
+                    FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("history.fxml"));
+                    Parent root = fxmlLoader.load();
+                    stage.setScene(new Scene(root));
+                    stage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+        else {
+            Platform.runLater(() -> {
+                Alert a = new Alert(Alert.AlertType.NONE);
+                ButtonType button = new ButtonType("אישור");
+                a.getButtonTypes().setAll(button);
+                a.setAlertType(Alert.AlertType.INFORMATION);
+                a.setHeaderText("הסטוריית הזמנות ריקה");
+                a.setTitle("הסטוריית הזמנות");
+                a.setContentText("");
+                a.show();
+            });
+        }
     }
 
     static void setRoot(String fxml) throws IOException {
@@ -208,6 +228,8 @@ public class CustomerApp extends Application {
     }
 
     private void onCloseWindowEvent(WindowEvent event) {
+        if (myCustomer != null)
+            ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User)CustomerApp.getMyCustomer());
         System.out.println("Graceful termination, goodbye ;)");
         System.exit(0);
     }

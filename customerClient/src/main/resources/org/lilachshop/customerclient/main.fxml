@@ -145,6 +145,29 @@
                      <children>
                               <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="1051.0">
                                   <children>
+                              <HBox fx:id="logout" alignment="CENTER" onMouseClicked="#onLogOut">
+                                 <HBox.margin>
+                                    <Insets right="400.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Label text="התנתק">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="7.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../images/logout.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </HBox>
                               <Label fx:id="history" alignment="CENTER_RIGHT" onMouseClicked="#gotoHistory" prefHeight="59.0" prefWidth="125.0" text="היסטורית הזמנות" visible="false">
                                  <font>
                                     <Font size="16.0" />

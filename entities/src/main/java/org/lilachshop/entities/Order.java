@@ -37,7 +37,7 @@ public class Order implements Serializable {
         return customer;
     }
 
-    public Order(List<myOrderItem> items, int totalPrice, int amountOfProducts, Customer customer) {
+    public Order(List<myOrderItem> items, Double totalPrice, int amountOfProducts, Customer customer) {
         this.creationDate = LocalDate.now();
         this.items = items;
         this.totalPrice = totalPrice;
@@ -49,7 +49,7 @@ public class Order implements Serializable {
         return amountOfProducts;
     }
 
-    public Order(LocalDate creationDate, String greetingCard, List<myOrderItem> items, int totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
+    public Order(LocalDate creationDate, String greetingCard, List<myOrderItem> items, Double totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
         this.greetingCard = greetingCard;
         this.items = items;
@@ -77,7 +77,7 @@ public class Order implements Serializable {
         this.store = store;
     }
 
-    public int getTotalPrice() {
+    public Double getTotalPrice() {
         return totalPrice;
     }
 
@@ -93,7 +93,7 @@ public class Order implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<myOrderItem> items;
 
-    int totalPrice;
+    Double totalPrice;
     int amountOfProducts;
     @OneToOne(cascade = CascadeType.ALL)
     DeliveryDetails deliveryDetails;

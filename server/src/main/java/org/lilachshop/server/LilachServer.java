@@ -29,7 +29,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-//       entityFactory.fillDataBase();
+        //entityFactory.fillDataBase();
     }
 
     @Override
@@ -126,12 +126,12 @@ public class LilachServer extends AbstractServer {
             String message_from_client = request.getRequest();
 
             switch (message_from_client) {
-                case "get all stores orders"->{
+                case "get all stores orders" -> {
                     List<Order> orders = entityFactory.getOrders();
                     OrderEvent orderEvent = new OrderEvent(orders);
                     try {
                         client.sendToClient(orderEvent);
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -286,24 +286,29 @@ public class LilachServer extends AbstractServer {
                     case "customer login request" -> {
                         String requestPassword = request.getUserPassword();
                         String requestUserName = request.getUserName();
+                        //check if customer exist + if he is already connected
                         List<Customer> customers = entityFactory.getCustomers();
                         for (Customer customer : customers) {
                             if ((customer.getUserPassword().equals(requestPassword)) &&
                                     customer.getUserName().equals(requestUserName)) {
-                                try {
-                                    if(customer.getAccountState().equals(ActiveDisabledState.ACTIVE)){
-                                        connectedUsers.add(customer);
-                                        client.sendToClient(customer);
+
+                                //account exists - check if already logged in
+                                if (connectedUsers.contains((User) customer)) {
+                                    client.sendToClient("User is connected already");
+
+                                }else {
+                                    try {
+                                        if (customer.getAccountState().equals(ActiveDisabledState.ACTIVE)) {
+                                            connectedUsers.add(customer);
+                                            client.sendToClient(customer);
+                                        } else
+                                            client.sendToClient("client account disabled");
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
-                                    else
-                                        client.sendToClient("client account disabled");
-                                    return;
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
                                 }
+                                return;
                             }
-
                         }
                         try {
                             client.sendToClient("client not exist");

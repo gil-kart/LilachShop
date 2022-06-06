@@ -94,6 +94,7 @@ public class OrderStage4Controller {
                 CustomerApp.getCustomerCatalog();
             }
         }
+
     }
 
     @FXML
@@ -109,11 +110,6 @@ public class OrderStage4Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    @FXML
-    void gotoSignUpOrPersonalArea(MouseEvent event) {
-
     }
 
     @FXML
@@ -189,8 +185,8 @@ public class OrderStage4Controller {
         ownerNameTF.setText(CustomerApp.getMyCustomer().getCard().getOwnerName());
         ownerNameLabel.setText(CustomerApp.getMyCustomer().getCard().getOwnerName());
 
-        idCardTF.setText(Long.toString(CustomerApp.getMyCustomer().getId()));
-        idCardLabel.setText(Long.toString(CustomerApp.getMyCustomer().getId()));
+        idCardTF.setText(CustomerApp.getMyCustomer().getCardOwnerId());
+        idCardLabel.setText(CustomerApp.getMyCustomer().getCardOwnerId());
 
         cvcTF.setText(CustomerApp.getMyCustomer().getCard().getThreeDigits());
         cvcLabel.setText(CustomerApp.getMyCustomer().getCard().getThreeDigits());

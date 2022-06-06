@@ -6,6 +6,7 @@ package org.lilachshop.customerclient;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -122,9 +123,10 @@ public class OrderStage3Controller {
         }
         else if (CustomerApp.getMyCustomer().getAccount().getAccountType().equals(ANNUAL_SUBSCRIPTION) && (myOrder.getTotalPrice()- CustomerApp.getShipPrice()) > 50)
         {
-            discount.setText(Double.toString((((myOrder.getTotalPrice()- CustomerApp.getShipPrice())/0.9)*0.1)));
+            Double tempCalc = ((myOrder.getTotalPrice()- CustomerApp.getShipPrice())/0.9)*0.1;
+            discount.setText(String.format("%.1f",tempCalc));
         }
-        totalPrice.setText(Double.toString(myOrder.getTotalPrice()));
+        totalPrice.setText((String.format("%.1f",myOrder.getTotalPrice())));
          for (int i = 0; i < order.getItems().size(); i++) {
             //load the item fxml
             FXMLLoader fxmlLoader = new FXMLLoader();

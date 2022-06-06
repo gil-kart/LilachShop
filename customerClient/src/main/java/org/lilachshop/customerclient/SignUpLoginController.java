@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -75,7 +76,9 @@ public class SignUpLoginController implements Initializable {
     void onLoginClick(ActionEvent event) {
         String userName = userNameTF.getText();
         String userpassword = passwordTF.getText();
+
         ((CustomerAnonymousPanel) panel).sendCustomerLoginRequest(userName, userpassword);
+
 //        ((CustomerAnonymousPanel) panel).sendCatalogRequestToServer();
     }
 
@@ -99,24 +102,34 @@ public class SignUpLoginController implements Initializable {
     public void handleMessageReceivedFromClient(Object msg) {
         System.out.println("message about login was received from server");
 
-
         Platform.runLater(() -> {
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setTitle("שגיאה בהתחברות");
+            a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            a.setHeaderText("אירעה שגיאה בהתחברות");
+
             if (msg.getClass().equals(String.class)) {
                 if (String.valueOf(msg).equals("client not exist")) {
-                    Alert a = new Alert(Alert.AlertType.NONE);
-                    a.setAlertType(Alert.AlertType.INFORMATION);
-                    a.setHeaderText("שם המשתמש או הסיסמה אינם נכונים");
-                    a.setTitle("התחברות");
-                    a.setContentText("");
+                    a.setContentText("שם המשתמש/סיסמא לא נמצאו במערכת, אנא נסה שנית");
                     a.show();
-                    userNameTF.setText("");
-                    passwordTF.setText("");
+                    userNameTF.clear();
+                    passwordTF.clear();
+                }else if (String.valueOf(msg).equals("User is connected already")){
+                    a.setContentText("משתמש זה כבר מחובר במערכת, אנא התנתק ונסה שנית");
+                    a.show();
+                }
+                else if (String.valueOf(msg).equals("client account disabled"))
+                {
+                    a.setContentText("המשתמש הינו חסום,"+userNameTF.getText()+" אנא פנה לשירות לקוחות");
+                    a.show();
+                    userNameTF.clear();
+                    passwordTF.clear();
                 }
             } else {
+
                 CustomerApp.setMyCustomer((Customer) msg);
                 CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
                 CustomerApp.createPanel();
-
             }
         });
     }

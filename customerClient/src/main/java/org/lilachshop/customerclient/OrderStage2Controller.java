@@ -7,6 +7,8 @@ package org.lilachshop.customerclient;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,9 +17,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.lilachshop.entities.DeliveryDetails;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.PickUpDetails;
 
@@ -25,6 +29,8 @@ public class OrderStage2Controller {
     Order myOrder;
     boolean deliveryBool = false;
     boolean pickupBool = false;
+    boolean chooseBoxPickUp = false;
+    boolean chooseBoxDelivery = false;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -78,17 +84,67 @@ public class OrderStage2Controller {
     private CheckBox selfRecieveImm; // Value injected by FXMLLoader
 
     @FXML // fx:id="selfTime"
-    private ComboBox<String> selfTime; // Value injected by FXMLLoader
+    private ComboBox<Integer> selfTime; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopNum"
     private Text shopNum; // Value injected by FXMLLoader
 
     @FXML // fx:id="time"
-    private ComboBox<String> time; // Value injected by FXMLLoader
+    private ComboBox<Integer> time; // Value injected by FXMLLoader
+
+    @FXML
+    private HBox selfHboxDate;
+
+    @FXML
+    private HBox selfHboxTime;
+
+
+    @FXML
+    private HBox deliveryHboxDate;
+
+    @FXML
+    private HBox deliveryHboxTime;
 
     @FXML
     void gotoNext(ActionEvent event) {
-        boolean flagNext = true;
+        boolean flagNext = false;
+        if (deliveryBool)
+        {
+            if (!receipient.getText().equals("") && !phoneNum.getText().equals("") && !address.getText().equals("")) {
+                if (receiveImm.isSelected()) {
+                    LocalDateTime dateDelivery = LocalDateTime.now().with(LocalTime.now());
+                    DeliveryDetails delivery = new DeliveryDetails(dateDelivery, phoneNum.getText(), receipient.getText(), address.getText());
+                    myOrder.setDeliveryDetails(delivery);
+                    flagNext = true;
+                } else {
+                    if (selfDate.getValue() != null && time.getValue() != null) {
+                        LocalDateTime dateDelivery = LocalDateTime.of(date.getValue().getYear(), date.getValue().getMonth(), date.getValue().getDayOfMonth(), time.getSelectionModel().getSelectedItem(), 0, 0);
+                        DeliveryDetails delivery = new DeliveryDetails(dateDelivery, phoneNum.getText(), receipient.getText(), address.getText());
+                        myOrder.setDeliveryDetails(delivery);
+                        flagNext = true;
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            if(selfRecieveImm.isSelected())
+            {
+
+                flagNext = true;
+            }
+            else
+            {
+                if (selfDate.getValue() != null && selfTime != null) {
+                    LocalDateTime datePickUp = LocalDateTime.of(selfDate.getValue().getYear(), selfDate.getValue().getMonth(), selfDate.getValue().getDayOfMonth(), selfTime.getValue(),0,0);
+                    PickUpDetails pickUp = new PickUpDetails(datePickUp);
+                    myOrder.setPickUpDetails(pickUp);
+                    flagNext = true;
+                }
+            }
+
+        }
 
         if(flagNext)
         {
@@ -97,20 +153,23 @@ public class OrderStage2Controller {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
                 Parent root = fxmlLoader1.load();
                 OrderStage3Controller orderStage3Controller = fxmlLoader1.getController();
-                if(deliveryBool){
-                }
-                else {
-                    LocalDate datePickUp = LocalDate.of (selfDate.getValue().getYear(),selfDate.getValue().getMonth(),selfDate.getValue().getDayOfMonth());
-                    PickUpDetails pickUp = new PickUpDetails(datePickUp);
-                    myOrder.setPickUpDetails(pickUp);
-                }
                 orderStage3Controller.showInfo(myOrder);
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }
+        else
+        {
+            Alert a = new Alert(Alert.AlertType.NONE);
+            ButtonType button = new ButtonType("אישור");
+            a.getButtonTypes().setAll(button);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setHeaderText("נא מלא את כל הפרטים באופן תקין");
+            a.setTitle("מילוי פרטים באופן חלקי");
+            a.setContentText("");
+            a.show();
         }
     }
 
@@ -127,11 +186,6 @@ public class OrderStage2Controller {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-    }
-
-    @FXML
-    void gotoSignUpOrPersonalArea(MouseEvent event) {
 
     }
 
@@ -180,12 +234,31 @@ public class OrderStage2Controller {
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        selfTime.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
-        time.getItems().addAll("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00","17:00","18:00","19:00","20:00");
+        selfTime.getItems().addAll(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+        time.getItems().addAll(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
         receipient.setText(CustomerApp.getMyCustomer().getName());
         phoneNum.setText(CustomerApp.getMyCustomer().getPhoneNumber());
         address.setText(CustomerApp.getMyCustomer().getAddress());
         name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
+        shopNum.setText(CustomerApp.getMyStore().getStoreName());
+    }
+
+    @FXML
+    void onSelfRecieveImm(ActionEvent event) {
+            selfTime.getSelectionModel().clearSelection();
+            selfHboxDate.setVisible(chooseBoxPickUp);
+            selfDate.getEditor().clear();
+            selfHboxTime.setVisible(chooseBoxPickUp);
+            chooseBoxPickUp = !chooseBoxPickUp;
+    }
+
+    @FXML
+    void onRecieveImm(ActionEvent event) {
+        time.getSelectionModel().clearSelection();
+        deliveryHboxDate.setVisible(chooseBoxDelivery);
+        date.getEditor().clear();
+        deliveryHboxTime.setVisible(chooseBoxDelivery);
+        chooseBoxDelivery = !chooseBoxDelivery;
     }
 
     public void showInfo(Order order) {

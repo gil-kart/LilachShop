@@ -4,7 +4,7 @@ import org.lilachshop.entities.User;
 
 public class SignOutRequest extends Request {
 
-    enum Messages {
+    public enum Messages {
         SIGN_OUT,
         CHECK_SIGNED_OUT;
     }

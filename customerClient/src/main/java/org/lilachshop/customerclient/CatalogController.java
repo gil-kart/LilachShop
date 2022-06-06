@@ -27,6 +27,7 @@ import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
 import org.lilachshop.panels.*;
 
+
 public class CatalogController {
     private static Panel panel;
 
@@ -73,6 +74,9 @@ public class CatalogController {
     @FXML // fx:id="countItems"
     private Label countItems; // Value injected by FXMLLoader
 
+
+    @FXML
+    private HBox logout;
 
     @FXML
     private FlowPane grid;
@@ -195,11 +199,6 @@ public class CatalogController {
     }
 
     @FXML
-    void openShopList(ActionEvent event) {
-
-    }
-
-    @FXML
 // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         count = 0;
@@ -251,6 +250,14 @@ public class CatalogController {
             historyImg.setVisible(true);
 
         }
+        else
+        {
+            switchFlag = false;
+            name.setText("התחבר/הרשם");
+            logout.setVisible(false);
+            history.setVisible(false);
+            historyImg.setVisible(false);
+        }
         int countOnSale = 0;
         System.out.println("catalogController recieved message from server");
         if (flowerList.size() > 0) {
@@ -273,8 +280,6 @@ public class CatalogController {
                 ItemController itemController = fxmlLoader.getController();
                 itemController.setData(flower, myListener);
                 grid.getChildren().add(anchorPane);
-
-                //GridPane.setMargin(anchorPane, new Insets(5));
 
                 if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
                     try {
@@ -318,4 +323,14 @@ public class CatalogController {
 
         });
     }
+
+    @FXML
+    void onLogOut(MouseEvent event) {
+        ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User)CustomerApp.getMyCustomer());
+        CustomerApp.setMyCustomer(null);
+        CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
+        CustomerApp.createPanel();
+
+    }
+
 }
