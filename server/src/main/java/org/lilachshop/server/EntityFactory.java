@@ -237,7 +237,7 @@ public class EntityFactory {
     @Nullable
     static private String getImageURL(String relPath) {
         try {
-            return App.class.getResource(relPath).getPath();
+            return App.class.getResource(relPath).getPath().replace("%20", " ");
         } catch (Exception e) {
             System.out.println("Image path incorrect.");
             return null;
