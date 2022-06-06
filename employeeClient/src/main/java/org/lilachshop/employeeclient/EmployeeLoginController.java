@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Employee;
@@ -63,7 +66,13 @@ public class EmployeeLoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         panel = OperationsPanelFactory.createPanel(PanelEnum.EMPLOYEE_ANONYMOUS, EmployeeApp.getSocket(), this);
-
+        EventHandler<KeyEvent> enterKeyHandler = event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                tryLogEmployee(null);
+            }
+        };
+        userNameTF.setOnKeyPressed(enterKeyHandler);
+        passwordTF.setOnKeyPressed(enterKeyHandler);
     }
 
 
@@ -78,7 +87,6 @@ public class EmployeeLoginController implements Initializable {
         String userName = userNameTF.getText();
         String password = passwordTF.getText();
         ((EmployeeAnonymousPanel) panel).sendLoginRequest(userName, password);
-
     }
 
     @Subscribe

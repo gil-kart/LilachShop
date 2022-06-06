@@ -5,12 +5,11 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.util.Objects;
 
-@Transactional
-@Entity
+@MappedSuperclass
 @Table(name = "Users")
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 

@@ -34,7 +34,6 @@ public class LilachServer extends AbstractServer {
 
     @Override
     protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-        // todo: switch to a request class classifying.
         if (msg == null) {
             try {
                 client.sendToClient("Exception: Message was null!");

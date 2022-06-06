@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CustomerTableController">
     <children>
-      <VBox alignment="CENTER" layoutX="-976.0" layoutY="16.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="789.0" prefWidth="1013.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="10.0">
+      <VBox alignment="CENTER" layoutX="6.0" layoutY="11.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="779.0" prefWidth="952.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
               <Text nodeOrientation="RIGHT_TO_LEFT" strokeType="OUTSIDE" strokeWidth="0.0" text="טבלת לקוחות" wrappingWidth="251.1292724609375">
                   <font>
@@ -27,7 +27,7 @@
                   <Insets right="15.0" />
                </VBox.margin>
               </ButtonBar>
-              <TableView fx:id="customerTable" centerShape="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="668.0" prefWidth="1003.0" style="-fx-border-color: grey; -fx-border-radius: 12; -fx-background-radius: 12;" stylesheets="@tableCSS.css">
+              <TableView fx:id="customerTable" centerShape="false" nodeOrientation="RIGHT_TO_LEFT" prefHeight="655.0" prefWidth="979.0" style="-fx-border-color: grey; -fx-border-radius: 12; -fx-background-radius: 12;" stylesheets="@tableCSS.css">
                   <columns>
                   <TableColumn fx:id="customerIDCol" prefWidth="97.0" style="-fx-alignment: CENTER;" text="מס' משתמש" />
                       <TableColumn fx:id="customerNameCol" prefWidth="146.0" style="-fx-alignment: CENTER;" text="שם לקוח" />

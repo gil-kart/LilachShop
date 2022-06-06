@@ -152,9 +152,11 @@ public class CustomerTableController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, EmployeeApp.getSocket(), this);
-
+        if (panel != null) {
+            panel.closeConnection();
+            panel = null;
+        }
+        panel = OperationsPanelFactory.createPanel(PanelEnum.SYSTEM_MANAGER, EmployeeApp.getSocket(), this);
         if (panel instanceof SystemManagerPanel) {
             sPanel = (SystemManagerPanel) panel;
         } else {
@@ -162,7 +164,6 @@ public class CustomerTableController implements Initializable {
             System.out.println("Unauthorized user access.");
             ((Stage) deleteBtn.getScene().getWindow()).close();
         }
-
         sPanel.getAllCustomers();
         sPanel.getAllStores();
 
@@ -274,7 +275,7 @@ public class CustomerTableController implements Initializable {
             return null;
         }, Customer::getPhoneNumber, dbUpdater);
 
-        disabledCol.setCellValueFactory(new PropertyValueFactory<Customer, ActiveDisabledState>("disabled"));
+        disabledCol.setCellValueFactory(new PropertyValueFactory<Customer, ActiveDisabledState>("accountState"));
         var disabledBoxCallback = new Callback<TableColumn<Customer, ActiveDisabledState>, TableCell<Customer, ActiveDisabledState>>() {
             @Override
             public TableCell<Customer, ActiveDisabledState> call(TableColumn<Customer, ActiveDisabledState> param) {
@@ -318,7 +319,7 @@ public class CustomerTableController implements Initializable {
                         if (event.getCode().equals(KeyCode.ENTER)) {
                             Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
                             if (customer != null) {
-                                customer.setDisabled(box.getSelectionModel().getSelectedItem());
+                                customer.setAccountState(box.getSelectionModel().getSelectedItem());
                                 cell.setEditable(false);
                                 sPanel.updateCustomer(customer);
                                 customerTable.refresh();
@@ -370,7 +371,6 @@ public class CustomerTableController implements Initializable {
                             cell.setText(null);
                             cell.setGraphic(box);
                         }
-
                     }
                 });
 

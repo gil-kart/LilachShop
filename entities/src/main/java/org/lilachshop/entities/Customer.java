@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Customer extends User implements Serializable {
 
     public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, ActiveDisabledState... accountState) {

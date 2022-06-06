@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Employee extends User implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     Store store;
