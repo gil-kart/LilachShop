@@ -17,9 +17,9 @@ public class PickUpDetails implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     Order order;
 
-    LocalDate PickUptime;
+    LocalDateTime PickUptime;
 
-    public PickUpDetails(LocalDate pickUptime) {
+    public PickUpDetails(LocalDateTime pickUptime) {
         PickUptime = pickUptime;
     }
 
@@ -27,11 +27,11 @@ public class PickUpDetails implements Serializable {
 
     }
 
-    public LocalDate getPickUptime() {
+    public LocalDateTime getPickUptime() {
         return PickUptime;
     }
 
-    public void setPickUptime(LocalDate pickUptime) {
+    public void setPickUptime(LocalDateTime pickUptime) {
         PickUptime = pickUptime;
     }
 

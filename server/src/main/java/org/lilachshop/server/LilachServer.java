@@ -51,7 +51,7 @@ public class LilachServer extends AbstractServer {
             String message = request.getRequest();
             switch (message) {
                 case "SIGN_OUT" -> {
-                    connectedUsers.remove(request.getUser());
+                    connectedUsers.removeIf(u -> u.getId().equals(request.getUser().getId()));
                 }
                 case "CHECK_SIGNED_OUT" -> {
                     if (connectedUsers.contains(request.getUser())) {

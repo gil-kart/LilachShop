@@ -150,9 +150,9 @@ public class EntityFactory {
         itemList1.add(new myOrderItem(generalItemList.get(2), 1));
         itemList1.add(new myOrderItem(generalItemList.get(3), 5));
 
-
-        DeliveryDetails deliveryDetails1 = new DeliveryDetails(dt, "05429384384", "גיל", "חיפה 42");
-        Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100, 4, deliveryDetails1, null, null, customers.get(0));
+        LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27,12,0,0);
+        DeliveryDetails deliveryDetails1 = new DeliveryDetails(dateAndTime, "05429384384", "גיל", "חיפה 42");
+        Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100.0, 4, deliveryDetails1, null, null, customers.get(0));
         order1.setStore(store1);
         deliveryDetails1.setOrder(order1);
         List<myOrderItem> itemList2 = new ArrayList<>();
@@ -160,8 +160,8 @@ public class EntityFactory {
         itemList2.add(new myOrderItem(generalItemList.get(5), 5));
         itemList2.add(new myOrderItem(generalItemList.get(11), 7));
 
-        DeliveryDetails deliveryDetails2 = new DeliveryDetails(dt, "05429384384", "זיו", "חיפה, נווה שאנן 42");
-        Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200, 4, deliveryDetails2, null, null, customers.get(1));
+        DeliveryDetails deliveryDetails2 = new DeliveryDetails(dateAndTime, "05429384384", "זיו", "חיפה, נווה שאנן 42");
+        Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200.0, 4, deliveryDetails2, null, null, customers.get(1));
         order2.setStore(store1);
         deliveryDetails2.setOrder(order2);
         createOrUpdateSingleRecord(deliveryDetails1);
@@ -178,8 +178,8 @@ public class EntityFactory {
         itemList3.add(new myOrderItem(generalItemList.get(1), 5));
         itemList3.add(new myOrderItem(generalItemList.get(7), 1));
         itemList3.add(new myOrderItem(generalItemList.get(3), 3));
-        PickUpDetails pickUpDetails1 = new PickUpDetails(dt);
-        Order order3 = new Order(dt, "", itemList3, 400, 4, null, pickUpDetails1, null, customers.get(2));
+        PickUpDetails pickUpDetails1 = new PickUpDetails(dateAndTime);
+        Order order3 = new Order(dt, "", itemList3, 400.0, 4, null, pickUpDetails1, null, customers.get(2));
         order3.setStore(store2);
         pickUpDetails1.setOrder(order3);
         customers.get(2).addOrderToList(order3);

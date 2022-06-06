@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Transactional
 @Entity
@@ -18,20 +19,20 @@ public class DeliveryDetails implements Serializable{
     @OneToOne(cascade = CascadeType.ALL)
     Order order;
 
-    LocalDate DeliveryTime;
+    LocalDateTime DeliveryTime;
 
-    public DeliveryDetails(LocalDate deliveryTime, String phoneNumber, String receiverName, String address) {
+    public DeliveryDetails(LocalDateTime deliveryTime, String phoneNumber, String receiverName, String address) {
         DeliveryTime = deliveryTime;
         this.phoneNumber = phoneNumber;
         this.receiverName = receiverName;
         this.address = address;
     }
 
-    public LocalDate getDeliveryTime() {
+    public LocalDateTime getDeliveryTime() {
         return DeliveryTime;
     }
 
-    public void setDeliveryTime(LocalDate deliveryTime) {
+    public void setDeliveryTime(LocalDateTime deliveryTime) {
         DeliveryTime = deliveryTime;
     }
 
