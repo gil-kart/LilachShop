@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -102,5 +103,14 @@ public class Utilities {
 
     public static Image bytesToImageConverter(byte[] imgBytes) {
         return new Image(new ByteArrayInputStream(imgBytes));
+    }
+
+    public static Boolean hasTheSameDate(LocalDateTime date, LocalDateTime orderDate){
+        if(date.getDayOfMonth() == orderDate.getDayOfMonth() &&
+                date.getYear() == orderDate.getYear() &&
+                date.getMonth() == orderDate.getMonth()){
+            return true;
+        }
+        return false;
     }
 }

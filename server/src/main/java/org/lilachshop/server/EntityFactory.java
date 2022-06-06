@@ -86,7 +86,7 @@ public class EntityFactory {
 
 
     public void addComplaintsToStores(Store store1, Store store2, Store store3) {
-        LocalDate dt = LocalDate.of(2022, 5, 27);
+        LocalDateTime dt = LocalDateTime.of(2022, 5, 27,0,0,0);
         String time = dt.toString();
 
         Complaint complaint1 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה1", dt, "");
@@ -114,7 +114,7 @@ public class EntityFactory {
     }
 
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
-        LocalDate dt = LocalDate.of(2022, 5, 27);
+        LocalDateTime dt = LocalDateTime.of(2022, 5, 27,12,12,12);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
         List<Item> generalItemList = createItemList();
         for (Item item : generalItemList) {

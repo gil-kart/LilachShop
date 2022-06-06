@@ -17,6 +17,7 @@ import org.lilachshop.panels.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.chrono.Chronology;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -68,8 +69,8 @@ public class ComplaintReportController implements Initializable {
 
     @FXML
     void updateBarChart(ActionEvent event) {
-        LocalDate start = startDate.getValue();
-        LocalDate end = endDate.getValue();
+        LocalDateTime start = startDate.getValue().atStartOfDay();
+        LocalDateTime end = endDate.getValue().atStartOfDay();
         if (start == null || end == null) {
             displayNullAlert();
             return;
@@ -85,17 +86,17 @@ public class ComplaintReportController implements Initializable {
         int todayComplaintCounter=0;
         int totalComplaintCounter = 0;
         XYChart.Series set = new XYChart.Series<>();
-        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Complaint complaint : complaints) {
                 if (complaint.getCreationDate().equals(date)) {
                     todayComplaintCounter++;
                 }
             }
             set.getData().add(new XYChart.Data(date.toString(), todayComplaintCounter));
-            complaintBarChart.getData().addAll(set);
             totalComplaintCounter += todayComplaintCounter;
             todayComplaintCounter = 0;
         }
+        complaintBarChart.getData().addAll(set);
         TotalSumOfComplaints.setText(String.valueOf(totalComplaintCounter));
     }
 
@@ -123,6 +124,7 @@ public class ComplaintReportController implements Initializable {
         complaintBarChart.getData().clear();
         startDate.setValue(null);
         endDate.setValue(null);
+        TotalSumOfComplaints.setText("");
         //todo: get complaints from all stores
         if (selectedStore.equals("לילך הרצליה")) {
             ((ChainManagerPanel) panel).getStoreComplaint(2);

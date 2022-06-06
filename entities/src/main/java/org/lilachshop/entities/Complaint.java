@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Transactional
 
@@ -16,8 +17,8 @@ public class Complaint implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    LocalDate creationDate;
-    LocalDate endOfHandleDate;
+    LocalDateTime creationDate;
+    LocalDateTime endOfHandleDate;
     ComplaintStatus status;
     String content;
     String reply;
@@ -51,7 +52,7 @@ public class Complaint implements Serializable {
         return order;
     }
 
-    public Complaint(LocalDate endOfHandleDate, ComplaintStatus status, String content, LocalDate creationDate, String reply) {
+    public Complaint(LocalDateTime endOfHandleDate, ComplaintStatus status, String content, LocalDateTime creationDate, String reply) {
         this.endOfHandleDate = endOfHandleDate;
         this.status = status;
         this.content = content;
@@ -59,11 +60,11 @@ public class Complaint implements Serializable {
         this.reply = reply;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return endOfHandleDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.endOfHandleDate = creationDate;
     }
 
@@ -87,5 +88,5 @@ public class Complaint implements Serializable {
         this.content = content;
     }
 
-    public String getReply() {return getReply(); }
+    public String getReply() {return reply; }
 }

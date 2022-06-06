@@ -29,7 +29,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        //entityFactory.fillDataBase();
+//        entityFactory.fillDataBase();
     }
 
     @Override
@@ -90,6 +90,20 @@ public class LilachServer extends AbstractServer {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+            if(message_from_client.equals("cancel order")){
+                try {
+                Order order = request.getOrder();
+                entityFactory.createOrUpdateSingleRecord(order);
+                client.sendToClient("Cancellation was successful");
+                }catch (Exception e){
+                    try {
+                        client.sendToClient("Cancellation failed");
+                    }catch (Exception error){
+                        error.printStackTrace();
+                    }
+                }
+
             }
         }
 
@@ -356,6 +370,8 @@ public class LilachServer extends AbstractServer {
                     case "reply to customer complaint" -> {
                         Complaint complaint = request.getComplaint();
                         complaint.setReply(request.getReply());
+                        Order order = request.getOrder();
+                        entityFactory.createOrUpdateSingleRecord(order);
                         entityFactory.createOrUpdateSingleRecord(complaint);
                     }
                 }

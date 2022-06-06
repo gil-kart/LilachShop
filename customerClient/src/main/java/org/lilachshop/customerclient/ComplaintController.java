@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import org.lilachshop.entities.Complaint;
@@ -49,7 +50,7 @@ public class ComplaintController implements Initializable {
         a.setContentText("");
         a.show();
 
-        Complaint complaint = new Complaint(LocalDate.now().plusDays(1), ComplaintStatus.OPEN, complaintText.getText(), LocalDate.now(), "");
+        Complaint complaint = new Complaint(LocalDateTime.now().plusDays(1), ComplaintStatus.OPEN, complaintText.getText(), LocalDateTime.now(), "");
         order.setComplaint(complaint);
         complaint.setOrder(order);
         complaint.setStore(order.getStore());

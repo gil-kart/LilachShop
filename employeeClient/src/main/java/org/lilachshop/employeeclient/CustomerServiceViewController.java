@@ -78,13 +78,13 @@ public class CustomerServiceViewController implements Initializable {
         });
     }
 
-    public void closeComplaint(String updatedComplaintNumber, String reply){
+    public void closeComplaint(String updatedComplaintNumber, String reply, Order order){
         //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
             if(String.valueOf(complaint.getId()).equals(updatedComplaintNumber)){
                 complaint.setStatus(ComplaintStatus.CLOSED);
                 // close complaint on server
-                ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply);
+                ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply, order);
                 break;
             }
         }

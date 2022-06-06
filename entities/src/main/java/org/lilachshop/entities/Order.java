@@ -16,7 +16,10 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "id", nullable = false)
     private Long id;
+    private double refund;
 
+    @Enumerated(EnumType.STRING)
+    OrderStatus orderStatus = OrderStatus.PENDING;
     public void setComplaint(Complaint complaint) {
         this.complaint = complaint;
     }
@@ -38,18 +41,36 @@ public class Order implements Serializable {
     }
 
     public Order(List<myOrderItem> items, Double totalPrice, int amountOfProducts, Customer customer) {
-        this.creationDate = LocalDate.now();
+        this.creationDate = LocalDateTime.now();
         this.items = items;
         this.totalPrice = totalPrice;
         this.amountOfProducts = amountOfProducts;
         this.customer = customer;
+        this.refund = 0.0;
+        this.orderStatus = OrderStatus.PENDING;
+    }
+
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public double getRefund() {
+        return refund;
+    }
+
+    public void setRefund(double refund) {
+        this.refund = refund;
     }
 
     public int getAmountOfProducts() {
         return amountOfProducts;
     }
 
-    public Order(LocalDate creationDate, String greetingCard, List<myOrderItem> items, Double totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
+    public Order(LocalDateTime creationDate, String greetingCard, List<myOrderItem> items, Double totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = creationDate;
         this.greetingCard = greetingCard;
         this.items = items;
@@ -59,6 +80,8 @@ public class Order implements Serializable {
         this.pickUpDetails = pickUpDetails;
         this.complaint = complaint;
         this.customer = customer;
+        this.refund = 0.0;
+        this.orderStatus = OrderStatus.PENDING;
     }
 
     public Complaint getComplaint() {
@@ -88,7 +111,7 @@ public class Order implements Serializable {
     @ManyToOne
     Store store;
 
-    LocalDate creationDate;
+    LocalDateTime creationDate;
     String greetingCard;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<myOrderItem> items;
@@ -122,7 +145,7 @@ public class Order implements Serializable {
     }
 
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 

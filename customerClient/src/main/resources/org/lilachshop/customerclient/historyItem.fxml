@@ -16,6 +16,7 @@
          <children>
             <HBox alignment="TOP_RIGHT">
                <children>
+                  <Label fx:id="orderStatusLabel" prefHeight="25.0" prefWidth="53.0" textAlignment="RIGHT" />
                   <Label fx:id="status" text="סטטוס">
                      <font>
                         <Font size="16.0" />
@@ -93,7 +94,7 @@
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>
-                  <Button mnemonicParsing="false" onAction="#onCencelOrder" text="ביטול הזמנה">
+                  <Button fx:id="CancelOrder" mnemonicParsing="false" onAction="#onCancelOrder" text="ביטול הזמנה">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>

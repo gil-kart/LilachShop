@@ -8,7 +8,7 @@ import org.lilachshop.entities.Order;
 import org.lilachshop.entities.User;
 import org.lilachshop.requests.*;
 
-public class StoreCustomerPanel extends Panel {
+public class StoreCustomerPanel extends RegisteredCustomerPanel {
     public StoreCustomerPanel(Socket socket, Object controller) {
         super(socket, controller);
     }

@@ -14,6 +14,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.OrderEvent;
 import org.lilachshop.panels.*;
@@ -21,6 +22,7 @@ import org.lilachshop.panels.*;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,6 +34,8 @@ public class OrderReportController implements Initializable {
     List<Order> orders;
     List<Order> ordersFromAllStores;
     ObservableList<ItemSalesObservable> listOfObservableItems;
+    @FXML
+    private Label totalNumOfOrdersLabel;
     @FXML
     private Label totalNumOfOrders;
     @FXML
@@ -70,48 +74,89 @@ public class OrderReportController implements Initializable {
     void onChangeStore(ActionEvent event) {
         String selectedStore = storeList.getSelectionModel().getSelectedItem();
         tableView.getItems().clear();
-        startDate.setValue(null);
-        endDate.setValue(null);
-        //todo: get complaints from all stores
+        totalNumOfOrders.setText("");
+
         if (selectedStore.equals("לילך הרצליה")) {
             ((StoreManagerPanel) panel).getStoreOrders(2);
             ((StoreManagerPanel) panel).getStoreCatalog(2);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
         } else if (selectedStore.equals("לילך חיפה")) {
             ((StoreManagerPanel) panel).getStoreOrders(1);
             ((StoreManagerPanel) panel).getStoreCatalog(1);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        }else if (selectedStore.equals("לילך תל אביב")) {
+            ((StoreManagerPanel) panel).getStoreOrders(3);
+            ((StoreManagerPanel) panel).getStoreCatalog(3);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        }else if (selectedStore.equals("כל החנויות")) {
+            ((StoreManagerPanel) panel).getStoreCatalog(3); //todo: change to general catalog!!!
+            ((ChainManagerPanel) panel).getAllOrders();
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
         }
     }
 
     @FXML
     void updateBarChart(ActionEvent event) {
-        LocalDate start = startDate.getValue();
-        LocalDate end = endDate.getValue();
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        try{
+            start = startDate.getValue().atStartOfDay();
+            end = endDate.getValue().atStartOfDay();
         if (start == null || end == null) {
             displayNullAlert();
             return;
+        }
+        }catch (Exception e){
+            displayNullAlert();
         }
         if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
         }
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+            if(storeList.getSelectionModel().getSelectedItem() == null){
+                displayNullStoreAlert();
+                return;
+            }
+        }
+        //calculating number of sales for every product
         List<ItemSalesObservable> observableItems = getObservalbeItems();
         listOfObservableItems = FXCollections.observableArrayList();
         listOfObservableItems.addAll(observableItems);
         tableView.setEditable(true);
         tableView.setItems(listOfObservableItems);
-        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            calcTotalNumOfOrders(start, end);
-        }
+        calcTotalNumOfOrders(start, end);
     }
 
-    private void calcTotalNumOfOrders(LocalDate start, LocalDate end) {
+    private void calcTotalNumOfOrders(LocalDateTime start, LocalDateTime end) {
         long todayOrderCounter = 0;
         long curTotalOrderForAllStores = 0;
+        List<Order> relevantOrders = new ArrayList<>();
+        List<Order> ordersToCalculateOn;
+
+        if(DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
+            ordersToCalculateOn = orders;
+        }
+        else {
+            if(storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")){
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
+                ordersToCalculateOn = ordersFromAllStores;
+            }else {
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+                ordersToCalculateOn = orders;
+            }
+        }
+        for(Order order: ordersToCalculateOn){
+            if(!order.getOrderStatus().equals(OrderStatus.CANCELED)){
+                relevantOrders.add(order);
+            }
+        }
         try {
-            for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
-                for (Order order : ordersFromAllStores) {
-                    if (order.getCreationDate().equals(date)) {
-                        todayOrderCounter += order.getAmountOfProducts();//1;
+            for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+                for (Order order : relevantOrders) {
+                    if(Utilities.hasTheSameDate(date, order.getCreationDate())){
+                    //if (order.getCreationDate().equals(date)) {
+                        todayOrderCounter += 1; // order.getAmountOfProducts();//1;
                     }
                 }
                 curTotalOrderForAllStores += todayOrderCounter;
@@ -128,7 +173,6 @@ public class OrderReportController implements Initializable {
         for (Item item : catalog.getItems()) {
             int numOfSales = getNumOfSalesForItem(item);
             ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName());
-
             itemSalesObservables.add(itemSalesObservable);
         }
         return itemSalesObservables;
@@ -137,12 +181,15 @@ public class OrderReportController implements Initializable {
     private int getNumOfSalesForItem(Item item) { // todo: think of a more efficient way to calculate this
         int counter = 0;
         List<Order> ordersInDateRange = new ArrayList<>();
-        LocalDate start = startDate.getValue();
-        LocalDate end = endDate.getValue();
+        LocalDateTime start = startDate.getValue().atStartOfDay();
+        LocalDateTime end = endDate.getValue().atStartOfDay();
         // saving all orders in range in a list
-        for (LocalDate date = start; date.isBefore(end); date = date.plusDays(1)) {
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Order order : orders) {
-                if (order.getCreationDate().equals(date)) {
+                if(Utilities.hasTheSameDate(date, order.getCreationDate())
+               // if (order.getCreationDate().equals(date)
+                &&
+                    !(order.getOrderStatus().equals(OrderStatus.CANCELED))) {
                     ordersInDateRange.add(order);
                 }
             }
@@ -164,8 +211,8 @@ public class OrderReportController implements Initializable {
         panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
 
-        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה");
-        storeList.promptTextProperty().set("לילך חיפה");
+        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "כל החנויות");
+//        storeList.promptTextProperty().set("לילך חיפה");
         ItemName.setCellValueFactory(new PropertyValueFactory<>("ItemName"));
         OrderNumber.setCellValueFactory(new PropertyValueFactory<>("numOfSales"));
         Price.setCellValueFactory(new PropertyValueFactory<>("Price"));
@@ -186,6 +233,14 @@ public class OrderReportController implements Initializable {
         a.setHeaderText("יש לבחור תאריך התחלה וסיום!");
         a.setTitle("בחירת טווח תאריכים");
         a.setContentText("");
+        a.show();
+    }
+
+    private void displayNullStoreAlert(){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setHeaderText("שגיאה");
+        a.setContentText("יש לבחור חנות");
         a.show();
     }
 
@@ -218,13 +273,15 @@ public class OrderReportController implements Initializable {
             ((ChainManagerPanel) panel).getStoreOrders(storeId);
             ((ChainManagerPanel) panel).getStoreCatalog(storeId);
             ((ChainManagerPanel) panel).getAllOrders();
+            totalNumOfOrdersLabel.setText("");
         } else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
             ((StoreManagerPanel) panel).getStoreOrders(1);
             ((StoreManagerPanel) panel).getStoreCatalog(1);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);
-            totalChainNumberOfOrders.setVisible(false);
+//            totalChainNumberOfOrders.setVisible(false);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
         }
     }
 }
