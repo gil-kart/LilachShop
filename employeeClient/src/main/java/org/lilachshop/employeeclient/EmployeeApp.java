@@ -31,7 +31,7 @@ public class EmployeeApp extends Application {
         scene = new Scene(loadFXML("EmployeeLogin"), WIDTH, HEIGHT);
         stage.setScene(scene);
         EmployeeApp.stage = stage;
-        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
+        stage.getScene().getWindow().addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, EmployeeApp::onCloseWindowEvent);
         stage.show();
     }
 
@@ -44,7 +44,7 @@ public class EmployeeApp extends Application {
         return fxmlLoader.load();
     }
 
-    private void onCloseWindowEvent(WindowEvent event) {
+    public static void onCloseWindowEvent(WindowEvent event) {
         System.out.println("Graceful termination, goodbye ;)");
         System.exit(0);
     }

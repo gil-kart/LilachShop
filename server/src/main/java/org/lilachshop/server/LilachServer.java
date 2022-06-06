@@ -246,9 +246,18 @@ public class LilachServer extends AbstractServer {
             String password = request.getPassword();
             List<Employee> employees = entityFactory.getEmployees();
             for (Employee employee : employees) {
-                if (employee.getUserName().equals(userName) &&
-                        employee.getUserPassword().equals(password)) {
-                    try {
+                if (employee.getUserName().equals(userName) && employee.getUserPassword().equals(password)) {
+                    for (User user : connectedUsers) {
+                        if (user.getUserName().equals(userName) && user.getUserPassword().equals(password)) {
+                            try {
+                                client.sendToClient("Employee is connected already");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            return;
+                        }
+                    }
+                    try {   // Employee isn't logged yet, so log him in.
                         connectedUsers.add(employee);
                         client.sendToClient(employee);
                         return;

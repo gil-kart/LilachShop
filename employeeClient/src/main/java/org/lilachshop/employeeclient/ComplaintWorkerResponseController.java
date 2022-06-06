@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.lilachshop.entities.ComplaintStatus;
 import org.lilachshop.entities.Order;
 
 import java.io.IOException;
@@ -83,6 +84,11 @@ public class ComplaintWorkerResponseController {
         this.orderNum.setText(String.valueOf(order.getId()));
         this.orderPrice.setText(String.valueOf(order.getTotalPrice() + "ש''ח"));
         this.customerName.setText(String.valueOf(order.getCustomer().getName()));
+        if(order.getComplaint().getStatus().equals(ComplaintStatus.CLOSED)){
+            SendBtn.setDisable(true);
+            response.setText(order.getComplaint().getReply());
+        }
+
     }
     @FXML private Button closeButton;
 

@@ -5,7 +5,7 @@ import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Order;
 import org.lilachshop.requests.SupportComplaintRequest;
 
-public class CustomerServicePanel extends Panel {
+public class CustomerServicePanel extends SignedInEmployeePanel {
     public CustomerServicePanel(Socket socket, Object controller) {
         super(socket, controller);
     }

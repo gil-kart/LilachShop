@@ -31,6 +31,8 @@ import org.lilachshop.panels.PanelEnum;
 public class EmployeeLoginController implements Initializable {
 
     static private Panel panel;
+    FXMLLoader fxmlLoader;
+    Parent root1;
 
     @FXML
     private ResourceBundle resources;
@@ -43,6 +45,9 @@ public class EmployeeLoginController implements Initializable {
 
     @FXML
     private Text errorLogin;
+
+    @FXML
+    private Text errorLogin2;
 
     @FXML
     private PasswordField passwordTF;
@@ -65,6 +70,12 @@ public class EmployeeLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        try {
+            root1 = (Parent) fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         panel = OperationsPanelFactory.createPanel(PanelEnum.EMPLOYEE_ANONYMOUS, EmployeeApp.getSocket(), this);
         EventHandler<KeyEvent> enterKeyHandler = event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -92,23 +103,27 @@ public class EmployeeLoginController implements Initializable {
     @Subscribe
     public void handleMessageReceived(Object msg) {
         Platform.runLater(() -> {
-            if (msg.getClass().equals(Employee.class)) { // will open Employee dashboard
-                try {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-                    Parent root1 = (Parent) fxmlLoader.load();
-                    DashBoardController controller = fxmlLoader.getController();
-                    controller.employee = ((Employee) msg);
-                    controller.setData((Employee) msg);
-                    Stage stage = EmployeeApp.getStage();
-                    stage.setScene(new Scene(root1));
-                    stage.show();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            if (msg.getClass().equals(String.class)) {
+                if (msg.equals("Employee is connected already")) {
+                    errorLogin2.setVisible(true);
+                } else {
+                    errorLogin.setVisible(true);
                 }
-            } else {  // couldn't find employee
-                errorLogin.setVisible(true);
+            } else {
+                assert msg.getClass().equals(Employee.class) : "Employee should be gotten here.";
+                DashBoardController controller = fxmlLoader.getController();
+                controller.employee = ((Employee) msg);
+                controller.setData((Employee) msg);
+                Stage stage = EmployeeApp.getStage();
+                stage.setScene(new Scene(root1));
+                stage.show();
             }
+
         });
+    }
+
+    public static Panel getPanel() {
+        return panel;
     }
 
 

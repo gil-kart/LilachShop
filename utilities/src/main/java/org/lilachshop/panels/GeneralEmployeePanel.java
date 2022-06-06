@@ -7,7 +7,7 @@ import org.lilachshop.entities.Item;
 import org.lilachshop.requests.CatalogRequest;
 import org.lilachshop.requests.StoreRequest;
 
-public class GeneralEmployeePanel extends Panel {
+public class GeneralEmployeePanel extends SignedInEmployeePanel {
     Employee employee;
 
 

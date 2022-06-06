@@ -15,10 +15,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Employee;
 import org.lilachshop.entities.Role;
+import org.lilachshop.entities.User;
+import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
+import org.lilachshop.panels.SignedInEmployeePanel;
 
 public class DashBoardController {
 
@@ -175,10 +180,19 @@ public class DashBoardController {
                 e.printStackTrace();
             }
         });
-
-
     }
 
+    public void onExitButton(WindowEvent windowEvent) {
+        if (panel instanceof SignedInEmployeePanel) {
+            ((SignedInEmployeePanel) panel).sendSignOutRequestToServer((User) this.employee);
+        }
+        System.out.println("Graceful termination, goodbye ;)");
+        System.exit(0);
+    }
+
+    @Subscribe
+    public void dummySubscribeMethod(Object object) {
+    }
 
     @FXML
     void initialize() {
@@ -188,22 +202,21 @@ public class DashBoardController {
         assert costumerBtn != null : "fx:id=\"costumerBtn\" was not injected: check your FXML file 'dashboard.fxml'.";
         assert displayer != null : "fx:id=\"displayer\" was not injected: check your FXML file 'dashboard.fxml'.";
         assert reportBtn != null : "fx:id=\"reportBtn\" was not injected: check your FXML file 'dashboard.fxml'.";
-        catalogBtn.setVisible(false);   //CHECK IF I CAN DO IT AT ONCE
-        complaintsBtn.setVisible(false);//CHECK IF I CAN DO IT AT ONCE
-        costumerBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
-        reportBtn.setVisible(false);    //CHECK IF I CAN DO IT AT ONCE
-        employeeBtn.setVisible(false);  //CHECK IF I CAN DO IT AT ONCE
-        stage = EmployeeApp.getStage();
     }
 
-
     public void setData(Employee employee) {
+        stage = EmployeeApp.getStage();
+        stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onExitButton);
         Role role = employee.getRole();
         switch (role) {
 
             case STORE_EMPLOYEE: {
-                catalogBtn.setVisible(true);
                 panelEnum = PanelEnum.GENERAL_EMPLOYEE;
+                catalogBtn.setVisible(true);
+                complaintsBtn.setDisable(true);
+                costumerBtn.setDisable(true);
+                reportBtn.setDisable(true);
+                employeeBtn.setDisable(true);
                 break;
             }
 
@@ -211,6 +224,9 @@ public class DashBoardController {
                 panelEnum = PanelEnum.STORE_MANAGER;
                 catalogBtn.setVisible(true);
                 reportBtn.setVisible(true);
+                complaintsBtn.setDisable(true);
+                costumerBtn.setDisable(true);
+                employeeBtn.setDisable(true);
                 break;
             }
 
@@ -218,12 +234,19 @@ public class DashBoardController {
                 panelEnum = PanelEnum.CHAIN_MANAGER;
                 catalogBtn.setVisible(true);
                 reportBtn.setVisible(true);
+                complaintsBtn.setDisable(true);
+                costumerBtn.setDisable(true);
+                employeeBtn.setDisable(true);
                 break;
             }
 
             case CUSTOMER_SERVICE: {
                 panelEnum = PanelEnum.CUSTOMER_SERVICE;
                 complaintsBtn.setVisible(true);
+                catalogBtn.setDisable(true);
+                costumerBtn.setDisable(true);
+                reportBtn.setDisable(true);
+                employeeBtn.setDisable(true);
                 break;
             }
 
@@ -231,27 +254,12 @@ public class DashBoardController {
                 panelEnum = PanelEnum.SYSTEM_MANAGER;
                 employeeBtn.setVisible(true);
                 costumerBtn.setVisible(true);
+                catalogBtn.setDisable(true);
+                complaintsBtn.setDisable(true);
+                reportBtn.setDisable(true);
                 break;
             }
         }
+        panel = OperationsPanelFactory.createPanel(panelEnum, EmployeeApp.getSocket(), this);
     }
-
-
-//       public void openNewScreen(String screen){ WAS thinking to reduce duplicate, but for that we need to change the controllers.
-//           Platform.runLater(()-> {
-//               try {
-//                   FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(screen));
-//                   Parent root1 = (Parent) fxmlLoader.load();
-//                   ModuleLayer.Controller controller = fxmlLoader.getController();
-//                  // controller.employee= this.employee;
-//                   Stage stage = App.getStage();
-//                   stage.setScene(new Scene(root1));
-//                   stage.show();
-//               }catch (IOException e) {
-//                   e.printStackTrace();
-//               }
-//           });
-//
-//       }
-
 }

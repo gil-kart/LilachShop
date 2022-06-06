@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class SystemManagerPanel extends Panel {
+public class SystemManagerPanel extends SignedInEmployeePanel {
     public SystemManagerPanel(Socket socket, Object controller) {
         super(socket, controller);
     }
