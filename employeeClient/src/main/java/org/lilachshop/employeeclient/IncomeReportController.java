@@ -91,11 +91,17 @@ public class IncomeReportController implements Initializable {
 
     @FXML
     void updateBarChart(ActionEvent event) {
-        LocalDateTime start = startDate.getValue().atStartOfDay();
-        LocalDateTime end = endDate.getValue().atStartOfDay();
-        if(start == null || end == null){
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        try{
+            start = startDate.getValue().atStartOfDay();
+            end = endDate.getValue().atStartOfDay();
+            if (start == null || end == null) {
+                displayNullAlert();
+                return;
+            }
+        }catch (Exception e){
             displayNullAlert();
-            return;
         }
         if(end.isBefore(start)){
             displayChronologyAlert();

@@ -11,4 +11,8 @@ public class ChainManagerPanel extends StoreManagerPanel {
     public void getAllOrders(){
         sendToServer(new ReportsRequest("get all stores orders"));
     }
+
+    public void getAllComplaints() {
+        sendToServer((new ReportsRequest("get all complaints")));
+    }
 }

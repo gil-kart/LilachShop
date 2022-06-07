@@ -33,6 +33,8 @@ public class OrderReportController implements Initializable {
     Catalog catalog;
     List<Order> orders;
     List<Order> ordersFromAllStores;
+    List<Catalog> allCatalogs;
+    List<Item> itemsFromAllStores;
     ObservableList<ItemSalesObservable> listOfObservableItems;
     @FXML
     private Label totalNumOfOrdersLabel;
@@ -170,15 +172,30 @@ public class OrderReportController implements Initializable {
 
     private List<ItemSalesObservable> getObservalbeItems() {
         List<ItemSalesObservable> itemSalesObservables = new ArrayList<>();
-        for (Item item : catalog.getItems()) {
-            int numOfSales = getNumOfSalesForItem(item);
-            ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName());
-            itemSalesObservables.add(itemSalesObservable);
+        List<Item> relevantItems = catalog.getItems();
+        List<Catalog> relevantCatalogs;
+
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
+            (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))){
+            relevantCatalogs = allCatalogs;
         }
+        else {
+            relevantCatalogs = new ArrayList<>();
+            relevantCatalogs.add(catalog);
+        }
+
+        for (Catalog catalog_iter: relevantCatalogs){
+            for (Item item : catalog_iter.getItems()) {
+                int numOfSales = getNumOfSalesForItem(item, catalog_iter.getId());
+                ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName()+ " - " + catalog_iter.toString());
+                itemSalesObservables.add(itemSalesObservable);
+            }
+        }
+
         return itemSalesObservables;
     }
 
-    private int getNumOfSalesForItem(Item item) { // todo: think of a more efficient way to calculate this
+    private int getNumOfSalesForItem(Item item, long catalogId) { // todo: think of a more efficient way to calculate this
         int counter = 0;
         List<Order> ordersInDateRange = new ArrayList<>();
         LocalDateTime start = startDate.getValue().atStartOfDay();
@@ -198,8 +215,10 @@ public class OrderReportController implements Initializable {
         for (Order order : ordersInDateRange) {
             List<myOrderItem> orderItems = order.getItems();
             for (myOrderItem itemFromOrder : orderItems) {
-                if (itemFromOrder.getName().equals(item.getName())) { //todo: right now comparing only product name, maybe should check more attributes
+                if (itemFromOrder.getName().equals(item.getName())
+                && (order.getStore().getCatalog().getId() == ((int)catalogId))) { //todo: right now comparing only product name, maybe should check more attributes
                     counter += itemFromOrder.getCount();
+
                 }
             }
         }
@@ -266,6 +285,9 @@ public class OrderReportController implements Initializable {
     @Subscribe
     public void handleMessageAllOrdersFromClient(OrderEvent orderEvent) {
         this.ordersFromAllStores = orderEvent.getOrders();
+        this.orders = orderEvent.getOrders();
+        this.itemsFromAllStores = orderEvent.getItems();
+        this.allCatalogs = orderEvent.getCatalogs();
     }
 
     public void setData(long storeId) {

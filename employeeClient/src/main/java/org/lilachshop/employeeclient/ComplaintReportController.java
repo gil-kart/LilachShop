@@ -11,7 +11,9 @@ import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.Complaint;
+import org.lilachshop.events.ComplaintsEvent;
 import org.lilachshop.panels.*;
 
 import java.io.IOException;
@@ -28,6 +30,8 @@ import javafx.event.ActionEvent;
 public class ComplaintReportController implements Initializable {
     private static Panel panel;
     List<Complaint> complaints;
+    List<Complaint> allStoresComplaints;
+    long currentStoreId;
     @FXML
     private Label TotalSumOfComplaints;
     @FXML
@@ -62,22 +66,38 @@ public class ComplaintReportController implements Initializable {
         panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
 
-        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "לילך עכו", "לילך באר שבע");
+        storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "כל החנויות");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
-        storeList.promptTextProperty().set("לילך חיפה");
+        storeList.promptTextProperty().set("בחר חנות");
     }
 
     @FXML
     void updateBarChart(ActionEvent event) {
-        LocalDateTime start = startDate.getValue().atStartOfDay();
-        LocalDateTime end = endDate.getValue().atStartOfDay();
-        if (start == null || end == null) {
+        LocalDateTime start = null;
+        LocalDateTime end = null;
+        try{
+            start = startDate.getValue().atStartOfDay();
+            end = endDate.getValue().atStartOfDay();
+            if (start == null || end == null) {
+                displayNullAlert();
+                return;
+            }
+        }catch (Exception e){
             displayNullAlert();
-            return;
         }
         if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
+        }
+        if (storeList.getSelectionModel().getSelectedItem() == null){
+            displayNullStoreAlert();
+            return;
+        }
+        List<Complaint> relevantComplaintList = complaints;
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+            if(storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")) {
+                relevantComplaintList = allStoresComplaints;
+            }
         }
 
         complaintBarChart.getData().clear();
@@ -87,8 +107,8 @@ public class ComplaintReportController implements Initializable {
         int totalComplaintCounter = 0;
         XYChart.Series set = new XYChart.Series<>();
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
-            for (Complaint complaint : complaints) {
-                if (complaint.getCreationDate().equals(date)) {
+            for (Complaint complaint : relevantComplaintList) {
+                if (Utilities.hasTheSameDate(date, complaint.getCreationDate())){
                     todayComplaintCounter++;
                 }
             }
@@ -122,8 +142,8 @@ public class ComplaintReportController implements Initializable {
     void onChangeStore(ActionEvent event) {
         String selectedStore = storeList.getSelectionModel().getSelectedItem();
         complaintBarChart.getData().clear();
-        startDate.setValue(null);
-        endDate.setValue(null);
+//        startDate.setValue(null);
+//        endDate.setValue(null);
         TotalSumOfComplaints.setText("");
         //todo: get complaints from all stores
         if (selectedStore.equals("לילך הרצליה")) {
@@ -131,12 +151,24 @@ public class ComplaintReportController implements Initializable {
         } else if (selectedStore.equals("לילך חיפה")) {
             ((ChainManagerPanel) panel).getStoreComplaint(1);
         }
+        else if (selectedStore.equals("לילך תל אביב")) {
+            ((ChainManagerPanel) panel).getStoreComplaint(3);
+        }
+    }
+    private void displayNullStoreAlert(){
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setAlertType(Alert.AlertType.INFORMATION);
+        a.setHeaderText("שגיאה");
+        a.setContentText("יש לבחור חנות");
+        a.show();
     }
 
     @FXML
     void onNewScreenBtnClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
+        ComplaintReportController complaintReportController = fxmlLoader.getController();
+        complaintReportController.setData(currentStoreId);
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));
         stage.show();
@@ -147,9 +179,16 @@ public class ComplaintReportController implements Initializable {
         this.complaints = complaints;
     }
 
+    @Subscribe
+    public void handleAllComplaintsEvent(ComplaintsEvent complaintsEvent){
+        allStoresComplaints = complaintsEvent.getAllComplaints();
+    }
+
     public void setData(long storeId) {
+        currentStoreId = storeId;
         if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            ((ChainManagerPanel) panel).getStoreComplaint(1);// gets haifa by default
+            ((ChainManagerPanel) panel).getStoreComplaint(1);
+            ((ChainManagerPanel) panel).getAllComplaints();// gets haifa by default
         }
         else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
             ((StoreManagerPanel) panel).getStoreComplaint(storeId);
