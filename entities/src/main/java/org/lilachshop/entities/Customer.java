@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Customer extends User implements Serializable {
 
-    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, ActiveDisabledState... accountState) {
+    public Customer(String userName, String userPassword, String name, String address, String phoneNumber, CreditCard card, List<Order> orders, Store store, Account account, String email, ActiveDisabledState... accountState) {
         super(userName, userPassword);
         this.name = name;
         this.address = address;
@@ -20,6 +20,7 @@ public class Customer extends User implements Serializable {
         this.orders = orders;
         this.store = store;
         this.account = account;
+        this.email = email;
         this.accountState = accountState.length > 0 ? accountState[0] : ActiveDisabledState.ACTIVE;
     }
 
@@ -28,6 +29,8 @@ public class Customer extends User implements Serializable {
     String name;
     String address;
     String phoneNumber;
+
+    String email;
 
     @Enumerated(EnumType.STRING)
     ActiveDisabledState accountState;
@@ -119,6 +122,18 @@ public class Customer extends User implements Serializable {
 
     public void setCard(CreditCard card) {
         this.card = card;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) throws RuntimeException {
+        String regexPattern = "^(.+)@(\\S+)$";
+        if (!Pattern.compile(regexPattern).matcher(email).matches()) {
+            throw new RuntimeException("כתובת דואר אלקטרוני אינה תקינה. אנא הכנס כתובת דואר אלקטרוני תקינה");
+        }
+        this.email = email;
     }
 
     public AccountType getAccountType() {
