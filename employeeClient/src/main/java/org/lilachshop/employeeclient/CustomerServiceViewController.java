@@ -79,10 +79,10 @@ public class CustomerServiceViewController implements Initializable {
     }
 
     public void closeComplaint(String updatedComplaintNumber, String reply, Order order){
-        //todo: needs to update complaint status also in the database
         for (Complaint complaint : listOfComplaints) {
             if(String.valueOf(complaint.getId()).equals(updatedComplaintNumber)){
                 complaint.setStatus(ComplaintStatus.CLOSED);
+                complaint.setReply(reply);
                 // close complaint on server
                 ((CustomerServicePanel) panel).ReplyToComplaintRequestToServer(complaint, reply, order);
                 break;
@@ -135,9 +135,6 @@ public class CustomerServiceViewController implements Initializable {
             e.printStackTrace();
         }
         Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.setTitle("Present Selected Row");
         stage.setScene(new Scene(root1));
         stage.show();
     }

@@ -87,18 +87,13 @@ public class ComplaintWorkerResponseController {
         this.customerName.setText(String.valueOf(order.getCustomer().getName()));
         if(order.getComplaint().getStatus().equals(ComplaintStatus.CLOSED)){
             SendBtn.setDisable(true);
+            updateRefundBtn.setDisable(true);
             response.setText(order.getComplaint().getReply());
+            response.setEditable(false);
         }
 
     }
-    @FXML private Button closeButton;
 
-    @FXML
-    private void closeButtonAction(){
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        // do what you have to do
-        stage.close();
-    }
     @FXML
     void onSendBtn(ActionEvent event) throws IOException {
         order.setRefund(refundAmountToUpdate);
@@ -110,6 +105,9 @@ public class ComplaintWorkerResponseController {
         a.setContentText("");
         a.show();
         controllerInstance.closeComplaint(complaintNumber.getText(), response.getText(), order);
+        updateRefundBtn.setDisable(true);
+        response.setText(response.getText());
+        SendBtn.setDisable(true);
         Stage stage = (Stage) SendBtn.getScene().getWindow();
         stage.close();
     }

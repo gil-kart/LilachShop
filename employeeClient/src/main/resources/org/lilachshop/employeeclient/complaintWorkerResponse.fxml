@@ -9,8 +9,6 @@
 
 <AnchorPane prefHeight="532.0" prefWidth="602.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.ComplaintWorkerResponseController">
    <children>
-      <Button fx:id="closeButton" onAction="#closeButtonAction" />
-
       <Label layoutX="201.0" layoutY="24.0" text="פרטי תלונה">
          <font>
             <Font size="39.0" />

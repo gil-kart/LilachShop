@@ -49,12 +49,7 @@ public class MessageBoxComplaintController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 //         panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_CUSTOMER, CustomerApp.getSocket(), this);
-//        String complaintID= "654";
-//        String complaintDescription= "I ordered green Rosses but i got red ones.";
-//        String complaintAnswer= "My brothaaaaaaaa";
-//        complainDescriptionTF.setText(complaintDescription);
-//        complainAnswerTF.setText(complaintAnswer);
-//        complaintIDTF.setText(complaintID);
+
 
     }
 

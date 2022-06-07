@@ -90,6 +90,7 @@ public class EmployeeLoginController implements Initializable {
     @FXML
     void userNameClick(MouseEvent event) {
         errorLogin.setVisible(false);
+        errorLogin2.setVisible(false);
     }
 
 
