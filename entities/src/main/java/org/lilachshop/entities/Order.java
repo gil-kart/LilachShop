@@ -20,6 +20,7 @@ public class Order implements Serializable {
 
     @Enumerated(EnumType.STRING)
     OrderStatus orderStatus = OrderStatus.PENDING;
+
     public void setComplaint(Complaint complaint) {
         this.complaint = complaint;
     }
@@ -83,6 +84,7 @@ public class Order implements Serializable {
         this.refund = 0.0;
         this.orderStatus = OrderStatus.PENDING;
     }
+
     public Order(String greetingCard, List<myOrderItem> items, Double totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
         this.creationDate = LocalDateTime.now();
         this.greetingCard = greetingCard;
@@ -126,15 +128,20 @@ public class Order implements Serializable {
     Store store;
 
     LocalDateTime creationDate;
+
     String greetingCard;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<myOrderItem> items;
 
     Double totalPrice;
+
     int amountOfProducts;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @Embedded
     DeliveryDetails deliveryDetails;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @Embedded
     PickUpDetails pickUpDetails;
 
     @OneToOne(cascade = CascadeType.ALL)

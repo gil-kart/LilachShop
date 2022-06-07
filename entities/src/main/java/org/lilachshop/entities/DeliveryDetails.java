@@ -8,18 +8,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Transactional
-@Entity
-@Table(name = "DeliveryDetails")
+@Embeddable
 public class DeliveryDetails implements Serializable{
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-//    @Column(name = "id", nullable = false)
-    private int id;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    Order order;
-
     LocalDateTime DeliveryTime;
 
     public DeliveryDetails(LocalDateTime deliveryTime, String phoneNumber, String receiverName, String address) {
@@ -49,10 +39,6 @@ public class DeliveryDetails implements Serializable{
         return address;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
     protected DeliveryDetails() {
     }
 
@@ -71,15 +57,4 @@ public class DeliveryDetails implements Serializable{
     String phoneNumber;
     String receiverName;
     String address;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-
 }
