@@ -42,6 +42,9 @@ public class CustomerTableController implements Initializable {
     static private SystemManagerPanel sPanel;
 
     @FXML
+    public TableColumn<Customer, String> emailCol;
+
+    @FXML
     private ResourceBundle resources;
 
     @FXML
@@ -201,6 +204,19 @@ public class CustomerTableController implements Initializable {
             c.setUserPassword(s);
             return null;
         }, Customer::getName, dbUpdater);
+
+        emailCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("email"));
+        Utilities.setTextFieldFactory(emailCol, (c, e) -> {
+            try {
+                c.setEmail(e);
+            } catch (Exception ex) {
+                alert.setHeaderText(ex.getMessage());
+                alert.show();
+                return null;
+            }
+            return null;
+        }, Customer::getEmail, dbUpdater);
+
         addressCol.setCellValueFactory(new PropertyValueFactory<Customer, String>("address"));
         Utilities.setTextFieldFactory(addressCol, (c, s) -> {
             c.setAddress(s);
@@ -380,6 +396,14 @@ public class CustomerTableController implements Initializable {
                         if (event.getCode().equals(KeyCode.ENTER)) {
                             Customer customer = customerTable.getSelectionModel().getSelectedItem();
                             if (customer != null) {
+                                if (!customer.getAccountType().equals(AccountType.STORE_ACCOUNT)) {
+                                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                                    alert.setHeaderText("לא ניתן לשנות חנות עבור לקוח שאינו 'לקוח חנות'.");
+                                    alert.show();
+                                    cell.setEditable(false);
+                                    customerTable.refresh();
+                                    return;
+                                }
                                 customer.setStore(box.getSelectionModel().getSelectedItem());
                                 cell.setEditable(false);
                                 sPanel.updateCustomer(customer);
@@ -442,6 +466,28 @@ public class CustomerTableController implements Initializable {
                         if (event.getCode().equals(KeyCode.ENTER)) {
                             Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
                             if (customer != null) {
+                                AccountType selectedType = box.getSelectionModel().getSelectedItem();
+
+                                if (selectedType != AccountType.STORE_ACCOUNT) {
+                                    ButtonType hebrewYes = new ButtonType("כן", ButtonBar.ButtonData.OK_DONE);
+                                    ButtonType hebrewNo = new ButtonType("לא", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "שינוי סוג משתשמש ממשתמש חנות יקשר משתמש זה לחנות ברירת מחדל.", hebrewYes, hebrewNo);
+                                    alert.setTitle("עדכון שדה");
+                                    alert.setHeaderText("האם ברצונך לעדכן שדה זה?");
+                                    alert.setResizable(false);
+                                    alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    ButtonType buttonType = result.orElse(hebrewNo);
+
+                                    if (buttonType != hebrewYes) {
+                                        cell.setEditable(false);
+                                        customerTable.refresh();
+                                        return;
+                                    }
+                                    customer.setStore(stores.get(0));
+                                }
                                 customer.getAccount().setAccountType(box.getSelectionModel().getSelectedItem());
                                 cell.setEditable(false);
                                 sPanel.updateCustomer(customer);

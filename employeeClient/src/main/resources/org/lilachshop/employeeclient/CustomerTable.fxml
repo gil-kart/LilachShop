@@ -12,7 +12,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="800.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CustomerTableController">
     <children>
-      <VBox alignment="CENTER" layoutX="6.0" layoutY="11.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="779.0" prefWidth="952.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <VBox alignment="CENTER" layoutX="6.0" layoutY="11.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="779.0" prefWidth="965.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
               <Text nodeOrientation="RIGHT_TO_LEFT" strokeType="OUTSIDE" strokeWidth="0.0" text="טבלת לקוחות" wrappingWidth="251.1292724609375">
                   <font>
@@ -33,11 +33,12 @@
                       <TableColumn fx:id="customerNameCol" prefWidth="146.0" style="-fx-alignment: CENTER;" text="שם לקוח" />
                       <TableColumn fx:id="usernameCol" prefWidth="130.0" style="-fx-alignment: CENTER;" text="שם משתמש" />
                       <TableColumn fx:id="passwordCol" minWidth="0.0" prefWidth="155.0" style="-fx-alignment: CENTER;" text="סיסמה" />
-                      <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="254.0" style="-fx-alignment: CENTER;" text="כתובת" />
-                      <TableColumn fx:id="storeCol" prefWidth="164.0" style="-fx-alignment: CENTER;" text="חנות" />
-                  <TableColumn fx:id="accountTypeCol" prefWidth="140.0" style="-fx-alignment: CENTER;" text="סוג חשבון" />
-                  <TableColumn fx:id="creationDateCol" prefWidth="101.0" style="-fx-alignment: CENTER;" text="תאריך יצירה" />
-                  <TableColumn prefWidth="681.0" text="כרטיס אשראי">
+                  <TableColumn fx:id="emailCol" prefWidth="188.0" style="-fx-alignment: CENTER;" text="דואר אלקטרוני" />
+                      <TableColumn fx:id="addressCol" minWidth="0.0" prefWidth="198.0" style="-fx-alignment: CENTER;" text="כתובת" />
+                      <TableColumn fx:id="storeCol" prefWidth="138.0" style="-fx-alignment: CENTER;" text="חנות" />
+                  <TableColumn fx:id="accountTypeCol" prefWidth="142.0" style="-fx-alignment: CENTER;" text="סוג חשבון" />
+                  <TableColumn fx:id="creationDateCol" prefWidth="140.0" style="-fx-alignment: CENTER;" text="תאריך יצירה" />
+                  <TableColumn prefWidth="515.0" text="כרטיס אשראי">
                      <columns>
                         <TableColumn fx:id="creditCardNumberCol" prefWidth="161.0" style="-fx-alignment: CENTER;" text="מספר אשראי" />
                         <TableColumn fx:id="expDateCol" prefWidth="77.0" style="-fx-alignment: CENTER;" text="ת.תפוגה" />

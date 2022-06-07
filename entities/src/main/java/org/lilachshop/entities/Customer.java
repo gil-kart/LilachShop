@@ -131,7 +131,7 @@ public class Customer extends User implements Serializable {
     public void setEmail(String email) throws RuntimeException {
         String regexPattern = "^(.+)@(\\S+)$";
         if (!Pattern.compile(regexPattern).matcher(email).matches()) {
-            throw new RuntimeException("כתובת דואר אלקטרוני אינה תקינה. אנא הכנס כתובת דואר אלקטרוני תקינה");
+            throw new RuntimeException("כתובת דואר אלקטרוני אינה תקינה. אנא הכנס כתובת דואר אלקטרוני תקינה.");
         }
         this.email = email;
     }
