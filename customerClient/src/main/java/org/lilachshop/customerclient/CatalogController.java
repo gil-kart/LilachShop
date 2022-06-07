@@ -234,7 +234,11 @@ public class CatalogController {
     public void setChosenItem(Item flower) {
         FlowerNameLabel.setText(flower.getName());
         itemId.setText(Integer.toString(flower.getId()));
-        itemType.setText(flower.getItemType().toString());
+        if (flower.getItemType() == null) {
+            itemType.setText("");
+        } else {
+            itemType.setText(flower.getItemType().toString());
+        }
         textDesc.setText(flower.getDescription());
 
         if (flower.getPercent() > 0) {
