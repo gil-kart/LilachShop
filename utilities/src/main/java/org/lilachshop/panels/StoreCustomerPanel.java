@@ -2,10 +2,7 @@ package org.lilachshop.panels;
 
 
 import org.lilachshop.commonUtils.Socket;
-import org.lilachshop.entities.Complaint;
-import org.lilachshop.entities.Customer;
-import org.lilachshop.entities.Order;
-import org.lilachshop.entities.User;
+import org.lilachshop.entities.*;
 import org.lilachshop.requests.*;
 
 public class StoreCustomerPanel extends RegisteredCustomerPanel {
@@ -21,6 +18,11 @@ public class StoreCustomerPanel extends RegisteredCustomerPanel {
         sendToServer(new CatalogRequest("get catalog", id_store));
     }
 
+    public void sendGetFilteredCatalog(long id_catalog, int price, Color color, ItemType type)
+    {
+        sendToServer(new CatalogRequest("get catalog by filter", id_catalog,price,color,type));
+    }
+
     public void sendGetAllOrdersToServer(long customerId) {
         sendToServer(new OrderRequest("get all clients orders", customerId));
     }
@@ -28,10 +30,11 @@ public class StoreCustomerPanel extends RegisteredCustomerPanel {
     public void sendNewOrderCreationToServer(Order myOrder) {
         sendToServer(new OrderRequest("create new order", myOrder));
     }
+
+
     public void sendSignOutRequestToServer(User myCustomer) {
         sendToServer(new SignOutRequest(SignOutRequest.Messages.SIGN_OUT, myCustomer));
     }
-
 
     public void getAllStores() {
         sendToServer((new StoreRequest("get all stores")));

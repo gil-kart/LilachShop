@@ -9,10 +9,15 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
+
+import com.browniebytes.javafx.control.DateTimePicker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,9 +26,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import org.hibernate.type.LocalDateTimeType;
 import org.lilachshop.entities.DeliveryDetails;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.PickUpDetails;
+
+import javax.swing.text.Utilities;
+
+import static org.lilachshop.commonUtils.Utilities.containHebrew;
 
 public class OrderStage2Controller {
     Order myOrder;
@@ -31,6 +42,7 @@ public class OrderStage2Controller {
     boolean pickupBool = false;
     boolean chooseBoxPickUp = false;
     boolean chooseBoxDelivery = false;
+    Alert alert;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -45,7 +57,7 @@ public class OrderStage2Controller {
     private CheckBox costumerRec; // Value injected by FXMLLoader
 
     @FXML // fx:id="date"
-    private DatePicker date; // Value injected by FXMLLoader
+    private DateTimePicker date; // Value injected by FXMLLoader
 
     @FXML // fx:id="delivery"
     private VBox delivery; // Value injected by FXMLLoader
@@ -78,19 +90,15 @@ public class OrderStage2Controller {
     private CheckBox receiveImm; // Value injected by FXMLLoader
 
     @FXML // fx:id="selfDate"
-    private DatePicker selfDate; // Value injected by FXMLLoader
+    private DateTimePicker selfDate; // Value injected by FXMLLoader
 
     @FXML // fx:id="selfRecieveImm"
     private CheckBox selfRecieveImm; // Value injected by FXMLLoader
 
-    @FXML // fx:id="selfTime"
-    private ComboBox<Integer> selfTime; // Value injected by FXMLLoader
 
     @FXML // fx:id="shopNum"
     private Text shopNum; // Value injected by FXMLLoader
 
-    @FXML // fx:id="time"
-    private ComboBox<Integer> time; // Value injected by FXMLLoader
 
     @FXML
     private HBox selfHboxDate;
@@ -108,46 +116,34 @@ public class OrderStage2Controller {
     @FXML
     void gotoNext(ActionEvent event) {
         boolean flagNext = false;
-        if (deliveryBool)
-        {
-            if (!receipient.getText().equals("") && !phoneNum.getText().equals("") && !address.getText().equals("")) {
-                if (receiveImm.isSelected()) {
-                    LocalDateTime dateDelivery = LocalDateTime.now().with(LocalTime.now());
-                    DeliveryDetails delivery = new DeliveryDetails(dateDelivery, phoneNum.getText(), receipient.getText(), address.getText());
-                    myOrder.setDeliveryDetails(delivery);
-                    flagNext = true;
-                } else {
-                    if (selfDate.getValue() != null && time.getValue() != null) {
-                        LocalDateTime dateDelivery = LocalDateTime.of(date.getValue().getYear(), date.getValue().getMonth(), date.getValue().getDayOfMonth(), time.getSelectionModel().getSelectedItem(), 0, 0);
-                        DeliveryDetails delivery = new DeliveryDetails(dateDelivery, phoneNum.getText(), receipient.getText(), address.getText());
-                        myOrder.setDeliveryDetails(delivery);
-                        flagNext = true;
-                    }
-                }
-            }
-
-        }
-        else
-        {
-            if(selfRecieveImm.isSelected())
-            {
-
-                flagNext = true;
-            }
-            else
-            {
-                if (selfDate.getValue() != null && selfTime != null) {
-                    LocalDateTime datePickUp = LocalDateTime.of(selfDate.getValue().getYear(), selfDate.getValue().getMonth(), selfDate.getValue().getDayOfMonth(), selfTime.getValue(),0,0);
-                    PickUpDetails pickUp = new PickUpDetails(datePickUp);
-                    myOrder.setPickUpDetails(pickUp);
-                    flagNext = true;
-                }
-            }
-
-        }
+        if (ValidateInput())
+            flagNext = true;
 
         if(flagNext)
         {
+            LocalDateTime dateTime;
+            if (deliveryBool)
+            {
+                if (!receiveImm.isSelected()  ) {
+                    dateTime = convertToLocalDateTimeViaInstant(date.getTime());
+                }
+                else
+                {
+                    dateTime = LocalDateTime.now().plusHours(3);
+                }
+                myOrder.setDeliveryDetails(new DeliveryDetails(dateTime,phoneNum.getText(),receipient.getText(),address.getText()));
+            }
+            else
+            {
+                if (!selfRecieveImm.isSelected()  ) {
+                    dateTime = convertToLocalDateTimeViaInstant(selfDate.getTime());
+                }
+                else
+                {
+                    dateTime = LocalDateTime.now().plusHours(3);
+                }
+                myOrder.setPickUpDetails(new PickUpDetails(dateTime));
+            }
             Stage stage = CustomerApp.getStage();
             try {
                 FXMLLoader fxmlLoader1 = new FXMLLoader(CartController.class.getResource("OrderStage3.fxml"));
@@ -155,22 +151,84 @@ public class OrderStage2Controller {
                 OrderStage3Controller orderStage3Controller = fxmlLoader1.getController();
                 orderStage3Controller.showInfo(myOrder);
                 stage.setScene(new Scene(root));
+                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        else
+    }
+
+    private boolean ValidateInput() {
+        if (deliveryBool)
         {
-            Alert a = new Alert(Alert.AlertType.NONE);
-            ButtonType button = new ButtonType("אישור");
-            a.getButtonTypes().setAll(button);
-            a.setAlertType(Alert.AlertType.INFORMATION);
-            a.setHeaderText("נא מלא את כל הפרטים באופן תקין");
-            a.setTitle("מילוי פרטים באופן חלקי");
-            a.setContentText("");
-            a.show();
+            alert.setHeaderText(":פרטי המשלוח אינם תקינים");
+            if (phoneNum.getText().equals("")|| phoneNum.getText().replace("_", "").length() != 10) {
+                alert.setContentText("טלפון אינו תקין - אנא מלא שוב");
+                alert.show();
+                phoneNum.clear();
+                return false;
+            }
+            if (!FieldInHebrewOrDisplayError(receipient, "שם המקבל אינו תקין - אנא מלא שוב בעברית")) {
+                return false;
+            }
+            if (!FieldInHebrewOrDisplayError(address, "הכתובת אינה תקינה - אנא מלא שוב בעברית")) {
+                return false;
+            }
+            if (!receiveImm.isSelected()  ) {
+                if (date.getTime() == null) {
+                    alert.setContentText("אנא בחר תאריך ושעה תקינים");
+                    alert.show();
+                    date.setTime((LocalDateTime) null);
+                    return false;
+                }
+                else if (convertToLocalDateTimeViaInstant(date.getTime()).isBefore(LocalDateTime.now().plusHours(3)))
+                {
+                    alert.setContentText("אנא בחר תאריך ושעה שהינם לפחות 3 שעות ממועד ההזמנה");
+                    alert.show();
+                    date.setTime((LocalDateTime) null);
+                    return false;
+
+                }
+            }
         }
+        else if (pickupBool)
+        {
+            alert.setHeaderText("פרטי האיסוף אינם תקינים");
+            if (!selfRecieveImm.isSelected()  ) {
+                if (selfDate.getTime() == null) {
+                    alert.setContentText("אנא בחר תאריך ושעה תקינים");
+                    alert.show();
+                    return false;
+                }
+                else if (convertToLocalDateTimeViaInstant(selfDate.getTime()).isBefore(LocalDateTime.now().plusHours(3)))
+                {
+                    alert.setContentText("אנא בחר תאריך ושעה שהינם לפחות 3 שעות ממועד ההזמנה");
+                    alert.show();
+                    return false;
+
+                }
+            }
+
+        }
+        else if ((!pickupBool) && (!deliveryBool))
+        {
+            alert.setHeaderText("");
+            alert.setContentText("בחר משלוח או איסוף עצמי");
+            alert.show();
+            return false;
+        }
+        return true;
+    }
+
+    boolean FieldInHebrewOrDisplayError(TextField F, String msg) {
+        if (!containHebrew(F.getText())) {
+            alert.setContentText(msg);
+            alert.show();
+            F.clear();
+            return false;
+        }
+        return true;
     }
 
     @FXML
@@ -182,6 +240,7 @@ public class OrderStage2Controller {
             OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
             orderStage1Controller.showInfo(myOrder);
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -232,32 +291,36 @@ public class OrderStage2Controller {
         }
     }
 
+    public LocalDateTime convertToLocalDateTimeViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+    }
+
     @FXML // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
-        selfTime.getItems().addAll(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
-        time.getItems().addAll(8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20);
+        alert = new Alert(Alert.AlertType.ERROR);
+        alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         receipient.setText(CustomerApp.getMyCustomer().getName());
         phoneNum.setText(CustomerApp.getMyCustomer().getPhoneNumber());
         address.setText(CustomerApp.getMyCustomer().getAddress());
         name.setText("שלום, " + CustomerApp.getMyCustomer().getName());
         shopNum.setText(CustomerApp.getMyStore().getStoreName());
+        selfDate.setTime(LocalDateTime.now().plusHours(3));
+        date.setTime(LocalDateTime.now().plusHours(3));
     }
 
     @FXML
     void onSelfRecieveImm(ActionEvent event) {
-            selfTime.getSelectionModel().clearSelection();
             selfHboxDate.setVisible(chooseBoxPickUp);
-            selfDate.getEditor().clear();
-            selfHboxTime.setVisible(chooseBoxPickUp);
+            selfDate.setTime(LocalDateTime.now().plusHours(3));
             chooseBoxPickUp = !chooseBoxPickUp;
     }
 
     @FXML
     void onRecieveImm(ActionEvent event) {
-        time.getSelectionModel().clearSelection();
         deliveryHboxDate.setVisible(chooseBoxDelivery);
-        date.getEditor().clear();
-        deliveryHboxTime.setVisible(chooseBoxDelivery);
+        date.setTime(LocalDateTime.now().plusHours(3));
         chooseBoxDelivery = !chooseBoxDelivery;
     }
 

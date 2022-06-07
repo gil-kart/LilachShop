@@ -22,11 +22,18 @@
             <left>
                 <VBox alignment="TOP_CENTER" prefHeight="566.0" prefWidth="254.0" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox fx:id="chosenFlower" alignment="BOTTOM_CENTER" prefHeight="252.0" prefWidth="247.0">
+                        <VBox fx:id="chosenFlower" alignment="BOTTOM_CENTER">
                             <children>
-                                <HBox alignment="BOTTOM_CENTER" prefHeight="52.0" prefWidth="247.0">
+                                <HBox alignment="BOTTOM_CENTER">
                                     <children>
-                                        <Label fx:id="FlowerNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="211.0" text="נרקיס חצוצרה" textOverrun="LEADING_ELLIPSIS" wrapText="true">
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="#" />
+                              <Text fx:id="itemId" strokeType="OUTSIDE" strokeWidth="0.0" text="123" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="מק&quot;ט: ">
+                                 <HBox.margin>
+                                    <Insets right="15.0" />
+                                 </HBox.margin>
+                              </Text>
+                                        <Label fx:id="FlowerNameLabel" alignment="CENTER" contentDisplay="CENTER" text="נרקיס חצוצרה" textOverrun="LEADING_ELLIPSIS" wrapText="true">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>
@@ -34,10 +41,10 @@
 
                                     </children>
                            <VBox.margin>
-                              <Insets />
+                              <Insets bottom="5.0" />
                            </VBox.margin>
                                 </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER">
                            <children>
                               <Text fx:id="oldPrice1" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח" wrappingWidth="22.212890908122063" />
                               <Text fx:id="oldPrice" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="130" wrappingWidth="27.40625023841858" />
@@ -51,37 +58,79 @@
                                     <Font size="18.0" />
                                  </font>
                               </Label>
-                                        <Label fx:id="FlowerPrice" prefHeight="27.0" prefWidth="90.0" text="130">
+                                        <Label fx:id="FlowerPrice" text="130">
                                             <font>
                                                 <Font size="18.0" />
                                             </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
                                         </Label>
 
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" />
+                        <HBox alignment="CENTER">
+                           <children>
+                              <Text fx:id="itemType" strokeType="OUTSIDE" strokeWidth="0.0" text="עציץ">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="סוג מוצר:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                        </HBox>
                                 <ImageView fx:id="FlowerImg" fitHeight="185.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../../../images/narkis_hatsostra.jpg" />
                                     </image>
                                 </ImageView>
+                        <VBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="פירוט מוצר:">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="textDesc" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="249.60000896453857">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <AnchorPane prefHeight="40.0" prefWidth="115.0">
+                                 <children>
+                                    <Button fx:id="addToCart" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#onAddToCart" prefHeight="31.0" prefWidth="107.0" text="הוספה לעגלה" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </HBox>
                             </children>
                      <VBox.margin>
                         <Insets top="50.0" />
                      </VBox.margin>
                         </VBox>
-                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="273.0">
-                     <children>
-                        <AnchorPane prefHeight="40.0" prefWidth="115.0">
-                           <children>
-                              <Button fx:id="addToCart" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#onAddToCart" prefHeight="31.0" prefWidth="107.0" text="הוספה לעגלה" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="25.0" />
-                     </VBox.margin>
-                  </HBox>
                     </children>
                 </VBox>
             </left>
@@ -107,11 +156,17 @@
                                  <font>
                                     <Font size="16.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Label>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#onFilter" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../../images/filter.png" />
                                  </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </ImageView>
                               <Label ellipsisString="" prefHeight="18.0" prefWidth="26.0" text="        " />
                            </children>

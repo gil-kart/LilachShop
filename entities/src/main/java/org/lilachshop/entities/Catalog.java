@@ -3,6 +3,7 @@ package org.lilachshop.entities;
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 @Transactional
@@ -20,8 +21,8 @@ public class Catalog implements Serializable {
         this.store = store;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Item> items;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "catalog", orphanRemoval = true,fetch = FetchType.EAGER)
+    private List<Item> items = new LinkedList<>();
 
     public List<Item> getItems() {
         return items;
@@ -36,7 +37,8 @@ public class Catalog implements Serializable {
     }
 
     public void addItem(Item item) {
-        this.items.add(item);
+        items.add(item);
+        item.setCatalog(this);
     }
 
     public Store getStore() {

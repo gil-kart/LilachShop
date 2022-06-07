@@ -445,6 +445,11 @@ public class LilachServer extends AbstractServer {
                         System.out.println("Server: got request to send Catalog by id" + request.getId());
                         client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
+                    case "get catalog by filter" -> {
+                        List<Item> items = entityFactory.filterByThreePredicates(request.getId(),request.getPrice(),request.getColor(),request.getType());
+                        ItemsEvent itemEvent = new ItemsEvent(items);
+                        client.sendToClient(itemEvent);
+                    }
                     case "delete item" -> {
                         System.out.println("Server:got request to delete item num " + request.getItem().getId());
                         entityFactory.removeItem(request.getItem(), request.getId());

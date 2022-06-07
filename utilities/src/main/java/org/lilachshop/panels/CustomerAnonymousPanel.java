@@ -20,6 +20,11 @@ public class CustomerAnonymousPanel extends Panel {
         sendToServer(new CustomerLoginRequest("customer login request", userName, password));
     }
 
+    public void sendGetFilteredCatalog(long id_catalog, int price, Color color, ItemType type)
+    {
+        sendToServer(new CatalogRequest("get catalog by filter", id_catalog,price,color,type));
+    }
+
     public void sendSignUpRequest(Customer customer) {
         sendToServer(new SignUpRequest(customer));
     }

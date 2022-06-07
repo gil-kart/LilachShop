@@ -3,6 +3,7 @@ package org.lilachshop.customerclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -44,6 +45,7 @@ public class ComplaintController implements Initializable {
     @FXML
     void SendComplaintClicked(ActionEvent event) throws IOException {
         Alert a = new Alert(Alert.AlertType.NONE);
+        a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText("תלונתך נשלחה למערכת");
         a.setTitle("הגשת תלונה");

@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.lilachshop.entities.CreditCard;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
@@ -83,6 +85,7 @@ public class OrderStage4Controller {
             myOrder.setStore(CustomerApp.getMyStore());
             ((StoreCustomerPanel)CustomerApp.getPanel()).sendNewOrderCreationToServer(myOrder);
             Alert a = new Alert(Alert.AlertType.NONE);
+            a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             a.setAlertType(Alert.AlertType.INFORMATION);
             a.setHeaderText("אישור הזמנה");
             a.setTitle("אישור הזמנה");
@@ -106,6 +109,7 @@ public class OrderStage4Controller {
             OrderStage3Controller orderStage3Controller = fxmlLoader.getController();
             orderStage3Controller.showInfo(myOrder);
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

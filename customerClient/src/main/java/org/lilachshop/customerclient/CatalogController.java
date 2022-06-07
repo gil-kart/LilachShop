@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -21,7 +22,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
@@ -35,14 +38,22 @@ public class CatalogController {
     private Item flowerShown;
 
     private MyListener myListener;
-    private List<Item> flowerList = new LinkedList<Item>();
     private List<myOrderItem> myFlowers = null;
     int count = 0;
     private static final int MAX_ON_SALE = 10;
-    static Set<Store> allStoresSet = null;
 
     @FXML
     private Label history;
+
+    @FXML
+    private Text itemId;
+
+    @FXML
+    private Text itemType;
+
+    @FXML
+    private Text textDesc;
+
 
     @FXML
     private ImageView historyImg;
@@ -98,6 +109,7 @@ public class CatalogController {
 
     @FXML // fx:id="shopList"
     private ChoiceBox<Store> storeChoiceBox; // Value injected by FXMLLoader
+    private List<Item> flowerList;
 
 
     /**
@@ -113,16 +125,18 @@ public class CatalogController {
                 FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("cart.fxml"));
                 Parent root = fxmlLoader.load();
                 stage.setScene(new Scene(root));
+                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             Alert a = new Alert(Alert.AlertType.NONE);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             if (!switchFlag) {
                 ButtonType button = new ButtonType("אישור");
                 a.getButtonTypes().setAll(button);
-                a.setAlertType(Alert.AlertType.INFORMATION);
                 a.setHeaderText("נא התחבר או הרשם למערכת");
                 a.setTitle("הוספה לסל");
             } else {
@@ -153,9 +167,8 @@ public class CatalogController {
             FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignupLogin.fxml"));
             Parent root = fxmlLoader.load();
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
-
-        } else {
 
         }
     }
@@ -182,6 +195,7 @@ public class CatalogController {
             countItems.setText(String.valueOf(count));
         } else {
             Alert a = new Alert(Alert.AlertType.NONE);
+            a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
             ButtonType button = new ButtonType("אישור");
             a.getButtonTypes().setAll(button);
             a.setAlertType(Alert.AlertType.INFORMATION);
@@ -195,7 +209,15 @@ public class CatalogController {
 
     @FXML
     void onFilter(MouseEvent event) {
+        try {
+            Stage stage = new Stage();
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("filter.fxml"));
+            Parent root = fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
 
+        }
     }
 
     @FXML
@@ -211,6 +233,9 @@ public class CatalogController {
      */
     public void setChosenItem(Item flower) {
         FlowerNameLabel.setText(flower.getName());
+        itemId.setText(Integer.toString(flower.getId()));
+        itemType.setText(flower.getItemType().toString());
+        textDesc.setText(flower.getDescription());
 
         if (flower.getPercent() > 0) {
             System.out.println(flower.getPercent() > 0);
@@ -249,9 +274,7 @@ public class CatalogController {
             history.setVisible(true);
             historyImg.setVisible(true);
 
-        }
-        else
-        {
+        } else {
             switchFlag = false;
             name.setText("התחבר/הרשם");
             logout.setVisible(false);
@@ -272,28 +295,34 @@ public class CatalogController {
         grid.getChildren().clear();
         itemLayout.getChildren().clear();
         try {
-            for (Item flower : flowerList) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
-                AnchorPane anchorPane = fxmlLoader.load();
+            if (flowerList.size()>0) {
+                for (Item flower : flowerList) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
+                    AnchorPane anchorPane = fxmlLoader.load();
 
-                ItemController itemController = fxmlLoader.getController();
-                itemController.setData(flower, myListener);
-                grid.getChildren().add(anchorPane);
+                    ItemController itemController = fxmlLoader.getController();
+                    itemController.setData(flower, myListener);
+                    grid.getChildren().add(anchorPane);
 
-                if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
-                    try {
-                        FXMLLoader fxmlLoaderSale = new FXMLLoader();
-                        fxmlLoaderSale.setLocation(getClass().getResource("saleItem.fxml"));
-                        AnchorPane anchorPaneSale = fxmlLoaderSale.load();
-                        SaleItemController saleItemController = fxmlLoaderSale.getController();
-                        saleItemController.setData(flower, myListener);
+                    if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
+                        try {
+                            FXMLLoader fxmlLoaderSale = new FXMLLoader();
+                            fxmlLoaderSale.setLocation(getClass().getResource("saleItem.fxml"));
+                            AnchorPane anchorPaneSale = fxmlLoaderSale.load();
+                            SaleItemController saleItemController = fxmlLoaderSale.getController();
+                            saleItemController.setData(flower, myListener);
 
-                        itemLayout.getChildren().add(anchorPaneSale);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                            itemLayout.getChildren().add(anchorPaneSale);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+            }
+            else
+            {
+                chosenFlower.setVisible(false);
             }
         } catch (IOException e) {
 
@@ -326,7 +355,7 @@ public class CatalogController {
 
     @FXML
     void onLogOut(MouseEvent event) {
-        ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User)CustomerApp.getMyCustomer());
+        ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User) CustomerApp.getMyCustomer());
         CustomerApp.setMyCustomer(null);
         CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
         CustomerApp.createPanel();

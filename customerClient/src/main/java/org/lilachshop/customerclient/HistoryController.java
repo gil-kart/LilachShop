@@ -16,8 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Complaint;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Order;

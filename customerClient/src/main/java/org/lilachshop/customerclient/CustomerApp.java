@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -150,6 +151,7 @@ public class CustomerApp extends Application {
         } else
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
                 alert.setHeaderText("קטלוג לא נמצא.");
                 alert.setContentText("אנא נסה שנית במועד מאוחר יותר.");
                 alert.show();
@@ -172,7 +174,7 @@ public class CustomerApp extends Application {
                     controller.getStoreChoiceBox().getSelectionModel().select(myStore);
                 controller.showInfo(flowerList, this);
                 stage.setScene(new Scene(root));
-                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
+                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                 stage.show();
             } catch (IOException e) {
 
@@ -190,6 +192,7 @@ public class CustomerApp extends Application {
                     FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("history.fxml"));
                     Parent root = fxmlLoader.load();
                     stage.setScene(new Scene(root));
+                    stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                     stage.show();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -201,6 +204,7 @@ public class CustomerApp extends Application {
                 Alert a = new Alert(Alert.AlertType.NONE);
                 ButtonType button = new ButtonType("אישור");
                 a.getButtonTypes().setAll(button);
+                a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
                 a.setAlertType(Alert.AlertType.INFORMATION);
                 a.setHeaderText("הסטוריית הזמנות ריקה");
                 a.setTitle("הסטוריית הזמנות");
@@ -227,7 +231,7 @@ public class CustomerApp extends Application {
         launch(args);
     }
 
-    private void onCloseWindowEvent(WindowEvent event) {
+    static void onCloseWindowEvent(WindowEvent event) {
         if (myCustomer != null)
             ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User)CustomerApp.getMyCustomer());
         System.out.println("Graceful termination, goodbye ;)");

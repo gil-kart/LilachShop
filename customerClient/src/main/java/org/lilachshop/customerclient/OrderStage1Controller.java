@@ -18,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.lilachshop.entities.Order;
 
 public class OrderStage1Controller {
@@ -64,6 +65,7 @@ public class OrderStage1Controller {
             OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
             orderStage2Controller.showInfo(myOrder);
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

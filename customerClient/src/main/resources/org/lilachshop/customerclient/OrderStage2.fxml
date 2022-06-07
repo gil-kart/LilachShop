@@ -18,6 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import com.browniebytes.javafx.control.DateTimePicker?>
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.OrderStage2Controller">
    <children>
       <BorderPane layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -168,32 +169,12 @@
                               </HBox>
                               <HBox fx:id="selfHboxDate" alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
-                                    <DatePicker fx:id="selfDate" prefHeight="47.0" prefWidth="162.0">
+                                    <DateTimePicker fx:id="selfDate" prefHeight="47.0" prefWidth="162.0">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
-                                    </DatePicker>
+                                    </DateTimePicker>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="איסוף בתאריך:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Text>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="30.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox fx:id="selfHboxTime" alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
-                                 <children>
-                                    <ComboBox fx:id="selfTime" prefWidth="150.0">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="איסוף בשעה:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -291,14 +272,14 @@
                               </CheckBox>
                               <HBox fx:id="deliveryHboxDate" alignment="TOP_CENTER" layoutX="10.0" layoutY="40.0" prefHeight="23.0" prefWidth="743.0">
                                  <children>
-                                    <DatePicker fx:id="date" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="183.0">
+                                    <DateTimePicker fx:id="date" nodeOrientation="LEFT_TO_RIGHT" prefHeight="81.0" prefWidth="183.0">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
-                                    </DatePicker>
+                                    </DateTimePicker>
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח בתאריך:">
                                        <font>
                                           <Font size="18.0" />
@@ -307,23 +288,6 @@
                                  </children>
                                  <VBox.margin>
                                     <Insets left="16.0" top="20.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <HBox fx:id="deliveryHboxTime" alignment="TOP_CENTER" layoutX="10.0" layoutY="84.0" prefHeight="23.0" prefWidth="743.0">
-                                 <children>
-                                    <ComboBox fx:id="time" prefHeight="26.0" prefWidth="173.0">
-                                       <HBox.margin>
-                                          <Insets right="10.0" />
-                                       </HBox.margin>
-                                    </ComboBox>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח בשעה:">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </Text>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets left="50.0" top="20.0" />
                                  </VBox.margin>
                               </HBox>
                            </children>

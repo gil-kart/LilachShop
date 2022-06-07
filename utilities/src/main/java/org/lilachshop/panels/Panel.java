@@ -1,7 +1,9 @@
 package org.lilachshop.panels;
 
 import org.lilachshop.commonUtils.Socket;
+import org.lilachshop.entities.User;
 import org.lilachshop.requests.Request;
+import org.lilachshop.requests.SignOutRequest;
 
 import java.io.IOException;
 
@@ -39,5 +41,6 @@ public abstract class Panel {
             e.printStackTrace();
         }
     }
+
 }
 

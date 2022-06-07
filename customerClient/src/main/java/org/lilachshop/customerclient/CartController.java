@@ -15,13 +15,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.AccountType;
@@ -98,11 +101,21 @@ public class CartController implements Initializable {
                 OrderStage1Controller orderStage1Controller = fxmlLoader1.getController();
                 Order myOrder = new Order(myFlowers,sum,countItem, CustomerApp.getMyCustomer());
                 orderStage1Controller.showInfo(myOrder);
+                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                 stage.setScene(new Scene(root));
+                stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            alert.setHeaderText("ביצוע הזמנה:");
+            alert.setContentText("הסל הינו ריק אנא מלא אותו כדי לבצע הזמנה");
+            alert.show();
         }
 
     }

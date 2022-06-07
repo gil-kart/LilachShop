@@ -2,6 +2,7 @@ package org.lilachshop.employeeclient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -103,6 +104,7 @@ public class ComplaintWorkerResponseController {
         order.setRefund(refundAmountToUpdate);
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.INFORMATION);
+        a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         a.setHeaderText("תגובתך לתלונה נשלחה ללקוח, התלונה נסגרה");
         a.setTitle("תגובה לתלונת לקוח");
         a.setContentText("");

@@ -113,4 +113,11 @@ public class Utilities {
         }
         return false;
     }
+
+    public static boolean containHebrew(String str) {
+        str = str.replaceAll("\\d","");
+        boolean valid = str.chars().allMatch(p ->( (p <= 0x05ea && p >= 0x05d0 )||(p==' ')||(p=='-') || (p == ',')));
+        System.out.println(valid);
+        return valid;
+    }
 }

@@ -116,10 +116,7 @@ public class EntityFactory {
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
         LocalDateTime dt = LocalDateTime.of(2022, 5, 27,12,12,12);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
-        List<Item> generalItemList = createItemList();
-        for (Item item : generalItemList) {
-            createOrUpdateSingleRecord(item);
-        }
+        List<Item> generalItemList = getAllItems();
 
         List<CreditCard> creditCards = new ArrayList<>();
         creditCards.add(new CreditCard("1234123412341234", expDate, "gil", "12345734", "123"));
@@ -150,7 +147,7 @@ public class EntityFactory {
         itemList1.add(new myOrderItem(generalItemList.get(2), 1));
         itemList1.add(new myOrderItem(generalItemList.get(3), 5));
 
-        LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27,12,0,0);
+        LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27, 12, 0, 0);
         DeliveryDetails deliveryDetails1 = new DeliveryDetails(dateAndTime, "05429384384", "גיל", "חיפה 42");
         Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100.0, 4, deliveryDetails1, null, null, customers.get(0));
         order1.setStore(store1);
@@ -192,9 +189,9 @@ public class EntityFactory {
     private static Catalog generateCatalog() {
 
         Catalog catalog = new Catalog();
-        catalog.setItems(createItemList());
+        List<Item> items = createItemList();
+        items.forEach(catalog::addItem);
         return catalog;
-
     }
 
     private static List<Item> createItemList() {
@@ -379,6 +376,38 @@ public class EntityFactory {
 
     public void deleteOrderByID(Long id) {
         deleteRecord(Order.class, "id", id);
+    }
+
+    public List<Item> filterByThreePredicates(long catalogID, int price, Color color, ItemType type) {
+        Session session = sf.openSession();
+        CriteriaBuilder qb = session.getCriteriaBuilder();
+        CriteriaQuery<Item> cq = qb.createQuery(Item.class);
+        Root<Item> root = cq.from(Item.class);
+
+
+        //Constructing list of parameters
+        List<Predicate> predicates = new ArrayList<>();
+
+        //Adding predicates in case of parameter not being null
+        assert catalogID != 0 : "Bad query";
+        predicates.add(qb.equal(root.get("catalog"), catalogID));
+        if (color != null) {
+            predicates.add(qb.equal(root.get("color"), color));
+        }
+
+        assert price > 0 : "Bad query";
+        predicates.add(qb.lessThanOrEqualTo(root.get("price"), price));
+
+        if (type != null) {
+            predicates.add(qb.equal(root.get("itemType"), type));
+        }
+
+        //query itself
+        cq.select(root).where(predicates.toArray(new Predicate[]{}));
+        //execute query and do something with result
+        List<Item> items = session.createQuery(cq).getResultList();
+        session.close();
+        return items;
     }
 
 

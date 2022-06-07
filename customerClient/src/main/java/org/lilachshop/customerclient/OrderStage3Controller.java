@@ -20,6 +20,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.lilachshop.entities.Order;
 
 import static org.lilachshop.entities.AccountType.ANNUAL_SUBSCRIPTION;
@@ -67,6 +68,7 @@ public class OrderStage3Controller {
             OrderStage4Controller orderStage4Controller = fxmlLoader1.getController();
             orderStage4Controller.showInfo(order);
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -83,6 +85,7 @@ public class OrderStage3Controller {
             OrderStage2Controller orderStage2Controller = fxmlLoader1.getController();
             orderStage2Controller.showInfo(order);
             stage.setScene(new Scene(root));
+            stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, CustomerApp::onCloseWindowEvent);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
