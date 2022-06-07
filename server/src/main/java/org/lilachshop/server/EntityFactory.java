@@ -86,7 +86,7 @@ public class EntityFactory {
 
 
     public void addComplaintsToStores(Store store1, Store store2, Store store3) {
-        LocalDateTime dt = LocalDateTime.of(2022, 5, 27,0,0,0);
+        LocalDateTime dt = LocalDateTime.of(2022, 5, 27, 0, 0, 0);
         String time = dt.toString();
 
         Complaint complaint1 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה1", dt, "");
@@ -114,7 +114,7 @@ public class EntityFactory {
     }
 
     public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
-        LocalDateTime dt = LocalDateTime.of(2022, 5, 27,12,12,12);
+        LocalDateTime dt = LocalDateTime.of(2022, 5, 27, 12, 12, 12);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
         List<Item> generalItemList = getAllItems();
 
@@ -129,9 +129,9 @@ public class EntityFactory {
         Account account3 = new Account(AccountType.ANNUAL_SUBSCRIPTION);
 
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", creditCards.get(0), new ArrayList<Order>(), store1, account1));
-        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", creditCards.get(1), new ArrayList<Order>(), store1, account2));
-        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", creditCards.get(2), new ArrayList<Order>(), store2, account3));
+        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", creditCards.get(0), new ArrayList<Order>(), store1, account1, "gil@coco.com"));
+        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", creditCards.get(1), new ArrayList<Order>(), store1, account2, "yaron@hotmail.com"));
+        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", creditCards.get(2), new ArrayList<Order>(), store2, account3, "gg@hoho.com"));
 
         int i = 0;
         for (Customer customer : customers) {
