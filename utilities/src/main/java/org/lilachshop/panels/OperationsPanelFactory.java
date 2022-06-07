@@ -29,7 +29,7 @@ public class OperationsPanelFactory {
                 return new EmployeeAnonymousPanel(socket, controller);
             }
             case GENERAL_EMPLOYEE: {
-                return new GeneralEmployeePanel(socket, controller);
+                return new StoreEmployeePanel(socket, controller);
             }
             case STORE_MANAGER: {
                 return new StoreManagerPanel(socket, controller);

@@ -27,7 +27,7 @@ import org.lilachshop.panels.SignedInEmployeePanel;
 
 public class DashBoardController {
 
-    public Employee employee;
+    static Employee employee = null;
     private static Panel panel;
     private Stage stage;
     static PanelEnum panelEnum = null;
@@ -205,6 +205,7 @@ public class DashBoardController {
     }
 
     public void setData(Employee employee) {
+        DashBoardController.employee = employee;
         stage = EmployeeApp.getStage();
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onExitButton);
         Role role = employee.getRole();

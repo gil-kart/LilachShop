@@ -2,6 +2,7 @@ package org.lilachshop.employeeclient;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.*;
 
@@ -24,7 +25,7 @@ import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.events.AddItemEvent;
 import org.lilachshop.entities.*;
 import org.lilachshop.events.RefreshCatalogEvent;
-import org.lilachshop.panels.GeneralEmployeePanel;
+import org.lilachshop.panels.StoreEmployeePanel;
 import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
@@ -88,11 +89,13 @@ public class CatalogEditPopUpController implements Initializable {
     void onClickSaveBtn(ActionEvent event) {
         //setting up item Info for Database Change
         Item item = validateItemInfoBeforeSave();
-        if(item!=null) {
-            if (panel == null) {
-                panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
+        if (item != null) {
+            if (panel != null) {
+                panel.closeConnection();
+                panel = null;
             }
-            GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+            panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
+            StoreEmployeePanel generalEmployeePanel = (StoreEmployeePanel) panel;
             if (saveMode) {
                 //setting up item Info for Database Change
                 generalEmployeePanel.saveNewItem(item, catalogChoiceBox.getSelectionModel().getSelectedItem(), saveMode);
@@ -115,7 +118,6 @@ public class CatalogEditPopUpController implements Initializable {
             a.setContentText(msg);
             a.show();
             stage.close();
-
         });
     }
 
@@ -136,10 +138,10 @@ public class CatalogEditPopUpController implements Initializable {
         String fileName = selectedFile.getName();
         String extension = fileName.split("\\.")[1].toUpperCase(Locale.ROOT);
         try {
-            imageblob = Utilities.imgFileToBytesConverter(selectedFile,extension);
+            imageblob = Utilities.imgFileToBytesConverter(selectedFile, extension);
             itemImgUpload.setImage(Utilities.bytesToImageConverter(imageblob));
             filePathTF.setText(path);
-        }catch (Exception e){
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("שגיאה בהעלאת תמונה");
             alert.setContentText("לא ניתן לעלאות תמונה זו, אנא נסה תמונה אחרת");
@@ -153,14 +155,13 @@ public class CatalogEditPopUpController implements Initializable {
     public void onAddItemEvent(AddItemEvent event) {
         saveMode = true;
         System.out.println("POP UP - ADD ITEM");
-        if (panel == null) {
-            panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
+        if (panel != null) {
+            panel.closeConnection();
+            panel = null;
         }
-        GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
+        StoreEmployeePanel generalEmployeePanel = (StoreEmployeePanel) panel;
         generalEmployeePanel.getAllCatalog();
-        Platform.runLater(() -> {
-            catalogChoiceBox.setItems(FXCollections.observableArrayList(allCatalog));
-        });
     }
 
 
@@ -168,8 +169,12 @@ public class CatalogEditPopUpController implements Initializable {
     public void onGetAllCatalog(List<Catalog> catalogs) {
         allCatalog = allCatalog == null ? new HashSet<>(catalogs) : allCatalog;
         Platform.runLater(() -> {
-            catalogChoiceBox.setItems(FXCollections.observableArrayList(catalogs));
-            DescriptionTF.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
+            if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+                catalogChoiceBox.setItems(FXCollections.observableArrayList(catalogs));
+                DescriptionTF.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onCloseWindowEvent);
+            } else {
+                catalogChoiceBox.setItems(FXCollections.observableArrayList(List.of(DashBoardController.employee.getStore().getCatalog())));
+            }
         });
     }
 
@@ -222,44 +227,44 @@ public class CatalogEditPopUpController implements Initializable {
         itemIDTF.setText(String.valueOf(itemToEdit.getId()));
         this.catalogChoiceBox.setItems(FXCollections.observableArrayList(catalog));
         catalogChoiceBox.getSelectionModel().select(catalog);
-        if(itemToEdit.getImageBlob()!=null) {
+        if (itemToEdit.getImageBlob() != null) {
             itemImgUpload.setImage(Utilities.bytesToImageConverter(itemToEdit.getImageBlob()));
-            imageblob=itemToEdit.getImageBlob();
+            imageblob = itemToEdit.getImageBlob();
         }
     }
 
-    private Item validateItemInfoBeforeSave(){
+    private Item validateItemInfoBeforeSave() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText("שגיאה במילוי פרטי מוצר");
 
-        if((itemNameTF.getText()==null)||(!Utilities.containHebrewOrNumber(itemNameTF.getText()))){
+        if ((itemNameTF.getText() == null) || (!Utilities.containHebrewOrNumber(itemNameTF.getText()))) {
             itemIDTF.clear();
             alert.setHeaderText("שגיאה במילוי שם פריט");
             alert.setContentText("שם פריט ריק או אינו בעברית, אנא מלא שנית");
             alert.show();
             return null;
         }
-        if((DescriptionTF.getText()==null)||(!Utilities.containHebrewOrNumber(DescriptionTF.getText().replaceAll("[$&+,:;=?@#|'<>.-^*()%!]","")))){
+        if ((DescriptionTF.getText() == null) || (!Utilities.containHebrewOrNumber(DescriptionTF.getText().replaceAll("[$&+,:;=?@#|'<>.-^*()%!]", "")))) {
             DescriptionTF.clear();
             alert.setHeaderText("שגיאה במילוי תיאור פריט");
             alert.setContentText("תיאור ריק או אינו מכיל תווים לא חוקיים, אנא מלא שנית בעברית");
             alert.show();
             return null;
         }
-        if(itemTypeChoiceBox.getSelectionModel().isEmpty()){
+        if (itemTypeChoiceBox.getSelectionModel().isEmpty()) {
             alert.setHeaderText("שגיאה במילוי סוג פריט");
             alert.setContentText("סוג פריט לא נבחר, אנא בחר סוג פריט");
             alert.show();
             return null;
         }
-        if(itemColorChoiceBox.getSelectionModel().isEmpty()){
+        if (itemColorChoiceBox.getSelectionModel().isEmpty()) {
             alert.setHeaderText("שגיאה במילוי צבע פריט");
             alert.setContentText("סוג פריט לא נבחר, אנא בחר צבע פריט");
             alert.show();
             return null;
         }
-        if(catalogChoiceBox.getSelectionModel().isEmpty()){
+        if (catalogChoiceBox.getSelectionModel().isEmpty()) {
             alert.setHeaderText("שגיאה בבחירת חנות");
             alert.setContentText("לא נבחרה חנות, אנא בחר חנות");
             alert.show();
@@ -267,9 +272,9 @@ public class CatalogEditPopUpController implements Initializable {
         }
         try {
             int price = Integer.parseInt(priceTF.getText());
-            if(price<0)
+            if (price < 0)
                 throw new Exception();
-        }catch (Exception e){
+        } catch (Exception e) {
             alert.setHeaderText("שגיאה במילוי מחיר פריט");
             alert.setContentText("מחיר הפריט שהוקלד אינו תקין, אנא לא שנית");
             alert.show();
@@ -277,16 +282,17 @@ public class CatalogEditPopUpController implements Initializable {
             return null;
         }
         try {
-            int discount =  Integer.parseInt(discountTF.getText());
-            if((discount<0)||(discount>100))
+            int discount = Integer.parseInt(discountTF.getText());
+            if ((discount < 0) || (discount > 100))
                 throw new Exception();
-        }catch (Exception e){
+        } catch (Exception e) {
             alert.setHeaderText("שגיאה במילוי מחיר פריט");
             alert.setContentText("אחוז ההנחה שהוקלד אינו תקין, אנא לא שנית");
             alert.show();
             discountTF.clear();
             return null;
-        }if(imageblob == null){
+        }
+        if (imageblob == null) {
             alert.setHeaderText("שגיאה בבחירת תמונה");
             alert.setContentText("לא נבחרה תמונה, אנא בחר תמונה לפריט");
             alert.show();
@@ -313,6 +319,6 @@ public class CatalogEditPopUpController implements Initializable {
         itemTypeChoiceBox.setValue(null);
         catalogChoiceBox.getSelectionModel().clearSelection();
         filePathTF.clear();
-        imageblob=null;
+        imageblob = null;
     }
 }

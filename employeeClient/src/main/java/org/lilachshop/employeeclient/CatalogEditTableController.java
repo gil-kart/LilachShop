@@ -104,9 +104,12 @@ public class CatalogEditTableController implements Initializable {
             }
         });
         //Setting up panel
-        panel = OperationsPanelFactory.createPanel(PanelEnum.GENERAL_EMPLOYEE, EmployeeApp.getSocket(), this);
-        GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
-
+        if (panel != null) {
+            panel.closeConnection();
+            panel = null;
+        }
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
+        StoreEmployeePanel storeEmployeePanel = (StoreEmployeePanel) panel;
 
         //Setting up listener to CatalogChoiceBox
         ChangeListener changeListener = new ChangeListener() {
@@ -116,16 +119,15 @@ public class CatalogEditTableController implements Initializable {
                     Catalog catalogToTable = (Catalog) newValue;
                     System.out.println(catalogToTable.getId());
                     System.out.println("send request to server to get the catalog" + catalogToTable.getId());
-                    generalEmployeePanel.getCatalogByID(catalogToTable.getId());
+                    storeEmployeePanel.getCatalogByID(catalogToTable.getId());
                 }
             }
         };
         storeCatalogChoice.getSelectionModel().selectedItemProperty().addListener(changeListener);
 
-
         //Setting up the choices in ChoiceBox
         if (allCatalog == null) {
-            generalEmployeePanel.getAllCatalog();
+            storeEmployeePanel.getAllCatalog();
         } else {
             storeCatalogChoice.setItems(FXCollections.observableArrayList(allCatalog));
         }
@@ -161,7 +163,11 @@ public class CatalogEditTableController implements Initializable {
             System.out.println("Setting up Catalog Choice");
             System.out.println(allCatalogs);
             storeCatalogChoice.setItems(FXCollections.observableArrayList(allCatalogs));
-            storeCatalogChoice.getSelectionModel().select(0);
+            if (!DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+                storeCatalogChoice.getSelectionModel().select(DashBoardController.employee.getStore().getCatalog());
+                storeCatalogChoice.setDisable(true);
+            } else
+                storeCatalogChoice.getSelectionModel().select(0);
         });
     }
 
@@ -170,7 +176,7 @@ public class CatalogEditTableController implements Initializable {
     void onClickAddbtn(ActionEvent event) throws IOException {
         setUpEditItemPopUp();
         //sending relevant info to pop up
-        EventBus.getDefault().post(new AddItemEvent(((GeneralEmployeePanel) panel).getEmployee()));
+        EventBus.getDefault().post(new AddItemEvent(((StoreEmployeePanel) panel).getEmployee()));
 
         scene = scene == null ? new Scene(root) : scene;
         stage.setScene(scene);
@@ -215,7 +221,7 @@ public class CatalogEditTableController implements Initializable {
         ButtonType button = result.orElse(ButtonType.CANCEL);
 
         if (button == ButtonType.OK) {
-            GeneralEmployeePanel generalEmployeePanel = (GeneralEmployeePanel) panel;
+            StoreEmployeePanel generalEmployeePanel = (StoreEmployeePanel) panel;
             generalEmployeePanel.deleteItem(item, storeCatalogChoice.getSelectionModel().getSelectedItem().getId());
         } else {
             System.out.println("canceled");

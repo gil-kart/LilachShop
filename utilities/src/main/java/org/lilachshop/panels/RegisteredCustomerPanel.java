@@ -6,7 +6,7 @@ import org.lilachshop.entities.Order;
 import org.lilachshop.requests.OrderRequest;
 import org.lilachshop.requests.UserComplaintRequest;
 
-public class RegisteredCustomerPanel extends CustomerAnonymousPanel {
+public class RegisteredCustomerPanel extends Panel {
     public RegisteredCustomerPanel(Socket socket, Object controller) {
         super(socket, controller);
     }
@@ -15,7 +15,7 @@ public class RegisteredCustomerPanel extends CustomerAnonymousPanel {
         sendToServer(new UserComplaintRequest("post new complaint", complaint, order));
     }
 
-    public void cancelOrderRequest(Order order){
+    public void cancelOrderRequest(Order order) {
         sendToServer(new OrderRequest("cancel order", order));
     }
 }

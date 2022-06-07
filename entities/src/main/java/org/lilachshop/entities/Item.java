@@ -1,19 +1,14 @@
 package org.lilachshop.entities;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.imageio.ImageIO;
 import javax.persistence.*;
-import javax.swing.text.Utilities;
 import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-@Transactional
+
 @Entity
 @Table(name = "Items")
 public class Item implements Serializable {
@@ -42,11 +37,11 @@ public class Item implements Serializable {
         return percent;
     }
 
-    public void setPercent(int percent) throws Exception{
-        if(percent >100){
-         throw new Exception("הנחה לא יכולה להיות יותר מ-100 אחוז");
-        }else {
-            this.percent=percent;
+    public void setPercent(int percent) throws Exception {
+        if ((percent > 100) || (percent < 0)) {
+            throw new Exception("הנחה לא יכולה להיות יותר מ-100 אחוז");
+        } else {
+            this.percent = percent;
         }
     }
 
@@ -183,5 +178,15 @@ public class Item implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Item item = (Item) o;
         return id == item.id;
+    }
+
+    public void setAsCopyOf(Item item) {
+        this.name = item.getName();
+        this.price = item.getPrice();
+        this.percent = item.getPercent();
+        this.description = item.getDescription();
+        this.itemType = item.getItemType();
+        this.color = item.getColor();
+        this.imageBlob = item.getImageBlob();
     }
 }

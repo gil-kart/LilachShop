@@ -3,7 +3,7 @@ package org.lilachshop.panels;
 import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.requests.ReportsRequest;
 
-public class StoreManagerPanel extends GeneralEmployeePanel {
+public class StoreManagerPanel extends StoreEmployeePanel {
     public StoreManagerPanel(Socket socket, Object controller) {
         super(socket, controller);
     }

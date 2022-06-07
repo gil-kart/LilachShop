@@ -7,11 +7,11 @@ import org.lilachshop.entities.Item;
 import org.lilachshop.requests.CatalogRequest;
 import org.lilachshop.requests.StoreRequest;
 
-public class GeneralEmployeePanel extends SignedInEmployeePanel {
+public class StoreEmployeePanel extends SignedInEmployeePanel {
     Employee employee;
 
 
-    public GeneralEmployeePanel(Socket socket, Object controller) {
+    public StoreEmployeePanel(Socket socket, Object controller) {
         super(socket, controller);
     }
 

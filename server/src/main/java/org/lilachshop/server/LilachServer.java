@@ -29,7 +29,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-//        entityFactory.fillDataBase();
+        /*        entityFactory.fillDataBase();*/
     }
 
     @Override
@@ -91,15 +91,15 @@ public class LilachServer extends AbstractServer {
                     e.printStackTrace();
                 }
             }
-            if(message_from_client.equals("cancel order")){
+            if (message_from_client.equals("cancel order")) {
                 try {
-                Order order = request.getOrder();
-                entityFactory.createOrUpdateSingleRecord(order);
-                client.sendToClient("Cancellation was successful");
-                }catch (Exception e){
+                    Order order = request.getOrder();
+                    entityFactory.createOrUpdateSingleRecord(order);
+                    client.sendToClient("Cancellation was successful");
+                } catch (Exception e) {
                     try {
                         client.sendToClient("Cancellation failed");
-                    }catch (Exception error){
+                    } catch (Exception error) {
                         error.printStackTrace();
                     }
                 }
@@ -331,7 +331,7 @@ public class LilachServer extends AbstractServer {
                                 if (connectedUsers.contains((User) customer)) {
                                     client.sendToClient("User is connected already");
 
-                                }else {
+                                } else {
                                     try {
                                         if (customer.getAccountState().equals(ActiveDisabledState.ACTIVE)) {
                                             connectedUsers.add(customer);
@@ -459,7 +459,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
                     case "get catalog by filter" -> {
-                        List<Item> items = entityFactory.filterByThreePredicates(request.getId(),request.getPrice(),request.getColor(),request.getType());
+                        List<Item> items = entityFactory.filterByThreePredicates(request.getId(), request.getPrice(), request.getColor(), request.getType());
                         ItemsEvent itemEvent = new ItemsEvent(items);
                         client.sendToClient(itemEvent);
                     }
@@ -470,7 +470,9 @@ public class LilachServer extends AbstractServer {
                     }
                     case "edit Item to Catalog" -> {
                         System.out.println("Server: got request to Edit item num" + request.getItem().getId() + "in catalog" + request.getId());
-                        entityFactory.createOrUpdateSingleRecord(request.getItem());
+                        Item itemBeforeUpdate = entityFactory.getItemByID(request.getItem().getId());
+                        itemBeforeUpdate.setAsCopyOf(request.getItem());
+                        entityFactory.createOrUpdateSingleRecord(itemBeforeUpdate);
                         client.sendToClient("item edited in catalog successfully!");
                         System.out.println("item edited in catalog successfully!");
                     }
