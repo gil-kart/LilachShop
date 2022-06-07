@@ -83,6 +83,20 @@ public class Order implements Serializable {
         this.refund = 0.0;
         this.orderStatus = OrderStatus.PENDING;
     }
+    public Order(String greetingCard, List<myOrderItem> items, Double totalPrice, int amountOfProducts, DeliveryDetails deliveryDetails, PickUpDetails pickUpDetails, Complaint complaint, Customer customer) {
+        this.creationDate = LocalDateTime.now();
+        this.greetingCard = greetingCard;
+        this.items = items;
+        this.totalPrice = totalPrice;
+        this.amountOfProducts = amountOfProducts;
+        this.deliveryDetails = deliveryDetails;
+        this.pickUpDetails = pickUpDetails;
+        this.complaint = complaint;
+        this.customer = customer;
+        this.refund = 0.0;
+        this.orderStatus = OrderStatus.PENDING;
+    }
+
 
     public Complaint getComplaint() {
         return complaint;

@@ -37,7 +37,7 @@
                   <HBox prefHeight="30.0" prefWidth="278.0" spacing="5.0">
                      <children>
                         <Button fx:id="fileChooserBtn" mnemonicParsing="false" onAction="#onFileChooser" prefHeight="26.0" prefWidth="52.0" text="פתח" />
-                        <TextField fx:id="filePathTF" prefHeight="26.0" prefWidth="222.0" />
+                        <TextField fx:id="filePathTF" editable="false" prefHeight="26.0" prefWidth="222.0" />
                      </children>
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="58.0" prefWidth="314.0" spacing="35.0">

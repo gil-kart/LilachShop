@@ -105,18 +105,25 @@ public class Utilities {
         return new Image(new ByteArrayInputStream(imgBytes));
     }
 
-    public static Boolean hasTheSameDate(LocalDateTime date, LocalDateTime orderDate){
-        if(date.getDayOfMonth() == orderDate.getDayOfMonth() &&
+    public static Boolean hasTheSameDate(LocalDateTime date, LocalDateTime orderDate) {
+        if (date.getDayOfMonth() == orderDate.getDayOfMonth() &&
                 date.getYear() == orderDate.getYear() &&
-                date.getMonth() == orderDate.getMonth()){
+                date.getMonth() == orderDate.getMonth()) {
             return true;
         }
         return false;
     }
 
     public static boolean containHebrew(String str) {
-        str = str.replaceAll("\\d","");
-        boolean valid = str.chars().allMatch(p ->( (p <= 0x05ea && p >= 0x05d0 )||(p==' ')||(p=='-') || (p == ',')));
+        str = str.replaceAll("\\d", "");
+        boolean valid = str.chars().allMatch(p -> ((p <= 0x05ea && p >= 0x05d0) || (p == ' ') || (p == '-') || (p == ',')));
+        System.out.println(valid);
+        return valid;
+    }
+
+    public static boolean containHebrewOrNumber(String str) {
+        str = str.replaceAll("\\d", "");
+        boolean valid = str.chars().allMatch(p -> ((p <= 0x05ea && p >= 0x05d0) || (p == ' ') || (p == '-')));
         System.out.println(valid);
         return valid;
     }

@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.EventBus;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.Customer;
 import org.lilachshop.events.Signup2Event;
 
@@ -83,42 +84,39 @@ public class SignUpStage2Controller implements Initializable {
 
     public boolean ValidateInput() {
         System.out.println(phoneTF.getText().replace("_", ""));
-        if (phoneTF.getText().replace("_", "").length() != 11) {
-            alert.setContentText("טלפון אינו תקין - אנא מלא שוב");
-            alert.show();
-            phoneTF.clear();
-            return false;
-        }
         if (!FieldInHebrewOrDisplayError(firstNameTF, "שם פרטי אינו תקין - אנא מלא שוב בעברית")) {
             return false;
         }
         if (!FieldInHebrewOrDisplayError(lastNameTF, "שם משפחה אינו תקין - אנא מלא שוב בעברית")) {
             return false;
         }
+        if (phoneTF.getText().replace("_", "").length() != 11) {
+            alert.setContentText("טלפון אינו תקין - אנא מלא שוב");
+            alert.show();
+            phoneTF.clear();
+            return false;
+        }
         if (!FieldInHebrewOrDisplayError(cityTF, "שם עיר אינו תקין - אנא מלא שוב בעברית")) {
             return false;
         }
-        if (!FieldInHebrewOrDisplayError(addressTF, "כתובת אינה תקינה - אנא מלא שוב בעברית"))
+        if(!Utilities.containHebrewOrNumber(addressTF.getText())){
+            alert.setContentText("כתובת אינה תקינה - אנא מלא שוב בעברית");
+            alert.show();
+            addressTF.clear();
             return false;
+        }
         return true;
     }
 
 
     boolean FieldInHebrewOrDisplayError(TextField F, String msg) {
-        if (!containHebrew(F.getText())) {
+        if (!Utilities.containHebrew(F.getText())) {
             alert.setContentText(msg);
             alert.show();
             F.clear();
             return false;
         }
         return true;
-
-    }
-
-    boolean containHebrew(String str) {
-        boolean valid = str.chars().allMatch(p -> p <= 0x05ea && p >= 0x05d0);
-        System.out.println(valid);
-        return valid;
     }
 
     @Override

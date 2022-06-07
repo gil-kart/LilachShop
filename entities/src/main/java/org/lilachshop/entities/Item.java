@@ -42,8 +42,12 @@ public class Item implements Serializable {
         return percent;
     }
 
-    public void setPercent(int percent) {
-        this.percent = percent;
+    public void setPercent(int percent) throws Exception{
+        if(percent >100){
+         throw new Exception("הנחה לא יכולה להיות יותר מ-100 אחוז");
+        }else {
+            this.percent=percent;
+        }
     }
 
     String description;
