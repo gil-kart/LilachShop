@@ -472,7 +472,7 @@ public class CustomerTableController implements Initializable {
                                     ButtonType hebrewYes = new ButtonType("כן", ButtonBar.ButtonData.OK_DONE);
                                     ButtonType hebrewNo = new ButtonType("לא", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "שינוי סוג משתשמש ממשתמש חנות יקשר משתמש זה לחנות ברירת מחדל.", hebrewYes, hebrewNo);
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "שינוי סוג משתמש ממשתמש חנות יקשר משתמש זה לחנות ברירת מחדל.", hebrewYes, hebrewNo);
                                     alert.setTitle("עדכון שדה");
                                     alert.setHeaderText("האם ברצונך לעדכן שדה זה?");
                                     alert.setResizable(false);

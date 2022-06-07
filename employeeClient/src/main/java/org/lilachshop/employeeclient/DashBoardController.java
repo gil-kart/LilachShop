@@ -31,7 +31,8 @@ public class DashBoardController {
     private static Panel panel;
     private Stage stage;
     static PanelEnum panelEnum = null;
-
+    @FXML
+    private HBox orderBtn;
 
     @FXML
     private ResourceBundle resources;
@@ -164,6 +165,18 @@ public class DashBoardController {
             }
         });
 
+    }
+
+    @FXML
+    void onClickOrdersBtn(MouseEvent event) {
+        try {
+            this.displayer.getChildren().clear();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderTable.fxml"));
+            AnchorPane anchorPaneComplaints = fxmlLoader.load();
+            displayer.getChildren().add(anchorPaneComplaints);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

@@ -129,9 +129,9 @@ public class EntityFactory {
         Account account3 = new Account(AccountType.ANNUAL_SUBSCRIPTION);
 
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", creditCards.get(0), new ArrayList<Order>(), store1, account1, "gil@coco.com"));
-        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", creditCards.get(1), new ArrayList<Order>(), store1, account2, "yaron@hotmail.com"));
-        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", creditCards.get(2), new ArrayList<Order>(), store2, account3, "gg@hoho.com"));
+        customers.add(new Customer("gil", "1234", "גיל קרטגינר", "חיפה 32", "0542494993", creditCards.get(0), new ArrayList<Order>(), store1, account1, "gilkar12@gmail.com"));
+        customers.add(new Customer("yaron", "1111", "ירון מלמד", "חיפה 55", "0542493123", creditCards.get(1), new ArrayList<Order>(), store1, account2, "gilkar12@gmail.com"));
+        customers.add(new Customer("ziv", "4444", "זיו קרטגינר", "הרצליה 32", "0542453293", creditCards.get(2), new ArrayList<Order>(), store2, account3, "gilkar12@gmail.com"));
 
         int i = 0;
         for (Customer customer : customers) {

@@ -4,9 +4,11 @@ import org.lilachshop.entities.Customer;
 import org.lilachshop.entities.Order;
 
 public class OrderRequest extends Request{
-    Order order;
-    long customerID;
+    private long storeID;
 
+    Order order;
+
+    long customerID;
     public long getCustomerID() {
         return customerID;
     }
@@ -16,6 +18,11 @@ public class OrderRequest extends Request{
         this.order = order;
     }
 
+    public OrderRequest(String request, long storeID ,String store) {
+        super(request);
+        this.storeID = storeID;
+    }
+
     public OrderRequest(String request, long customerID) {
         super(request);
         this.customerID = customerID;
@@ -23,5 +30,9 @@ public class OrderRequest extends Request{
 
     public Order getOrder() {
         return order;
+    }
+
+    public long getStoreID() {
+        return storeID;
     }
 }

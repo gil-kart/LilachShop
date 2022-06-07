@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum OrderStatus implements Serializable {
     CANCELED("בוטלה"),
-    PENDING("ההזמנה"),
+    PENDING("בהכנה"),
     DELIVERED("סופקה");
 
 private String string;
