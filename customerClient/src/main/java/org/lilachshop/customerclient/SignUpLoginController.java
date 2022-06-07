@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Customer;
@@ -96,6 +99,16 @@ public class SignUpLoginController implements Initializable {
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");
         }
+        EventHandler<KeyEvent> enterKeyEvent = new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode().equals(KeyCode.ENTER)) {
+                    onLoginClick(null);
+                }
+            }
+        };
+        userNameTF.setOnKeyPressed(enterKeyEvent);
+        passwordTF.setOnKeyPressed(enterKeyEvent);
     }
 
     @Subscribe
@@ -109,24 +122,25 @@ public class SignUpLoginController implements Initializable {
             a.setHeaderText("אירעה שגיאה בהתחברות");
 
             if (msg.getClass().equals(String.class)) {
-                if (String.valueOf(msg).equals("client not exist")) {
-                    a.setContentText("שם המשתמש/סיסמא לא נמצאו במערכת, אנא נסה שנית");
-                    a.show();
-                    userNameTF.clear();
-                    passwordTF.clear();
-                }else if (String.valueOf(msg).equals("User is connected already")){
-                    a.setContentText("משתמש זה כבר מחובר במערכת, אנא התנתק ונסה שנית");
-                    a.show();
-                }
-                else if (String.valueOf(msg).equals("client account disabled"))
-                {
-                    a.setContentText("המשתמש הינו חסום,"+userNameTF.getText()+" אנא פנה לשירות לקוחות");
-                    a.show();
-                    userNameTF.clear();
-                    passwordTF.clear();
+                switch (String.valueOf(msg)) {
+                    case "client not exist":
+                        a.setContentText("שם המשתמש/סיסמא לא נמצאו במערכת, אנא נסה שנית");
+                        a.show();
+                        userNameTF.clear();
+                        passwordTF.clear();
+                        break;
+                    case "User is connected already":
+                        a.setContentText("משתמש זה כבר מחובר במערכת, אנא התנתק ונסה שנית");
+                        a.show();
+                        break;
+                    case "client account disabled":
+                        a.setContentText("המשתמש הינו חסום," + userNameTF.getText() + " אנא פנה לשירות לקוחות");
+                        a.show();
+                        userNameTF.clear();
+                        passwordTF.clear();
+                        break;
                 }
             } else {
-
                 CustomerApp.setMyCustomer((Customer) msg);
                 CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
                 CustomerApp.createPanel();
