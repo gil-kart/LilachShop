@@ -20,9 +20,8 @@ public class StoreCustomerPanel extends RegisteredCustomerPanel {
         sendToServer(new CatalogRequest("get catalog", id_store));
     }
 
-    public void sendGetFilteredCatalog(long id_catalog, int price, Color color, ItemType type)
-    {
-        sendToServer(new CatalogRequest("get catalog by filter", id_catalog,price,color,type));
+    public void sendGetFilteredCatalog(long id_catalog, int minPrice, int maxPrice, Color color, ItemType type) {
+        sendToServer(new CatalogRequest("get catalog by filter", id_catalog, minPrice, maxPrice, color, type));
     }
 
     public void sendGetAllOrdersToServer(long customerId) {
@@ -41,7 +40,8 @@ public class StoreCustomerPanel extends RegisteredCustomerPanel {
     public void getAllStores() {
         sendToServer((new StoreRequest("get all stores")));
     }
-    public void refreshCart(List<myOrderItem> orderItemList){
+
+    public void refreshCart(List<myOrderItem> orderItemList) {
         sendToServer(new CartRequest("refresh cart items", orderItemList));
     }
 

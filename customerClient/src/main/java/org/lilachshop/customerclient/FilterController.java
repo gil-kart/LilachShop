@@ -8,15 +8,13 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.controlsfx.control.RangeSlider;
 import org.lilachshop.entities.Color;
 import org.lilachshop.entities.ItemType;
 import org.lilachshop.panels.CustomerAnonymousPanel;
@@ -36,8 +34,13 @@ public class FilterController {
     @FXML // fx:id="filter"
     private Button filter; // Value injected by FXMLLoader
 
+
     @FXML
-    private Label showPrice;
+    private Label maxPrice;
+
+    @FXML
+    private Label minPrice;
+
 
     @FXML // fx:id="comboColor"
     private ChoiceBox<Color> comboColor; // Value injected by FXMLLoader
@@ -46,14 +49,14 @@ public class FilterController {
     private ChoiceBox<ItemType> comboType; // Value injected by FXMLLoader
 
     @FXML // fx:id="sliderPrice"
-    private Slider sliderPrice; // Value injected by FXMLLoader
+    private RangeSlider sliderPrice; // Value injected by FXMLLoader
 
     @FXML
     void onFilter(ActionEvent event) {
         if (CustomerApp.getMyCustomer() == null)
-            ((CustomerAnonymousPanel) CustomerApp.getPanel()).sendGetFilteredCatalog(CustomerApp.getMyStore().getCatalog().getId(), (int) (sliderPrice.getValue()), comboColor.getSelectionModel().getSelectedItem(), comboType.getSelectionModel().getSelectedItem());
+            ((CustomerAnonymousPanel) CustomerApp.getPanel()).sendGetFilteredCatalog(CustomerApp.getMyStore().getCatalog().getId(), (int) (sliderPrice.getLowValue()), (int) (sliderPrice.getHighValue()), comboColor.getSelectionModel().getSelectedItem(), comboType.getSelectionModel().getSelectedItem());
         else {
-            ((StoreCustomerPanel) CustomerApp.getPanel()).sendGetFilteredCatalog(CustomerApp.getMyStore().getCatalog().getId(), (int) (sliderPrice.getValue()), comboColor.getSelectionModel().getSelectedItem(), comboType.getSelectionModel().getSelectedItem());
+            ((StoreCustomerPanel) CustomerApp.getPanel()).sendGetFilteredCatalog(CustomerApp.getMyStore().getCatalog().getId(), (int) (sliderPrice.getLowValue()), (int) (sliderPrice.getHighValue()), comboColor.getSelectionModel().getSelectedItem(), comboType.getSelectionModel().getSelectedItem());
         }
         ((Stage) filter.getScene().getWindow()).close();
     }
@@ -65,11 +68,22 @@ public class FilterController {
         assert comboColor != null : "fx:id=\"comboColor\" was not injected: check your FXML file 'filter.fxml'.";
         assert comboType != null : "fx:id=\"comboType\" was not injected: check your FXML file 'filter.fxml'.";
         assert sliderPrice != null : "fx:id=\"sliderPrice\" was not injected: check your FXML file 'filter.fxml'.";
-        sliderPrice.valueProperty().addListener(
-                (obs, oldval, newVal) -> sliderPrice.setValue(newVal.intValue())
-        );
-        filter.disableProperty().bind(sliderPrice.valueProperty().isEqualTo(0));
-        showPrice.textProperty().bind(sliderPrice.valueProperty().asString());
+        sliderPrice.setMin(0);
+        sliderPrice.setMax(300);
+        sliderPrice.setLowValue(25);
+        sliderPrice.setHighValue(150);
+        sliderPrice.setSnapToTicks(true);
+        filter.disableProperty().bind(sliderPrice.highValueProperty().isEqualTo(0));
+        sliderPrice.lowValueProperty().addListener((observableValue, number, t1) -> {
+            sliderPrice.setLowValue(t1.intValue());
+        });
+
+        sliderPrice.highValueProperty().addListener((observableValue, number, t1) -> {
+            sliderPrice.setHighValue(t1.intValue());
+        });
+        maxPrice.textProperty().bind(sliderPrice.lowValueProperty().asString());
+        minPrice.textProperty().bind(sliderPrice.highValueProperty().asString());
+
         ObservableList<ItemType> oTypeList = FXCollections.observableArrayList();
         comboType.setItems(oTypeList);
         comboType.getItems().add(null);

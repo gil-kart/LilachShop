@@ -449,7 +449,7 @@ public class EntityFactory {
         deleteRecord(Order.class, "id", id);
     }
 
-    public List<Item> filterByThreePredicates(long catalogID, int price, Color color, ItemType type) {
+    public List<Item> filterCatalog(long catalogID, int minPrice, int maxPrice, Color color, ItemType type) {
         Session session = sf.openSession();
         CriteriaBuilder qb = session.getCriteriaBuilder();
         CriteriaQuery<Item> cq = qb.createQuery(Item.class);
@@ -466,8 +466,8 @@ public class EntityFactory {
             predicates.add(qb.equal(root.get("color"), color));
         }
 
-        assert price > 0 : "Bad query";
-        predicates.add(qb.lessThanOrEqualTo(root.get("price"), price));
+        assert maxPrice > 0 : "Bad query";
+        predicates.add(qb.between(root.get("price"), minPrice, maxPrice));
 
         if (type != null) {
             predicates.add(qb.equal(root.get("itemType"), type));

@@ -92,6 +92,11 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.0.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -114,7 +119,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>org.lilachshop.customerclient.CustomerMain</mainClass>
-                            <commandlineArgs>localhost:3000</commandlineArgs> <!-- SPECIFY SOCKET HERE -->
+                            <commandlineArgs>DanyP:3000</commandlineArgs> <!-- SPECIFY SOCKET HERE -->
                         </configuration>
                     </execution>
                 </executions>

@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
+<?import org.controlsfx.control.RangeSlider?>
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="314.0" prefWidth="275.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.FilterController">
    <children>
       <VBox prefHeight="314.0" prefWidth="274.0">
@@ -47,7 +48,15 @@
                      <children>
                         <HBox alignment="CENTER_RIGHT">
                            <children>
-                              <Text layoutX="128.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
+                              <Label fx:id="maxPrice" text="0">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Text layoutX="128.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -55,7 +64,7 @@
                                     <Insets right="5.0" />
                                  </HBox.margin>
                               </Text>
-                              <Label fx:id="showPrice" text="0">
+                              <Label fx:id="minPrice" text="0">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -70,11 +79,11 @@
                               </Text>
                            </children>
                         </HBox>
-                        <Slider fx:id="sliderPrice" max="500.0" prefHeight="38.0" prefWidth="237.0" showTickLabels="true" showTickMarks="true">
+                        <RangeSlider fx:id="sliderPrice" max="500.0" prefHeight="38.0" prefWidth="237.0" showTickLabels="true" showTickMarks="true">
                            <VBox.margin>
                               <Insets top="15.0" />
                            </VBox.margin>
-                        </Slider>
+                        </RangeSlider>
                      </children>
                   </VBox>
                </children>
