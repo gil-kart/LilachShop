@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Ellipse?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@signUpResources/SignupBackground.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStage1Controller">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@signUpResources/SignupBackground.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStageUserPasswordController">
    <children>
       <PasswordField fx:id="passwordTF" alignment="BOTTOM_CENTER" layoutX="689.0" layoutY="411.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס סיסמא כאן - 5 ספרות לפחות" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
          <font>

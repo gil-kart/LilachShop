@@ -67,11 +67,11 @@ public class SignUpLoginController implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("SignUp1.fxml"));
         try {
             root = fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stage.setScene(new Scene(root));
-        stage.show();
 
     }
 
@@ -95,6 +95,10 @@ public class SignUpLoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (panel != null) {
+            panel.closeConnection();
+            panel = null;
+        }
         panel = OperationsPanelFactory.createPanel(CustomerApp.panelEnum, CustomerApp.getSocket(), this); //TODO:make sure to change to Enum when code pushed
         if (panel == null) {
             throw new RuntimeException("Panel creation failed!");

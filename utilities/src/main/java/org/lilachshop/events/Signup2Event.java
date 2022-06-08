@@ -8,14 +8,16 @@ public class Signup2Event {
     String phoneNumber;
     String city;
     String address;
+    String email;
 
 
-    public Signup2Event(String firstName, String lastName, String phoneNumber, String city, String address) {
+    public Signup2Event(String firstName, String lastName, String phoneNumber, String city, String address, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.address = address;
+        this.email = email;
     }
 
     public String getFirstName() {
@@ -36,5 +38,9 @@ public class Signup2Event {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

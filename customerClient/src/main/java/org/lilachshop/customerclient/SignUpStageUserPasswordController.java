@@ -25,11 +25,9 @@ import org.lilachshop.panels.OperationsPanelFactory;
 import org.lilachshop.panels.Panel;
 import org.lilachshop.panels.PanelEnum;
 
-public class SignUpStage1Controller implements Initializable {
+public class SignUpStageUserPasswordController implements Initializable {
 
     static private Panel panel = null;
-    String userName;
-    String password;
 
     @FXML
     private ResourceBundle resources;
@@ -59,12 +57,17 @@ public class SignUpStage1Controller implements Initializable {
             passwordTF.clear();
         } else {
             //Validate UserName
-            CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
-            if (customerAnonymousPanel == null) {
-                throw new RuntimeException("Bad panel output in Signup Stage 3 controller");
+            if (userNameTF.getText().isBlank()) {
+                alert.setContentText("שדה שם משתמש ריק, אנא מלא שנית");
+                alert.show();
+            } else {
+                CustomerAnonymousPanel customerAnonymousPanel = (CustomerAnonymousPanel) panel;
+                if (customerAnonymousPanel == null) {
+                    throw new RuntimeException("Bad panel output in Signup Stage 3 controller");
+                }
+                System.out.println("Panel is set to request if userName exists in the system");
+                customerAnonymousPanel.checkIfUserNameTaken(userNameTF.getText());
             }
-            System.out.println("Panel is set to request if userName exists in the system");
-            customerAnonymousPanel.checkIfUserNameTaken(userNameTF.getText());
         }
     }
 
@@ -85,9 +88,7 @@ public class SignUpStage1Controller implements Initializable {
 
     @Subscribe
     public void onCheckIfUserNameTaken(Boolean taken) {
-        System.out.println("Server message to Client: User name taken?" + taken);
-        if (taken == false) {
-            System.out.println("Moving to Stage 2");
+        if (!taken) {
             moveToStage2Signup();
         } else {
             Platform.runLater(() -> {
@@ -128,8 +129,11 @@ public class SignUpStage1Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        if (panel == null)
-            panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this);
+        if (panel != null) {
+            panel.closeConnection();
+            panel = null;
+        }
+        panel = OperationsPanelFactory.createPanel(PanelEnum.CUSTOMER_ANONYMOUS, CustomerApp.getSocket(), this);
         alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         alert.setHeaderText("שגיאה במילוי פרטי הרשמה");
     }

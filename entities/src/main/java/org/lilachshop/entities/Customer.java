@@ -128,9 +128,20 @@ public class Customer extends User implements Serializable {
         return email;
     }
 
+    private static boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
     public void setEmail(String email) throws RuntimeException {
-        String regexPattern = "^(.+)@(\\S+)$";
-        if (!Pattern.compile(regexPattern).matcher(email).matches()) {
+        if (!isValidEmail(email)) {
             throw new RuntimeException("כתובת דואר אלקטרוני אינה תקינה. אנא הכנס כתובת דואר אלקטרוני תקינה.");
         }
         this.email = email;

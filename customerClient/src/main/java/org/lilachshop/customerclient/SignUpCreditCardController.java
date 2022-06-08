@@ -13,24 +13,20 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.ParseException;
-import java.time.YearMonth;
 import java.util.ResourceBundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.lilachshop.entities.CreditCard;
-import org.lilachshop.events.Signup4Event;
+import org.lilachshop.events.CreditCardEvent;
 
-public class SignUpStage4Controller implements Initializable {
+public class SignUpCreditCardController implements Initializable {
 
     @FXML // fx:id="cardOwnerIDLabel"
     private Text cardOwnerIDLabel; // Value injected by FXMLLoader
@@ -72,16 +68,15 @@ public class SignUpStage4Controller implements Initializable {
 
 
     @FXML
-    void onClickEndSignUpBtn(ActionEvent event) {
+    void onClickNextBtn(ActionEvent event) {  //moves next to Account choice stage
 
         CreditCard card = validateCreditCard();
         if(card!=null) {
-            Signup4Event finalEvent = new Signup4Event(card); // todo: handle number format exception
-            System.out.println("pre-post event4");
+            CreditCardEvent finalEvent = new CreditCardEvent(card);
             EventBus.getDefault().post(finalEvent);
 
             Stage stage = CustomerApp.getStage();
-            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp5.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("SignUp3.fxml"));
             Parent root = null;
             try {
                 root = fxmlLoader.load();
@@ -90,13 +85,14 @@ public class SignUpStage4Controller implements Initializable {
             }
             stage.setScene(new Scene(root));
             stage.show();
+
         }
     }
 
     @FXML
-    void onClickBtnBack(ActionEvent event) {
+    void onClickBtnBack(ActionEvent event) {        //moves back to Info stage
         Stage stage = CustomerApp.getStage();
-        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("Signup3.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(CatalogController.class.getResource("Signup2.fxml"));
         Parent root = null;
         try {
             root = fxmlLoader.load();

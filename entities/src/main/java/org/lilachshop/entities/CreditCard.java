@@ -90,7 +90,10 @@ public class CreditCard implements Serializable {
         return ownerName;
     }
 
-    public void setOwnerName(String ownerName) {
+    public void setOwnerName(String ownerName) throws Exception {
+        if(ownerName.isBlank()){
+            throw new Exception("שם המשתמש ריק, אנא מלא שנית");
+        }
         this.ownerName = ownerName;
     }
 

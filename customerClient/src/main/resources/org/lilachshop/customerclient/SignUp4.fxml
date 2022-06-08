@@ -11,7 +11,7 @@
 <?import javafx.scene.text.*?>
 <?import org.lilachshop.customerclient.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #FFF0F5;" styleClass="bodybg" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStage4Controller">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: #FFF0F5;" styleClass="bodybg" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpCreditCardController">
    <children>
       <AnchorPane layoutX="185.0" layoutY="168.0" prefHeight="409.0" prefWidth="528.0">
          <children>
@@ -136,7 +136,7 @@
             </Text>
          </children>
       </AnchorPane>
-      <Button fx:id="endSignUpBtn" contentDisplay="CENTER" layoutX="584.0" layoutY="644.0" mnemonicParsing="false" onAction="#onClickEndSignUpBtn" prefHeight="66.0" prefWidth="179.0" style="-fx-background-color: #FFE4E1; -fx-background-radius: 30; -fx-border-color: #fcb900; -fx-border-radius: 30;" text="סיום" textAlignment="CENTER" textFill="#fcb900">
+      <Button fx:id="endSignUpBtn" contentDisplay="CENTER" layoutX="584.0" layoutY="644.0" mnemonicParsing="false" onAction="#onClickNextBtn" prefHeight="66.0" prefWidth="179.0" style="-fx-background-color: #FFE4E1; -fx-background-radius: 30; -fx-border-color: #fcb900; -fx-border-radius: 30;" text="סיום" textAlignment="CENTER" textFill="#fcb900">
          <font>
             <Font name="Agency FB Bold" size="29.0" />
          </font>
