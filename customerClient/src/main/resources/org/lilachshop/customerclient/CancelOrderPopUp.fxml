@@ -15,7 +15,7 @@
          </font>
       </Label>
       <Label layoutX="344.0" layoutY="89.0" prefHeight="17.0" prefWidth="165.0" text="האם ברצונך לבטל את ההזמנה?" />
-      <Button fx:id="cancelBtn" layoutX="357.0" layoutY="286.0" mnemonicParsing="false" onAction="#oncancelBtnClick" prefHeight="59.0" prefWidth="92.0" text="ביטול" />
+      <Button fx:id="cancelBtn" layoutX="357.0" layoutY="286.0" mnemonicParsing="false" onAction="#oncancelBtnClick" prefHeight="59.0" prefWidth="92.0" text="חזרה" />
       <Button fx:id="OkBtn" layoutX="142.0" layoutY="286.0" mnemonicParsing="false" onAction="#onOkBtnClick" prefHeight="59.0" prefWidth="92.0" text="אישור" />
       <VBox alignment="TOP_RIGHT" layoutX="150.0" layoutY="118.0" prefHeight="147.0" prefWidth="358.0">
          <children>

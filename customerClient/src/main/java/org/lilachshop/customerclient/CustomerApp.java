@@ -167,10 +167,11 @@ public class CustomerApp extends Application {
                 FXMLLoader fxmlLoader = new FXMLLoader(CustomerApp.class.getResource("main.fxml"));
                 Parent root = fxmlLoader.load();
                 CatalogController controller = fxmlLoader.getController();
+                controller.chosenFlower.setVisible(true);
                 if (myCustomer == null || myCustomer.getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
                     controller.getStoreChoiceBox().setItems(FXCollections.observableArrayList(myStore));
                     controller.getStoreChoiceBox().getSelectionModel().selectFirst();
-                } else
+                } else //
                     controller.getStoreChoiceBox().getSelectionModel().select(myStore);
                 controller.showInfo(flowerList, this);
                 stage.setScene(new Scene(root));
@@ -257,4 +258,5 @@ public class CustomerApp extends Application {
             socket = new Socket();
         }
     }
+
 }

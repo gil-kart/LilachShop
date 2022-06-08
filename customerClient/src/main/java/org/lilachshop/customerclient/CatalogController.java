@@ -44,6 +44,7 @@ public class CatalogController {
     private List<myOrderItem> myFlowers = null;
     int count = 0;
     private static final int MAX_ON_SALE = 10;
+    static boolean onStartUp = true;
 
     @FXML
     private Label history;
@@ -83,7 +84,7 @@ public class CatalogController {
     private Button addToCart; // Value injected by FXMLLoader
 
     @FXML // fx:id="chosenFlower"
-    private VBox chosenFlower; // Value injected by FXMLLoader
+    public VBox chosenFlower; // Value injected by FXMLLoader
 
     @FXML // fx:id="countItems"
     private Label countItems; // Value injected by FXMLLoader
@@ -349,10 +350,17 @@ public class CatalogController {
         Platform.runLater(() -> {
             storeChoiceBox.setItems(FXCollections.observableArrayList(allStores));
             storeChoiceBox.getItems().remove(0);
+            if(onStartUp) {
+                storeChoiceBox.getSelectionModel().selectFirst();
+                onStartUp = false;
+            }
             storeChoiceBox.setOnAction((event) -> {
                 Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
                 CustomerApp.setMyStore(selectedItem);
                 CustomerApp.setStoreId(selectedItem.getId());
+                CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
+                grid.getChildren().clear();
+                chosenFlower.setVisible(false);
                 CustomerApp.getCustomerCatalog();
             });
 
