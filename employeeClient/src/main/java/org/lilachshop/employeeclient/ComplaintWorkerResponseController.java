@@ -1,4 +1,5 @@
 package org.lilachshop.employeeclient;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +17,7 @@ import org.lilachshop.entities.Order;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class ComplaintWorkerResponseController {
     CustomerServiceViewController controllerInstance;
@@ -75,17 +77,20 @@ public class ComplaintWorkerResponseController {
     }
 
     public void setComplaintData(String _complaintNumber, String _complaintStatus, LocalDateTime _lastDateToHandle,
-                                 String _content, CustomerServiceViewController _controllerInstance,Order order){
+                                 String _content, CustomerServiceViewController _controllerInstance, Order order) {
         complaintNumber.setText(_complaintNumber);
         complaintStatus.setText(_complaintStatus);
-        lastDateToHandle.setText(_lastDateToHandle.toString());
+        String tempDate = _lastDateToHandle.truncatedTo(ChronoUnit.DAYS).toString();
+        lastDateToHandle.setText(tempDate.substring(0, tempDate.length() - 6));
         content.setText(_content);
         this.order = order;
         controllerInstance = _controllerInstance;
         this.orderNum.setText(String.valueOf(order.getId()));
         this.orderPrice.setText(String.valueOf(order.getTotalPrice() + "ש''ח"));
         this.customerName.setText(String.valueOf(order.getCustomer().getName()));
-        if(order.getComplaint().getStatus().equals(ComplaintStatus.CLOSED)){
+
+
+        if (order.getComplaint().getStatus().equals(ComplaintStatus.CLOSED)) {
             SendBtn.setDisable(true);
             updateRefundBtn.setDisable(true);
             response.setText(order.getComplaint().getReply());
@@ -119,17 +124,16 @@ public class ComplaintWorkerResponseController {
 
     @FXML
     void onUpdateRefundBtn(ActionEvent event) {
-        if(!enteredRefund.getText().matches("[0-9]+")){
+        if (!enteredRefund.getText().matches("[0-9]+")) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("שגיאה");
             alert.setContentText("יש להכניס מספרים בלבד!");
             enteredRefund.setText("");
             alert.show();
 
-        }
-        else {
-        refundAmount.setText(enteredRefund.getText() + "ש''ח");
-        refundAmountToUpdate = Double.parseDouble(enteredRefund.getText());
+        } else {
+            refundAmount.setText(enteredRefund.getText() + "ש''ח");
+            refundAmountToUpdate = Double.parseDouble(enteredRefund.getText());
         }
     }
 }

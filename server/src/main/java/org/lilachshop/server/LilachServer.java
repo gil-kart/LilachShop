@@ -17,7 +17,7 @@ public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
     private static Set<User> connectedUsers = null;
 
-    public LilachServer(Integer... port) {
+    public LilachServer(Integer... port) throws IOException {
         // default is 3000, otherwise needs to be specified.
         super(port.length > 0 ? port[0] : 3000);
         assert port.length < 2 : "Server should receive only a port.";
@@ -30,7 +30,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-//        entityFactory.fillDataBase();
+        entityFactory.fillDataBase();
     }
 
     @Override

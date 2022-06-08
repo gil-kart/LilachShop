@@ -104,32 +104,35 @@ public class CustomerServiceViewController implements Initializable {
     private void presentRowSelected() throws IOException {
         if (listOfComplaints.isEmpty())
             return;
-        ObservableList<Complaint> listOfComplaints = tableView.getSelectionModel().getSelectedItems();
+        Complaint selectedComplaint = tableView.getSelectionModel().getSelectedItem();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("complaintWorkerResponse.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
-        Order order = listOfComplaints.get(0).getOrder();
+        Order order = selectedComplaint.getOrder();
         ComplaintWorkerResponseController controller = fxmlLoader.getController();
-        ComplaintStatus complaintStatus = listOfComplaints.get(0).getStatus();
+        ComplaintStatus complaintStatus = selectedComplaint.getStatus();
         String status;
         switch (complaintStatus){
             case LATE:{
                 status= "באיחור";
+                break;
             }
             case OPEN:{
                 status= "פתוח";
+                break;
             }
             case CLOSED:{
                 status= "סגור";
+                break;
             }
             default: status = "";
         }
-
+        order.setComplaint(selectedComplaint);
         try{
             controller.setComplaintData(
-                    String.valueOf(listOfComplaints.get(0).getId()),
+                    String.valueOf(selectedComplaint.getId()),
                     status,
-                    listOfComplaints.get(0).getCreationDate(),
-                    listOfComplaints.get(0).getContent(), this, order);
+                    selectedComplaint.getCreationDate(),
+                    selectedComplaint.getContent(), this, order);
         }catch (Exception e){
             System.out.println(e.getMessage());
             e.printStackTrace();
