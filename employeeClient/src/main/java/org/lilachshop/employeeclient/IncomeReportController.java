@@ -138,6 +138,9 @@ public class IncomeReportController implements Initializable {
         XYChart.Series<String, Integer> set = new XYChart.Series<>();
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1))
         {
+            if(ordersToCalculateOn == null){
+                break;
+            }
             for(Order order: ordersToCalculateOn){
                 if(Utilities.hasTheSameDate(date, order.getCreationDate()) &&
                         !order.getOrderStatus().equals(OrderStatus.CANCELED)){
