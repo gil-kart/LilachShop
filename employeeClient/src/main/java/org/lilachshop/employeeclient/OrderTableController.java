@@ -107,7 +107,7 @@ public class OrderTableController {
             panel = null;
         }
         panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
-        ((SignedInEmployeePanel) panel).getAllStores();
+        ((SignedInEmployeePanel) panel).getAllStoresForReports();
 
         //Setting up listener to CatalogChoiceBox
         ChangeListener changeListener = new ChangeListener() {

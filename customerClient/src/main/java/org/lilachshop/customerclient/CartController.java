@@ -30,12 +30,17 @@ import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.AccountType;
 import org.lilachshop.entities.Order;
 import org.lilachshop.entities.myOrderItem;
+import org.lilachshop.events.UpdateCartEvent;
+import org.lilachshop.panels.OperationsPanelFactory;
+import org.lilachshop.panels.Panel;
+import org.lilachshop.panels.RegisteredCustomerPanel;
+import org.lilachshop.panels.StoreCustomerPanel;
 
 public class CartController implements Initializable {
     List<myOrderItem> myFlowers = new ArrayList<>();
 
     int countItem = 0;
-
+    Panel panel = null;
     Double sum = Double.valueOf(0);
 
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -148,28 +153,16 @@ public class CartController implements Initializable {
         sum = Double.valueOf(0);
         EventBus.getDefault().register(this);
         this.myFlowers = CustomerApp.getMyFlowers();
-        for (int i = 0; i < myFlowers.size(); i++) {
-            //calculate the sum price of the order
-            sum += (myFlowers.get(i).getItem().getPercent() > 0 ? myFlowers.get(i).getItem().getPrice() * (100 - myFlowers.get(i).getItem().getPercent()) / 100 : myFlowers.get(i).getItem().getPrice())*myFlowers.get(i).getCount();
-            //calculate the amount of items that has in the order
-            countItem += myFlowers.get(i).getCount();
-            //load the item fxml
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("item_cart.fxml"));
-            try {
-                AnchorPane anchorPane = fxmlLoader.load();
-                ItemCartController itemCartController = fxmlLoader.getController();
-                //set the photo,name,price and amount from this flower
-                itemCartController.setData(myFlowers.get(i));
-                itemLayout.getChildren().add(anchorPane);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if(panel != null){
+            panel.closeConnection();
+            panel = null;
         }
-        //set the total price and total amount of products
+        panel = OperationsPanelFactory.createPanel(CustomerApp.panelEnum, CustomerApp.getSocket(), this);
+        ((StoreCustomerPanel) panel).refreshCart(this.myFlowers);
+
         finalPrice.setText(String.valueOf(sum));
         count.setText(String.valueOf(countItem));
+
     }
 
     /**
@@ -204,5 +197,36 @@ public class CartController implements Initializable {
                 sum += cartEvent.updateFlower.getItem().getPrice();
             finalPrice.setText(String.valueOf(sum));
         }
+    }
+    @Subscribe
+    public void handleCartRefreshFromClient(UpdateCartEvent cartEvent){
+        if(cartEvent.getAction().equals("updated item list success")){
+            this.myFlowers = cartEvent.getMyOrderItemList();
+        }
+        Platform.runLater(()->{
+
+            for (int i = 0; i < myFlowers.size(); i++) {
+                //calculate the sum price of the order
+                sum += (myFlowers.get(i).getItem().getPercent() > 0 ? myFlowers.get(i).getItem().getPrice() * (100 - myFlowers.get(i).getItem().getPercent()) / 100 : myFlowers.get(i).getItem().getPrice())*myFlowers.get(i).getCount();
+                //calculate the amount of items that has in the order
+                countItem += myFlowers.get(i).getCount();
+                //load the item fxml
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("item_cart.fxml"));
+                try {
+                    AnchorPane anchorPane = fxmlLoader.load();
+                    ItemCartController itemCartController = fxmlLoader.getController();
+                    //set the photo,name,price and amount from this flower
+                    itemCartController.setData(myFlowers.get(i));
+                    itemLayout.getChildren().add(anchorPane);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //set the total price and total amount of products
+            finalPrice.setText(String.valueOf(sum));
+            count.setText(String.valueOf(countItem));
+        });
     }
 }

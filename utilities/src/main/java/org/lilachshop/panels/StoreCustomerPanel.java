@@ -5,6 +5,8 @@ import org.lilachshop.commonUtils.Socket;
 import org.lilachshop.entities.*;
 import org.lilachshop.requests.*;
 
+import java.util.List;
+
 public class StoreCustomerPanel extends RegisteredCustomerPanel {
     public StoreCustomerPanel(Socket socket, Object controller) {
         super(socket, controller);
@@ -39,4 +41,8 @@ public class StoreCustomerPanel extends RegisteredCustomerPanel {
     public void getAllStores() {
         sendToServer((new StoreRequest("get all stores")));
     }
+    public void refreshCart(List<myOrderItem> orderItemList){
+        sendToServer(new CartRequest("refresh cart items", orderItemList));
+    }
+
 }

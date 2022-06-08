@@ -29,4 +29,7 @@ public class SignedInEmployeePanel extends Panel {
     public void getAllStores() {
         sendToServer((new StoreRequest("get all stores")));
     }
+    public void getAllStoresForReports() {
+        sendToServer((new StoreRequest("get all stores")));
+    }
 }

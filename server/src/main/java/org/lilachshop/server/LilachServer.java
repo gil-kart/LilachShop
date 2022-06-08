@@ -8,6 +8,7 @@ import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -72,7 +73,24 @@ public class LilachServer extends AbstractServer {
             }
         }
 
-
+        //************************** Cart Request ********************************************
+        if((msg.getClass().equals(CartRequest.class))){
+            CartRequest request = (CartRequest) msg;
+            String message_from_client = request.getRequest();
+            if(message_from_client.equals("refresh cart items")){
+                List<myOrderItem> myOrderItemList = request.getOrderItemList();
+                for(myOrderItem myOrderItem: myOrderItemList){
+                    Item itemIter = myOrderItem.getItem();
+                    Item updatedItem = entityFactory.getItemByID(itemIter.getId());
+                    myOrderItem.setItem(updatedItem);
+                }
+                try {
+                    client.sendToClient(new UpdateCartEvent("updated item list success", myOrderItemList));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }
         //************************** Order Request *******************************************
 
         if ((msg.getClass().equals(OrderRequest.class))) {
