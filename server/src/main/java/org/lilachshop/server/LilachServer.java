@@ -8,10 +8,7 @@ import org.lilachshop.server.ocsf.ConnectionToClient;
 import org.lilachshop.requests.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class LilachServer extends AbstractServer {
     private static EntityFactory entityFactory;
@@ -79,11 +76,20 @@ public class LilachServer extends AbstractServer {
             String message_from_client = request.getRequest();
             if (message_from_client.equals("refresh cart items")) {
                 List<myOrderItem> myOrderItemList = request.getOrderItemList();
-                for (myOrderItem myOrderItem : myOrderItemList) {
-                    Item itemIter = myOrderItem.getItem();
-                    Item updatedItem = entityFactory.getItemByID(itemIter.getId());
-                    myOrderItem.setItem(updatedItem);
+                List<Item> allItems = entityFactory.getAllItems();
+                Set<Item> itemSet = new HashSet<>(allItems);
+                for (Item item: itemSet){
+                    for (myOrderItem orderItem: myOrderItemList){
+                        if(item.getId() == orderItem.getItem().getId()){
+                            orderItem.setItem(item);
+                        }
+                    }
                 }
+//                for (myOrderItem myOrderItem : myOrderItemList) {
+//                    Item itemIter = myOrderItem.getItem();
+//                    Item updatedItem = entityFactory.getItemByID(itemIter.getId());
+//                    myOrderItem.setItem(updatedItem);
+//                }
                 try {
                     client.sendToClient(new UpdateCartEvent("updated item list success", myOrderItemList));
                 } catch (Exception e) {
