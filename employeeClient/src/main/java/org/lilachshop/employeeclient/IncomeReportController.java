@@ -102,6 +102,7 @@ public class IncomeReportController implements Initializable {
             }
         }catch (Exception e){
             displayNullAlert();
+            return;
         }
         if(end.isBefore(start)){
             displayChronologyAlert();

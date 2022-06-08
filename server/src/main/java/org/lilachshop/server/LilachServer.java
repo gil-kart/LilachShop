@@ -30,7 +30,7 @@ public class LilachServer extends AbstractServer {
             System.out.println("Unable to setup EntityFactory.");
             throw e;
         }
-        entityFactory.fillDataBase();
+//        entityFactory.fillDataBase();
     }
 
     @Override
@@ -74,7 +74,7 @@ public class LilachServer extends AbstractServer {
         }
 
         //************************** Cart Request ********************************************
-        if ((msg.getClass().equals(CartRequest.class))) {
+        else if((msg.getClass().equals(CartRequest.class))){
             CartRequest request = (CartRequest) msg;
             String message_from_client = request.getRequest();
             if (message_from_client.equals("refresh cart items")) {
@@ -93,7 +93,7 @@ public class LilachServer extends AbstractServer {
         }
         //************************** Order Request *******************************************
 
-        if ((msg.getClass().equals(OrderRequest.class))) {
+        else if ((msg.getClass().equals(OrderRequest.class))) {
             OrderRequest request = (OrderRequest) msg;
             String message_from_client = request.getRequest();
             if (message_from_client.equals("create new order")) {
@@ -143,7 +143,7 @@ public class LilachServer extends AbstractServer {
 
         //************************** Customer edit Request ***********************************
 
-        if (msg.getClass().equals(CustomerEditRequest.class)) {
+        else if (msg.getClass().equals(CustomerEditRequest.class)) {
             CustomerEditRequest request = (CustomerEditRequest) msg;
             String message_from_client = request.getRequest();
 
@@ -168,7 +168,7 @@ public class LilachServer extends AbstractServer {
 
         //************************ Report Request*********************************************
 
-        if (msg.getClass().equals(ReportsRequest.class)) {
+        else if (msg.getClass().equals(ReportsRequest.class)) {
             ReportsRequest request = (ReportsRequest) msg;
             String message_from_client = request.getRequest();
 
@@ -227,7 +227,7 @@ public class LilachServer extends AbstractServer {
 
         //************************** Employee edit Request ***********************************
 
-        if (msg.getClass().equals(EmployeeEditRequest.class)) {
+        else if (msg.getClass().equals(EmployeeEditRequest.class)) {
             System.out.println("Got EmployeeEditRequest...");
             EmployeeEditRequest request = (EmployeeEditRequest) msg;
             String message_from_client = request.getRequest();
@@ -258,7 +258,7 @@ public class LilachServer extends AbstractServer {
 
         //************************** Store Request ***********************************
 
-        if (msg.getClass().equals(StoreRequest.class)) {
+        else if (msg.getClass().equals(StoreRequest.class)) {
             StoreRequest request = (StoreRequest) msg;
             String messageFromClient = request.getRequest();
 
@@ -287,7 +287,7 @@ public class LilachServer extends AbstractServer {
 
         //************************Employee Login Request*****************************
 
-        if (msg.getClass().equals(EmployeeLoginRequest.class)) {
+        else if (msg.getClass().equals(EmployeeLoginRequest.class)) {
             EmployeeLoginRequest request = (EmployeeLoginRequest) msg;
             String userName = request.getUserName();
             String password = request.getPassword();
@@ -323,7 +323,7 @@ public class LilachServer extends AbstractServer {
 
         //************************ SignUp Request********************************
 
-        if (msg.getClass().equals(SignUpRequest.class)) {
+        else if (msg.getClass().equals(SignUpRequest.class)) {
             SignUpRequest request = (SignUpRequest) msg;
             String message_from_client = request.getRequest();
 
@@ -347,7 +347,7 @@ public class LilachServer extends AbstractServer {
 
 
         //************************ Customer Login Request************************
-        if (msg.getClass().equals(CustomerLoginRequest.class)) {
+        else if (msg.getClass().equals(CustomerLoginRequest.class)) {
             CustomerLoginRequest request = (CustomerLoginRequest) msg;
             String message_from_client = request.getRequest();
             try {
@@ -392,7 +392,7 @@ public class LilachServer extends AbstractServer {
         }
 
         //************************ User Complaint Request*****************************
-        if (msg.getClass().equals(UserComplaintRequest.class)) {
+        else if (msg.getClass().equals(UserComplaintRequest.class)) {
             UserComplaintRequest request = (UserComplaintRequest) msg;
             String message_from_client = request.getRequest();
             try {
@@ -414,7 +414,7 @@ public class LilachServer extends AbstractServer {
 
         //************************ Support Complaint Request*****************************
 
-        if (msg.getClass().equals(SupportComplaintRequest.class)) {
+        else if (msg.getClass().equals(SupportComplaintRequest.class)) {
             SupportComplaintRequest request = (SupportComplaintRequest) msg;
             String message_from_client = request.getRequest();
             try {
@@ -461,7 +461,7 @@ public class LilachServer extends AbstractServer {
 
         //************************ Catalog Request*****************************
 
-        if (msg.getClass().equals(CatalogRequest.class)) {
+        else if (msg.getClass().equals(CatalogRequest.class)) {
             CatalogRequest request = (CatalogRequest) msg;
             String message_from_client = request.getRequest();
             try {
@@ -520,7 +520,7 @@ public class LilachServer extends AbstractServer {
             }
         }
         // debug request
-        if (msg.getClass().equals(DebugRequest.class)) {
+        else if (msg.getClass().equals(DebugRequest.class)) {
             DebugRequest request = (DebugRequest) msg;
             String message_from_client = request.getRequest();
             try {

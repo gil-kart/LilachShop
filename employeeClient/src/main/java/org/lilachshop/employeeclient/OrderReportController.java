@@ -1,5 +1,6 @@
 package org.lilachshop.employeeclient;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,10 +32,10 @@ public class OrderReportController implements Initializable {
     public Employee employee;
     private static Panel panel;
     Catalog catalog;
-    List<Order> orders;
-    List<Order> ordersFromAllStores;
-    List<Catalog> allCatalogs;
-    List<Item> itemsFromAllStores;
+    List<Order> orders = new ArrayList<>();
+    List<Order> ordersFromAllStores = new ArrayList<>();
+    List<Catalog> allCatalogs = new ArrayList<>();
+    List<Item> itemsFromAllStores = new ArrayList<>();
     ObservableList<ItemSalesObservable> listOfObservableItems;
     @FXML
     private Label totalNumOfOrdersLabel;
@@ -78,23 +79,7 @@ public class OrderReportController implements Initializable {
         tableView.getItems().clear();
         totalNumOfOrders.setText("");
 
-        if (selectedStore.equals("לילך הרצליה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(3);
-            ((StoreManagerPanel) panel).getStoreCatalog(3);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        } else if (selectedStore.equals("לילך חיפה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(2);
-            ((StoreManagerPanel) panel).getStoreCatalog(2);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        }else if (selectedStore.equals("לילך תל אביב")) {
-            ((StoreManagerPanel) panel).getStoreOrders(4);
-            ((StoreManagerPanel) panel).getStoreCatalog(4);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        }else if (selectedStore.equals("כל החנויות")) {
-            ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
-            ((ChainManagerPanel) panel).getAllOrders();
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
-        }
+
     }
 
     @FXML
@@ -121,7 +106,30 @@ public class OrderReportController implements Initializable {
                 return;
             }
         }
+        String selectedStore = storeList.getSelectionModel().getSelectedItem();
+        if (selectedStore.equals("לילך הרצליה")) {
+            ((StoreManagerPanel) panel).getStoreOrders(3);
+            ((StoreManagerPanel) panel).getStoreCatalog(3);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        } else if (selectedStore.equals("לילך חיפה")) {
+            ((StoreManagerPanel) panel).getStoreOrders(2);
+            ((StoreManagerPanel) panel).getStoreCatalog(2);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        }else if (selectedStore.equals("לילך תל אביב")) {
+            ((StoreManagerPanel) panel).getStoreOrders(4);
+            ((StoreManagerPanel) panel).getStoreCatalog(4);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        }else if (selectedStore.equals("כל החנויות")) {
+            ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
+            ((ChainManagerPanel) panel).getAllOrders();
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
+        }
         //calculating number of sales for every product
+//        presentStoresIncomeData(start, end);
+
+    }
+
+    private void presentStoresIncomeData(LocalDateTime start, LocalDateTime end) {
         List<ItemSalesObservable> observableItems = getObservalbeItems();
         listOfObservableItems = FXCollections.observableArrayList();
         listOfObservableItems.addAll(observableItems);
@@ -177,7 +185,7 @@ public class OrderReportController implements Initializable {
 
         if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
             (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))){
-            relevantCatalogs = allCatalogs;
+                relevantCatalogs = allCatalogs;
         }
         else {
             relevantCatalogs = new ArrayList<>();
@@ -216,7 +224,6 @@ public class OrderReportController implements Initializable {
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Order order : relevantOrders) {
                 if(Utilities.hasTheSameDate(date, order.getCreationDate())
-               // if (order.getCreationDate().equals(date)
                 &&
                     !(order.getOrderStatus().equals(OrderStatus.CANCELED))) {
                     ordersInDateRange.add(order);
@@ -287,11 +294,21 @@ public class OrderReportController implements Initializable {
     @Subscribe
     public void handleMessageFromClient(Catalog catalog) {
         this.catalog = catalog;
+        Platform.runLater(() -> {
+            LocalDateTime start = startDate.getValue().atStartOfDay();
+            LocalDateTime end = endDate.getValue().atStartOfDay();
+            presentStoresIncomeData(start, end);
+        });
     }
 
     @Subscribe
     public void handleMessageFromClient(List<Order> orders) {
         this.orders = orders;
+        Platform.runLater(() -> {
+            LocalDateTime start = startDate.getValue().atStartOfDay();
+            LocalDateTime end = endDate.getValue().atStartOfDay();
+            presentStoresIncomeData(start, end);
+        });
     }
 
     @Subscribe
@@ -300,17 +317,23 @@ public class OrderReportController implements Initializable {
         this.orders = orderEvent.getOrders();
         this.itemsFromAllStores = orderEvent.getItems();
         this.allCatalogs = orderEvent.getCatalogs();
+        Platform.runLater(() -> {
+            LocalDateTime start = startDate.getValue().atStartOfDay();
+            LocalDateTime end = endDate.getValue().atStartOfDay();
+            presentStoresIncomeData(start, end);
+        });
     }
 
     public void setData(long storeId) {
+
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
-            ((ChainManagerPanel) panel).getStoreOrders(2);
-            ((ChainManagerPanel) panel).getStoreCatalog(2);
-            ((ChainManagerPanel) panel).getAllOrders();
+//            ((ChainManagerPanel) panel).getStoreOrders(2);
+//            ((ChainManagerPanel) panel).getStoreCatalog(2);
+//            ((ChainManagerPanel) panel).getAllOrders();
             totalNumOfOrdersLabel.setText("");
         } else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
-            ((StoreManagerPanel) panel).getStoreOrders(storeId);
-            ((StoreManagerPanel) panel).getStoreCatalog(storeId);
+//            ((StoreManagerPanel) panel).getStoreOrders(storeId);
+//            ((StoreManagerPanel) panel).getStoreCatalog(storeId);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);

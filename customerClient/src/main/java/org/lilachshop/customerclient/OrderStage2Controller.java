@@ -160,10 +160,9 @@ public class OrderStage2Controller {
     }
 
     private boolean ValidateInput() {
-        if (deliveryBool)
-        {
+        if (deliveryBool) {
             alert.setHeaderText(":פרטי המשלוח אינם תקינים");
-            if (phoneNum.getText().equals("")|| phoneNum.getText().replace("_", "").length() != 10) {
+            if (phoneNum.getText().equals("") || phoneNum.getText().replace("_", "").length() != 10) {
                 alert.setContentText("טלפון אינו תקין - אנא מלא שוב");
                 alert.show();
                 phoneNum.clear();
@@ -172,7 +171,14 @@ public class OrderStage2Controller {
             if (!FieldInHebrewOrDisplayError(receipient, "שם המקבל אינו תקין - אנא מלא שוב בעברית")) {
                 return false;
             }
-            if (!Utilities.containHebrewOrNumber(address.getText())) {
+            if (receipient.getText().equals(""))
+            {
+                alert.setContentText("שם המקבל/ת אינו יכול להיות ריק, אני הכנס שם מקבל/ת");
+                alert.show();
+                receipient.clear();
+                return false;
+            }
+            if (address.getText().equals("") || !Utilities.containHebrewOrNumber(address.getText())) {
                 alert.setContentText("הכתובת אינה תקינה - אנא מלא שוב בעברית");
                 alert.show();
                 address.clear();

@@ -29,5 +29,6 @@
       <Button fx:id="newScreenBtn" layoutX="28.0" layoutY="24.0" mnemonicParsing="false" onAction="#onNewScreenBtnClick" text="פתיחת מסך נוסף להשוואה" />
       <Label fx:id="totalChainIncomeLabel" layoutX="698.0" layoutY="176.0" prefHeight="37.0" prefWidth="188.0" text="סך הכנסות הרשת לפרק זמן זה:" />
       <Label fx:id="totalIncome" layoutX="751.0" layoutY="214.0" prefHeight="17.0" prefWidth="59.0" />
+      <Label layoutX="332.0" layoutY="443.0" text="סיום:" />
    </children>
 </AnchorPane>

@@ -129,6 +129,10 @@ public class OrderStage3Controller {
             Double tempCalc = ((myOrder.getTotalPrice()- CustomerApp.getShipPrice())/0.9)*0.1;
             discount.setText(String.format("%.1f",tempCalc));
         }
+        else
+        {
+            discount.setText("0.0");
+        }
         totalPrice.setText((String.format("%.1f",myOrder.getTotalPrice())));
          for (int i = 0; i < order.getItems().size(); i++) {
             //load the item fxml
