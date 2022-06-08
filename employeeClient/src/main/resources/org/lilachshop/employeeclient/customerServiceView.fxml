@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="737.0" prefWidth="1108.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CustomerServiceViewController">
+<AnchorPane prefHeight="800.0" prefWidth="1020.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.CustomerServiceViewController">
    <children>
       <Label layoutX="452.0" layoutY="36.0" text="טיפול בתלונות">
          <font>
@@ -16,10 +16,10 @@
       </Label>
       <TableView fx:id="tableView" layoutX="74.0" layoutY="109.0" prefHeight="581.0" prefWidth="961.0">
         <columns>
-          <TableColumn fx:id="content" prefWidth="500.0" text="תוכן" />
-          <TableColumn fx:id="status" prefWidth="138.0" text="סטטוס" />
-            <TableColumn fx:id="creationDate" prefWidth="141.0" text="תאריך מענה סופי" />
-            <TableColumn fx:id="complaintNumber" prefWidth="181.0" text="מספר תלונה" />
+          <TableColumn fx:id="content" prefWidth="500.0" style="-fx-alignment: CENTER;" text="תוכן" />
+          <TableColumn fx:id="status" prefWidth="138.0" style="-fx-alignment: CENTER;" text="סטטוס" />
+            <TableColumn fx:id="creationDate" prefWidth="141.0" style="-fx-alignment: CENTER;" text="תאריך מענה סופי" />
+            <TableColumn fx:id="complaintNumber" prefWidth="181.0" style="-fx-alignment: CENTER;" text="מספר תלונה" />
         </columns>
          <cursor>
             <Cursor fx:constant="HAND" />

@@ -140,7 +140,7 @@ public class CustomerApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         CustomerApp.stage = stage;
-        ((CustomerAnonymousPanel) panel).getAllStores();
+       ((CustomerAnonymousPanel) panel).getAllStores();
     }
 
     @Subscribe

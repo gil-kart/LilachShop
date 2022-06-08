@@ -36,7 +36,9 @@ public class EntityFactory {
 
 
     public void fillDataBase() {
-        // ---------------- creating 3 catalogs -------------
+        // ---------------- creating 4 catalogs -------------
+        Catalog defaultCatalog = generateCatalog();
+        createOrUpdateSingleRecord(defaultCatalog);
         Catalog catalog1 = generateCatalog();
         createOrUpdateSingleRecord(catalog1);
         Catalog catalog2 = generateCatalog();
@@ -45,18 +47,23 @@ public class EntityFactory {
         createOrUpdateSingleRecord(catalog3);
 
 
+
+        Store storedefault = new Store("---", "חנות כללית", defaultCatalog, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store1 = new Store("חיפה, דרך אבא חושי 1", "לילך חיפה", catalog1, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store2 = new Store("הרצליה, דרך הים 41", "לילך הרצליה", catalog2, new ArrayList<Complaint>(), new ArrayList<Order>());
         Store store3 = new Store("תל אביב, דיזינגוף 52", "לילך תל אביב", catalog3, new ArrayList<Complaint>(), new ArrayList<Order>());
 
+        defaultCatalog.setStore(storedefault);
         catalog1.setStore(store1);
         catalog2.setStore(store2);
         catalog3.setStore(store3);
 
+        createOrUpdateSingleRecord(storedefault);
         createOrUpdateSingleRecord(store1);
         createOrUpdateSingleRecord(store2);
         createOrUpdateSingleRecord(store3);
 
+        createOrUpdateSingleRecord(defaultCatalog);
         createOrUpdateSingleRecord(catalog1);
         createOrUpdateSingleRecord(catalog2);
         createOrUpdateSingleRecord(catalog3);
@@ -119,9 +126,9 @@ public class EntityFactory {
         List<Item> generalItemList = getAllItems();
 
         List<CreditCard> creditCards = new ArrayList<>();
-        creditCards.add(new CreditCard("1234123412341234", expDate, "gil", "12345734", "123"));
-        creditCards.add(new CreditCard("4321123412341234", expDate, "ziv", "82121312", "412"));
-        creditCards.add(new CreditCard("1111123412341234", expDate, "tsvika", "43232354", "415"));
+        creditCards.add(new CreditCard("1234123412341234", expDate, "gil", "123457314", "123"));
+        creditCards.add(new CreditCard("4321123412341234", expDate, "ziv", "821213212", "412"));
+        creditCards.add(new CreditCard("1111123412341234", expDate, "tsvika", "432332354", "415"));
 
 
         Account account1 = new Account(AccountType.STORE_ACCOUNT);

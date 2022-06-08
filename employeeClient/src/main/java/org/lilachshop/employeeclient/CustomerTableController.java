@@ -335,9 +335,23 @@ public class CustomerTableController implements Initializable {
                         if (event.getCode().equals(KeyCode.ENTER)) {
                             Customer customer = (Customer) customerTable.getSelectionModel().getSelectedItem();
                             if (customer != null) {
-                                customer.setAccountState(box.getSelectionModel().getSelectedItem());
+                                ButtonType hebrewYes = new ButtonType("כן", ButtonBar.ButtonData.OK_DONE);
+                                ButtonType hebrewNo = new ButtonType("לא", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "נא אשר להמשך פעולה זו.", hebrewYes, hebrewNo);
+                                alert.setTitle("חסימת משתמש");
+                                alert.setHeaderText("חסום/הפשר משתמש.");
+                                alert.setResizable(false);
+                                alert.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+                                Optional<ButtonType> result = alert.showAndWait();
+                                ButtonType buttonType = result.orElse(hebrewNo);
+
+                                if (buttonType == hebrewYes) {
+                                    customer.setAccountState(box.getSelectionModel().getSelectedItem());
+                                    sPanel.updateCustomer(customer);
+                                }
                                 cell.setEditable(false);
-                                sPanel.updateCustomer(customer);
                                 customerTable.refresh();
                             }
                         } else if (event.getCode().equals(KeyCode.ESCAPE)) {

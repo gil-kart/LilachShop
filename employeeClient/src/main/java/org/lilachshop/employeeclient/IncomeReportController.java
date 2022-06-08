@@ -76,13 +76,13 @@ public class IncomeReportController implements Initializable {
         totalChainIncomeLabel.setText("");
         //todo: get complaints from all stores
         if(selectedStore.equals("לילך הרצליה")){
-            ((ChainManagerPanel) panel).getStoreOrders(2);
+            ((ChainManagerPanel) panel).getStoreOrders(3);
         }
         else if(selectedStore.equals("לילך חיפה")){
-            ((ChainManagerPanel) panel).getStoreOrders(1);
+            ((ChainManagerPanel) panel).getStoreOrders(2);
         }
         else if(selectedStore.equals("לילך תל אביב")){
-            ((ChainManagerPanel) panel).getStoreOrders(3);
+            ((ChainManagerPanel) panel).getStoreOrders(4);
         }
         else if(selectedStore.equals("כל החנויות")){
             ((ChainManagerPanel) panel).getAllOrders();
@@ -243,11 +243,11 @@ public class IncomeReportController implements Initializable {
             newScreenBtn.setVisible(false);
             totalChainIncomeLabel.setText("סך הכנסות החנות לפרק זמן זה:");
             chooseStoreLabel.setVisible(false);
-            ((StoreManagerPanel) panel).getStoreOrders(1);
+            ((StoreManagerPanel) panel).getStoreOrders(storeId);
         }
         else{
             if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-                ((ChainManagerPanel) panel).getStoreOrders(1);
+                ((ChainManagerPanel) panel).getStoreOrders(2);
                 ((ChainManagerPanel) panel).getAllOrders();
                 totalChainIncomeLabel.setText("");
             }

@@ -99,7 +99,7 @@ public class OrderTablePopUpController {
 
     public void setData(OrderTableEntry order) {
         this.order = order.getOrder();
-        choiceStatus.setValue(order.getStatus());
+        choiceStatus.getSelectionModel().select(order.getOrder().getOrderStatus());
         for (myOrderItem itemsType : order.getOrder().getItems()) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("item_order.fxml"));

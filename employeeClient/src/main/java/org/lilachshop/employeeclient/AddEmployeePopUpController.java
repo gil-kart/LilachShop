@@ -115,6 +115,7 @@ public class AddEmployeePopUpController implements Initializable {
         List<Store> stores = event.getStores();
         Platform.runLater(() -> {
             storeChoiceBox.setItems(FXCollections.observableArrayList(stores));
+            storeChoiceBox.getItems().remove(0);
         });
     }
 
@@ -165,15 +166,17 @@ public class AddEmployeePopUpController implements Initializable {
         addBtn.disableProperty().
                 bind(Bindings.isEmpty(employeeUsernameTF.textProperty()).
                         or(Bindings.isEmpty(employeePasswordTF.textProperty())).
-                        or(roleChoiceBox.valueProperty().isNull()).
-                        or(storeChoiceBox.valueProperty().isNull()));
+                        or(roleChoiceBox.valueProperty().isNull()));
+//                        or(storeChoiceBox.valueProperty().isNull()));
+
 
         roleChoiceBox.setItems(FXCollections.observableArrayList(Arrays.asList(Role.values())));
         roleChoiceBox.valueProperty().addListener(new ChangeListener<Role>() {
             @Override
             public void changed(ObservableValue<? extends Role> observable, Role oldValue, Role newValue) {
-                if (newValue != Role.STORE_EMPLOYEE) {
-                    storeChoiceBox.getSelectionModel().select(0);
+                if (newValue == Role.SYSTEM_MANAGER || newValue == Role.CHAIN_MANAGER ||
+                        newValue == Role.CUSTOMER_SERVICE) {
+                    storeChoiceBox.getSelectionModel().select(-1);
                     storeChoiceBox.setDisable(true);
                 } else {
                     storeChoiceBox.setDisable(false);

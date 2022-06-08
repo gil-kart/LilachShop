@@ -89,7 +89,8 @@ public class ComplaintReportController implements Initializable {
             displayChronologyAlert();
             return;
         }
-        if (storeList.getSelectionModel().getSelectedItem() == null){
+        if (storeList.getSelectionModel().getSelectedItem() == null &&
+            DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
             displayNullStoreAlert();
             return;
         }
@@ -147,12 +148,12 @@ public class ComplaintReportController implements Initializable {
         TotalSumOfComplaints.setText("");
         //todo: get complaints from all stores
         if (selectedStore.equals("לילך הרצליה")) {
-            ((ChainManagerPanel) panel).getStoreComplaint(2);
+            ((ChainManagerPanel) panel).getStoreComplaint(3);
         } else if (selectedStore.equals("לילך חיפה")) {
-            ((ChainManagerPanel) panel).getStoreComplaint(1);
+            ((ChainManagerPanel) panel).getStoreComplaint(2);
         }
         else if (selectedStore.equals("לילך תל אביב")) {
-            ((ChainManagerPanel) panel).getStoreComplaint(3);
+            ((ChainManagerPanel) panel).getStoreComplaint(4);
         }
     }
     private void displayNullStoreAlert(){
@@ -187,7 +188,7 @@ public class ComplaintReportController implements Initializable {
     public void setData(long storeId) {
         currentStoreId = storeId;
         if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            ((ChainManagerPanel) panel).getStoreComplaint(1);
+            ((ChainManagerPanel) panel).getStoreComplaint(2);
             ((ChainManagerPanel) panel).getAllComplaints();// gets haifa by default
         }
         else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){

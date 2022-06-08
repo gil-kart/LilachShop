@@ -164,6 +164,7 @@ public class OrderTableController {
         else
         {
             StoreChoiceBox.setItems(FXCollections.observableArrayList(storeList));
+            StoreChoiceBox.getItems().remove(0);
         }
     }
     @Subscribe

@@ -79,19 +79,19 @@ public class OrderReportController implements Initializable {
         totalNumOfOrders.setText("");
 
         if (selectedStore.equals("לילך הרצליה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(2);
-            ((StoreManagerPanel) panel).getStoreCatalog(2);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        } else if (selectedStore.equals("לילך חיפה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(1);
-            ((StoreManagerPanel) panel).getStoreCatalog(1);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        }else if (selectedStore.equals("לילך תל אביב")) {
             ((StoreManagerPanel) panel).getStoreOrders(3);
             ((StoreManagerPanel) panel).getStoreCatalog(3);
             totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        } else if (selectedStore.equals("לילך חיפה")) {
+            ((StoreManagerPanel) panel).getStoreOrders(2);
+            ((StoreManagerPanel) panel).getStoreCatalog(2);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+        }else if (selectedStore.equals("לילך תל אביב")) {
+            ((StoreManagerPanel) panel).getStoreOrders(4);
+            ((StoreManagerPanel) panel).getStoreCatalog(4);
+            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
         }else if (selectedStore.equals("כל החנויות")) {
-            ((StoreManagerPanel) panel).getStoreCatalog(3); //todo: change to general catalog!!!
+            ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
             ((ChainManagerPanel) panel).getAllOrders();
             totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
         }
@@ -185,6 +185,9 @@ public class OrderReportController implements Initializable {
         }
 
         for (Catalog catalog_iter: relevantCatalogs){
+            if(catalog_iter.getId() == 1){
+                continue;
+            }
             for (Item item : catalog_iter.getItems()) {
                 int numOfSales = getNumOfSalesForItem(item, catalog_iter.getId());
                 ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName()+ " - " + catalog_iter.toString());
@@ -292,13 +295,13 @@ public class OrderReportController implements Initializable {
 
     public void setData(long storeId) {
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
-            ((ChainManagerPanel) panel).getStoreOrders(storeId);
-            ((ChainManagerPanel) panel).getStoreCatalog(storeId);
+            ((ChainManagerPanel) panel).getStoreOrders(2);
+            ((ChainManagerPanel) panel).getStoreCatalog(2);
             ((ChainManagerPanel) panel).getAllOrders();
             totalNumOfOrdersLabel.setText("");
         } else if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
-            ((StoreManagerPanel) panel).getStoreOrders(1);
-            ((StoreManagerPanel) panel).getStoreCatalog(1);
+            ((StoreManagerPanel) panel).getStoreOrders(storeId);
+            ((StoreManagerPanel) panel).getStoreCatalog(storeId);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);

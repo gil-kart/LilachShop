@@ -347,6 +347,7 @@ public class CatalogController {
     public void onGetAllStores(List<Store> allStores) {
         Platform.runLater(() -> {
             storeChoiceBox.setItems(FXCollections.observableArrayList(allStores));
+            storeChoiceBox.getItems().remove(0);
             storeChoiceBox.setOnAction((event) -> {
                 Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
                 CustomerApp.setMyStore(selectedItem);
