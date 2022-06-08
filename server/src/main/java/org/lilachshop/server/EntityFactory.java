@@ -6,15 +6,19 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import org.jetbrains.annotations.Nullable;
+import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
 import org.lilachshop.entities.Order;
 
 import javax.persistence.criteria.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Hello world!
@@ -35,7 +39,7 @@ public class EntityFactory {
     }
 
 
-    public void fillDataBase() {
+    public void fillDataBase() throws IOException {
         // ---------------- creating 4 catalogs -------------
         Catalog defaultCatalog = generateCatalog();
         createOrUpdateSingleRecord(defaultCatalog);
@@ -45,7 +49,6 @@ public class EntityFactory {
         createOrUpdateSingleRecord(catalog2);
         Catalog catalog3 = generateCatalog();
         createOrUpdateSingleRecord(catalog3);
-
 
 
         Store storedefault = new Store("---", "חנות כללית", defaultCatalog, new ArrayList<Complaint>(), new ArrayList<Order>());
@@ -68,9 +71,26 @@ public class EntityFactory {
         createOrUpdateSingleRecord(catalog2);
         createOrUpdateSingleRecord(catalog3);
 
+//        Thread[] threads = new Thread[10];
+//        for(Thread t: threads){
+//            t
+//        }
 
-        addOredersToStoresStore(store1, store2, store3);
-        addComplaintsToStores(store1, store2, store3);
+        for (int i = 0; i < 10; i++) {
+            // nextInt is normally exclusive of the top value,
+// so add 1 to make it inclusive
+            var rand = ThreadLocalRandom.current();
+            int second = rand.nextInt(0, 59 + 1);
+            int minute = rand.nextInt(0, 59 + 1);
+            int hour = rand.nextInt(1, 24);
+            int day = rand.nextInt(1, 29);
+            int month = rand.nextInt(1, 13);
+            int year = 2021;
+            addOredersToStoresStore(store1, store2, store3, year, month, day, hour, minute, second);
+            addComplaintsToStores(store1, store2, store3, year, month, day, hour, minute, second);
+        }
+//        addOredersToStoresStore(store1, store2, store3);
+//        addComplaintsToStores(store1, store2, store3);
         createOrUpdateSingleRecord(store1);
         createOrUpdateSingleRecord(store2);
         createOrUpdateSingleRecord(store3);
@@ -92,21 +112,24 @@ public class EntityFactory {
     }
 
 
-    public void addComplaintsToStores(Store store1, Store store2, Store store3) {
-        LocalDateTime dt = LocalDateTime.of(2022, 5, 27, 0, 0, 0);
+    public void addComplaintsToStores(Store store1, Store store2, Store store3, int year, int month, int day, int hour, int minute, int second) {
+        LocalDateTime dt = LocalDateTime.of(year, month, day, hour, minute, second);
         String time = dt.toString();
 
         Complaint complaint1 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה1", dt, "");
         Complaint complaint2 = new Complaint(dt.plusDays(2), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בחיפה2", dt.plusDays(1), "");
         Complaint complaint3 = new Complaint(dt.plusDays(1), ComplaintStatus.OPEN, "אני כועס מאוד על השירות בהרצליה3", dt, "");
+        int numOfOrders = store1.getOrders().size();
+        int numOfOrders2 = store2.getOrders().size();
+        var rand = ThreadLocalRandom.current();
 
-        complaint1.setOrder(store1.getOrders().get(0));
+        complaint1.setOrder(store1.getOrders().get(rand.nextInt(0, numOfOrders)));
         complaint1.setStore(store1);
         createOrUpdateSingleRecord(store1);
-        complaint2.setOrder(store1.getOrders().get(1));
+        complaint2.setOrder(store1.getOrders().get(rand.nextInt(0, numOfOrders)));
         complaint2.setStore(store1);
         createOrUpdateSingleRecord(store1);
-        complaint3.setOrder(store2.getOrders().get(0));
+        complaint3.setOrder(store2.getOrders().get(rand.nextInt(0, numOfOrders2)));
         complaint3.setStore(store2);
         createOrUpdateSingleRecord(store2);
 
@@ -120,8 +143,8 @@ public class EntityFactory {
 
     }
 
-    public void addOredersToStoresStore(Store store1, Store store2, Store store3) {
-        LocalDateTime dt = LocalDateTime.of(2022, 5, 27, 12, 12, 12);
+    public void addOredersToStoresStore(Store store1, Store store2, Store store3, int year, int month, int day, int hour, int minute, int second) {
+        LocalDateTime dt = LocalDateTime.of(year, month, day, hour, minute, second);
         YearMonth expDate = YearMonth.of(2025, Month.JULY);
         List<Item> generalItemList = getAllItems();
 
@@ -149,23 +172,36 @@ public class EntityFactory {
 
         // ---------------------------------------------------------
         List<myOrderItem> itemList1 = new ArrayList<>();
-        itemList1.add(new myOrderItem(generalItemList.get(0), 3));
-        itemList1.add(new myOrderItem(generalItemList.get(1), 2));
-        itemList1.add(new myOrderItem(generalItemList.get(2), 1));
-        itemList1.add(new myOrderItem(generalItemList.get(3), 5));
+        var rand = ThreadLocalRandom.current();
+        int randomOrderNumber = rand.nextInt(1, 13);
+        itemList1.add(new myOrderItem(generalItemList.get(rand.nextInt(0, 13)), rand.nextInt(1, 13)));
+        itemList1.add(new myOrderItem(generalItemList.get(rand.nextInt(0, 13)), rand.nextInt(1, 13)));
+        itemList1.add(new myOrderItem(generalItemList.get(rand.nextInt(0, 13)), rand.nextInt(1, 13)));
+        itemList1.add(new myOrderItem(generalItemList.get(rand.nextInt(0, 13)), rand.nextInt(1, 13)));
 
         LocalDateTime dateAndTime = LocalDateTime.of(2022, 5, 27, 12, 0, 0);
         DeliveryDetails deliveryDetails1 = new DeliveryDetails(dateAndTime, "05429384384", "גיל", "חיפה 42");
-        Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, 100.0, 4, deliveryDetails1, null, null, customers.get(0));
+        double totalPrice = itemList1.get(0).getItem().getPrice() * itemList1.get(0).getCount() +
+                itemList1.get(1).getItem().getPrice() * itemList1.get(1).getCount() +
+                itemList1.get(2).getItem().getPrice() * itemList1.get(2).getCount() +
+                itemList1.get(3).getItem().getPrice() * itemList1.get(3).getCount();
+
+        Order order1 = new Order(dt, "מזל טוב תתחדשי על הפרחים!", itemList1, totalPrice, 4, deliveryDetails1, null, null, customers.get(0));
         order1.setStore(store1);
+        order1.setCustomer(customers.get(0));
         List<myOrderItem> itemList2 = new ArrayList<>();
-        itemList2.add(new myOrderItem(generalItemList.get(4), 2));
-        itemList2.add(new myOrderItem(generalItemList.get(5), 5));
-        itemList2.add(new myOrderItem(generalItemList.get(11), 7));
+        itemList2.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
+        itemList2.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
+        itemList2.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
 
         DeliveryDetails deliveryDetails2 = new DeliveryDetails(dateAndTime, "05429384384", "זיו", "חיפה, נווה שאנן 42");
-        Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, 200.0, 4, deliveryDetails2, null, null, customers.get(1));
+        totalPrice = itemList2.get(0).getItem().getPrice() * itemList2.get(0).getCount() +
+                itemList2.get(1).getItem().getPrice() * itemList2.get(1).getCount() +
+                itemList2.get(2).getItem().getPrice() * itemList2.get(2).getCount();
+        Order order2 = new Order(dt, "מזל טוב תתחדשו על הפרחים שלכם, הם יפים!", itemList2, totalPrice, 4, deliveryDetails2, null, null, customers.get(1));
         order2.setStore(store1);
+        order2.setCustomer(customers.get(1));
+        order2.setCreditCard(customers.get(1).getCard());
         createOrUpdateSingleRecord(order1);
         createOrUpdateSingleRecord(order2);
 
@@ -173,21 +209,28 @@ public class EntityFactory {
         store1.addOrder(order2);
         customers.get(0).addOrderToList(order1);
         customers.get(1).addOrderToList(order2);
-
+        order2.setCreditCard(customers.get(1).getCard());
         List<myOrderItem> itemList3 = new ArrayList<>();
-        itemList3.add(new myOrderItem(generalItemList.get(1), 5));
-        itemList3.add(new myOrderItem(generalItemList.get(7), 1));
-        itemList3.add(new myOrderItem(generalItemList.get(3), 3));
+        itemList3.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
+        itemList3.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
+        itemList3.add(new myOrderItem(generalItemList.get(rand.nextInt(1, 13)), rand.nextInt(1, 13)));
         PickUpDetails pickUpDetails1 = new PickUpDetails(dateAndTime);
-        Order order3 = new Order(dt, "", itemList3, 400.0, 4, null, pickUpDetails1, null, customers.get(2));
+        totalPrice = itemList3.get(0).getItem().getPrice() * itemList3.get(0).getCount() +
+                itemList3.get(1).getItem().getPrice() * itemList3.get(1).getCount() +
+                itemList3.get(2).getItem().getPrice() * itemList3.get(2).getCount();
+        Order order3 = new Order(dt, "", itemList3, totalPrice, 4, null, pickUpDetails1, null, customers.get(2));
         order3.setStore(store2);
+        order3.setCustomer(customers.get(2));
+        order3.setCreditCard(customers.get(2).getCard());
+
+
         customers.get(2).addOrderToList(order3);
         createOrUpdateSingleRecord(order3);
         store2.addOrder(order3);
         customers.get(0).getOrders().add(order1);
     }
 
-    private static Catalog generateCatalog() {
+    private static Catalog generateCatalog() throws IOException {
 
         Catalog catalog = new Catalog();
         List<Item> items = createItemList();
@@ -195,38 +238,65 @@ public class EntityFactory {
         return catalog;
     }
 
-    private static List<Item> createItemList() {
+    private static List<Item> createItemList() throws IOException {
         Item item;
         List<Item> itemList = new LinkedList<>();
 
         String base_path = "/images/";
-        item = new Item("סחלב קורל", 160, getImageURL(base_path + "sahlav_coral.jpg"), 0);
+//        item = new Item("סחלב קורל", 160, getImageURL(base_path + "sahlav_coral.jpg"), 0);
+        item = new Item("סחלב קורל", "סחלב הוא פרח", 0, 160, ItemType.PLANTS, Color.YELLOW, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "sahlav_coral.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("ורד ענבר", 120, getImageURL(base_path + "vered_inbar.jpg"), 5);
+
+//        item = new Item("ורד ענבר", 120, getImageURL(base_path + "vered_inbar.jpg"), 5);
+        item = new Item("ורד ענבר", "ורד ענבר הוא פרח", 5, 120, ItemType.PLANTS, Color.PINK, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "vered_inbar.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("סחלב לבן", 140, getImageURL(base_path + "sahlav_lavan.jpg"), 0);
+
+//        item = new Item("סחלב לבן", 140, getImageURL(base_path + "sahlav_lavan.jpg"), 0);
+        item = new Item("סחלב לבן", "סחלב לבן הוא פרח", 0, 140, ItemType.PLANTS, Color.WHITE, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "sahlav_lavan.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("נרקיס חצוצרה", 110, getImageURL(base_path) + "narkis_hatsostra.jpg", 20);
+
+//        item = new Item("נרקיס חצוצרה", 110, getImageURL(base_path) + "narkis_hatsostra.jpg", 20);
+        item = new Item("נרקיס חצוצרה", "נרקיס חצוצרה הוא פרח", 20, 110, ItemType.PLANTS, Color.YELLOW, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "narkis_hatsostra.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("רקפות", 100, getImageURL(base_path + "cyclamen.jpg"), 0);
+
+//        item = new Item("רקפות", 100, getImageURL(base_path + "cyclamen.jpg"), 0);
+        item = new Item("רקפות", "רקפות הן פרח", 0, 100, ItemType.VASE, Color.PINK, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "cyclamen.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("קקטוס", 70, getImageURL(base_path + "cactus.jpg"), 0);
+
+//        item = new Item("קקטוס", 70, getImageURL(base_path + "cactus.jpg"), 0);
+        item = new Item("קקטוס", "קקטוס הוא צמח", 0, 70, ItemType.PLANTS, Color.GREEN, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "cactus.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("תורמוס", 200, getImageURL(base_path + "lupins.jpg"), 0);
+
+//        item = new Item("תורמוס", 200, getImageURL(base_path + "lupins.jpg"), 0);
+        item = new Item("תורמוס", "תורמוס הוא צמח", 0, 200, ItemType.VASE, Color.BLUE, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "lupins.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("חמניות", 170, getImageURL(base_path + "heilanthus.jpg"), 0);
+
+//        item = new Item("חמניות", 170, getImageURL(base_path + "heilanthus.jpg"), 0);
+        item = new Item("חמניות", "חמניות הן פרחים יפים", 0, 170, ItemType.VASE, Color.PINK, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "heilanthus.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("חינניות", 125, getImageURL(base_path + "daisy.jpg"), 10);
+
+//        item = new Item("חינניות", 125, getImageURL(base_path + "daisy.jpg"), 10);
+        item = new Item("חינניות", "חינניות הן פרחים יפים", 10, 125, ItemType.BOUQUET, Color.WHITE, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "daisy.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("אדמוניות", 190, getImageURL(base_path + "peonybouquet.jpg"), 0);
+
+//        item = new Item("אדמוניות", 190, getImageURL(base_path + "peonybouquet.jpg"), 0);
+        item = new Item("אדמוניות", "אדמוניות הן פרחים יפים", 0, 190, ItemType.BOUQUET, Color.RED, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "peonybouquet.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("צבעוני", 175, getImageURL(base_path + "orange_tulips.jpg"), 0);
+
+//        item = new Item("צבעוני", 175, getImageURL(base_path + "orange_tulips.jpg"), 0);
+        item = new Item("צבעוני", "צבעוני הוא פרח יפה", 0, 175, ItemType.BOUQUET, Color.ORANGE, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "orange_tulips.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("פרג", 180, getImageURL(base_path + "poppy.jpg"), 0);
+
+//        item = new Item("פרג", 180, getImageURL(base_path + "poppy.jpg"), 0);
+        item = new Item("פרג", "פרג הוא פרח יפה", 0, 180, ItemType.BRIDAL, Color.RED, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "poppy.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("סוקולנטים", 100, getImageURL(base_path + "succulents.jpg"), 0);
+
+//        item = new Item("סוקולנטים", 100, getImageURL(base_path + "succulents.jpg"), 0);
+        item = new Item("סוקולנטים", "סוקולנטים הם פרחים יפים", 0, 100, ItemType.BRIDAL, Color.RED, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "succulents.jpg"))), "JPG"));
         itemList.add(item);
-        item = new Item("שושן", 90, getImageURL(base_path + "lily.jpg"), 10);
+
+//        item = new Item("שושן", 90, getImageURL(base_path + "lily.jpg"), 10);
+        item = new Item("שושן", "שושן הוא פרח יפה", 10, 90, ItemType.ARRANGEMENT, Color.RED, Utilities.imgFileToBytesConverter(new File(Objects.requireNonNull(getImageURL(base_path + "lily.jpg"))), "JPG"));
         itemList.add(item);
 
         return itemList;

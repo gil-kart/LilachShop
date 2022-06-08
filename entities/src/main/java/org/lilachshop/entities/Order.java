@@ -124,6 +124,10 @@ public class Order implements Serializable {
         return store;
     }
 
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
     @ManyToOne
     Store store;
 

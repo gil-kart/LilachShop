@@ -154,18 +154,21 @@ public class OrderTableController {
 
     @Subscribe
     public void onGetAllStores(List<Store> storeList) {
-        if (DashBoardController.panelEnum.equals(PanelEnum.GENERAL_EMPLOYEE) || DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER))
-        {
-            for (Store store: storeList) {
-                if(store.getId().equals(DashBoardController.employee.getStore().getId()))
-                    StoreChoiceBox.setItems(FXCollections.observableArrayList(store));
+        Platform.runLater(()->{
+            if (DashBoardController.panelEnum.equals(PanelEnum.GENERAL_EMPLOYEE) || DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER))
+            {
+                for (Store store: storeList) {
+                    if(store.getId().equals(DashBoardController.employee.getStore().getId()))
+                        StoreChoiceBox.setItems(FXCollections.observableArrayList(store));
+                }
             }
-        }
-        else
-        {
-            StoreChoiceBox.setItems(FXCollections.observableArrayList(storeList));
-            StoreChoiceBox.getItems().remove(0);
-        }
+            else
+            {
+                StoreChoiceBox.setItems(FXCollections.observableArrayList(storeList));
+                StoreChoiceBox.getItems().remove(0);
+            }
+            StoreChoiceBox.getSelectionModel().select(0);
+        });
     }
     @Subscribe
     public void handleOrdersByIDStore(OrderEvent orders) {

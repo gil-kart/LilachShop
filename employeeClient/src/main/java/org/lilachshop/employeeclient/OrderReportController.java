@@ -204,8 +204,17 @@ public class OrderReportController implements Initializable {
         LocalDateTime start = startDate.getValue().atStartOfDay();
         LocalDateTime end = endDate.getValue().atStartOfDay();
         // saving all orders in range in a list
+        List<Order> relevantOrders;
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
+           (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))){
+            relevantOrders = ordersFromAllStores;
+        }
+        else {
+            relevantOrders = orders;
+        }
+
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
-            for (Order order : orders) {
+            for (Order order : relevantOrders) {
                 if(Utilities.hasTheSameDate(date, order.getCreationDate())
                // if (order.getCreationDate().equals(date)
                 &&
@@ -219,7 +228,7 @@ public class OrderReportController implements Initializable {
             List<myOrderItem> orderItems = order.getItems();
             for (myOrderItem itemFromOrder : orderItems) {
                 if (itemFromOrder.getName().equals(item.getName())
-                && (order.getStore().getCatalog().getId() == ((int)catalogId))) { //todo: right now comparing only product name, maybe should check more attributes
+                && (order.getStore().getCatalog().getId() == ((int)catalogId))) {
                     counter += itemFromOrder.getCount();
 
                 }

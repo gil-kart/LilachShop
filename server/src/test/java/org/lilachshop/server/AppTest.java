@@ -49,7 +49,12 @@ public class AppTest {
         @Override
         public void run() {
             System.out.println("Server: Setting up server...");
-            LilachServer lilachServer = new LilachServer(3000);
+            LilachServer lilachServer = null;
+            try {
+                lilachServer = new LilachServer(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             System.out.println("Server: Done.");
             try {
                 System.out.println("Server: Listening!");
