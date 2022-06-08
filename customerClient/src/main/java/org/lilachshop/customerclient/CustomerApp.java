@@ -140,7 +140,7 @@ public class CustomerApp extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         CustomerApp.stage = stage;
-       ((CustomerAnonymousPanel) panel).getAllStores();
+        ((CustomerAnonymousPanel) panel).getAllStores();
     }
 
     @Subscribe
@@ -199,8 +199,7 @@ public class CustomerApp extends Application {
                     e.printStackTrace();
                 }
             });
-        }
-        else {
+        } else {
             Platform.runLater(() -> {
                 Alert a = new Alert(Alert.AlertType.NONE);
                 ButtonType button = new ButtonType("אישור");
@@ -234,7 +233,7 @@ public class CustomerApp extends Application {
 
     static void onCloseWindowEvent(WindowEvent event) {
         if (myCustomer != null)
-            ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User)CustomerApp.getMyCustomer());
+            ((StoreCustomerPanel) CustomerApp.getPanel()).sendSignOutRequestToServer((User) CustomerApp.getMyCustomer());
         System.out.println("Graceful termination, goodbye ;)");
         System.exit(0);
     }

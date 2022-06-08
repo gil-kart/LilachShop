@@ -10,6 +10,7 @@ import java.util.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,6 +46,8 @@ public class CatalogController {
     int count = 0;
     private static final int MAX_ON_SALE = 10;
     static boolean onStartUp = true;
+
+    private static ObservableList<Store> allStores = FXCollections.observableArrayList();
 
     @FXML
     private Label history;
@@ -268,6 +271,7 @@ public class CatalogController {
     }
 
     public void showInfo(List<Item> flowerList, CustomerApp customerApp) {
+
         this.myFlowers = CustomerApp.getMyFlowers();
         if (myFlowers != null && myFlowers.size() > 0) {
             for (myOrderItem flower : myFlowers)
@@ -335,9 +339,28 @@ public class CatalogController {
         }
 
         if (CustomerApp.getMyCustomer() != null && !CustomerApp.getMyCustomer().getAccount().getAccountType().equals(AccountType.STORE_ACCOUNT)) {
+
             storeChoiceBox.setDisable(false);
-            panel = OperationsPanelFactory.createPanel(PanelEnum.ANNUAL_CUSTOMER, CustomerApp.getSocket(), this);
-            ((AnnualCustomerPanel) panel).getAllStores();
+            if (panel != null) {
+                panel.closeConnection();
+                panel = null;
+            }
+            panel = OperationsPanelFactory.createPanel(CustomerApp.panelEnum, CustomerApp.getSocket(), this);
+            if (CatalogController.allStores.isEmpty())
+                ((ChainCustomerPanel) panel).getAllStores();
+            else {
+                storeChoiceBox.setItems(CatalogController.allStores);
+                storeChoiceBox.setOnAction((event) -> {
+                    System.out.println("hhaaa");
+                    Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
+                    CustomerApp.setMyStore(selectedItem);
+                    CustomerApp.setStoreId(selectedItem.getId());
+                    CustomerApp.setMyFlowers(new ArrayList<myOrderItem>());
+                    grid.getChildren().clear();
+                    chosenFlower.setVisible(false);
+                    CustomerApp.getCustomerCatalog();
+                });
+            }
         }
     }
 
@@ -348,13 +371,13 @@ public class CatalogController {
     @Subscribe
     public void onGetAllStores(List<Store> allStores) {
         Platform.runLater(() -> {
-            storeChoiceBox.setItems(FXCollections.observableArrayList(allStores));
-            storeChoiceBox.getItems().remove(0);
-            if(onStartUp) {
-                storeChoiceBox.getSelectionModel().selectFirst();
-                onStartUp = false;
-            }
+            CatalogController.allStores = FXCollections.observableArrayList(allStores);
+            CatalogController.allStores.remove(0);
+            storeChoiceBox.setItems(CatalogController.allStores);
+//            storeChoiceBox.getItems().remove(0);
+            storeChoiceBox.getSelectionModel().selectFirst();
             storeChoiceBox.setOnAction((event) -> {
+                System.out.println("hhaaa");
                 Store selectedItem = storeChoiceBox.getSelectionModel().getSelectedItem();
                 CustomerApp.setMyStore(selectedItem);
                 CustomerApp.setStoreId(selectedItem.getId());

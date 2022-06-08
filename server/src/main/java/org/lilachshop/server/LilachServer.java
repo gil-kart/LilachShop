@@ -471,10 +471,6 @@ public class LilachServer extends AbstractServer {
                         List<Item> items = catalog.getItems();
                         ItemsEvent itemEvent = new ItemsEvent(items);
                         client.sendToClient(itemEvent);
-                        System.out.println("catalog was sent!");
-                        for (Item item : items) {
-                            System.out.println(item);
-                        }
                     }
                     case "Get Catalog By StoreID" -> {
                         Catalog catalog = entityFactory.getSingleCatalogEntityRecordByStoreID(request.getId());
