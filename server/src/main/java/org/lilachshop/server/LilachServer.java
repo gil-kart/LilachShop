@@ -74,19 +74,19 @@ public class LilachServer extends AbstractServer {
         }
 
         //************************** Cart Request ********************************************
-        if((msg.getClass().equals(CartRequest.class))){
+        if ((msg.getClass().equals(CartRequest.class))) {
             CartRequest request = (CartRequest) msg;
             String message_from_client = request.getRequest();
-            if(message_from_client.equals("refresh cart items")){
+            if (message_from_client.equals("refresh cart items")) {
                 List<myOrderItem> myOrderItemList = request.getOrderItemList();
-                for(myOrderItem myOrderItem: myOrderItemList){
+                for (myOrderItem myOrderItem : myOrderItemList) {
                     Item itemIter = myOrderItem.getItem();
                     Item updatedItem = entityFactory.getItemByID(itemIter.getId());
                     myOrderItem.setItem(updatedItem);
                 }
                 try {
                     client.sendToClient(new UpdateCartEvent("updated item list success", myOrderItemList));
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -493,7 +493,7 @@ public class LilachServer extends AbstractServer {
                         client.sendToClient(entityFactory.getSingleCatalogEntityRecord(request.getId()));
                     }
                     case "get catalog by filter" -> {
-                        List<Item> items = entityFactory.filterByThreePredicates(request.getId(), request.getPrice(), request.getColor(), request.getType());
+                        List<Item> items = entityFactory.filterCatalog(request.getId(), request.getMinPrice(), request.getMaxPrice(), request.getColor(), request.getType());
                         ItemsEvent itemEvent = new ItemsEvent(items);
                         client.sendToClient(itemEvent);
                     }
