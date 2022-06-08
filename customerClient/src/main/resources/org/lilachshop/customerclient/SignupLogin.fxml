@@ -20,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpLoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpLoginController">
    <children>
       <Ellipse layoutX="202.0" layoutY="355.0" radiusX="406.0" radiusY="565.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0">
          <fill>
@@ -212,5 +212,14 @@
             <Image url="@signUpResources/DesignWomanFlower.png" />
          </image>
       </ImageView>
+      <HBox fx:id="backBtn" alignment="CENTER" layoutX="1169.0" layoutY="27.0" onMouseClicked="#onClickBack" prefHeight="46.0" prefWidth="90.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="חזרה" />
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </HBox>
    </children>
 </AnchorPane>

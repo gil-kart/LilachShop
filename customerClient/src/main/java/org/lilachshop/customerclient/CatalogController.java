@@ -34,6 +34,9 @@ import org.lilachshop.panels.*;
 public class CatalogController {
     private static Panel panel;
 
+    @FXML
+    public HBox resetFilterBtn;
+
     Boolean switchFlag = false;
     private Item flowerShown;
 
@@ -299,7 +302,7 @@ public class CatalogController {
         grid.getChildren().clear();
         itemLayout.getChildren().clear();
         try {
-            if (flowerList.size()>0) {
+            if (flowerList.size() > 0) {
                 for (Item flower : flowerList) {
                     FXMLLoader fxmlLoader = new FXMLLoader();
                     fxmlLoader.setLocation(getClass().getResource("Item.fxml"));
@@ -323,9 +326,7 @@ public class CatalogController {
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 chosenFlower.setVisible(false);
             }
         } catch (IOException e) {
@@ -365,6 +366,15 @@ public class CatalogController {
         CustomerApp.setMyFlowers(new LinkedList<myOrderItem>());
         CustomerApp.createPanel();
 
+    }
+
+    @FXML
+    public void onClickReset(MouseEvent event) {
+        if (CustomerApp.getMyCustomer() == null) {
+            ((CustomerAnonymousPanel) CustomerApp.getPanel()).sendGetGeneralCatalogRequestToServer();
+        } else {
+            ((StoreCustomerPanel) CustomerApp.getPanel()).sendGetCatalogRequestToServer(CustomerApp.getMyStore().getId());
+        }
     }
 
 }

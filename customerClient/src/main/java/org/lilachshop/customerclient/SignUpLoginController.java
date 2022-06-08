@@ -20,6 +20,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.entities.Customer;
@@ -150,5 +151,10 @@ public class SignUpLoginController implements Initializable {
                 CustomerApp.createPanel();
             }
         });
+    }
+
+    @FXML
+    public void onClickBack(MouseEvent event) {
+        ((CustomerAnonymousPanel) CustomerApp.getPanel()).sendGetGeneralCatalogRequestToServer();
     }
 }
