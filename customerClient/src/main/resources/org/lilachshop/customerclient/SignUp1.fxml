@@ -4,29 +4,25 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@signUpResources/SignupBackground.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStageUserPasswordController">
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="bodybg" stylesheets="@../../../images/SignupBackground.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.SignUpStageUserPasswordController">
    <children>
-      <PasswordField fx:id="passwordTF" alignment="BOTTOM_CENTER" layoutX="689.0" layoutY="411.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס סיסמא כאן - 5 ספרות לפחות" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
+      <PasswordField fx:id="passwordTF" alignment="BOTTOM_CENTER" layoutX="689.0" layoutY="411.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס סיסמא כאן - 5 ספרות לפחות" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #77779D; -fx-border-width: 0 0 1 0;">
          <font>
             <Font name="Arial Bold Italic" size="15.0" />
          </font>
       </PasswordField>
-      <TextField fx:id="userNameTF" alignment="BOTTOM_CENTER" layoutX="686.0" layoutY="338.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס שם משתמש כאן" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: rgba(255,182,193,0.5); -fx-border-width: 0 0 3 0;">
+      <TextField fx:id="userNameTF" alignment="BOTTOM_CENTER" layoutX="686.0" layoutY="338.0" prefHeight="50.0" prefWidth="321.0" promptText="הכנס שם משתמש כאן" style="-fx-background-color: rgba(0,0,0,0); -fx-border-color: #77779D; -fx-border-width: 0 0 1 0;">
          <font>
             <Font name="Arial Bold Italic" size="15.0" />
          </font>
       </TextField>
-      <Ellipse fill="#5997c9" layoutX="704.0" layoutY="719.0" radiusX="121.0" radiusY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-         <effect>
-            <BoxBlur height="50.28" iterations="2" width="57.43" />
-         </effect>
-      </Ellipse>
-      <Button fx:id="btnNext" contentDisplay="CENTER" layoutX="618.0" layoutY="645.0" mnemonicParsing="false" onAction="#onClickBtnNext" prefHeight="71.0" prefWidth="175.0" style="-fx-background-color: #B8D0E6; -fx-background-radius: 30; -fx-border-color: #B8D0E6; -fx-border-radius: 30;" text="המשך" textAlignment="CENTER" textFill="#e9eff5">
+      <Button fx:id="btnNext" contentDisplay="CENTER" layoutX="640.0" layoutY="660.0" mnemonicParsing="false" onAction="#onClickBtnNext" prefHeight="56.0" prefWidth="152.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="המשך" textAlignment="CENTER" textFill="#77779d">
          <font>
             <Font name="Agency FB Bold" size="29.0" />
          </font>
@@ -34,12 +30,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Ellipse fill="#5997c9" layoutX="1133.0" layoutY="720.0" radiusX="121.0" radiusY="16.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
-         <effect>
-            <BoxBlur height="50.28" iterations="2" width="57.43" />
-         </effect>
-      </Ellipse>
-      <Button fx:id="btnBack" contentDisplay="CENTER" layoutX="1044.0" layoutY="647.0" mnemonicParsing="false" onAction="#onClickBtnBack" prefHeight="71.0" prefWidth="175.0" style="-fx-background-color: #B8D0E6; -fx-background-radius: 30; -fx-border-color: #B8D0E6; -fx-border-radius: 30;" text="חזרה" textAlignment="CENTER" textFill="#e9eff5">
+      <Button fx:id="btnBack" contentDisplay="CENTER" layoutX="1046.0" layoutY="660.0" mnemonicParsing="false" onAction="#onClickBtnBack" prefHeight="50.0" prefWidth="159.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="חזרה" textAlignment="CENTER" textFill="#77779d">
          <font>
             <Font name="Agency FB Bold" size="29.0" />
          </font>
@@ -47,5 +38,19 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <VBox alignment="CENTER" layoutX="760.0" layoutY="40.0">
+         <children>
+            <ImageView fitHeight="90.0" fitWidth="424.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/Indicator1%20(2).png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="120.0" fitWidth="367.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../images/My%20project%20(32).png" />
+               </image>
+            </ImageView>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

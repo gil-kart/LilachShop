@@ -3,89 +3,45 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.MessageBoxComplaintController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="436.0" prefWidth="712.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.MessageBoxComplaintController">
     <children>
-        <VBox alignment="CENTER_RIGHT" layoutX="50.0" prefHeight="426.0" prefWidth="584.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER_RIGHT" layoutX="50.0" prefHeight="426.0" prefWidth="584.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
             <children>
             <HBox alignment="CENTER" prefHeight="46.0" prefWidth="548.0">
                <children>
-                  <Text fx:id="complaintIDTF" boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text=" #00000" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="304.49432611465454">
-                     <font>
-                        <Font name="System Bold" size="31.0" />
-                     </font>
-                     <fill>
-                        <LinearGradient endX="1.0" endY="0.6249999918720939">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.007680491551459294">
-                                 <color>
-                                    <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.31487061325771">
-                                 <color>
-                                    <Color red="0.3391812741756439" green="0.7894737124443054" blue="0.406725138425827" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="0.02245614118874073" green="0.09150876849889755" blue="0.2526315748691559" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </fill>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Text>
-                        <Text boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="משוב תלונה: " textOrigin="CENTER" wrappingWidth="329.29444697499275">
-                            <font>
-                                <Font name="System Bold" size="31.0" />
-                            </font>
-                            <fill>
-                                <LinearGradient endX="1.0" endY="0.6249999918720939">
-                                    <stops>
-                                        <Stop>
-                                            <color>
-                                                <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                                            </color>
-                                        </Stop>
-                                        <Stop offset="0.007680491551459294">
-                                            <color>
-                                                <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                                            </color>
-                                        </Stop>
-                                        <Stop offset="0.31487061325771">
-                                            <color>
-                                                <Color red="0.3391812741756439" green="0.7894737124443054" blue="0.406725138425827" />
-                                            </color>
-                                        </Stop>
-                                        <Stop offset="1.0">
-                                            <color>
-                                                <Color red="0.02245614118874073" green="0.09150876849889755" blue="0.2526315748691559" />
-                                            </color>
-                                        </Stop>
-                                    </stops>
-                                </LinearGradient>
-                            </fill>
-                        </Text>
+                  <ImageView fitHeight="101.0" fitWidth="258.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/My%20project%20(27).png" />
+                     </image>
+                  </ImageView>
                </children>
             </HBox>
-                <Label prefHeight="30.0" prefWidth="70.0" text="תוכן תלונה:" textAlignment="RIGHT" underline="true">
+            <HBox alignment="CENTER_RIGHT" prefHeight="75.0" prefWidth="612.0">
+               <children>
+                  <Text fx:id="complaintIDTF" boundsType="LOGICAL_VERTICAL_CENTER" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text=" #00000" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="94.49432611465454">
+                     <font>
+                        <Font name="System Bold" size="19.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="תלונה מ&quot;ס:" wrappingWidth="98.755859375">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+                <Label prefHeight="30.0" prefWidth="70.0" text="תוכן תלונה:" textAlignment="RIGHT" textFill="#77779d" underline="true">
                     <font>
                         <Font size="14.0" />
                     </font>
@@ -98,38 +54,12 @@
                         <Insets />
                     </VBox.margin>
                 </TextField>
-            <Text fx:id="noReplyYet" boundsType="LOGICAL_VERTICAL_CENTER" strokeType="OUTSIDE" strokeWidth="0.0" text="אנו מטפלים בתלונתך. כאשר נסיים לטפל בה, המענה יהיה תחת לשונית 'תגובת המערכת:'" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="498.8943476676941">
+            <Text fx:id="noReplyYet" boundsType="LOGICAL_VERTICAL_CENTER" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="אנו מטפלים בתלונתך. כאשר נסיים לטפל בה, המענה יהיה תחת לשונית 'תגובת המערכת:'" textAlignment="RIGHT" textOrigin="CENTER" wrappingWidth="498.8943476676941">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
-               <fill>
-                  <LinearGradient endX="1.0" endY="0.6249999918720939">
-                     <stops>
-                        <Stop>
-                           <color>
-                              <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.007680491551459294">
-                           <color>
-                              <Color red="0.055399611592292786" green="0.5157894492149353" blue="0.12445808947086334" />
-                           </color>
-                        </Stop>
-                        <Stop offset="0.31487061325771">
-                           <color>
-                              <Color red="0.3391812741756439" green="0.7894737124443054" blue="0.406725138425827" />
-                           </color>
-                        </Stop>
-                        <Stop offset="1.0">
-                           <color>
-                              <Color red="0.02245614118874073" green="0.09150876849889755" blue="0.2526315748691559" />
-                           </color>
-                        </Stop>
-                     </stops>
-                  </LinearGradient>
-               </fill>
             </Text>
-                <Label prefHeight="30.0" prefWidth="100.0" text="תגובת המערכת:" underline="true">
+                <Label prefHeight="30.0" prefWidth="100.0" text="תגובת המערכת:" textFill="#77779d" underline="true">
                     <font>
                         <Font size="14.0" />
                     </font>

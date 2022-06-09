@@ -10,14 +10,14 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="203.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.HistoryItemController">
+<AnchorPane prefHeight="203.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.HistoryItemController">
    <children>
       <VBox alignment="TOP_RIGHT" layoutY="-1.0" prefHeight="190.0" prefWidth="1220.0">
          <children>
             <HBox alignment="TOP_RIGHT">
                <children>
                   <Label fx:id="orderStatusLabel" prefHeight="25.0" prefWidth="53.0" textAlignment="RIGHT" />
-                  <Label fx:id="status" text="סטטוס">
+                  <Label fx:id="status" text="סטטוס" textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -34,7 +34,7 @@
             </HBox>
             <HBox alignment="TOP_RIGHT" layoutX="9.0" layoutY="20.0">
                <children>
-                  <Label fx:id="orderNum" text="123456789">
+                  <Label fx:id="orderNum" text="123456789" textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -42,7 +42,7 @@
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label text="מספר הזמנה:">
+                  <Label text="מספר הזמנה:" textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -50,7 +50,7 @@
                         <Insets left="10.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <Label text="ש&quot;ח">
+                  <Label text="ש&quot;ח" textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -58,12 +58,12 @@
                         <Insets left="10.0" right="5.0" />
                      </HBox.margin>
                   </Label>
-                  <Label fx:id="price" text="123456789">
+                  <Label fx:id="price" text="123456789" textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Label>
-                  <Label text="מחיר סופי: ">
+                  <Label text="מחיר סופי: " textFill="#77779d">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -80,7 +80,7 @@
                <content>
                   <AnchorPane nodeOrientation="RIGHT_TO_LEFT" prefHeight="82.0" prefWidth="1174.0">
                      <children>
-                        <HBox fx:id="layout" alignment="CENTER" prefHeight="86.0" prefWidth="1178.0" spacing="20.0">
+                        <HBox fx:id="layout" alignment="CENTER" layoutX="-5.0" prefHeight="87.0" prefWidth="1183.0" spacing="20.0" stylesheets="@DashboardButtonCSS.css">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets></HBox>
@@ -90,16 +90,16 @@
             </ScrollPane>
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="634.0">
                <children>
-                  <Button fx:id="ComplaintReply" mnemonicParsing="false" onAction="#onComplaintReply" text="תגובה לתלונה">
+                  <Button fx:id="ComplaintReply" mnemonicParsing="false" onAction="#onComplaintReply" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="תגובה לתלונה" textFill="#77779d">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin></Button>
-                  <Button fx:id="CancelOrder" mnemonicParsing="false" onAction="#onCancelOrder" text="ביטול הזמנה">
+                  <Button fx:id="CancelOrder" mnemonicParsing="false" onAction="#onCancelOrder" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="ביטול הזמנה" textFill="#77779d">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="fillComplaint" mnemonicParsing="false" onAction="#onFilingComplaint" text="הגשת תלונה" />
+                  <Button fx:id="fillComplaint" mnemonicParsing="false" onAction="#onFilingComplaint" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="הגשת תלונה" textFill="#77779d" />
                </children>
                <VBox.margin>
                   <Insets top="10.0" />

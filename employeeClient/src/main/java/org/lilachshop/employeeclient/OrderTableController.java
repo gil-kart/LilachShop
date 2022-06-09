@@ -79,7 +79,8 @@ public class OrderTableController {
     @FXML // fx:id="totalPriceCol"
     private TableColumn<OrderTableEntry, Double> totalPriceCol; // Value injected by FXMLLoader
 
-    @FXML // This method is called by the FXMLLoader when initialization is complete
+    @FXML
+        // This method is called by the FXMLLoader when initialization is complete
     void initialize() {
         assert DeliveryMethodCol != null : "fx:id=\"DelevieryMethodCol\" was not injected: check your FXML file 'OrderTable.fxml'.";
         assert StoreChoiceBox != null : "fx:id=\"StoreChoiceBox\" was not injected: check your FXML file 'OrderTable.fxml'.";
@@ -93,16 +94,16 @@ public class OrderTableController {
         assert statusChoiceBox != null : "fx:id=\"statusChoiceBox\" was not injected: check your FXML file 'OrderTable.fxml'.";
         assert statusCol != null : "fx:id=\"statusCol\" was not injected: check your FXML file 'OrderTable.fxml'.";
         assert totalPriceCol != null : "fx:id=\"totalPriceCol\" was not injected: check your FXML file 'OrderTable.fxml'.";
-        DeliveryMethodCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, OrderType>("method") );
-        deliveryTimeCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, LocalDateTime>("deliveryTime") );
-        creationDateCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, LocalDateTime>("createDate") );
-        customerNameCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, String>("ownerName") );
-        deliveryAddressCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, String>("address") );
-        orderIDcol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Long>("id") );
-        refundCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Double>("refund") );
-        statusCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, OrderStatus>("status") );
-        totalPriceCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Double>("totalPrice") );
-        if(panel!=null) {
+        DeliveryMethodCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, OrderType>("method"));
+        deliveryTimeCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, LocalDateTime>("deliveryTime"));
+        creationDateCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, LocalDateTime>("createDate"));
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, String>("ownerName"));
+        deliveryAddressCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, String>("address"));
+        orderIDcol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Long>("id"));
+        refundCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Double>("refund"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, OrderStatus>("status"));
+        totalPriceCol.setCellValueFactory(new PropertyValueFactory<OrderTableEntry, Double>("totalPrice"));
+        if (panel != null) {
             panel.closeConnection();
             panel = null;
         }
@@ -184,17 +185,17 @@ public class OrderTableController {
 
     private List<OrderTableEntry> convertOrderToOrderTableEntry(OrderEvent orders) {
         List<OrderTableEntry> orderTableEntries = new LinkedList<>();
-        for(Order orderIter: orders.getOrders()){
+        for (Order orderIter : orders.getOrders()) {
             OrderTableEntry orderTableEntry = new OrderTableEntry();
             orderTableEntry.setOrder(orderIter);
             orderTableEntries.add(orderTableEntry);
         }
-        return  orderTableEntries;
+        return orderTableEntries;
     }
     @Subscribe
-    public void onHandleMessageFromServer(String reply){
-        Platform.runLater(()->{
-            if(reply.equals("order update success")){
+    public void onHandleMessageFromServer(String reply) {
+        Platform.runLater(() -> {
+            if (reply.equals("order update success")) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setHeaderText("עדכון הזמנה");
                 alert.setContentText("ההזמנה עודכנה בהצלחה!");
@@ -203,8 +204,7 @@ public class OrderTableController {
                 alert.getButtonTypes().setAll(button);
                 alert.show();
                 ((SignedInEmployeePanel) panel).sendGetOrdersFromServer(currentStoreID);
-            }
-            else {
+            } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("שגיאה");
                 alert.setContentText("עדכון ההזמנה נכשל");

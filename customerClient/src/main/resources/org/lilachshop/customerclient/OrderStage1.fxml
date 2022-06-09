@@ -17,11 +17,11 @@
    <children>
       <BorderPane layoutY="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER" prefHeight="251.0" prefWidth="1281.0" style="-fx-background-color: E6E6FA;" BorderPane.alignment="CENTER_RIGHT">
                <children>
                   <ImageView fitHeight="197.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../images/LilacLogo.png" />
+                        <Image url="@../../../images/My%20project%20(43).png" />
                      </image>
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
@@ -34,7 +34,7 @@
                      <children>
                         <HBox alignment="TOP_RIGHT" prefHeight="66.0" prefWidth="1051.0">
                            <children>
-                              <Label onMouseClicked="#returnToCatalog" prefHeight="30.0" prefWidth="51.0" text="לקטלוג">
+                              <Label onMouseClicked="#returnToCatalog" prefHeight="30.0" prefWidth="51.0" text="לקטלוג" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -47,13 +47,16 @@
                               </Label>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#returnToCatalog" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../images/catalogue (1).png" />
+                                    <Image url="@../../../images/My%20project%20(14).png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -66,7 +69,7 @@
                               </Label>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#gotoSignUpOrPersonalArea" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../images/account.png" />
+                                    <Image url="@../../../images/My%20project%20(9).png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -74,22 +77,27 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <ImageView fitHeight="37.0" fitWidth="312.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../images/S1.png" />
-                           </image>
+                        <VBox>
                            <VBox.margin>
-                              <Insets left="400.0" top="20.0" />
+                              <Insets left="350.0" top="20.0" />
                            </VBox.margin>
-                        </ImageView>
-                        <Label text="הוספת ברכה:">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="450.0" top="20.0" />
-                           </VBox.margin>
-                        </Label>
+                           <children>
+                              <ImageView fitHeight="101.0" fitWidth="352.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/Indicator1%20(2).png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" prefHeight="129.0" prefWidth="1022.0">
+                           <children>
+                              <ImageView fitHeight="96.0" fitWidth="297.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/My%20project%20(13).png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -101,9 +109,9 @@
                   <Insets left="150.0" />
                </BorderPane.margin>
                <children>
-                  <TextArea fx:id="cardField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="490.0" prefWidth="1029.0">
+                  <TextArea fx:id="cardField" nodeOrientation="RIGHT_TO_LEFT" prefHeight="417.0" prefWidth="988.0">
                      <VBox.margin>
-                        <Insets left="50.0" right="50.0" top="20.0" />
+                        <Insets left="150.0" right="150.0" top="20.0" />
                      </VBox.margin>
                      <font>
                         <Font size="24.0" />
@@ -118,7 +126,10 @@
                   <Insets bottom="20.0" left="20.0" />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="next" mnemonicParsing="false" onAction="#gotoNext" prefHeight="58.0" prefWidth="104.0" text="לשלב הבא" />
+                  <Button fx:id="next" mnemonicParsing="false" onAction="#gotoNext" prefHeight="58.0" prefWidth="138.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="לשלב הבא" textFill="#77779d">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Button>
                </children>
             </HBox>
          </bottom>

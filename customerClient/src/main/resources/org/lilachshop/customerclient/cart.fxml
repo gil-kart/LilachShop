@@ -12,19 +12,18 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.customerclient.CartController">
    <children>
       <BorderPane layoutY="1.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <VBox prefHeight="459.0" prefWidth="247.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="459.0" prefWidth="247.0" style="-fx-background-color: E6E6FA;" BorderPane.alignment="CENTER">
                <children>
                   <VBox fx:id="chosenFlower" alignment="TOP_CENTER" prefHeight="158.0" prefWidth="247.0">
                      <children>
                         <HBox alignment="CENTER" prefHeight="59.0" prefWidth="247.0">
                            <children>
-                              <Label text="סיכום הזמנה:" underline="true">
+                              <Label text="סיכום הזמנה:" textFill="#77779d" underline="true">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -33,23 +32,11 @@
                         </HBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="29.0" prefWidth="247.0">
                            <children>
-                              <Label fx:id="storeName" prefHeight="18.0" prefWidth="37.0" text="חיפה">
+                              <Label fx:id="storeName" prefHeight="18.0" prefWidth="37.0" text="חיפה" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
-                              <Label text="מוזמן מחנות:">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font></Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="247.0">
-                           <children>
-                              <Label fx:id="count" prefHeight="18.0" prefWidth="37.0" text="            ">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font></Label>
-                              <Label text="כמות מוצרים:" textAlignment="RIGHT">
+                              <Label text="מוזמן מחנות:" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
@@ -57,31 +44,49 @@
                         </HBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="247.0">
                            <children>
-                              <Label prefHeight="18.0" prefWidth="37.0" text="ש&quot;ח">
+                              <Label fx:id="count" prefHeight="18.0" prefWidth="37.0" text="            " textFill="#77779d">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                              <Label text="כמות מוצרים:" textAlignment="RIGHT" textFill="#77779d">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font></Label>
+                           </children>
+                        </HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="35.0" prefWidth="247.0">
+                           <children>
+                              <Label prefHeight="18.0" prefWidth="37.0" text="ש&quot;ח" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="finalPrice" prefHeight="26.0" prefWidth="49.0" text="            ">
+                              <Label fx:id="finalPrice" prefHeight="26.0" prefWidth="49.0" text="            " textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
-                              <Label text="מחיר סופי:" textAlignment="RIGHT">
+                              <Label text="מחיר סופי:" textAlignment="RIGHT" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font></Label>
                            </children>
                         </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="40.0" prefWidth="273.0">
                      <children>
                         <AnchorPane prefHeight="40.0" prefWidth="115.0">
                            <children>
-                              <Button fx:id="createOrder" layoutY="4.0" mnemonicParsing="false" onAction="#onCreateOrder" prefHeight="31.0" prefWidth="107.0" text="יצירת הזמנה" />
+                              <Button fx:id="createOrder" layoutY="4.0" mnemonicParsing="false" onAction="#onCreateOrder" prefHeight="31.0" prefWidth="107.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="יצירת הזמנה" textFill="#77779d" />
                            </children>
                         </AnchorPane>
-                        <Button fx:id="emptyCart" mnemonicParsing="false" onAction="#onEmptyCart" prefHeight="31.0" prefWidth="107.0" text="רוקן סל" />
+                        <Button fx:id="emptyCart" mnemonicParsing="false" onAction="#onEmptyCart" prefHeight="31.0" prefWidth="107.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="רוקן סל" textFill="#77779d" />
                      </children>
                      <VBox.margin>
                         <Insets top="25.0" />
@@ -97,32 +102,32 @@
                      <children>
                         <ScrollPane prefHeight="574.0" prefWidth="972.0">
                            <content>
-                              <VBox fx:id="itemLayout" prefHeight="570.0" prefWidth="1010.0" />
+                              <VBox fx:id="itemLayout" prefHeight="570.0" prefWidth="989.0" spacing="20.0" />
                            </content>
                         </ScrollPane>
                      </children>
                   </VBox>
                </children>
                <BorderPane.margin>
-                  <Insets right="20.0" />
+                  <Insets left="20.0" right="20.0" top="20.0" />
                </BorderPane.margin>
             </VBox>
          </center>
          <top>
-            <VBox BorderPane.alignment="CENTER">
+            <VBox style="-fx-background-color: E6E6FA;" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0">
                      <children>
                         <ImageView fitHeight="197.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../images/LilacLogo.png" />
+                              <Image url="@../../../images/My%20project%20(43).png" />
                            </image>
                         </ImageView>
                         <VBox>
                            <children>
                               <HBox alignment="CENTER_RIGHT" prefHeight="66.0" prefWidth="1051.0">
                                  <children>
-                                    <Label onMouseClicked="#returnToCatalog" text="לקטלוג">
+                                    <Label onMouseClicked="#returnToCatalog" text="לקטלוג" textFill="#77779d">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -132,13 +137,16 @@
                                     </Label>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#returnToCatalog" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../images/catalogue (1).png" />
+                                          <Image url="@../../../images/My%20project%20(14).png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <HBox.margin>
+                                          <Insets right="20.0" />
+                                       </HBox.margin>
                                     </ImageView>
-                                    <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
+                                    <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי" textFill="#77779d">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -151,7 +159,7 @@
                                     </Label>
                                     <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#gotoSignUpOrPersonalArea" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../../images/account.png" />
+                                          <Image url="@../../../images/My%20project%20(9).png" />
                                        </image>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -161,11 +169,11 @@
                               </HBox>
                               <HBox alignment="BOTTOM_CENTER" prefHeight="109.0" prefWidth="1051.0">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="סל קניות">
-                                       <font>
-                                          <Font name="Calibri" size="40.0" />
-                                       </font>
-                                    </Text>
+                                    <ImageView fitHeight="86.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../images/My%20project%20(23).png" />
+                                       </image>
+                                    </ImageView>
                                  </children>
                               </HBox>
                            </children>

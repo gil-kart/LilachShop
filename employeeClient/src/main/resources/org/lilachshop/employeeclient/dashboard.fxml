@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.DashBoardController">
    <right>
@@ -23,7 +24,7 @@
                <children>
                   <HBox fx:id="catalogBtn" onMouseClicked="#onClickCatalogBtn" prefHeight="34.0" prefWidth="275.0" style="-fx-border-color: white; -fx-border-width: 2 0 2 0;">
                      <children>
-                        <Label alignment="CENTER_RIGHT" onMouseClicked="#onClickCatalogBtn" prefHeight="39.0" prefWidth="198.0" text="קטלוג" textAlignment="RIGHT">
+                        <Label alignment="CENTER_RIGHT" onMouseClicked="#onClickCatalogBtn" prefHeight="39.0" prefWidth="198.0" text="קטלוג" textAlignment="RIGHT" textFill="#77779d">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -42,7 +43,7 @@
                   </HBox>
                   <HBox fx:id="costumerBtn" onMouseClicked="#onClickCostumerBtn" prefHeight="34.0" prefWidth="275.0" style="-fx-border-color: white; -fx-border-width: 2 0 2 0;">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="לקוחות" textAlignment="RIGHT">
+                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="לקוחות" textAlignment="RIGHT" textFill="#77779d">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -61,7 +62,7 @@
                   </HBox>
                   <HBox fx:id="employeeBtn" onMouseClicked="#onClickEmployeeBtn" prefHeight="34.0" prefWidth="275.0" style="-fx-border-color: white; -fx-border-width: 2 0 2 0;">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="עובדים" textAlignment="RIGHT">
+                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="עובדים" textAlignment="RIGHT" textFill="#77779d">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -80,7 +81,7 @@
                   </HBox>
                   <HBox fx:id="complaintsBtn" onMouseClicked="#onClickComplaintsBtn" prefHeight="34.0" prefWidth="275.0" style="-fx-border-color: white; -fx-border-width: 2 0 2 0;">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="תלונות" textAlignment="RIGHT">
+                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="תלונות" textAlignment="RIGHT" textFill="#77779d">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -99,7 +100,7 @@
                   </HBox>
                   <HBox fx:id="orderBtn" onMouseClicked="#onClickOrdersBtn" prefHeight="34.0" prefWidth="275.0" style="-fx-border-color: white; -fx-border-width: 2 0 2 0;">
                      <children>
-                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="הזמנות" textAlignment="RIGHT">
+                        <Label alignment="CENTER_RIGHT" prefHeight="39.0" prefWidth="198.0" text="הזמנות" textAlignment="RIGHT" textFill="#77779d">
                            <font>
                               <Font size="26.0" />
                            </font>
@@ -120,7 +121,7 @@
                      <children>
                         <Pane prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <MenuButton fx:id="reportBtn1" alignment="CENTER" layoutX="62.0" layoutY="-5.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="153.0" style="-fx-background-color: transprent;" text="דוחות" textAlignment="CENTER">
+                              <MenuButton fx:id="reportBtn1" alignment="CENTER" layoutX="62.0" layoutY="-5.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="153.0" style="-fx-background-color: transprent;" text="דוחות" textAlignment="CENTER" textFill="#77779d">
                                  <items>
                                     <MenuItem fx:id="IncomeReportBtn" mnemonicParsing="false" onAction="#onClickIncomeReportBtn">
                                        <graphic>
@@ -166,13 +167,51 @@
             </VBox>
             <ImageView fitHeight="208.0" fitWidth="205.0" layoutX="39.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="35.0">
                <image>
-                  <Image url="@LilacLogo.png" />
+                  <Image url="@My%20project%20(16).png" />
                </image>
             </ImageView>
          </children>
       </AnchorPane>
    </right>
    <center>
-      <Pane fx:id="displayer" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Pane fx:id="displayer" prefHeight="765.0" prefWidth="1000.0" BorderPane.alignment="CENTER" />
    </center>
+   <top>
+      <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="656.0">
+               <children>
+                  <ImageView fitHeight="34.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@My%20project%20(15).png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <Text fx:id="signOutbtn" fill="#77779d" lineSpacing="10.0" onMouseClicked="#onClickSignout" strokeType="OUTSIDE" strokeWidth="0.0" text="התנתק" underline="true">
+                     <font>
+                        <Font name="System Bold" size="21.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="35.0" prefWidth="596.0">
+               <children>
+                  <Text fx:id="helloNameLabel" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="שלום, עובד" textAlignment="RIGHT" wrappingWidth="128.81689453125">
+                     <font>
+                        <Font size="21.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="30.0" />
+                     </HBox.margin>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

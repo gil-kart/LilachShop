@@ -67,6 +67,8 @@ public class IncomeReportController implements Initializable {
 
     @FXML
     private Label totalIncome;
+    @FXML
+    private Label totalincomeINS;
 
     @FXML
     void onChangeStore(ActionEvent event) {
@@ -76,6 +78,20 @@ public class IncomeReportController implements Initializable {
 //        endDate.setValue(null);
         totalIncome.setText("");
         totalChainIncomeLabel.setText("");
+        totalincomeINS.setVisible(false);
+        //todo: get complaints from all stores
+        if(selectedStore.equals("לילך הרצליה")){
+            ((ChainManagerPanel) panel).getStoreOrders(3);
+        }
+        else if(selectedStore.equals("לילך חיפה")){
+            ((ChainManagerPanel) panel).getStoreOrders(2);
+        }
+        else if(selectedStore.equals("לילך תל אביב")){
+            ((ChainManagerPanel) panel).getStoreOrders(4);
+        }
+        else if(selectedStore.equals("כל החנויות")){
+            ((ChainManagerPanel) panel).getAllOrders();
+        }
     }
 
     @FXML
@@ -161,6 +177,7 @@ public class IncomeReportController implements Initializable {
         }
         complaintBarChart.getData().addAll(set);
         this.totalIncome.setText(String.valueOf(curTotalIncome));
+        totalincomeINS.setVisible(true);
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
             if (selectedStore.equals("כל החנויות")) {
                 totalChainIncomeLabel.setText("סך הכנסות הרשת לפרק זמן זה:");
@@ -192,7 +209,8 @@ public class IncomeReportController implements Initializable {
             curTotalIncomeForAllStores += todayIncomeCounter;
             todayIncomeCounter = 0;
         }
-        totalIncome.setText(String.valueOf(curTotalIncomeForAllStores) + " ש''ח ");
+        totalIncome.setText(String.valueOf(curTotalIncomeForAllStores));
+        totalincomeINS.setVisible(true);
     }
 
     @Override

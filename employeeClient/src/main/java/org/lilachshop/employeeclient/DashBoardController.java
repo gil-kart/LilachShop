@@ -9,11 +9,14 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +63,15 @@ public class DashBoardController {
     @FXML
     private BorderPane mainPane;
 
+
+    @FXML
+    private Text helloNameLabel;
+
+
+    @FXML
+    private Text signOutbtn;
+
+
     @FXML
     void onClickReportBtn(MouseEvent event) { // WE DON'T USE IT
 
@@ -71,6 +83,8 @@ public class DashBoardController {
             this.displayer.getChildren().clear();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderReport.fxml"));
             AnchorPane anchorPaneOrderReport = fxmlLoader.load();
+            anchorPaneOrderReport.prefWidthProperty().bind(displayer.prefWidthProperty());
+            anchorPaneOrderReport.prefHeightProperty().bind(displayer.prefHeightProperty());
             displayer.getChildren().add(anchorPaneOrderReport);
             OrderReportController controller = fxmlLoader.getController();
             controller.setData(employee.getStore().getId());
@@ -87,6 +101,8 @@ public class DashBoardController {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ComplaintReport.fxml"));
                 AnchorPane anchorPaneComplaintReport = fxmlLoader.load();
+                anchorPaneComplaintReport.prefWidthProperty().bind(displayer.prefWidthProperty());
+                anchorPaneComplaintReport.prefHeightProperty().bind(displayer.prefHeightProperty());
                 displayer.getChildren().add(anchorPaneComplaintReport);
                 ComplaintReportController controller = fxmlLoader.getController();
                 controller.setData(employee.getStore().getId());
@@ -104,6 +120,8 @@ public class DashBoardController {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
                 AnchorPane anchorPaneIncomeReport = fxmlLoader.load();
+                anchorPaneIncomeReport.prefWidthProperty().bind(displayer.prefWidthProperty());
+                anchorPaneIncomeReport.prefHeightProperty().bind(displayer.prefHeightProperty());
                 displayer.getChildren().add(anchorPaneIncomeReport);
                 IncomeReportController controller = fxmlLoader.getController();
                 controller.setData(employee.getStore().getId());
@@ -122,7 +140,7 @@ public class DashBoardController {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("EmployeeTable.fxml"));
-                AnchorPane anchorPaneEmployeeTable = fxmlLoader.load();
+                BorderPane anchorPaneEmployeeTable = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneEmployeeTable);
 //                EmployeeTableController controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
@@ -138,7 +156,7 @@ public class DashBoardController {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CustomerTable.fxml"));
-                AnchorPane anchorPaneCustomerTable = fxmlLoader.load();
+                BorderPane anchorPaneCustomerTable = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCustomerTable);
 //                CustomerTableController controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
@@ -155,7 +173,7 @@ public class DashBoardController {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("CatalogEditTable.fxml"));
-                AnchorPane anchorPaneCatalog = fxmlLoader.load();
+                BorderPane anchorPaneCatalog = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneCatalog);
 //                CatalogEditTableController  controller = fxmlLoader.getController();
 //                controller.employee= this.employee;
@@ -172,7 +190,7 @@ public class DashBoardController {
         try {
             this.displayer.getChildren().clear();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("OrderTable.fxml"));
-            AnchorPane anchorPaneComplaints = fxmlLoader.load();
+            BorderPane anchorPaneComplaints = fxmlLoader.load();
             displayer.getChildren().add(anchorPaneComplaints);
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,7 +203,7 @@ public class DashBoardController {
             try {
                 this.displayer.getChildren().clear();
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("customerServiceView.fxml"));
-                AnchorPane anchorPaneComplaints = fxmlLoader.load();
+                BorderPane anchorPaneComplaints = fxmlLoader.load();
                 displayer.getChildren().add(anchorPaneComplaints);
                 CustomerServiceViewController controller = fxmlLoader.getController();
                 controller.employee = this.employee;
@@ -207,6 +225,22 @@ public class DashBoardController {
     public void dummySubscribeMethod(Object object) {
     }
 
+
+
+    @FXML
+    void onClickSignout(MouseEvent event) {
+        ((SignedInEmployeePanel) panel).sendSignOutRequestToServer((User) this.employee);
+        FXMLLoader fxmlLoader = new FXMLLoader(DashBoardController.class.getResource("EmployeeLogin.fxml"));
+        Parent root = null;
+        try {
+            root = fxmlLoader.load();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void initialize() {
 
@@ -219,6 +253,7 @@ public class DashBoardController {
 
     public void setData(Employee employee) {
         DashBoardController.employee = employee;
+        helloNameLabel.setText("שלום, " + employee.getUserName());
         stage = EmployeeApp.getStage();
         stage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::onExitButton);
         Role role = employee.getRole();
@@ -276,4 +311,6 @@ public class DashBoardController {
         }
         panel = OperationsPanelFactory.createPanel(panelEnum, EmployeeApp.getSocket(), this);
     }
+
+
 }

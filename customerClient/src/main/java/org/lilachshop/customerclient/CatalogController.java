@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -316,6 +317,9 @@ public class CatalogController {
                     ItemController itemController = fxmlLoader.getController();
                     itemController.setData(flower, myListener);
                     grid.getChildren().add(anchorPane);
+                    grid.setAlignment(Pos.CENTER);
+                    grid.setVgap(15);
+                    grid.setHgap(30);
 
                     if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
                         try {

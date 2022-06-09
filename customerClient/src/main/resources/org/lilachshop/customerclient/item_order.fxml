@@ -31,12 +31,12 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="434.0">
                      <children>
-                        <Label fx:id="price1" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="53.0" text="ש&quot;ח">
+                        <Label fx:id="price1" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="32.0" prefWidth="53.0" text="ש&quot;ח" textFill="#77779d">
                            <font>
                               <Font size="22.0" />
                            </font>
                         </Label>
-                        <Label fx:id="price" nodeOrientation="LEFT_TO_RIGHT" text="180">
+                        <Label fx:id="price" nodeOrientation="LEFT_TO_RIGHT" text="180" textFill="#77779d">
                            <font>
                               <Font size="22.0" />
                            </font>
@@ -51,12 +51,12 @@
                   </HBox>
                   <HBox prefHeight="19.0" prefWidth="630.0">
                      <children>
-                        <Text fx:id="oldPrice1" nodeOrientation="LEFT_TO_RIGHT" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח" visible="false" wrappingWidth="23.812894821166992">
+                        <Text fx:id="oldPrice1" fill="#77779d" nodeOrientation="LEFT_TO_RIGHT" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח" visible="false" wrappingWidth="23.812894821166992">
                            <HBox.margin>
                               <Insets left="17.0" />
                            </HBox.margin>
                         </Text>
-                        <Text fx:id="oldPrice" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="120" visible="false" wrappingWidth="23.389068603515625" />
+                        <Text fx:id="oldPrice" fill="#77779d" strikethrough="true" strokeType="OUTSIDE" strokeWidth="0.0" text="120" visible="false" wrappingWidth="23.389068603515625" />
                         <ImageView fx:id="saleImage" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" visible="false">
                            <image>
                               <Image url="@../../../images/coupon.png" />
@@ -72,10 +72,13 @@
                   </HBox>
                </children>
             </VBox>
-            <Label fx:id="flowerName" alignment="CENTER_RIGHT" text="נרקיס">
+            <Label fx:id="flowerName" alignment="CENTER_RIGHT" text="נרקיס" textFill="#77779d">
                <font>
                   <Font size="22.0" />
                </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
             </Label>
             <ImageView fx:id="item_img" fitHeight="137.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
                <image>

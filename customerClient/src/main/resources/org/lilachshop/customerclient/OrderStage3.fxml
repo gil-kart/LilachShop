@@ -19,11 +19,11 @@
    <children>
       <BorderPane layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="186.0" BorderPane.alignment="CENTER_RIGHT">
+            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="251.0" prefWidth="186.0" style="-fx-background-color: E6E6FA;" BorderPane.alignment="CENTER_RIGHT">
                <children>
                   <ImageView fitHeight="197.0" fitWidth="192.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../images/LilacLogo.png" />
+                        <Image url="@../../../images/My%20project%20(43).png" />
                      </image>
                      <HBox.margin>
                         <Insets left="10.0" top="10.0" />
@@ -36,7 +36,7 @@
                      <children>
                         <HBox alignment="TOP_RIGHT" prefHeight="66.0" prefWidth="1051.0">
                            <children>
-                              <Label onMouseClicked="#returnToCatalog" prefHeight="30.0" prefWidth="53.0" text="לקטלוג">
+                              <Label onMouseClicked="#returnToCatalog" prefHeight="30.0" prefWidth="53.0" text="לקטלוג" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -49,13 +49,16 @@
                               </Label>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#returnToCatalog" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../images/catalogue (1).png" />
+                                    <Image url="@../../../images/My%20project%20(14).png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <HBox.margin>
+                                    <Insets right="20.0" />
+                                 </HBox.margin>
                               </ImageView>
-                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי">
+                              <Label fx:id="name" alignment="CENTER_RIGHT" onMouseClicked="#gotoSignUpOrPersonalArea" text="שלום, יוסי לוי" textFill="#77779d">
                                  <font>
                                     <Font size="16.0" />
                                  </font>
@@ -68,7 +71,7 @@
                               </Label>
                               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#gotoSignUpOrPersonalArea" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../../images/account.png" />
+                                    <Image url="@../../../images/My%20project%20(9).png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -76,22 +79,23 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <ImageView fitHeight="37.0" fitWidth="312.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="101.0" fitWidth="352.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: E6E6FA;">
                            <image>
-                              <Image url="@../../../images/S3.png" />
+                              <Image url="@../../../images/progressIndicatorStge2.png" />
                            </image>
                            <VBox.margin>
                               <Insets left="300.0" top="20.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label text="סיכום פרטי ההזמנה:">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="300.0" top="20.0" />
-                           </VBox.margin>
-                        </Label>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <ImageView fitHeight="110.0" fitWidth="362.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/My%20project%20(16).png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </HBox>
                      </children>
                   </VBox>
                </children>
@@ -102,11 +106,11 @@
                <children>
                   <SplitPane dividerPositions="0.30366774541531816" prefHeight="506.0" prefWidth="1168.0">
                      <items>
-                        <VBox alignment="CENTER">
+                        <VBox alignment="CENTER" prefHeight="447.0" prefWidth="311.0">
                            <children>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Text fx:id="amount" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
+                                    <Text fx:id="amount" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -114,7 +118,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="כמות מוצרים:">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="כמות מוצרים:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -126,7 +130,7 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -134,7 +138,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text fx:id="shipPayment" strokeType="OUTSIDE" strokeWidth="0.0" text="15">
+                                    <Text fx:id="shipPayment" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="15">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -142,7 +146,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח:">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="משלוח:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -154,7 +158,7 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -162,7 +166,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text fx:id="discount" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
+                                    <Text fx:id="discount" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -170,7 +174,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="הנחה:">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="הנחה:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -182,7 +186,7 @@
                               </HBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="ש&quot;ח">
                                        <HBox.margin>
                                           <Insets right="5.0" />
                                        </HBox.margin>
@@ -190,7 +194,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text fx:id="totalPrice" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
+                                    <Text fx:id="totalPrice" fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="1200">
                                        <HBox.margin>
                                           <Insets right="10.0" />
                                        </HBox.margin>
@@ -198,7 +202,7 @@
                                           <Font size="18.0" />
                                        </font>
                                     </Text>
-                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="סה&quot;כ לתשלום:">
+                                    <Text fill="#77779d" strokeType="OUTSIDE" strokeWidth="0.0" text="סה&quot;כ לתשלום:">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -219,18 +223,18 @@
                   </SplitPane>
                </children>
                <BorderPane.margin>
-                  <Insets left="150.0" />
+                  <Insets left="150.0" right="120.0" top="20.0" />
                </BorderPane.margin>
             </VBox>
          </center>
          <bottom>
             <HBox BorderPane.alignment="CENTER_LEFT">
                <BorderPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
+                  <Insets bottom="20.0" left="20.0" top="20.0" />
                </BorderPane.margin>
                <children>
-                  <Button fx:id="next" mnemonicParsing="false" onAction="#gotoNext" prefHeight="58.0" prefWidth="104.0" text="לשלב הבא" />
-                  <Button fx:id="prev" mnemonicParsing="false" onAction="#gotoPrev" prefHeight="58.0" prefWidth="104.0" text="לשלב הקודם">
+                  <Button fx:id="next" mnemonicParsing="false" onAction="#gotoNext" prefHeight="58.0" prefWidth="104.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="לשלב הבא" textFill="#77779d" />
+                  <Button fx:id="prev" mnemonicParsing="false" onAction="#gotoPrev" prefHeight="58.0" prefWidth="104.0" styleClass="btnStyle" stylesheets="@DashboardButtonCSS.css" text="לשלב הקודם" textFill="#77779d">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>

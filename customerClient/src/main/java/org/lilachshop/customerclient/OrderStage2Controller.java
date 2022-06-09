@@ -140,7 +140,7 @@ public class OrderStage2Controller {
                 }
                 else
                 {
-                    dateTime = LocalDateTime.now().plusHours(3);
+                    dateTime = LocalDateTime.now().plusHours(3).plusMinutes(5);
                 }
                 myOrder.setPickUpDetails(new PickUpDetails(dateTime));
             }
@@ -322,14 +322,14 @@ public class OrderStage2Controller {
     @FXML
     void onSelfRecieveImm(ActionEvent event) {
             selfHboxDate.setVisible(chooseBoxPickUp);
-            selfDate.setTime(LocalDateTime.now().plusHours(3));
+            selfDate.setTime(LocalDateTime.now().plusHours(3).plusMinutes(5));
             chooseBoxPickUp = !chooseBoxPickUp;
     }
 
     @FXML
     void onRecieveImm(ActionEvent event) {
         deliveryHboxDate.setVisible(chooseBoxDelivery);
-        date.setTime(LocalDateTime.now().plusHours(3));
+        date.setTime(LocalDateTime.now().plusHours(3).plusMinutes(5));
         chooseBoxDelivery = !chooseBoxDelivery;
     }
 
