@@ -1,5 +1,6 @@
 package org.lilachshop.employeeclient;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +31,7 @@ public class IncomeReportController implements Initializable {
     public Employee employee;
     List<Order> ordersFromAllStores;
     private static Panel panel;
+    long storeManagerId;
     @FXML
     private Label totalChainIncomeLabel;
 
@@ -74,94 +76,96 @@ public class IncomeReportController implements Initializable {
 //        endDate.setValue(null);
         totalIncome.setText("");
         totalChainIncomeLabel.setText("");
-        //todo: get complaints from all stores
-        if(selectedStore.equals("לילך הרצליה")){
-            ((ChainManagerPanel) panel).getStoreOrders(3);
-        }
-        else if(selectedStore.equals("לילך חיפה")){
-            ((ChainManagerPanel) panel).getStoreOrders(2);
-        }
-        else if(selectedStore.equals("לילך תל אביב")){
-            ((ChainManagerPanel) panel).getStoreOrders(4);
-        }
-        else if(selectedStore.equals("כל החנויות")){
-            ((ChainManagerPanel) panel).getAllOrders();
-        }
     }
 
     @FXML
     void updateBarChart(ActionEvent event) {
         LocalDateTime start = null;
         LocalDateTime end = null;
-        try{
+        try {
             start = startDate.getValue().atStartOfDay();
             end = endDate.getValue().atStartOfDay();
             if (start == null || end == null) {
                 displayNullAlert();
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             displayNullAlert();
             return;
         }
-        if(end.isBefore(start)){
+        if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
         }
+        long storeId;
+        if (storeList.getSelectionModel().getSelectedItem().equals("לילך חיפה")) {
+            storeId = 2;
+        } else if (storeList.getSelectionModel().getSelectedItem().equals("לילך הרצליה")) {
+            storeId = 3;
+        } else {
+            storeId = 4;
+        }
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            if (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")) {
+                ((ChainManagerPanel) panel).getAllOrders();
+            } else {
+                ((ChainManagerPanel) panel).getStoreOrders(storeId);
+            }
+        } else {
+            ((StoreManagerPanel) panel).getStoreOrders(storeManagerId);
+        }
 
+
+    }
+
+    private void presentStoresIncomeData(LocalDateTime start, LocalDateTime end) {
         complaintBarChart.getXAxis().animatedProperty().set(false);
         complaintBarChart.getData().clear();
 
         String selectedStore = storeList.getSelectionModel().getSelectedItem();
         List<Order> ordersToCalculateOn;
 
-        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            if (selectedStore == null){
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            if (selectedStore == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("שגיאה");
                 alert.setContentText("יש לבחור חנות");
                 alert.show();
                 return;
             }
-            if(selectedStore.equals("כל החנויות")){
+            if (selectedStore.equals("כל החנויות")) {
                 ordersToCalculateOn = ordersFromAllStores;
-            }
-            else {
+            } else {
                 ordersToCalculateOn = orders;
             }
-        }
-        else {
+        } else {
             ordersToCalculateOn = orders;
         }
 
-        int todayIncomeCounter=0;
+        int todayIncomeCounter = 0;
         long curTotalIncome = 0;
         XYChart.Series<String, Integer> set = new XYChart.Series<>();
-        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1))
-        {
-            if(ordersToCalculateOn == null){
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+            if (ordersToCalculateOn == null) {
                 break;
             }
-            for(Order order: ordersToCalculateOn){
-                if(Utilities.hasTheSameDate(date, order.getCreationDate()) &&
-                        !order.getOrderStatus().equals(OrderStatus.CANCELED)){
+            for (Order order : ordersToCalculateOn) {
+                if (Utilities.hasTheSameDate(date, order.getCreationDate()) &&
+                        !order.getOrderStatus().equals(OrderStatus.CANCELED)) {
                     todayIncomeCounter += order.getTotalPrice();
                 }
             }
             set.getData().add(new XYChart.Data<String, Integer>(date.toString(), todayIncomeCounter));
-
             curTotalIncome += todayIncomeCounter;
-            todayIncomeCounter=0;
+            todayIncomeCounter = 0;
         }
         complaintBarChart.getData().addAll(set);
         this.totalIncome.setText(String.valueOf(curTotalIncome));
-        //todo: get all order again from server to show updated info
-        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            if(selectedStore.equals("כל החנויות")){
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            if (selectedStore.equals("כל החנויות")) {
                 totalChainIncomeLabel.setText("סך הכנסות הרשת לפרק זמן זה:");
                 calcTotalIncomeForAllStores(start, end);
-            }
-            else {
+            } else {
                 totalChainIncomeLabel.setText("סך הכנסות החנות לפרק זמן זה:");
             }
         }
@@ -174,33 +178,33 @@ public class IncomeReportController implements Initializable {
         long todayIncomeCounter = 0;
         long curTotalIncomeForAllStores = 0;
         List<Order> relevantOrders = new ArrayList<>();
-        for(Order order: ordersFromAllStores){
-            if(!order.getOrderStatus().equals(OrderStatus.CANCELED)){
+        for (Order order : ordersFromAllStores) {
+            if (!order.getOrderStatus().equals(OrderStatus.CANCELED)) {
                 relevantOrders.add(order);
             }
         }
-        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1))
-        {
-            for(Order order: relevantOrders){
-                if(Utilities.hasTheSameDate(date, order.getCreationDate())){
+        for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
+            for (Order order : relevantOrders) {
+                if (Utilities.hasTheSameDate(date, order.getCreationDate())) {
                     todayIncomeCounter += (order.getTotalPrice() - order.getRefund());
                 }
             }
             curTotalIncomeForAllStores += todayIncomeCounter;
-            todayIncomeCounter=0;
+            todayIncomeCounter = 0;
         }
         totalIncome.setText(String.valueOf(curTotalIncomeForAllStores) + " ש''ח ");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum,EmployeeApp.getSocket(), this);
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
 
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "כל החנויות");
         //todo: if chain manger is logged in, do haifa, if store manger logged in, do store managers store
         //storeList.promptTextProperty().set("לילך חיפה");
     }
+
     private void displayChronologyAlert() {
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.INFORMATION);
@@ -227,32 +231,42 @@ public class IncomeReportController implements Initializable {
         stage.setScene(new Scene(root1));
         stage.show();
     }
+
     @Subscribe
-    public void handleMessageFromClient(List<Order> orders){
+    public void handleMessageFromClient(List<Order> orders) {
         this.orders = orders;
+        Platform.runLater(() -> {
+            LocalDateTime start = startDate.getValue().atStartOfDay();
+            LocalDateTime end = endDate.getValue().atStartOfDay();
+            presentStoresIncomeData(start, end);
+        });
     }
 
     @Subscribe
-    public void handleMessageAllOrdersFromClient(OrderEvent orderEvent){
+    public void handleMessageAllOrdersFromClient(OrderEvent orderEvent) {
         this.ordersFromAllStores = orderEvent.getOrders();
+        Platform.runLater(() -> {
+            LocalDateTime start = startDate.getValue().atStartOfDay();
+            LocalDateTime end = endDate.getValue().atStartOfDay();
+            presentStoresIncomeData(start, end);
+        });
     }
 
-    public void setData(long storeId){ // WILL NEED to "copy" this function to the others 2 reports orders
-        if(DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
+    public void setData(long storeId) { // WILL NEED to "copy" this function to the others 2 reports orders
+        storeManagerId = storeId;
+        if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
             newScreenBtn.setVisible(false);
             storeList.setVisible(false);
-            ((StoreManagerPanel) panel).getStoreOrders(storeId);
             storeList.setVisible(false);
             chooseStoreLabel.setVisible(false);
             newScreenBtn.setVisible(false);
             totalChainIncomeLabel.setText("סך הכנסות החנות לפרק זמן זה:");
             chooseStoreLabel.setVisible(false);
-            ((StoreManagerPanel) panel).getStoreOrders(storeId);
-        }
-        else{
-            if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-                ((ChainManagerPanel) panel).getStoreOrders(2);
-                ((ChainManagerPanel) panel).getAllOrders();
+//            ((StoreManagerPanel) panel).getStoreOrders(storeId);
+        } else {
+            if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+//                ((ChainManagerPanel) panel).getStoreOrders(2);
+//                ((ChainManagerPanel) panel).getAllOrders();
                 totalChainIncomeLabel.setText("");
             }
         }

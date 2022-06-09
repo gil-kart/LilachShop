@@ -78,30 +78,29 @@ public class OrderReportController implements Initializable {
         String selectedStore = storeList.getSelectionModel().getSelectedItem();
         tableView.getItems().clear();
         totalNumOfOrders.setText("");
-
-
     }
 
     @FXML
     void updateBarChart(ActionEvent event) {
         LocalDateTime start = null;
         LocalDateTime end = null;
-        try{
+        try {
             start = startDate.getValue().atStartOfDay();
             end = endDate.getValue().atStartOfDay();
-        if (start == null || end == null) {
+            if (start == null || end == null) {
+                displayNullAlert();
+                return;
+            }
+        } catch (Exception e) {
             displayNullAlert();
             return;
-        }
-        }catch (Exception e){
-            displayNullAlert();
         }
         if (end.isBefore(start)) {
             displayChronologyAlert();
             return;
         }
-        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
-            if(storeList.getSelectionModel().getSelectedItem() == null){
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            if (storeList.getSelectionModel().getSelectedItem() == null) {
                 displayNullStoreAlert();
                 return;
             }
@@ -115,11 +114,11 @@ public class OrderReportController implements Initializable {
             ((StoreManagerPanel) panel).getStoreOrders(2);
             ((StoreManagerPanel) panel).getStoreCatalog(2);
             totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        }else if (selectedStore.equals("לילך תל אביב")) {
+        } else if (selectedStore.equals("לילך תל אביב")) {
             ((StoreManagerPanel) panel).getStoreOrders(4);
             ((StoreManagerPanel) panel).getStoreCatalog(4);
             totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        }else if (selectedStore.equals("כל החנויות")) {
+        } else if (selectedStore.equals("כל החנויות")) {
             ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
             ((ChainManagerPanel) panel).getAllOrders();
             totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
@@ -144,35 +143,34 @@ public class OrderReportController implements Initializable {
         List<Order> relevantOrders = new ArrayList<>();
         List<Order> ordersToCalculateOn;
 
-        if(DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)){
+        if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
             ordersToCalculateOn = orders;
-        }
-        else {
-            if(storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")){
+        } else {
+            if (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")) {
                 totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
                 ordersToCalculateOn = ordersFromAllStores;
-            }else {
+            } else {
                 totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
                 ordersToCalculateOn = orders;
             }
         }
-        for(Order order: ordersToCalculateOn){
-            if(!order.getOrderStatus().equals(OrderStatus.CANCELED)){
+        for (Order order : ordersToCalculateOn) {
+            if (!order.getOrderStatus().equals(OrderStatus.CANCELED)) {
                 relevantOrders.add(order);
             }
         }
         try {
             for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
                 for (Order order : relevantOrders) {
-                    if(Utilities.hasTheSameDate(date, order.getCreationDate())){
-                    //if (order.getCreationDate().equals(date)) {
+                    if (Utilities.hasTheSameDate(date, order.getCreationDate())) {
+                        //if (order.getCreationDate().equals(date)) {
                         todayOrderCounter += 1; // order.getAmountOfProducts();//1;
                     }
                 }
                 curTotalOrderForAllStores += todayOrderCounter;
                 todayOrderCounter = 0;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("cant calculate number of orders");
         }
         totalNumOfOrders.setText(String.valueOf(curTotalOrderForAllStores));
@@ -183,22 +181,21 @@ public class OrderReportController implements Initializable {
         List<Item> relevantItems = catalog.getItems();
         List<Catalog> relevantCatalogs;
 
-        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
-            (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))){
-                relevantCatalogs = allCatalogs;
-        }
-        else {
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
+                (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))) {
+            relevantCatalogs = allCatalogs;
+        } else {
             relevantCatalogs = new ArrayList<>();
             relevantCatalogs.add(catalog);
         }
 
-        for (Catalog catalog_iter: relevantCatalogs){
-            if(catalog_iter.getId() == 1){
+        for (Catalog catalog_iter : relevantCatalogs) {
+            if (catalog_iter.getId() == 1) {
                 continue;
             }
             for (Item item : catalog_iter.getItems()) {
                 int numOfSales = getNumOfSalesForItem(item, catalog_iter.getId());
-                ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName()+ " - " + catalog_iter.toString());
+                ItemSalesObservable itemSalesObservable = new ItemSalesObservable(numOfSales, item.getPrice(), item.getName() + " - " + catalog_iter.toString());
                 itemSalesObservables.add(itemSalesObservable);
             }
         }
@@ -213,19 +210,18 @@ public class OrderReportController implements Initializable {
         LocalDateTime end = endDate.getValue().atStartOfDay();
         // saving all orders in range in a list
         List<Order> relevantOrders;
-        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
-           (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))){
+        if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER) &&
+                (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות"))) {
             relevantOrders = ordersFromAllStores;
-        }
-        else {
+        } else {
             relevantOrders = orders;
         }
 
         for (LocalDateTime date = start; date.isBefore(end); date = date.plusDays(1)) {
             for (Order order : relevantOrders) {
-                if(Utilities.hasTheSameDate(date, order.getCreationDate())
-                &&
-                    !(order.getOrderStatus().equals(OrderStatus.CANCELED))) {
+                if (Utilities.hasTheSameDate(date, order.getCreationDate())
+                        &&
+                        !(order.getOrderStatus().equals(OrderStatus.CANCELED))) {
                     ordersInDateRange.add(order);
                 }
             }
@@ -235,7 +231,7 @@ public class OrderReportController implements Initializable {
             List<myOrderItem> orderItems = order.getItems();
             for (myOrderItem itemFromOrder : orderItems) {
                 if (itemFromOrder.getName().equals(item.getName())
-                && (order.getStore().getCatalog().getId() == ((int)catalogId))) {
+                        && (order.getStore().getCatalog().getId() == ((int) catalogId))) {
                     counter += itemFromOrder.getCount();
 
                 }
@@ -274,7 +270,7 @@ public class OrderReportController implements Initializable {
         a.show();
     }
 
-    private void displayNullStoreAlert(){
+    private void displayNullStoreAlert() {
         Alert a = new Alert(Alert.AlertType.ERROR);
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.setHeaderText("שגיאה");

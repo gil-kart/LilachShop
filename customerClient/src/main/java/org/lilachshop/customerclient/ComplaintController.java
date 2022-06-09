@@ -44,6 +44,17 @@ public class ComplaintController implements Initializable {
     }
     @FXML
     void SendComplaintClicked(ActionEvent event) throws IOException {
+        if(complaintText.getText().equals("")){
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            a.setAlertType(Alert.AlertType.INFORMATION);
+            a.setTitle("שגיאה");
+            a.setHeaderText("התלונה לא נשלחה - אנא מלא את תוכן התלונה");
+            a.setContentText("");
+            a.show();
+            return;
+        }
+
         Alert a = new Alert(Alert.AlertType.NONE);
         a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
         a.setAlertType(Alert.AlertType.INFORMATION);
