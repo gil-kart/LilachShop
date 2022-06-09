@@ -95,6 +95,10 @@ public class ComplaintWorkerResponseController {
             updateRefundBtn.setDisable(true);
             response.setText(order.getComplaint().getReply());
             response.setEditable(false);
+            refundAmount.setText(String.valueOf(order.getRefund()));
+            refundAmount.setDisable(true);
+            enteredRefund.setText(String.valueOf(order.getRefund()));
+            enteredRefund.setDisable(true);
         }
 
     }
@@ -102,6 +106,7 @@ public class ComplaintWorkerResponseController {
     @FXML
     void onSendBtn(ActionEvent event) throws IOException {
         order.setRefund(refundAmountToUpdate);
+
         Alert a = new Alert(Alert.AlertType.NONE);
         a.setAlertType(Alert.AlertType.INFORMATION);
         a.getDialogPane().setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
