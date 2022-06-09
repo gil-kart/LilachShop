@@ -317,9 +317,9 @@ public class CatalogController {
                     ItemController itemController = fxmlLoader.getController();
                     itemController.setData(flower, myListener);
                     grid.getChildren().add(anchorPane);
+                    grid.setVgap(30);
+                    grid.setHgap(45);
                     grid.setAlignment(Pos.CENTER);
-                    grid.setVgap(15);
-                    grid.setHgap(30);
 
                     if (countOnSale <= MAX_ON_SALE && flower.getPercent() > 0) {
                         try {
