@@ -13,6 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.greenrobot.eventbus.Subscribe;
 import org.lilachshop.commonUtils.Utilities;
 import org.lilachshop.entities.*;
@@ -30,7 +31,7 @@ import java.util.ResourceBundle;
 public class IncomeReportController implements Initializable {
     public Employee employee;
     List<Order> ordersFromAllStores;
-    private static Panel panel;
+    private Panel panel;
     long storeManagerId;
     @FXML
     private Label totalChainIncomeLabel;
@@ -79,19 +80,18 @@ public class IncomeReportController implements Initializable {
         totalIncome.setText("");
         totalChainIncomeLabel.setText("");
         totalincomeINS.setVisible(false);
-        //todo: get complaints from all stores
-        if(selectedStore.equals("לילך הרצליה")){
-            ((ChainManagerPanel) panel).getStoreOrders(3);
-        }
-        else if(selectedStore.equals("לילך חיפה")){
-            ((ChainManagerPanel) panel).getStoreOrders(2);
-        }
-        else if(selectedStore.equals("לילך תל אביב")){
-            ((ChainManagerPanel) panel).getStoreOrders(4);
-        }
-        else if(selectedStore.equals("כל החנויות")){
-            ((ChainManagerPanel) panel).getAllOrders();
-        }
+//        if(selectedStore.equals("לילך הרצליה")){
+//            ((ChainManagerPanel) panel).getStoreOrders(3);
+//        }
+//        else if(selectedStore.equals("לילך חיפה")){
+//            ((ChainManagerPanel) panel).getStoreOrders(2);
+//        }
+//        else if(selectedStore.equals("לילך תל אביב")){
+//            ((ChainManagerPanel) panel).getStoreOrders(4);
+//        }
+//        else if(selectedStore.equals("כל החנויות")){
+//            ((ChainManagerPanel) panel).getAllOrders();
+//        }
     }
 
     @FXML
@@ -218,7 +218,7 @@ public class IncomeReportController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
+
 //        panel = OperationsPanelFactory.createPanel(PanelEnum.STORE_MANAGER, this);
 
         storeList.getItems().addAll("לילך חיפה", "לילך תל אביב", "לילך הרצליה", "כל החנויות");
@@ -248,6 +248,8 @@ public class IncomeReportController implements Initializable {
     void onNewScreenBtnClick(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("IncomeReport.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
+        IncomeReportController controller = fxmlLoader.getController();
+        controller.setData(storeManagerId);
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));
         stage.show();
@@ -274,6 +276,7 @@ public class IncomeReportController implements Initializable {
     }
 
     public void setData(long storeId) { // WILL NEED to "copy" this function to the others 2 reports orders
+        panel = OperationsPanelFactory.createPanel(DashBoardController.panelEnum, EmployeeApp.getSocket(), this);
         storeManagerId = storeId;
         if (DashBoardController.panelEnum.equals(PanelEnum.STORE_MANAGER)) {
             newScreenBtn.setVisible(false);

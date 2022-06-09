@@ -69,6 +69,7 @@ public class HistoryItemController {
         else{
             statusColor.setFill(Color.BLUE);
             orderStatusLabel.setText("התקבלה בהצלחה");
+            CancelOrder.setDisable(true);
         }
 
         for (myOrderItem itemsType : order.getItems()) {

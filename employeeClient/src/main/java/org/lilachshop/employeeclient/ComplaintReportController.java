@@ -29,7 +29,7 @@ import javafx.event.ActionEvent;
 
 // todo: solve all the errors when changing stores and dates
 public class ComplaintReportController implements Initializable {
-    private static Panel panel;
+    private Panel panel;
     List<Complaint> complaints;
     List<Complaint> allStoresComplaints;
     long storeManagerId;

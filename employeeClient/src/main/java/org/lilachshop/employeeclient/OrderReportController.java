@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 
 public class OrderReportController implements Initializable {
     public Employee employee;
-    private static Panel panel;
+    private Panel panel;
     private long storeManagerId;
     Catalog catalog;
     List<Order> orders = new ArrayList<>();
@@ -300,7 +300,12 @@ public class OrderReportController implements Initializable {
         Platform.runLater(() -> {
             LocalDateTime start = startDate.getValue().atStartOfDay();
             LocalDateTime end = endDate.getValue().atStartOfDay();
-            presentStoresIncomeData(start, end);
+            try {
+                presentStoresIncomeData(start, end);
+
+            }catch (Exception ignored){
+
+            }
         });
     }
 
@@ -310,7 +315,12 @@ public class OrderReportController implements Initializable {
         Platform.runLater(() -> {
             LocalDateTime start = startDate.getValue().atStartOfDay();
             LocalDateTime end = endDate.getValue().atStartOfDay();
-            presentStoresIncomeData(start, end);
+            try {
+                presentStoresIncomeData(start, end);
+
+            }catch (Exception ignored){
+
+            }
         });
     }
 

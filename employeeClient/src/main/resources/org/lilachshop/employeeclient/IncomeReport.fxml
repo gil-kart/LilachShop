@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.IncomeReportController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lilachshop.employeeclient.IncomeReportController">
    <children>
       <VBox alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" prefHeight="581.0" prefWidth="582.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -89,9 +89,9 @@
             <HBox alignment="TOP_RIGHT" spacing="10.0">
                <children>
                   <Label fx:id="totalincomeINS" text="ש&quot;ח" visible="false" />
-                  <Label fx:id="totalIncome" prefHeight="17.0" prefWidth="21.0">
+                  <Label fx:id="totalIncome" prefHeight="17.0" prefWidth="102.0">
                      <HBox.margin>
-                        <Insets left="5.0" />
+                        <Insets left="5.0" right="15.0" />
                      </HBox.margin>
                   </Label>
                   <Label fx:id="totalChainIncomeLabel" alignment="CENTER_RIGHT" text="סך הכנסות הרשת לפרק זמן זה:" />
