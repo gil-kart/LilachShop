@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class OrderReportController implements Initializable {
     public Employee employee;
     private static Panel panel;
+    private long storeManagerId;
     Catalog catalog;
     List<Order> orders = new ArrayList<>();
     List<Order> ordersFromAllStores = new ArrayList<>();
@@ -105,23 +106,29 @@ public class OrderReportController implements Initializable {
                 return;
             }
         }
-        String selectedStore = storeList.getSelectionModel().getSelectedItem();
-        if (selectedStore.equals("לילך הרצליה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(3);
-            ((StoreManagerPanel) panel).getStoreCatalog(3);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        } else if (selectedStore.equals("לילך חיפה")) {
-            ((StoreManagerPanel) panel).getStoreOrders(2);
-            ((StoreManagerPanel) panel).getStoreCatalog(2);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        } else if (selectedStore.equals("לילך תל אביב")) {
-            ((StoreManagerPanel) panel).getStoreOrders(4);
-            ((StoreManagerPanel) panel).getStoreCatalog(4);
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
-        } else if (selectedStore.equals("כל החנויות")) {
-            ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
-            ((ChainManagerPanel) panel).getAllOrders();
-            totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
+        if(DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)){
+            String selectedStore = storeList.getSelectionModel().getSelectedItem();
+            if (selectedStore.equals("לילך הרצליה")) {
+                ((StoreManagerPanel) panel).getStoreOrders(3);
+                ((StoreManagerPanel) panel).getStoreCatalog(3);
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+            } else if (selectedStore.equals("לילך חיפה")) {
+                ((StoreManagerPanel) panel).getStoreOrders(2);
+                ((StoreManagerPanel) panel).getStoreCatalog(2);
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+            } else if (selectedStore.equals("לילך תל אביב")) {
+                ((StoreManagerPanel) panel).getStoreOrders(4);
+                ((StoreManagerPanel) panel).getStoreCatalog(4);
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו בחנות בזמן זה:");
+            } else if (selectedStore.equals("כל החנויות")) {
+                ((StoreManagerPanel) panel).getStoreCatalog(2); //todo: change to general catalog!!!
+                ((ChainManagerPanel) panel).getAllOrders();
+                totalNumOfOrdersLabel.setText("כמות ההזמנות שבוצעו ברשת בזמן זה:");
+            }
+        }
+        else {
+            ((StoreManagerPanel) panel).getStoreOrders(storeManagerId);
+            ((StoreManagerPanel) panel).getStoreCatalog(storeManagerId);
         }
         //calculating number of sales for every product
 //        presentStoresIncomeData(start, end);
@@ -321,7 +328,7 @@ public class OrderReportController implements Initializable {
     }
 
     public void setData(long storeId) {
-
+        storeManagerId = storeId;
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
 //            ((ChainManagerPanel) panel).getStoreOrders(2);
 //            ((ChainManagerPanel) panel).getStoreCatalog(2);

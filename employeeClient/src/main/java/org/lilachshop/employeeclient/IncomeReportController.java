@@ -113,15 +113,18 @@ public class IncomeReportController implements Initializable {
             displayChronologyAlert();
             return;
         }
-        long storeId;
-        if (storeList.getSelectionModel().getSelectedItem().equals("לילך חיפה")) {
-            storeId = 2;
-        } else if (storeList.getSelectionModel().getSelectedItem().equals("לילך הרצליה")) {
-            storeId = 3;
-        } else {
-            storeId = 4;
-        }
+
+
+
         if (DashBoardController.panelEnum.equals(PanelEnum.CHAIN_MANAGER)) {
+            long storeId;
+            if (storeList.getSelectionModel().getSelectedItem().equals("לילך חיפה")) {
+                storeId = 2;
+            } else if (storeList.getSelectionModel().getSelectedItem().equals("לילך הרצליה")) {
+                storeId = 3;
+            } else {
+                storeId = 4;
+            }
             if (storeList.getSelectionModel().getSelectedItem().equals("כל החנויות")) {
                 ((ChainManagerPanel) panel).getAllOrders();
             } else {

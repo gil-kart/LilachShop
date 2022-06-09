@@ -34,15 +34,15 @@ public class MailSender {
                     Message.RecipientType.TO,
                     InternetAddress.parse(order.getCustomer().getEmail())
             );
-            message.setSubject("ההזמנה הגיעה ליעד");
-            message.setText(order.getCustomer() +
-                    " שלום,"+
+            message.setSubject("Order reached destination");
+            message.setText(order.getCustomer().getUserName() +
+                    " Hello,"+
                     "\n" +
-                    "הזמנה מספר " +
+                    " order number: " +
                     String.valueOf(order.getId()) +
-                    " הגיעה ליעד." +
+                    " has reached its destination" +
                     "\n" +
-                    " תודה שבחרת בלילך!"
+                    " thanks for choosing lilach!"
             );
 
             Transport.send(message);
