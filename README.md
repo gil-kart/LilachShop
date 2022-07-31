@@ -131,6 +131,10 @@ and after clicking one of the complaints, we get this window, where the employee
 
 ![comp](https://user-images.githubusercontent.com/73134488/182032356-83022993-1409-42d5-a868-6d67b166cae4.jpg)
 
+and the response will appear at the order history under the order on wich the complaint was sent:
+
+![feed](https://user-images.githubusercontent.com/73134488/182033256-97c3e0cc-26ed-47c9-b4a9-75c313910c41.jpg)
+
 ### System Manager
 
 A system manager can edit and change the permissions and information of employees and customers. 
