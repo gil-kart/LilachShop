@@ -98,4 +98,28 @@ and change the status of an existing order:
 
 ![status](https://user-images.githubusercontent.com/73134488/182029036-cf324c7e-ae5c-462f-ab49-144a4889b9d1.jpg)
 
+### Store Manager:
+
+a manager of a store can do everything a store employee can do. 
+
+but a store manager can also view reports regarding number of orders, complaints and income to a period of time that he chooses. 
+
+this video showes an example:
+
+https://user-images.githubusercontent.com/73134488/182029689-974795e5-a495-44e3-b447-118e0d85a282.mp4
+
+### Chain manager
+
+A chain manager can do everything a store manager can do. the chain manager can also view and edit all the catalogs from all of the stores. a chain manager can also view orders from all of the stores.
+
+the chain manager can also view reports regarding all of the stores. a chain manager can view two reports simultaneously, and also compare the reports of two or more different stores. 
+
+here's an example:
+
+
+https://user-images.githubusercontent.com/73134488/182030467-1a51ad66-9a26-4dff-bed0-fef4e431fd53.mp4
+
+
+
+
 
