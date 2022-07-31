@@ -41,3 +41,6 @@ and when he's done he can make a new order, where he needs to add:
 
 ![make_order2](https://user-images.githubusercontent.com/73134488/182022367-968277e3-bc0c-433a-953c-56437ef45d1f.gif)
 
+the user can also look at his order history: 
+
+![history](https://user-images.githubusercontent.com/73134488/182023080-5e535a6b-360d-41e8-9e83-ec06e6d50a0a.jpg)
