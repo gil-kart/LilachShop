@@ -24,3 +24,20 @@ let's say we want to create a new account. this video showes all the stages need
 
 https://user-images.githubusercontent.com/73134488/182021573-d3e3131a-33f1-40df-a495-84c7d2b72784.mp4
 
+and now the user can login to his account:
+
+![login](https://user-images.githubusercontent.com/73134488/182021797-4f386c93-e1d9-4e2e-b3c4-04525cc11f19.gif)
+
+as seen in the giff, the user can choose the store he wants to purches items from (tel aviv, herzlya, haifa).
+
+now the user can add items to his cart:
+
+![order](https://user-images.githubusercontent.com/73134488/182021998-73d2e4de-d955-41d7-8c28-4262da991c1d.gif)
+
+and when he's done he can make a new order, where he needs to add:
+- greeting (can be empty)
+- choose if order is made by delivery or self pickup
+- credcard info - by default fills the user credit card information  
+
+![make_order2](https://user-images.githubusercontent.com/73134488/182022367-968277e3-bc0c-433a-953c-56437ef45d1f.gif)
+
