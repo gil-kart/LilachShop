@@ -44,3 +44,10 @@ and when he's done he can make a new order, where he needs to add:
 the user can also look at his order history: 
 
 ![history](https://user-images.githubusercontent.com/73134488/182023080-5e535a6b-360d-41e8-9e83-ec06e6d50a0a.jpg)
+
+if the user is not pleased with his orders, he can send a complaint, or cancel the order (or both):
+
+![complaints_cancel](https://user-images.githubusercontent.com/73134488/182023822-134f7260-eec2-4178-95cf-d448714d6dcc.gif)
+
+
+
