@@ -49,5 +49,11 @@ if the user is not pleased with his orders, he can send a complaint, or cancel t
 
 ![complaints_cancel](https://user-images.githubusercontent.com/73134488/182023822-134f7260-eec2-4178-95cf-d448714d6dcc.gif)
 
+the user can also filter products by:
+- price range
+- item type
+- dominant color
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/73134488/182024288-cf293bbf-dc7b-4568-aa30-7c247e869cf3.gif)
 
 
