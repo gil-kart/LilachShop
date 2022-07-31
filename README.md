@@ -152,6 +152,4 @@ and if for example, the employee wants to change an employee's permission and ch
 ![change](https://user-images.githubusercontent.com/73134488/182032952-40a1968a-245d-4829-9eed-0279ee696934.jpg)
 
 
-
-
-
+that's about it. the entire project was written in java, javafx, mysql and hibernate. 
