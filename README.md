@@ -2,7 +2,7 @@ Welcome!
 
 In here I will present LilachShop. LilachShop is a software for managing a flower store. 
 
-firstly, I will present the customer side, where the customer can login to his accout, make new orders, cancel his orders, send complaints to the store he bought the flowers from, and view the store's reply to his complaints. 
+first, I will present the customer side, where the customer can login to his accout, make new orders, cancel his orders, send complaints to the store he bought the flowers from, and view the store's reply to his complaints. 
 
 so this is the first screen the user see before login to his account:
 ![opening](https://user-images.githubusercontent.com/73134488/182020716-8cf6c186-c7ab-4338-9466-191f840a9b7b.jpg)
@@ -55,5 +55,47 @@ the user can also filter products by:
 - dominant color
 
 ![ezgif com-gif-maker](https://user-images.githubusercontent.com/73134488/182024288-cf293bbf-dc7b-4568-aa30-7c247e869cf3.gif)
+
+so this is pretty much it for what the customer can do using LilachShop.
+
+now, I will present what lilach employees can do, using LilachShop software.
+
+lilach chain has 5 types of employees:
+- Chain manager
+- Store manager
+- Store employee
+- Customer service employee
+- System manager
+
+so now, we will see what each employee can do, using LilachShop:
+
+### Store Employee:
+
+so at first, each employee has to login to his account: 
+
+![employee](https://user-images.githubusercontent.com/73134488/182024909-541b7248-dd6b-4646-ac24-8b5c4689f6f4.jpg)
+
+we will login as a store employee, and this is the screen we see:
+
+![welcome](https://user-images.githubusercontent.com/73134488/182025009-d5efeb9d-d7c1-4b60-8f26-5b59bc92811c.jpg)
+
+a store employee can edit the catalog of the store. 
+![catalog](https://user-images.githubusercontent.com/73134488/182028332-5f7b626c-2a06-4789-befb-cc6cc7fc3a58.jpg)
+
+this means he can add or change information of existing items:
+
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/73134488/182028536-593b960d-801d-41e4-b1b5-aad3317caffd.gif)
+
+or add new items:
+
+![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/73134488/182028717-e3365875-3f7a-4c84-abad-fe3b6b198987.gif)
+
+a store employee can also look at all of the orders that has been made at the store he works on:
+
+![orders](https://user-images.githubusercontent.com/73134488/182028992-fde16db5-7140-416b-8aa1-2aa27fb0e492.jpg)
+
+and change the status of an existing order:
+
+![status](https://user-images.githubusercontent.com/73134488/182029036-cf324c7e-ae5c-462f-ab49-144a4889b9d1.jpg)
 
 
