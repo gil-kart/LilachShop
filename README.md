@@ -131,6 +131,25 @@ and after clicking one of the complaints, we get this window, where the employee
 
 ![comp](https://user-images.githubusercontent.com/73134488/182032356-83022993-1409-42d5-a868-6d67b166cae4.jpg)
 
+### System Manager
+
+A system manager can edit and change the permissions and information of employees and customers. 
+
+this is the customer table:
+
+![customer](https://user-images.githubusercontent.com/73134488/182032798-a08bae4e-d7b1-4039-a3e9-9384f47e4387.jpg)
+
+and if the employee wants to deactivate a customer's account, this is the way to do it:
+
+![deactivate](https://user-images.githubusercontent.com/73134488/182032862-5eeacee9-d2bd-4f3a-b943-fae5eae113db.jpg)
+
+this is the employee table: 
+
+![empl](https://user-images.githubusercontent.com/73134488/182032930-ce505865-8a4d-4505-a594-dfe8d4048f75.jpg)
+
+and if for example, the employee wants to change an employee's permission and change his job type, this is the way to do it:
+
+![change](https://user-images.githubusercontent.com/73134488/182032952-40a1968a-245d-4829-9eed-0279ee696934.jpg)
 
 
 
