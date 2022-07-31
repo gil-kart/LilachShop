@@ -116,8 +116,21 @@ the chain manager can also view reports regarding all of the stores. a chain man
 
 here's an example:
 
-
 https://user-images.githubusercontent.com/73134488/182030467-1a51ad66-9a26-4dff-bed0-fef4e431fd53.mp4
+
+### Customer service employee
+
+A Customer service employee can view the orders from all the stores. 
+A Customer service employee can also view and answer complaints made by customers. the employee can also set a refund as a compansation to the complaining customer.
+
+here is the comaplaint table:
+
+![complaints](https://user-images.githubusercontent.com/73134488/182030731-d49ea692-4298-4374-96fe-11ecc2495ff1.jpg)
+
+and after clicking one of the complaints, we get this window, where the employee can respond to the customer and set a refund:
+
+![comp](https://user-images.githubusercontent.com/73134488/182032356-83022993-1409-42d5-a868-6d67b166cae4.jpg)
+
 
 
 
