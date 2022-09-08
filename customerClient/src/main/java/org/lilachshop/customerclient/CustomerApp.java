@@ -243,19 +243,21 @@ public class CustomerApp extends Application {
     }
 
     private static void setSocket(String[] args) {
-        try {
-            int port = Socket.DEFAULT_PORT;
-            try {
-                port = Integer.parseInt(args[1]);
-                socket = new Socket(args[0], port);
-            } catch (NumberFormatException | IndexOutOfBoundsException e) {
-                socket = new Socket(args[0]);
-            }
-        } catch (UnknownHostException e) {
-            System.out.println("Unknown host.");
-        } catch (IndexOutOfBoundsException e) {
-            socket = new Socket();
-        }
+        int port = Socket.DEFAULT_PORT;
+        socket = new Socket("localhost", port);
+//        try {
+//            try {
+//                port = Integer.parseInt(args[1]);
+//                socket = new Socket(args[0], port);
+//            } catch (NumberFormatException | IndexOutOfBoundsException e) {
+//                socket = new Socket(args[0]);
+//            }
+//        } catch (UnknownHostException e) {
+//            System.out.println("Unknown host.");
+//            socket = new Socket("localhost", port);
+//        } catch (IndexOutOfBoundsException e) {
+//            socket = new Socket();
+//        }
     }
 
 }
