@@ -7,6 +7,6 @@
 *.jar
 *.class
 *.lst
-*.properties
+#*.properties
 *.iml
 *dependency-reduced-pom.xml
