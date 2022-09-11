@@ -2,6 +2,26 @@ Welcome!
 
 In here I will present LilachShop. LilachShop is a software for managing a flower store. 
 
+# Installation and prequisites #
+after cloning the project, run the script LilachShop [clean, install]
+
+<img width="168" alt="image" src="https://user-images.githubusercontent.com/73134488/189515296-ccf642a9-f588-424b-85ce-fee2318ed130.png">
+
+now, in order for the project to run smoothly, you need to have mySQL runing on your computer. I installed the **workbench** software and used it on my computer. 
+
+at the file ***hibernate.properties***, you need to enter your user name and password so the database will be created localy on your computer.
+
+![user name and password](https://user-images.githubusercontent.com/73134488/189515466-2f1f7aa9-c814-4e61-ae88-9164a13bd0b4.jpg)
+
+now, run the server:
+
+![server](https://user-images.githubusercontent.com/73134488/189515517-cca24001-971d-4480-a7b0-c0a3192fb616.jpg)
+
+and then, if you want to run the customer screen, run ***customer_client*** else, if you want to run the employee screen, run ***employee_client***
+
+the screens will open and you can play around with the software.
+
+# presentaion of the project #
 first, I will present the customer side, where the customer can login to his accout, make new orders, cancel his orders, send complaints to the store he bought the flowers from, and view the store's reply to his complaints. 
 
 so this is the first screen the user see before login to his account:
