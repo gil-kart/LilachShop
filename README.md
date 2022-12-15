@@ -10,8 +10,9 @@ MacDucky
 
 Omer794
 
+the project was made as part of the course "Software Engineering" I took at Haifa University,
 
-It is called LilachShop and it is a software for managing a flower store. 
+It is called LilachShop which is a software for managing a flower store. 
 
 # Installation and prequisites #
 after cloning the project, run the script LilachShop [clean, install]
