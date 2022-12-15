@@ -1,6 +1,12 @@
 Welcome! 
 
-In here I will present LilachShop. LilachShop is a software for managing a flower store. 
+In here I will present a group project I did with:
+LizaSivashova
+TALHS16
+MacDucky
+Omer794
+
+It is called LilachShop and it is a software for managing a flower store. 
 
 # Installation and prequisites #
 after cloning the project, run the script LilachShop [clean, install]
